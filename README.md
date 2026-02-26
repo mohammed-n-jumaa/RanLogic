@@ -1,380 +1,618 @@
-🟡 RanLogic – منصة تدريب شخصي متكاملة
+# RanLogic 🟡  
+**Dynamic Personal Training Platform (Laravel 10 + React Vite)**
 
-RanLogic هو نظام متكامل لإدارة منصة مدربة لياقة بدنية شخصية، مبني باستخدام:
+A full-featured, fully dynamic platform for a personal fitness coach:
+- Public marketing website (Home + FAQ)
+- Authentication (Register/Login)
+- Subscription system (PayPal + Bank Transfer)
+- Trainee profile with training & nutrition plans
+- Coach ↔ Trainee chat
+- Admin panel controls all website content and user/training management
 
-🔹 Frontend: React + Vite
+---
 
-🔹 Backend: Laravel 10 (REST API)
+## ✨ Key Highlights
+- **Backend:** Laravel 10 REST API  
+- **Frontend:** React 18 + Vite  
+- **Admin Panel:** Full CMS-style dynamic control  
+- **Payments:** PayPal (Create/Capture) + Bank Transfer (Receipt upload + Admin approval)  
+- **Dynamic Content:** Hero / About Coach / Certifications / Testimonials / FAQ / Footer / Logo (all managed from Admin)  
+- **Trainee Features:** Profile, subscription, workout plan, nutrition plan, progress toggles, chat  
+- **Multi-language:** Arabic / English with RTL/LTR handling  
 
-🔹 Database: MySQL
+---
 
-🔹 Authentication: JWT / Sanctum Token-based
+## 🧭 Table of Contents
+- [Architecture](#-architecture)
+- [Modules Overview](#-modules-overview)
+- [Frontend Apps](#-frontend-apps)
+- [Backend API](#-backend-api)
+- [Authentication & Sessions](#-authentication--sessions)
+- [Subscriptions & Payments](#-subscriptions--payments)
+- [Training & Nutrition](#-training--nutrition)
+- [Chat System](#-chat-system)
+- [Dynamic CMS (Admin Panel)](#-dynamic-cms-admin-panel)
+- [Environment Variables](#-environment-variables)
+- [Local Development](#-local-development)
+- [Build & Deployment](#-build--deployment)
+- [Troubleshooting](#-troubleshooting)
 
-🔹 Payments: PayPal + Bank Transfer
+---
 
-🔹 Admin Panel: Dynamic Content Management
+## 🏗 Architecture
+RanLogic is split into:
+- **Laravel 10 Backend** providing RESTful API endpoints
+- **React (Vite) Frontends**
+  - Admin Panel (protected, admin-only)
+  - Trainee Website (public pages + protected profile)
 
-📌 نظرة عامة على النظام
+Typical folder structure:
+RanLogic/
+backend/ # Laravel 10 API
+frontend/ # React Vite (Admin Panel)
+trainee/ # React Vite (Trainee Website)
 
-RanLogic عبارة عن منصة ديناميكية بالكامل لإدارة:
+> If your repository uses different names (e.g. `admin/` and `client/`), simply adjust commands accordingly.
 
-الصفحة الرئيسية التعريفية
+---
 
-نظام الأسئلة الشائعة
+## 🧩 Modules Overview
 
-نظام تسجيل المستخدمين
+### 🌐 Public Website (Trainee App - Public Pages)
+Dynamic sections served via API:
+- **Hero Section** (video/stats/badge/titles)
+- **About Coach** (badge/title/descriptions/features + image)
+- **Certifications** (ordered list)
+- **Testimonials** (section settings + testimonials list)
+- **FAQ** (section + questions)
+- **Footer** (social links, quick links, legal links, copyright)
+- **Logo** (active logo)
 
-نظام الاشتراكات (PayPal / تحويل بنكي)
+Multi-language supported using:
+- `locale` query parameter on public endpoints  
+- `Accept-Language` header from frontend  
+- Local storage language switch + RTL/LTR
 
-لوحة تحكم للمدربة
+---
 
-بروفايل المتدرب
+### 🔐 Authentication (Trainee App)
+API-driven authentication:
+- Register
+- Login
+- Logout
+- Logout from all devices
+- Refresh token
+- Get current user (`/auth/me`)
 
-نظام غذائي شهري
+Local storage keys used by the frontend:
+- `auth_token`
+- `user` (JSON)
+- `is_authenticated`
+- `language`
+- `last_activity` (for inactivity/session timeout)
 
-نظام تدريبي شهري
+---
 
-شات مباشر مع المدربة
+### 💳 Subscription & Payments
+The platform supports two payment methods:
 
-إدارة كاملة للمحتوى من خلال لوحة الإدارة
+#### ✅ PayPal
+Flow:
+1. Create payment / subscription order  
+2. Redirect user  
+3. Capture payment with token  
+4. Activate subscription & unlock trainee profile
 
-🏗️ البنية التقنية
-🔹 Frontend (React + Vite)
-التقنيات المستخدمة:
+Used endpoints (front examples):
+- `/subscriptions/paypal/create`
+- `/subscriptions/paypal/capture`
 
-React
+#### 🏦 Bank Transfer
+Flow:
+1. Create a bank transfer subscription request
+2. User uploads receipt + transfer number
+3. Admin reviews and approves/rejects
 
-Vite
+Used endpoints (front examples):
+- `/subscriptions/bank-transfer`
+- `/subscriptions/{subscriptionId}/upload-receipt`
 
-Axios
+User capabilities:
+- View plans
+- Subscribe
+- View active subscription
+- View subscription history
+- Renew subscription
 
-React Router
+---
 
-Context API (Language + Inactivity)
+### 👤 Trainee Profile (Unlocked After Subscription)
+Once subscription is active, the trainee gains access to:
+- Full profile info (name/email/phone/avatar)
+- Update profile
+- Update password (separate endpoint)
+- Training plan (monthly)
+- Nutrition plan (monthly)
+- Completion toggles
+- Progress stats
+- Chat with coach
 
-Framer Motion
+---
 
-SCSS
+### 🏋️ Training Plan
+- Monthly workout plan fetched by year/month
+- Exercises list + completion toggles
+- Admin fully manages plans from admin panel
 
-أهم الأنظمة في الفرونت:
-1️⃣ الصفحة الرئيسية
+Used endpoints (trainee examples):
+- `/trainee/workout-plan?year=YYYY&month=MM`
+- `/trainee/workout/exercises/{exerciseId}/toggle`
 
-Hero Section (فيديو + إحصائيات)
+---
 
-About Coach
+### 🥗 Nutrition Plan
+- Monthly nutrition plan fetched by year/month
+- Meals + items + completion toggles
+- Admin fully manages meals/items from admin panel
 
-Certifications
+Used endpoints (trainee examples):
+- `/trainee/nutrition-plan?year=YYYY&month=MM`
+- `/trainee/nutrition/items/{itemId}/toggle`
 
-Testimonials
+---
 
-FAQ
+### 💬 Chat System
+Coach ↔ Trainee conversation with:
+- Text messages
+- File upload (image supported from trainee side)
+- Conversation history
 
-Footer
+Trainee endpoints (examples):
+- `/trainee/chat/conversation`
+- `/trainee/chat/messages`
+- `/trainee/chat/files`
 
-Logo ديناميكي
+Admin endpoints (examples):
+- `/admin/chat/conversations`
+- `/admin/chat/conversations/{traineeId}`
+- `/admin/chat/conversations/{traineeId}/messages`
+- `/admin/chat/conversations/{traineeId}/files`
+- Notifications:
+  - `/admin/chat/notifications`
+  - `/admin/chat/notifications/unread-count`
+  - `/admin/chat/notifications/read`
 
-جميع هذه الأقسام يتم جلبها من API وقابلة للتعديل من لوحة الإدارة.
+---
 
-2️⃣ نظام المصادقة
+## 🖥 Frontend Apps
 
-تسجيل مستخدم
+### 1) Admin Panel (React + Vite)
+Admin routes (example):
+- Dashboard
+- Content Management:
+  - Logo
+  - Hero Section
+  - Certifications
+  - About Coach
+  - Testimonials
+  - FAQ
+  - Footer
+- Training (trainees list + details)
+- Chat (conversations + room)
+- Subscriptions management (PayPal + Bank transfer)
+- Settings/Profile
+
+Admin requests use an Axios client with:
+- `baseURL` from `VITE_API_URL`
+- `Authorization: Bearer <token>`
+- centralized error handling (401 redirect to /login, etc.)
+- file upload support (multipart/form-data)
+
+---
+
+### 2) Trainee Website (React + Vite)
+Routes include:
+- `/` Home
+- `/faq`
+- `/auth` Authentication (login/register)
+- `/profile` Protected
+- `/plans` Protected
+- `/payment/success`
+- `/payment/cancel`
+
+Trainee Axios client:
+- Sends `Authorization` if token exists
+- Sends `Accept-Language` header
+- Redirects on 401 to `/auth`
+
+Also includes:
+- session inactivity handling using `last_activity`
+- production-only analytics and performance monitoring initialization
+
+---
+
+## 🔌 Backend API (Laravel 10)
+Laravel serves:
+- Authentication endpoints
+- Public content endpoints
+- Admin content management endpoints
+- Subscription and payment flows
+- Training/nutrition plan endpoints
+- Chat endpoints
+
+API style:
+- JSON responses with `{ success, message, data }` pattern
+- File uploads via `multipart/form-data`
+- Admin-only routes under `/admin/*`
+
+---
+
+## 🛡 Authentication & Sessions
+- Token stored in localStorage (`auth_token`)
+- Auto attach token via Axios interceptor
+- On 401:
+  - Clear auth storage
+  - redirect to login/auth page
+- Trainee app includes session timeout logic based on `last_activity`
+
+---
+
+## ⚙ Environment Variables
+
+### Frontend (Admin Panel)
+Create `.env`:
+```bash
+VITE_API_URL=https://your-domain.com/api
+
+
+Trainee App
+
+If you use separate baseURL, make sure to switch from localhost:
+
+baseURL: 'http://localhost:8000/api' should become:
+baseURL: import.meta.env.VITE_API_URL
+
+Recommended .env:
+
+VITE_API_URL=https://your-domain.com/api
+
+Backend (Laravel)
+
+Create .env:
+
+APP_NAME=RanLogic
+APP_ENV=local
+APP_KEY=base64:...
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ranlogic
+DB_USERNAME=root
+DB_PASSWORD=
+
+# PayPal
+PAYPAL_CLIENT_ID=
+PAYPAL_SECRET=
+PAYPAL_MODE=sandbox
+
+🧪 Local Development
+1) Backend (Laravel)
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+2) Admin Panel (React + Vite)
+cd frontend
+npm install
+npm run dev
+3) Trainee Website (React + Vite)
+cd trainee
+npm install
+npm run dev
+📦 Build & Deployment
+Frontend Build
+npm run build
+Typical Deployment Notes
+
+Serve React builds via Nginx/Apache
+
+Point both frontends to the production API using VITE_API_URL
+
+Ensure Laravel storage permissions (uploads, receipts, images)
+
+Configure CORS properly for:
+
+Public website domain
+
+Admin panel domain
+
+🧯 Troubleshooting
+✅ 1) 401 Unauthorized Redirect Loop
+
+Ensure auth_token exists
+
+Confirm token is attached in Axios interceptor
+
+Confirm backend accepts Bearer token
+
+✅ 2) CORS Issues
+
+Check Laravel CORS config:
+
+allowed origins include both frontend domains
+
+allow required headers
+
+If using cookies/credentials:
+
+set supports_credentials=true and match frontend withCredentials
+
+✅ 3) File Upload Failures
+
+Confirm request uses multipart/form-data
+
+Confirm backend validation rules accept correct key:
+
+logo: logo
+
+image: image
+
+chat file: file
+
+receipt: receipt
+
+✅ 4) Production baseURL still points to localhost
+
+Update trainee axios.create({ baseURL }) to use VITE_API_URL
+
+Verify .env is available at build time
+
+🏷 Project Name
+
+RanLogic — A dynamic and scalable personal training platform.
+
+<br/> <br/>
+==============================
+ RanLogic  RanLogic  RanLogic
+==============================
+RanLogic 🟡
+
+منصة تدريب شخصي ديناميكية بالكامل (Laravel 10 + React Vite)
+
+RanLogic هو نظام متكامل لمدربة شخصية يحتوي على:
+
+موقع تعريفي (الصفحة الرئيسية + الأسئلة الشائعة)
+
+تسجيل مستخدم + تسجيل دخول
+
+نظام اشتراكات لفتح البروفايل
+
+الدفع عبر PayPal أو تحويل بنكي
+
+بروفايل متدرب كامل + تعديل البيانات
+
+نظام تدريب شهري + نظام غذائي شهري
+
+تتبع الإنجاز (تأشير التمارين/الوجبات كمكتملة)
+
+شات بين المتدرب والمدربة
+
+لوحة إدارة تتحكم بكل شيء (CMS)
+
+✨ أهم النقاط
+
+Back-End: Laravel 10 API
+
+Front-End: React + Vite
+
+لوحة الإدارة: إدارة محتوى كاملة وديناميكية
+
+المدفوعات: PayPal + تحويل بنكي (رفع إيصال + موافقة الإدارة)
+
+المحتوى يتغير بالكامل من لوحة الإدارة بدون تعديل الكود
+
+لغتين: عربي / إنجليزي + RTL/LTR
+
+🏗️ هيكل المشروع
+
+المشروع مقسوم إلى:
+
+Laravel API
+
+واجهتين React (Vite):
+
+لوحة الإدارة (Admin Panel)
+
+واجهة المتدرب (Trainee Website)
+
+شكل المجلدات المقترح:
+
+RanLogic/
+  backend/        # Laravel 10 API
+  frontend/       # Admin Panel (React Vite)
+  trainee/        # Trainee Website (React Vite)
+🌐 الموقع العام (الواجهة العامة للمتدرب)
+
+المحتوى ديناميكي ويتم جلبه عبر API:
+
+Hero Section (فيديو + نصوص + إحصائيات)
+
+About Coach (تعريف + مميزات + صورة)
+
+Certifications (شهادات مع ترتيب)
+
+Testimonials (آراء + إعدادات القسم)
+
+FAQ (قسم + أسئلة)
+
+Footer (سوشيال + روابط سريعة + روابط قانونية)
+
+Logo (الشعار النشط)
+
+دعم اللغات يتم عبر:
+
+locale في Query String
+
+أو Accept-Language في Headers
+
+تخزين اللغة بـ localStorage والتحويل RTL/LTR
+
+🔐 نظام تسجيل الدخول والمستخدمين
+
+يدعم:
+
+تسجيل مستخدم جديد
 
 تسجيل دخول
 
 تسجيل خروج
 
+تسجيل خروج من جميع الأجهزة
+
 Refresh Token
 
-Logout All Devices
+جلب بيانات المستخدم الحالي (/auth/me)
 
-حفظ اللغة
+مفاتيح التخزين localStorage المستخدمة:
 
-Session Timeout
+auth_token
 
-Protected Routes
+user
 
-3️⃣ نظام الاشتراكات
+is_authenticated
 
-عرض الخطط
+language
 
-إنشاء عملية PayPal
+last_activity (لانتهاء الجلسة بسبب عدم النشاط)
 
-Capture الدفع
+💳 نظام الاشتراكات والدفع
+✅ PayPal
 
-إنشاء اشتراك تحويل بنكي
+التدفق:
 
-رفع إيصال التحويل
+إنشاء عملية دفع
 
-عرض الاشتراكات
+تحويل المستخدم
 
-عرض الاشتراك النشط
+Capture بعد الرجوع بـ token
 
-تجديد الاشتراك
+تفعيل الاشتراك وفتح البروفايل
 
-4️⃣ بروفايل المتدرب
+Endpoints (أمثلة):
 
-تعديل المعلومات الشخصية
+/subscriptions/paypal/create
 
-تغيير كلمة المرور
+/subscriptions/paypal/capture
 
-رفع صورة
+🏦 التحويل البنكي
 
-حذف صورة
+التدفق:
 
-عرض تفاصيل الاشتراك
+إنشاء طلب اشتراك تحويل بنكي
 
-عرض النظام الغذائي الشهري
+رفع رقم التحويل + إيصال
 
-عرض النظام التدريبي الشهري
+الإدارة توافق/ترفض
 
-تتبع الإنجاز اليومي
+Endpoints (أمثلة):
 
-إكمال تمارين
+/subscriptions/bank-transfer
 
-إكمال عناصر الوجبات
+/subscriptions/{id}/upload-receipt
 
-شات مباشر مع المدربة
+👤 بروفايل المتدرب (يفتح بعد الاشتراك)
 
-5️⃣ نظام اللغة
+يشمل:
 
-عربي / إنجليزي
+بيانات المستخدم (اسم/إيميل/هاتف/صورة)
 
-RTL / LTR
+تعديل البيانات
 
-تخزين اللغة في localStorage
+تغيير كلمة المرور (Endpoint منفصل)
 
-تمرير اللغة في Header (Accept-Language)
+عرض تفاصيل الاشتراك النشط
 
-🔹 Backend (Laravel 10)
-أهم الأنظمة في الباك:
-🔐 Authentication
+عرض سجل الاشتراكات وتجديد الاشتراك
 
-Login
+خطة تدريب شهرية
 
-Register
+خطة غذائية شهرية
 
-Logout
+تأشير الإنجاز للوجبات/التمارين
 
-Refresh
+إحصائيات التقدم
 
-Me
-
-🧑‍💻 إدارة المحتوى (Admin Panel)
-
-لوحة الإدارة تتحكم بالكامل في:
-
-Hero Section
-
-About Coach
-
-Certifications
-
-Testimonials
-
-FAQ
-
-Footer
-
-Logos
-
-Plans
-
-Workout Plans
-
-Nutrition Plans
-
-Users
-
-Subscriptions
-
-Chat Messages
-
-الموقع بالكامل ديناميكي ويتغير مباشرة من لوحة التحكم.
-
-💳 نظام الدفع
-PayPal:
-
-Create Order
-
-Capture Payment
-
-ربط الاشتراك بالمستخدم
-
-تحديث حالة الاشتراك
-
-Bank Transfer:
-
-إنشاء طلب اشتراك
-
-رفع إيصال
-
-مراجعة من الإدارة
-
-تفعيل يدوي
-
-🥗 النظام الغذائي
-
-خطة شهرية
-
-وجبات
-
-عناصر داخل كل وجبة
-
-إمكانية تحديد الإنجاز
-
-تخزين الحالة
+شات مع المدربة
 
 🏋️ النظام التدريبي
 
-خطة شهرية
+خطة تدريب شهرية حسب (سنة/شهر)
 
-تمارين
+قائمة تمارين + زر تأشير مكتمل
 
-تحديد إكمال التمرين
+الإدارة تتحكم بالكامل بالخطط
 
-تتبع التقدم
+Endpoints (أمثلة):
+
+/trainee/workout-plan?year=YYYY&month=MM
+
+/trainee/workout/exercises/{id}/toggle
+
+🥗 النظام الغذائي
+
+خطة غذائية شهرية حسب (سنة/شهر)
+
+وجبات + عناصر وجبة + تأشير مكتمل
+
+الإدارة تتحكم بالكامل
+
+Endpoints (أمثلة):
+
+/trainee/nutrition-plan?year=YYYY&month=MM
+
+/trainee/nutrition/items/{id}/toggle
 
 💬 الشات
 
 محادثة بين المتدرب والمدربة
 
-إرسال رسالة نص
+رسائل نصية
 
-إرسال صورة
+رفع صور/ملفات (حسب الواجهة)
 
-عرض المحادثة كاملة
+سجل كامل
 
-🔁 نظام ديناميكي بالكامل
+Trainee Endpoints (أمثلة):
 
-جميع الأقسام التالية يتم إدارتها من لوحة التحكم:
+/trainee/chat/conversation
 
-النصوص
+/trainee/chat/messages
 
-الصور
+/trainee/chat/files
 
-الفيديو
+Admin Endpoints (أمثلة):
 
-الإحصائيات
+/admin/chat/conversations
 
-الشهادات
+/admin/chat/conversations/{traineeId}
 
-الآراء
+إشعارات الشات:
 
-الأسئلة
+/admin/chat/notifications
 
-روابط السوشيال
+/admin/chat/notifications/unread-count
 
-الخطط والأسعار
+/admin/chat/notifications/read
 
-الأنظمة الغذائية
+🧑‍💻 لوحة الإدارة (CMS ديناميكي بالكامل)
 
-الأنظمة التدريبية
+الإدارة تتحكم بـ:
 
-لا يوجد أي محتوى ثابت Hardcoded.
-
-⚙️ تشغيل المشروع
-Backend
-composer install
-cp .env.example .env
-php artisan key:generate
-php artisan migrate
-php artisan serve
-Frontend
-npm install
-npm run dev
-🌍 البيئة الإنتاجية
-
-تفعيل Analytics فقط في الإنتاج
-
-مراقبة الأداء (Core Web Vitals)
-
-Timeout session
-
-حماية Routes
-
-🔐 الأمان
-
-Token-based Authentication
-
-Role-based access (Admin / Trainee)
-
-Validation لكل الطلبات
-
-حماية API من 401 / 403
-
-Session timeout
-
-🏷️ اسم المشروع
-
-RanLogic
-
-منصة تدريب شخصي احترافية متكاملة لإدارة الاشتراكات، التدريب، التغذية، والتواصل المباشر.
-
-................................................................................................
-................................................................................................
-................................................................................................
-🟡 RanLogic – Complete Personal Training Platform
-
-RanLogic is a fully dynamic personal training platform built with:
-
-🔹 Frontend: React + Vite
-
-🔹 Backend: Laravel 10 (REST API)
-
-🔹 Database: MySQL
-
-🔹 Authentication: Token-based
-
-🔹 Payments: PayPal + Bank Transfer
-
-🔹 Admin Panel: Full Dynamic Control
-
-📌 System Overview
-
-RanLogic includes:
-
-Marketing Homepage
-
-FAQ Section
-
-User Authentication
-
-Subscription System
-
-Admin Dashboard
-
-Trainee Profile
-
-Monthly Workout Plan
-
-Monthly Nutrition Plan
-
-Live Chat with Coach
-
-Subscription Renewal
-
-Fully Dynamic Content Management
-
-🏗️ Technical Architecture
-🔹 Frontend (React + Vite)
-Technologies:
-
-React
-
-Vite
-
-Axios
-
-React Router
-
-Context API
-
-Framer Motion
-
-SCSS
-
-Main Frontend Modules
-Homepage
+Logo / Branding
 
 Hero Section
 
@@ -386,179 +624,82 @@ Testimonials
 
 FAQ
 
-Footer
+Footer & Social Links
 
-Dynamic Logo
+المستخدمين
 
-All controlled by backend.
+الاشتراكات (PayPal/Bank Transfer)
 
-Authentication
+خطط التدريب والغذاء
 
-Login
+الشات والإشعارات
 
-Register
+كل الموقع قابل للتعديل من لوحة الإدارة بدون تعديل أي نص داخل الكود.
 
-Logout
+⚙️ متغيرات البيئة
+Frontend
 
-Refresh Token
+أنشئ .env:
 
-Session Timeout
+VITE_API_URL=https://your-domain.com/api
+Backend (Laravel)
 
-Role-based access
+أنشئ .env:
 
-Protected Routes
+APP_NAME=RanLogic
+APP_URL=http://localhost:8000
 
-Subscription System
+DB_DATABASE=ranlogic
+DB_USERNAME=root
+DB_PASSWORD=
 
-View plans
-
-PayPal integration
-
-Capture payment
-
-Bank transfer upload
-
-View subscriptions
-
-Active subscription status
-
-Renewal system
-
-Trainee Profile
-
-Edit profile
-
-Change password
-
-Upload avatar
-
-Nutrition plan
-
-Workout plan
-
-Toggle completion
-
-Chat with coach
-
-Progress tracking
-
-Admin Panel Controls
-
-Admin fully controls:
-
-Hero section
-
-About coach
-
-Certifications
-
-Testimonials
-
-FAQ
-
-Footer
-
-Logos
-
-Plans
-
-Workout plans
-
-Nutrition plans
-
-Users
-
-Subscriptions
-
-Chat system
-
-Everything is dynamic.
-
-🥗 Nutrition System
-
-Monthly plan
-
-Meals
-
-Meal items
-
-Toggle completion
-
-Progress tracking
-
-🏋️ Workout System
-
-Monthly workout plan
-
-Exercises
-
-Toggle completion
-
-Progress tracking
-
-💬 Chat System
-
-Conversation between trainee and coach
-
-Text messages
-
-Image upload
-
-Full history
-
-💳 Payment System
-PayPal:
-
-Create order
-
-Capture payment
-
-Activate subscription
-
-Bank Transfer:
-
-Upload receipt
-
-Admin review
-
-Manual activation
-
-⚙️ Installation
+PAYPAL_CLIENT_ID=
+PAYPAL_SECRET=
+PAYPAL_MODE=sandbox
+🧪 التشغيل محلياً
 Backend
+cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
 php artisan serve
-Frontend
+Admin Panel
+cd frontend
 npm install
 npm run dev
-🔐 Security
+Trainee Website
+cd trainee
+npm install
+npm run dev
+🧯 مشاكل شائعة
+1) مشكلة CORS
 
-Token-based authentication
+تأكد من إضافة دومينات الواجهات في إعدادات CORS داخل Laravel
 
-Role-based access
+2) رفع الملفات لا يعمل
 
-Session timeout
+تأكد من multipart/form-data
 
-API validation
+تأكد من اسم المفتاح:
 
-Error handling
+logo
 
-Protected routes
+image
 
-🚀 Production Features
+file
 
-Performance monitoring
+receipt
 
-Analytics
+3) الواجهة ما زالت تشير إلى localhost في الإنتاج
 
-Secure API handling
+عدّل baseURL لاستخدام VITE_API_URL
 
-Optimized builds
+تأكد أن .env تم قراءته وقت build
 
-🏷️ Project Name
+🏷️ اسم المشروع
 
-RanLogic
+RanLogic — منصة تدريب شخصي ديناميكية وقابلة للتوسع.
 
-A complete dynamic personal training management system including subscriptions, workouts, nutrition, and real-time communication.
+
+---

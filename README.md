@@ -26,7 +26,7 @@ A full-featured, fully dynamic platform for a personal fitness coach:
 - [Architecture](#-architecture)
 - [Modules Overview](#-modules-overview)
 - [Frontend Apps](#-frontend-apps)
-- [Backend API](#-backend-api)
+- [Backend API](#-backend-api-laravel-10)
 - [Authentication & Sessions](#-authentication--sessions)
 - [Subscriptions & Payments](#-subscriptions--payments)
 - [Training & Nutrition](#-training--nutrition)
@@ -34,7 +34,7 @@ A full-featured, fully dynamic platform for a personal fitness coach:
 - [Dynamic CMS (Admin Panel)](#-dynamic-cms-admin-panel)
 - [Environment Variables](#-environment-variables)
 - [Local Development](#-local-development)
-- [Build & Deployment](#-build--deployment)
+- [Build & Deployment](#-build--deployment-hostinger--ranlogiccom)
 - [Troubleshooting](#-troubleshooting)
 
 ---
@@ -47,256 +47,365 @@ RanLogic is split into:
   - Trainee Website (public pages + protected profile)
 
 Typical folder structure:
+```txt
 RanLogic/
-backend/ # Laravel 10 API
-frontend/ # React Vite (Admin Panel)
-trainee/ # React Vite (Trainee Website)
+  backend/        # Laravel 10 API
+  frontend/       # React Vite (Admin Panel)
+  trainee/        # React Vite (Trainee Website)
 
-> If your repository uses different names (e.g. `admin/` and `client/`), simply adjust commands accordingly.
+If your repository uses different names (e.g. admin/ and client/), simply adjust commands accordingly.
 
----
+🧩 Modules Overview
+🌐 Public Website (Trainee App - Public Pages)
 
-## 🧩 Modules Overview
-
-### 🌐 Public Website (Trainee App - Public Pages)
 Dynamic sections served via API:
-- **Hero Section** (video/stats/badge/titles)
-- **About Coach** (badge/title/descriptions/features + image)
-- **Certifications** (ordered list)
-- **Testimonials** (section settings + testimonials list)
-- **FAQ** (section + questions)
-- **Footer** (social links, quick links, legal links, copyright)
-- **Logo** (active logo)
+
+Hero Section (video/stats/badge/titles)
+
+About Coach (badge/title/descriptions/features + image)
+
+Certifications (ordered list)
+
+Testimonials (section settings + testimonials list)
+
+FAQ (section + questions)
+
+Footer (social links, quick links, legal links, copyright)
+
+Logo (active logo)
 
 Multi-language supported using:
-- `locale` query parameter on public endpoints  
-- `Accept-Language` header from frontend  
-- Local storage language switch + RTL/LTR
 
----
+locale query parameter on public endpoints
 
-### 🔐 Authentication (Trainee App)
+Accept-Language header from frontend
+
+Local storage language switch + RTL/LTR
+
+🔐 Authentication (Trainee App)
+
 API-driven authentication:
-- Register
-- Login
-- Logout
-- Logout from all devices
-- Refresh token
-- Get current user (`/auth/me`)
+
+Register
+
+Login
+
+Logout
+
+Logout from all devices
+
+Refresh token
+
+Get current user (/auth/me)
 
 Local storage keys used by the frontend:
-- `auth_token`
-- `user` (JSON)
-- `is_authenticated`
-- `language`
-- `last_activity` (for inactivity/session timeout)
 
----
+auth_token
 
-### 💳 Subscription & Payments
+user (JSON)
+
+is_authenticated
+
+language
+
+last_activity (for inactivity/session timeout)
+
+💳 Subscriptions & Payments
+
 The platform supports two payment methods:
 
-#### ✅ PayPal
+✅ PayPal
+
 Flow:
-1. Create payment / subscription order  
-2. Redirect user  
-3. Capture payment with token  
-4. Activate subscription & unlock trainee profile
+
+Create payment / subscription order
+
+Redirect user
+
+Capture payment with token
+
+Activate subscription & unlock trainee profile
 
 Used endpoints (front examples):
-- `/subscriptions/paypal/create`
-- `/subscriptions/paypal/capture`
 
-#### 🏦 Bank Transfer
+/subscriptions/paypal/create
+
+/subscriptions/paypal/capture
+
+🏦 Bank Transfer
+
 Flow:
-1. Create a bank transfer subscription request
-2. User uploads receipt + transfer number
-3. Admin reviews and approves/rejects
+
+Create a bank transfer subscription request
+
+User uploads receipt + transfer number
+
+Admin reviews and approves/rejects
 
 Used endpoints (front examples):
-- `/subscriptions/bank-transfer`
-- `/subscriptions/{subscriptionId}/upload-receipt`
+
+/subscriptions/bank-transfer
+
+/subscriptions/{subscriptionId}/upload-receipt
 
 User capabilities:
-- View plans
-- Subscribe
-- View active subscription
-- View subscription history
-- Renew subscription
 
----
+View plans
 
-### 👤 Trainee Profile (Unlocked After Subscription)
+Subscribe
+
+View active subscription
+
+View subscription history
+
+Renew subscription
+
+👤 Trainee Profile (Unlocked After Subscription)
+
 Once subscription is active, the trainee gains access to:
-- Full profile info (name/email/phone/avatar)
-- Update profile
-- Update password (separate endpoint)
-- Training plan (monthly)
-- Nutrition plan (monthly)
-- Completion toggles
-- Progress stats
-- Chat with coach
 
----
+Full profile info (name/email/phone/avatar)
 
-### 🏋️ Training Plan
-- Monthly workout plan fetched by year/month
-- Exercises list + completion toggles
-- Admin fully manages plans from admin panel
+Update profile
 
-Used endpoints (trainee examples):
-- `/trainee/workout-plan?year=YYYY&month=MM`
-- `/trainee/workout/exercises/{exerciseId}/toggle`
+Update password (separate endpoint)
 
----
+Training plan (monthly)
 
-### 🥗 Nutrition Plan
-- Monthly nutrition plan fetched by year/month
-- Meals + items + completion toggles
-- Admin fully manages meals/items from admin panel
+Nutrition plan (monthly)
+
+Completion toggles
+
+Progress stats
+
+Chat with coach
+
+🏋️ Training Plan
+
+Monthly workout plan fetched by year/month
+
+Exercises list + completion toggles
+
+Admin fully manages plans from admin panel
 
 Used endpoints (trainee examples):
-- `/trainee/nutrition-plan?year=YYYY&month=MM`
-- `/trainee/nutrition/items/{itemId}/toggle`
 
----
+/trainee/workout-plan?year=YYYY&month=MM
 
-### 💬 Chat System
+/trainee/workout/exercises/{exerciseId}/toggle
+
+🥗 Nutrition Plan
+
+Monthly nutrition plan fetched by year/month
+
+Meals + items + completion toggles
+
+Admin fully manages meals/items from admin panel
+
+Used endpoints (trainee examples):
+
+/trainee/nutrition-plan?year=YYYY&month=MM
+
+/trainee/nutrition/items/{itemId}/toggle
+
+💬 Chat System
+
 Coach ↔ Trainee conversation with:
-- Text messages
-- File upload (image supported from trainee side)
-- Conversation history
+
+Text messages
+
+File upload (image supported from trainee side)
+
+Conversation history
 
 Trainee endpoints (examples):
-- `/trainee/chat/conversation`
-- `/trainee/chat/messages`
-- `/trainee/chat/files`
+
+/trainee/chat/conversation
+
+/trainee/chat/messages
+
+/trainee/chat/files
 
 Admin endpoints (examples):
-- `/admin/chat/conversations`
-- `/admin/chat/conversations/{traineeId}`
-- `/admin/chat/conversations/{traineeId}/messages`
-- `/admin/chat/conversations/{traineeId}/files`
-- Notifications:
-  - `/admin/chat/notifications`
-  - `/admin/chat/notifications/unread-count`
-  - `/admin/chat/notifications/read`
 
----
+/admin/chat/conversations
 
-## 🖥 Frontend Apps
+/admin/chat/conversations/{traineeId}
 
-### 1) Admin Panel (React + Vite)
+/admin/chat/conversations/{traineeId}/messages
+
+/admin/chat/conversations/{traineeId}/files
+
+Notifications:
+
+/admin/chat/notifications
+
+/admin/chat/notifications/unread-count
+
+/admin/chat/notifications/read
+
+🖥 Frontend Apps
+1) Admin Panel (React + Vite)
+
 Admin routes (example):
-- Dashboard
-- Content Management:
-  - Logo
-  - Hero Section
-  - Certifications
-  - About Coach
-  - Testimonials
-  - FAQ
-  - Footer
-- Training (trainees list + details)
-- Chat (conversations + room)
-- Subscriptions management (PayPal + Bank transfer)
-- Settings/Profile
+
+Dashboard
+
+Content Management:
+
+Logo
+
+Hero Section
+
+Certifications
+
+About Coach
+
+Testimonials
+
+FAQ
+
+Footer
+
+Training (trainees list + details)
+
+Chat (conversations + room)
+
+Subscriptions management (PayPal + Bank transfer)
+
+Settings/Profile
 
 Admin requests use an Axios client with:
-- `baseURL` from `VITE_API_URL`
-- `Authorization: Bearer <token>`
-- centralized error handling (401 redirect to /login, etc.)
-- file upload support (multipart/form-data)
 
----
+baseURL from VITE_API_URL
 
-### 2) Trainee Website (React + Vite)
+Authorization: Bearer <token>
+
+centralized error handling (401 redirect to /auth, etc.)
+
+file upload support (multipart/form-data)
+
+2) Trainee Website (React + Vite)
+
 Routes include:
-- `/` Home
-- `/faq`
-- `/auth` Authentication (login/register)
-- `/profile` Protected
-- `/plans` Protected
-- `/payment/success`
-- `/payment/cancel`
+
+/ Home
+
+/faq
+
+/auth Authentication (login/register)
+
+/profile Protected
+
+/plans Protected
+
+/payment/success
+
+/payment/cancel
 
 Trainee Axios client:
-- Sends `Authorization` if token exists
-- Sends `Accept-Language` header
-- Redirects on 401 to `/auth`
+
+Sends Authorization if token exists
+
+Sends Accept-Language header
+
+Redirects on 401 to /auth
 
 Also includes:
-- session inactivity handling using `last_activity`
-- production-only analytics and performance monitoring initialization
 
----
+session inactivity handling using last_activity
 
-## 🔌 Backend API (Laravel 10)
+production-only analytics and performance monitoring initialization
+
+🔌 Backend API (Laravel 10)
+
 Laravel serves:
-- Authentication endpoints
-- Public content endpoints
-- Admin content management endpoints
-- Subscription and payment flows
-- Training/nutrition plan endpoints
-- Chat endpoints
+
+Authentication endpoints
+
+Public content endpoints
+
+Admin content management endpoints
+
+Subscription and payment flows
+
+Training/nutrition plan endpoints
+
+Chat endpoints
 
 API style:
-- JSON responses with `{ success, message, data }` pattern
-- File uploads via `multipart/form-data`
-- Admin-only routes under `/admin/*`
 
----
+JSON responses with { success, message, data } pattern
 
-## 🛡 Authentication & Sessions
-- Token stored in localStorage (`auth_token`)
-- Auto attach token via Axios interceptor
-- On 401:
-  - Clear auth storage
-  - redirect to login/auth page
-- Trainee app includes session timeout logic based on `last_activity`
+File uploads via multipart/form-data
 
----
+Admin-only routes under /admin/*
 
-## ⚙ Environment Variables
+🛡 Authentication & Sessions
 
-### Frontend (Admin Panel)
-Create `.env`:
-```bash
-VITE_API_URL=https://your-domain.com/api
+Token stored in localStorage (auth_token)
 
+Auto attach token via Axios interceptor
 
-Trainee App
+On 401:
 
-If you use separate baseURL, make sure to switch from localhost:
+Clear auth storage
 
-baseURL: 'http://localhost:8000/api' should become:
+redirect to /auth
+
+Trainee app includes session timeout logic based on last_activity
+
+⚙ Environment Variables
+✅ Production URLs (RanLogic.com)
+
+Website: https://ranlogic.com
+
+API (recommended): https://ranlogic.com/api
+
+If your API is hosted on a separate subdomain, set:
+VITE_API_URL=https://api.ranlogic.com/api
+
+Frontend (Admin Panel) — .env
+
+Create frontend/.env:
+
+VITE_API_URL=https://ranlogic.com/api
+Frontend (Trainee Website) — .env
+
+Create trainee/.env:
+
+VITE_API_URL=https://ranlogic.com/api
+
+✅ Important: in your Axios config you should not hardcode localhost in production.
+Change:
+
+baseURL: 'http://localhost:8000/api'
+
+To:
+
 baseURL: import.meta.env.VITE_API_URL
+Backend (Laravel) — .env
 
-Recommended .env:
-
-VITE_API_URL=https://your-domain.com/api
-
-Backend (Laravel)
-
-Create .env:
+Create backend/.env:
 
 APP_NAME=RanLogic
-APP_ENV=local
-APP_KEY=base64:...
-APP_URL=http://localhost:8000
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://ranlogic.com
 
+# Database
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=ranlogic
-DB_USERNAME=root
-DB_PASSWORD=
+DB_USERNAME=YOUR_DB_USER
+DB_PASSWORD=YOUR_DB_PASSWORD
 
 # PayPal
-PAYPAL_CLIENT_ID=
-PAYPAL_SECRET=
+PAYPAL_CLIENT_ID=YOUR_PAYPAL_CLIENT_ID
+PAYPAL_SECRET=YOUR_PAYPAL_SECRET
 PAYPAL_MODE=sandbox
-
+# Use "live" in production once you switch to real payments
 🧪 Local Development
 1) Backend (Laravel)
 cd backend
@@ -313,22 +422,22 @@ npm run dev
 cd trainee
 npm install
 npm run dev
-📦 Build & Deployment
+📦 Build & Deployment (Hostinger + RanLogic.com)
 Frontend Build
 npm run build
-Typical Deployment Notes
+Deployment Notes (recommended)
 
-Serve React builds via Nginx/Apache
+Ensure both frontends are built with correct VITE_API_URL
 
-Point both frontends to the production API using VITE_API_URL
+Ensure Laravel storage is writable (uploads, receipts, images)
 
-Ensure Laravel storage permissions (uploads, receipts, images)
+Configure CORS to allow:
 
-Configure CORS properly for:
+https://ranlogic.com
 
-Public website domain
+(admin domain if separate)
 
-Admin panel domain
+If you use HTTPS (recommended), ensure both site + API use HTTPS too
 
 🧯 Troubleshooting
 ✅ 1) 401 Unauthorized Redirect Loop
@@ -343,7 +452,7 @@ Confirm backend accepts Bearer token
 
 Check Laravel CORS config:
 
-allowed origins include both frontend domains
+allowed origins include your domains
 
 allow required headers
 
@@ -367,17 +476,17 @@ receipt: receipt
 
 ✅ 4) Production baseURL still points to localhost
 
-Update trainee axios.create({ baseURL }) to use VITE_API_URL
+Update axios baseURL to use import.meta.env.VITE_API_URL
 
-Verify .env is available at build time
+Verify .env was applied before building
 
 🏷 Project Name
 
 RanLogic — A dynamic and scalable personal training platform.
 
-<br/> <br/>
+<br/> <br/> <br/>
 ==============================
- RanLogic  RanLogic  RanLogic
+🇸🇦 RanLogic (النسخة العربية)
 ==============================
 RanLogic 🟡
 
@@ -405,7 +514,7 @@ RanLogic هو نظام متكامل لمدربة شخصية يحتوي على:
 
 ✨ أهم النقاط
 
-Back-End: Laravel 10 API
+Back-End: Laravel 10 REST API
 
 Front-End: React + Vite
 
@@ -413,9 +522,11 @@ Front-End: React + Vite
 
 المدفوعات: PayPal + تحويل بنكي (رفع إيصال + موافقة الإدارة)
 
-المحتوى يتغير بالكامل من لوحة الإدارة بدون تعديل الكود
+المحتوى ديناميكي بالكامل: (Hero / About / Certifications / Testimonials / FAQ / Footer / Logo)
 
-لغتين: عربي / إنجليزي + RTL/LTR
+المتدرب: بروفايل + اشتراك + خطط تدريب/غذاء + تتبع الإنجاز + شات
+
+لغتين: عربي / إنجليزي + دعم RTL/LTR
 
 🏗️ هيكل المشروع
 
@@ -435,7 +546,7 @@ RanLogic/
   backend/        # Laravel 10 API
   frontend/       # Admin Panel (React Vite)
   trainee/        # Trainee Website (React Vite)
-🌐 الموقع العام (الواجهة العامة للمتدرب)
+🌐 الموقع العام (الواجهة العامة)
 
 المحتوى ديناميكي ويتم جلبه عبر API:
 
@@ -461,7 +572,7 @@ locale في Query String
 
 تخزين اللغة بـ localStorage والتحويل RTL/LTR
 
-🔐 نظام تسجيل الدخول والمستخدمين
+🔐 تسجيل الدخول والمستخدمين
 
 يدعم:
 
@@ -489,7 +600,7 @@ language
 
 last_activity (لانتهاء الجلسة بسبب عدم النشاط)
 
-💳 نظام الاشتراكات والدفع
+💳 الاشتراكات والدفع
 ✅ PayPal
 
 التدفق:
@@ -534,9 +645,7 @@ Endpoints (أمثلة):
 
 تغيير كلمة المرور (Endpoint منفصل)
 
-عرض تفاصيل الاشتراك النشط
-
-عرض سجل الاشتراكات وتجديد الاشتراك
+عرض تفاصيل الاشتراك النشط + تجديد الاشتراك + سجل الاشتراكات
 
 خطة تدريب شهرية
 
@@ -550,12 +659,6 @@ Endpoints (أمثلة):
 
 🏋️ النظام التدريبي
 
-خطة تدريب شهرية حسب (سنة/شهر)
-
-قائمة تمارين + زر تأشير مكتمل
-
-الإدارة تتحكم بالكامل بالخطط
-
 Endpoints (أمثلة):
 
 /trainee/workout-plan?year=YYYY&month=MM
@@ -564,12 +667,6 @@ Endpoints (أمثلة):
 
 🥗 النظام الغذائي
 
-خطة غذائية شهرية حسب (سنة/شهر)
-
-وجبات + عناصر وجبة + تأشير مكتمل
-
-الإدارة تتحكم بالكامل
-
 Endpoints (أمثلة):
 
 /trainee/nutrition-plan?year=YYYY&month=MM
@@ -577,14 +674,6 @@ Endpoints (أمثلة):
 /trainee/nutrition/items/{id}/toggle
 
 💬 الشات
-
-محادثة بين المتدرب والمدربة
-
-رسائل نصية
-
-رفع صور/ملفات (حسب الواجهة)
-
-سجل كامل
 
 Trainee Endpoints (أمثلة):
 
@@ -636,70 +725,103 @@ Footer & Social Links
 
 كل الموقع قابل للتعديل من لوحة الإدارة بدون تعديل أي نص داخل الكود.
 
-⚙️ متغيرات البيئة
-Frontend
+⚙️ متغيرات البيئة (Production + Local)
+✅ روابط البرودكشن (RanLogic.com)
 
-أنشئ .env:
+الموقع: https://ranlogic.com
 
-VITE_API_URL=https://your-domain.com/api
-Backend (Laravel)
+الـ API (الموصى به): https://ranlogic.com/api
 
-أنشئ .env:
+إذا كان الـ API عندك على subdomain:
+استخدم https://api.ranlogic.com/api
+
+Frontend — ملف .env
+
+أنشئ ملف .env داخل:
+
+frontend/.env
+
+trainee/.env
+
+وضع التالي:
+
+VITE_API_URL=https://ranlogic.com/api
+
+✅ مهم جداً: لا تترك Axios على localhost في الإنتاج.
+بدّل:
+
+baseURL: 'http://localhost:8000/api'
+
+إلى:
+
+baseURL: import.meta.env.VITE_API_URL
+Backend (Laravel) — ملف .env
+
+أنشئ backend/.env:
 
 APP_NAME=RanLogic
-APP_URL=http://localhost:8000
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://ranlogic.com
 
+# Database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
 DB_DATABASE=ranlogic
-DB_USERNAME=root
-DB_PASSWORD=
+DB_USERNAME=YOUR_DB_USER
+DB_PASSWORD=YOUR_DB_PASSWORD
 
-PAYPAL_CLIENT_ID=
-PAYPAL_SECRET=
+# PayPal
+PAYPAL_CLIENT_ID=YOUR_PAYPAL_CLIENT_ID
+PAYPAL_SECRET=YOUR_PAYPAL_SECRET
 PAYPAL_MODE=sandbox
+# عند الانتقال للدفع الحقيقي غيّرها إلى live
 🧪 التشغيل محلياً
-Backend
+
+Backend:
+
 cd backend
 composer install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
 php artisan serve
-Admin Panel
+
+Admin Panel:
+
 cd frontend
 npm install
 npm run dev
-Trainee Website
+
+Trainee Website:
+
 cd trainee
 npm install
 npm run dev
+📦 البناء والنشر (Hostinger)
+
+اعمل build للواجهات قبل الرفع
+
+تأكد VITE_API_URL صحيح وقت build
+
+تأكد صلاحيات storage و public/uploads
+
+اضبط CORS على دومين ranlogic.com
+
 🧯 مشاكل شائعة
-1) مشكلة CORS
 
-تأكد من إضافة دومينات الواجهات في إعدادات CORS داخل Laravel
+CORS
+تأكد إضافة الدومينات في إعدادات Laravel CORS.
 
-2) رفع الملفات لا يعمل
+رفع الملفات لا يعمل
+تأكد multipart/form-data وأسماء المفاتيح:
 
-تأكد من multipart/form-data
+logo / image / file / receipt
 
-تأكد من اسم المفتاح:
-
-logo
-
-image
-
-file
-
-receipt
-
-3) الواجهة ما زالت تشير إلى localhost في الإنتاج
-
-عدّل baseURL لاستخدام VITE_API_URL
-
-تأكد أن .env تم قراءته وقت build
+الموقع يشير إلى localhost في الإنتاج
+بدّل baseURL إلى import.meta.env.VITE_API_URL وتأكد build بعد تحديث .env.
 
 🏷️ اسم المشروع
 
 RanLogic — منصة تدريب شخصي ديناميكية وقابلة للتوسع.
-
-
----

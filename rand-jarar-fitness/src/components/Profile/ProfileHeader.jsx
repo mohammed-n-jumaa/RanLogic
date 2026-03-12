@@ -26,13 +26,11 @@ const ProfileHeader = ({ userData, onProfileUpdate }) => {
     }
   };
 
-  // الحصول على الصورة المناسبة مع ضبط للعرض الكامل
   const getAvatarUrl = () => {
     if (!userData?.avatar_url) {
-      return 'https://i.postimg.cc/WpqHf2CH/download.png'; // صورة افتراضية
+      return 'https://i.postimg.cc/WpqHf2CH/download.png'; 
     }
     
-    // قائمة بالصور الافتراضية
     const defaultAvatars = [
       'https://i.postimg.cc/WpqHf2CH/download.png',
       'default-avatar-female.png',
@@ -45,7 +43,6 @@ const ProfileHeader = ({ userData, onProfileUpdate }) => {
       userData.avatar_url.includes(defaultAvatar)
     );
     
-    // إذا كانت الصورة افتراضية، نستخدم الصور الجديدة
     if (isDefault) {
       if (userData.gender === 'male') {
         return 'https://i.postimg.cc/VNmvRfK2/0b90cfaf-8167-4730-8de0-8872054ff0c5.jpg';
@@ -58,7 +55,6 @@ const ProfileHeader = ({ userData, onProfileUpdate }) => {
     return userData.avatar_url;
   };
 
-  // Calculate days left
   const calculateDaysLeft = () => {
     if (!userData.subscription_end_date) return 0;
     
@@ -70,7 +66,6 @@ const ProfileHeader = ({ userData, onProfileUpdate }) => {
     return diffDays > 0 ? diffDays : 0;
   };
 
-  // Calculate progress percentage
   const calculateProgress = () => {
     if (!userData.subscription_start_date || !userData.subscription_end_date) return 0;
     

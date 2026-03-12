@@ -1,7 +1,7 @@
 import api from './index';
 
 const chatApi = {
-  // Get conversation with admin
+
   getConversation: async () => {
     try {
       const response = await api.get('/trainee/chat/conversation');
@@ -12,7 +12,6 @@ const chatApi = {
     }
   },
 
-  // Send text message
   sendMessage: async (content) => {
     try {
       const response = await api.post('/trainee/chat/messages', {
@@ -25,7 +24,6 @@ const chatApi = {
     }
   },
 
-   // Send message with image
   sendMessageWithImage: async (content, imageFile) => {
     try {
       const formData = new FormData();
@@ -44,7 +42,6 @@ const chatApi = {
     }
   },
 
- // Mark messages as read (not needed for trainee, but keep for compatibility)
   markAsRead: async (conversationId) => {
     try {
       return { success: true };

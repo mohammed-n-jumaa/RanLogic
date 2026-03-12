@@ -1,4 +1,3 @@
-// src/components/SeoContent.jsx
 import React from 'react';
 
 const SeoContent = () => {

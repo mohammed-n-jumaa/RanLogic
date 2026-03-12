@@ -105,12 +105,10 @@ const Testimonials = () => {
     })
   };
 
-  // معالجة خطأ الصورة
   const handleImageError = (e) => {
     e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(e.target.alt || 'Client')}&background=random&color=fff&size=200`;
   };
 
-  // عرض حالة التحميل
   if (loading) {
     return (
       <section className="testimonials" id="testimonials">
@@ -124,7 +122,6 @@ const Testimonials = () => {
     );
   }
 
-  // عرض حالة الخطأ
   if (error || !testimonialData) {
     return (
       <section className="testimonials" id="testimonials">
@@ -145,7 +142,6 @@ const Testimonials = () => {
 
   const { section, testimonials = [] } = testimonialData;
 
-  // إذا لم توجد آراء
   if (testimonials.length === 0) {
     return (
       <section className="testimonials" id="testimonials">

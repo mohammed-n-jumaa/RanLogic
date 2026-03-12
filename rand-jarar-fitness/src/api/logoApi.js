@@ -1,7 +1,7 @@
 import api from './index';
 
 const logoApi = {
-  // جلب الشعار النشط
+
   getActiveLogo: async () => {
     try {
       const response = await api.get('/logo/active');
@@ -12,7 +12,6 @@ const logoApi = {
     }
   },
 
-  // جلب جميع الشعارات (للوحة الإدارة)
   getAllLogos: async (perPage = 10) => {
     try {
       const response = await api.get('/logos', {
@@ -25,7 +24,6 @@ const logoApi = {
     }
   },
 
-  // رفع شعار جديد
   uploadLogo: async (file) => {
     try {
       const formData = new FormData();
@@ -43,7 +41,6 @@ const logoApi = {
     }
   },
 
-  // تفعيل شعار معين
   activateLogo: async (id) => {
     try {
       const response = await api.patch(`/logo/${id}/activate`);
@@ -54,7 +51,6 @@ const logoApi = {
     }
   },
 
-  // حذف شعار
   deleteLogo: async (id) => {
     try {
       const response = await api.delete(`/logo/${id}`);

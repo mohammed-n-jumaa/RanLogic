@@ -1,7 +1,7 @@
 import api from './index';
 
 const heroApi = {
-  // جلب بيانات الهيرو سيكشن للصفحة العامة
+
   getHeroSection: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -11,12 +11,11 @@ const heroApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching hero section:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+
       return getDefaultHeroData(lang);
     }
   },
 
-  // جلب بيانات الهيرو سيكشن للوحة الإدارة
   getAdminHeroSection: async () => {
     try {
       const response = await api.get('/admin/hero-section');
@@ -27,7 +26,6 @@ const heroApi = {
     }
   },
 
-  // تحديث الهيرو سيكشن
   updateHeroSection: async (data) => {
     try {
       const response = await api.put('/admin/hero-section', data);
@@ -38,7 +36,6 @@ const heroApi = {
     }
   },
 
-  // رفع فيديو جديد
   uploadVideo: async (file) => {
     try {
       const formData = new FormData();
@@ -56,7 +53,6 @@ const heroApi = {
     }
   },
 
-  // حذف الفيديو
   deleteVideo: async () => {
     try {
       const response = await api.delete('/admin/hero-section/video');
@@ -68,7 +64,6 @@ const heroApi = {
   }
 };
 
-// بيانات افتراضية للهيرو سيكشن
 const getDefaultHeroData = (language = 'ar') => {
   const isArabic = language === 'ar';
   

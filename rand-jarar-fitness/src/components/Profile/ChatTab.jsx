@@ -17,7 +17,6 @@ const ChatTab = () => {
   useEffect(() => {
     fetchConversation();
     
-    // Poll for new messages every 10 seconds
     const interval = setInterval(fetchConversation, 10000);
     
     return () => clearInterval(interval);
@@ -31,12 +30,10 @@ const ChatTab = () => {
         setMessages(response.data.messages || []);
         setConversationId(response.data.conversation?.id);
         
-        // جلب أفاتار المدربة من البيانات المستلمة
         if (response.data.conversation?.admin_avatar) {
           setTrainerAvatar(response.data.conversation.admin_avatar);
         }
         
-        // Mark as read
         if (response.data.conversation?.id) {
           await chatApi.markAsRead(response.data.conversation.id);
         }

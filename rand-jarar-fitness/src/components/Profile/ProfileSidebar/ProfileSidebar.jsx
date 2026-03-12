@@ -8,7 +8,7 @@ import {
   FaSpinner,
   FaTimes
 } from 'react-icons/fa';
-import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext'; // ✅ مثل MealCard
+import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext'; 
 import authApi from '../../../api/authApi';
 import logoApi from '../../../api/logoApi';
 import './ProfileSidebar.scss';
@@ -20,7 +20,7 @@ const ProfileSidebar = () => {
   const [logoLoading, setLogoLoading] = useState(true);
   const [userLoading, setUserLoading] = useState(true);
 
-  const { t, currentLang } = useProfileLanguage(); // ✅ t(ar,en) + currentLang
+  const { t, currentLang } = useProfileLanguage(); 
   const navigate = useNavigate();
   const sidebarRef = useRef(null);
 

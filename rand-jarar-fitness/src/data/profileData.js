@@ -1,4 +1,3 @@
-// Helper function to generate meal data
 const generateMeal = (id, name, time, calories, protein, carbs, fats, items, pdfUrl = null) => ({
   id,
   name,
@@ -13,9 +12,8 @@ const generateMeal = (id, name, time, calories, protein, carbs, fats, items, pdf
   instructions: 'Follow the preparation instructions in the PDF for best results.'
 });
 
-// Helper function to generate day data
 const generateDay = (dayNumber) => {
-  const date = new Date(2024, 0, dayNumber); // January 2024
+  const date = new Date(2026, 0, dayNumber);
   const dateString = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   
   const meals = [

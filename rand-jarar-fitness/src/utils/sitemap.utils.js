@@ -9,9 +9,8 @@ export const generateSitemap = () => {
   const baseUrl = siteConfig.siteUrl;
   const currentDate = new Date().toISOString().split('T')[0];
 
-  // Define all pages with their priorities and change frequencies
   const pages = [
-    // Arabic pages (default language)
+
     {
       url: '/',
       lastmod: currentDate,
@@ -33,7 +32,7 @@ export const generateSitemap = () => {
       priority: '0.9',
       languages: ['ar', 'en']
     }
-    // Note: /auth and /profile are not included as they should be noindex
+
   ];
 
   // Generate XML

@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import { useLanguage } from '../contexts/LanguageContext';
 import subscriptionApi from '../api/subscriptionApi';
-import authApi from '../api/authApi'; // ✅ مهم لتحديث user بعد الدفع
+import authApi from '../api/authApi'; 
 import './SubscriptionSuccess.scss';
 
 const SubscriptionSuccess = () => {
@@ -17,16 +17,13 @@ const SubscriptionSuccess = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { isArabic } = useLanguage();
 
-  // ✅ يمنع تكرار الـ capture في React StrictMode
   const didCaptureRef = useRef(false);
 
-  // ✅ عداد التحويل بعد النجاح (60 ثانية)
   const REDIRECT_SECONDS = 60;
   const [countdown, setCountdown] = useState(REDIRECT_SECONDS);
   const redirectTimerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
 
-  // ✅ تنظيف التايمرات
   const clearTimers = () => {
     if (redirectTimerRef.current) {
       clearTimeout(redirectTimerRef.current);
@@ -43,9 +40,9 @@ const SubscriptionSuccess = () => {
       if (didCaptureRef.current) return;
       didCaptureRef.current = true;
 
-      const token = searchParams.get('token'); // PayPal OrderID
+      const token = searchParams.get('token'); 
       const subscriptionId = searchParams.get('subscription_id');
-      const payerId = searchParams.get('PayerID'); // أحيانًا يأتي مع بعض الفلوهات
+      const payerId = searchParams.get('PayerID'); 
 
       if (!token || !subscriptionId) {
         console.error('Missing parameters:', { token, subscriptionId, payerId });
@@ -65,15 +62,13 @@ const SubscriptionSuccess = () => {
           setStatus('success');
           setSubscriptionData(response?.data?.subscription || null);
 
-          // ✅ مهم جداً: تحديث بيانات المستخدم في localStorage مباشرة
-          // عشان ما يحتاج logout/login لفتح البروفايل
+     
           try {
             await authApi.refreshUser();
           } catch (e) {
             console.warn('refreshUser failed (non-blocking):', e);
           }
 
-          // ✅ ابدأ العداد لمدة دقيقة ثم تحويل تلقائي
           setCountdown(REDIRECT_SECONDS);
           clearTimers();
 
@@ -118,14 +113,13 @@ const SubscriptionSuccess = () => {
 
     capturePayment();
 
-    // ✅ Cleanup عند الخروج من الصفحة
+
     return () => clearTimers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [searchParams, navigate, isArabic]);
 
-  // ✅ زر التحويل الفوري
   const goToProfileNow = async () => {
-    // تأكد مرة أخرى أن user اتحدث (احتياط)
+
     try {
       await authApi.refreshUser();
     } catch (e) {}

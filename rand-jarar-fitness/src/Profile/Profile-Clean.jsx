@@ -36,14 +36,14 @@ const ProfileContent = () => {
 
   const checkAuthAndFetchData = async () => {
     try {
-      // Check if user is authenticated
+
       const user = authApi.getUser();
       if (!user) {
         navigate('/auth');
         return;
       }
 
-      // Fetch profile data
+
       await fetchProfileData();
     } catch (error) {
       console.error('Error checking auth:', error);
@@ -99,7 +99,6 @@ const ProfileContent = () => {
         avatar: updatedData.avatar
       };
 
-      // ✅ إضافة كلمة المرور إلى الـ payload بدلاً من استدعاء منفصل
       if (updatedData.password && updatedData.password.trim() !== '') {
         console.log('🔐 Password fields found:', {
           password: updatedData.password ? 'EXISTS' : 'MISSING',
@@ -114,19 +113,17 @@ const ProfileContent = () => {
 
       console.log('📤 Final payload to send:', JSON.stringify(updatePayload, null, 2));
 
-      // ✅ استدعاء updateProfile مرة واحدة فقط
       const response = await profileApi.updateProfile(updatePayload);
       
       console.log('✅ Response from server:', response);
       
       if (response.success) {
-        // Update local user data
+
         setUserData(prev => ({
           ...prev,
           ...response.data
         }));
 
-        // Update user in localStorage
         const currentUser = authApi.getUser();
         const updatedUser = {
           ...currentUser,
@@ -159,7 +156,7 @@ const ProfileContent = () => {
           image={seoData.ogImage}
           lang={currentLang}
           breadcrumbItems={breadcrumbs.profile(currentLang)}
-          noindex={true} // Profile pages should not be indexed
+          noindex={true} 
         />
         
         <div className="profile-page loading">
@@ -224,7 +221,7 @@ const ProfileContent = () => {
         image={seoData.ogImage}
         lang={currentLang}
         breadcrumbItems={breadcrumbs.profile(currentLang)}
-        noindex={true} // Profile pages should not be indexed
+        noindex={true} 
         nofollow={true}
       />
 

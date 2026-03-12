@@ -5,7 +5,7 @@ import './LoadingSpinner.scss';
 const LoadingSpinner = ({ 
   fullScreen = true, 
   message = 'Loading...',
-  minDuration = 0 // مدة عرض دنيا بالميلي ثانية
+  minDuration = 0 
 }) => {
   const [shouldShow, setShouldShow] = useState(true);
 

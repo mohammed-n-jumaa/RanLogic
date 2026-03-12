@@ -30,7 +30,7 @@ const NutritionTab = () => {
     console.log('📊 Nutrition response in component:', response);
     
     if (response.success && response.data) {
-      // ✅ response.data contains { plan, meals }
+
       setNutritionPlan(response.data);
     } else {
       setNutritionPlan(null);
@@ -77,7 +77,6 @@ const NutritionTab = () => {
     }
   };
 
- // ✅ Get current 10-day period - with date normalization
 const getCurrentPeriodDays = () => {
   if (!nutritionPlan?.meals || nutritionPlan.meals.length === 0) return [];
   
@@ -86,14 +85,12 @@ const getCurrentPeriodDays = () => {
   const startDay = (currentPeriod - 1) * 10 + 1;
   const endDay = Math.min(currentPeriod * 10, 31);
   
-  // ✅ Helper function to normalize dates
   const normalizeDate = (dateString) => {
     if (!dateString) return null;
-    // Convert "2026-02-01T00:00:00.000000Z" to "2026-02-01"
+
     return dateString.split('T')[0];
   };
   
-  // Group meals by date
   const mealsByDate = {};
   nutritionPlan.meals.forEach(meal => {
     const normalizedDate = normalizeDate(meal.meal_date);
@@ -107,7 +104,6 @@ const getCurrentPeriodDays = () => {
 
   console.log('📊 Meals grouped by date:', mealsByDate);
 
-  // ✅ Get month_start_date safely
   let monthStartDate;
   if (nutritionPlan.plan?.month_start_date) {
     monthStartDate = new Date(nutritionPlan.plan.month_start_date);
@@ -118,7 +114,6 @@ const getCurrentPeriodDays = () => {
 
   console.log('📅 Month start date:', monthStartDate);
 
-  // Create days array
   const days = [];
   for (let day = startDay; day <= endDay; day++) {
     const date = new Date(monthStartDate);
@@ -137,7 +132,6 @@ const getCurrentPeriodDays = () => {
     
     console.log(`✅ Day ${day} has ${dayMeals.length} meals`);
     
-    // Calculate totals
     let totalCalories = 0;
     let totalProtein = 0;
     let totalCarbs = 0;
@@ -294,7 +288,6 @@ const getCurrentPeriodDays = () => {
                     setSelectedMeal(null);
                   }}
                 >
-                  {/* نفس الـ today-badge الذي في الـ calendar card - الزاوية العليا اليمنى */}
                   {isToday && (
                     <motion.div
                       className="day-btn-today-badge"
@@ -307,7 +300,6 @@ const getCurrentPeriodDays = () => {
                     </motion.div>
                   )}
 
-                  {/* نفس الـ day-number-badge بـ today-indicator + FaCalendarDay */}
                   <span className="day-number">
                     {isToday && (
                       <motion.span

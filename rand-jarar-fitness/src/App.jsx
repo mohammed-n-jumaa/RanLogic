@@ -94,7 +94,6 @@ function App() {
     }
   }, [loading]);
 
-  // ✅ Page Effects + Custom Cursor
   useEffect(() => {
     const initPageEffects = () => {
       document.documentElement.style.scrollBehavior = 'smooth';
@@ -152,7 +151,6 @@ function App() {
       `;
       document.head.appendChild(style);
 
-      // Only desktop cursor
       if (window.innerWidth > 768) {
         const cursorDot = document.createElement('div');
         cursorDot.className = 'cursor-dot';

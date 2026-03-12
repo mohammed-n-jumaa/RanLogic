@@ -6,7 +6,6 @@ import MealCard from './MealCard';
 const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMealItem }) => {
   const { t } = useProfileLanguage();
 
-  // إذا لم يكن هناك وجبات، نعرض رسالة مميزة
   if (!meals || meals.length === 0) {
     return (
       <motion.div 

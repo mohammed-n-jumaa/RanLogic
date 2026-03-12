@@ -4,7 +4,6 @@
  * ✅ Production only - No logs in development/preview
  */
 
-// Core Web Vitals thresholds
 const THRESHOLDS = {
   LCP: { good: 2500, needsImprovement: 4000 },
   FID: { good: 100, needsImprovement: 300 },
@@ -13,7 +12,6 @@ const THRESHOLDS = {
   TTFB: { good: 800, needsImprovement: 1800 }
 };
 
-// ✅ تشغيل فقط في الإنتاج
 const IS_PRODUCTION = typeof window !== 'undefined' && 
   import.meta.env?.PROD === true && 
   window.location.hostname !== 'localhost' && 
@@ -51,7 +49,6 @@ export const trackLCP = (callback) => {
 
     observer.observe({ type: 'largest-contentful-paint', buffered: true });
   } catch (error) {
-    // Silent fail in production
   }
 };
 
@@ -78,7 +75,7 @@ export const trackFID = (callback) => {
 
     observer.observe({ type: 'first-input', buffered: true });
   } catch (error) {
-    // Silent fail
+
   }
 };
 
@@ -113,7 +110,7 @@ export const trackCLS = (callback) => {
 
     observer.observe({ type: 'layout-shift', buffered: true });
   } catch (error) {
-    // Silent fail
+
   }
 };
 
@@ -140,7 +137,6 @@ export const trackFCP = (callback) => {
 
     observer.observe({ type: 'paint', buffered: true });
   } catch (error) {
-    // Silent fail
   }
 };
 
@@ -164,7 +160,6 @@ export const trackTTFB = (callback) => {
       });
     }
   } catch (error) {
-    // Silent fail
   }
 };
 
@@ -181,7 +176,6 @@ export const initCoreWebVitals = () => {
   const reportMetric = (metric) => {
     metrics[metric.name] = metric;
 
-    // Send to analytics if available
     if (window.gtag) {
       window.gtag('event', metric.name, {
         event_category: 'Web Vitals',
@@ -212,7 +206,6 @@ export const trackPageLoad = () => {
       const perfData = performance.timing;
       const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
 
-      // Send to analytics
       if (window.gtag) {
         window.gtag('event', 'timing_complete', {
           name: 'page_load',

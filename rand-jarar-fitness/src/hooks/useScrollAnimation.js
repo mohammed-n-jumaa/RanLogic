@@ -36,7 +36,6 @@ export const useScrollAnimation = (delay = 0) => {
   return { ref, controls, variants };
 };
 
-// Hook للتأثيرات Stagger
 export const useStaggerAnimation = (itemCount) => {
   const container = {
     hidden: { opacity: 0 },

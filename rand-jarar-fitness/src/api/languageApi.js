@@ -1,10 +1,10 @@
 import api from './index';
 
 const languageApi = {
-  // تغيير لغة المستخدم (محلي فقط بدون API)
+
   changeLanguage: async (language) => {
     try {
-      // تغيير اللغة محلياً فقط بدون إرسال للخادم
+
       const response = { 
         data: { 
           success: true, 
@@ -20,7 +20,6 @@ const languageApi = {
     } catch (error) {
       console.error('Error changing language:', error);
       
-      // Fallback: تغيير محلي فقط
       const fallbackResponse = { 
         data: { 
           success: true, 
@@ -36,7 +35,6 @@ const languageApi = {
     }
   },
 
-  // جلب الشعار مع اللغة الحالية
   getActiveLogo: async () => {
     try {
       const response = await api.get('/logo/active');
@@ -51,7 +49,6 @@ const languageApi = {
     }
   },
 
-  // جلب بيانات الهيرو سيكشن
   getHeroSection: async () => {
     try {
       const language = localStorage.getItem('language') || 'ar';
@@ -65,7 +62,6 @@ const languageApi = {
     }
   },
 
-  // جبل بيانات "عن المدرب"
   getAboutCoach: async () => {
     try {
       const language = localStorage.getItem('language') || 'ar';
@@ -79,7 +75,6 @@ const languageApi = {
     }
   },
 
-  // جلب الشهادات
   getCertifications: async () => {
     try {
       const language = localStorage.getItem('language') || 'ar';
@@ -93,12 +88,10 @@ const languageApi = {
     }
   },
 
-  // جلب كل البيانات للصفحة الرئيسية
   getHomePageData: async () => {
     try {
       const language = localStorage.getItem('language') || 'ar';
       
-      // جلب كل البيانات بالتوازي
       const [heroData, aboutData, certsData] = await Promise.all([
         this.getHeroSection(),
         this.getAboutCoach(),
@@ -117,7 +110,6 @@ const languageApi = {
     }
   },
 
-  // التحقق من اتصال API
   checkApiConnection: async () => {
     try {
       await api.get('/');
@@ -134,9 +126,6 @@ const languageApi = {
   }
 };
 
-// ===================================
-// البيانات الافتراضية
-// ===================================
 
 const getDefaultHeroData = () => {
   const language = localStorage.getItem('language') || 'ar';

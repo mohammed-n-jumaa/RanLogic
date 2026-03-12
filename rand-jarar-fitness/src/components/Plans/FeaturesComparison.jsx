@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 
 const FeaturesComparison = ({ plans }) => {
-  // ✅ Updated to match getDefaultPlans() content exactly
+
   const allFeatures = [
     {
       name: 'Customized workout plan (Gym or Home)',
@@ -21,8 +21,8 @@ const FeaturesComparison = ({ plans }) => {
     {
       name: 'Monthly plan updates',
       basic: true,
-      elite: true, // Elite includes everything in Basic
-      vip: true, // VIP includes everything in Elite
+      elite: true, 
+      vip: true,
       nutrition: false
     },
     {

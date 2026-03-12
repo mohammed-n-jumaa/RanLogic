@@ -48,7 +48,6 @@ const FAQ = () => {
     e.preventDefault();
     
     try {
-      // Validate form
       if (!formData.question.trim() || !formData.name.trim() || !formData.email.trim()) {
         Swal.fire({
           title: isArabic ? 'يرجى تعبئة جميع الحقول' : 'Please fill all fields',
@@ -59,7 +58,6 @@ const FAQ = () => {
         return;
       }
 
-      // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
         Swal.fire({
@@ -115,7 +113,6 @@ const FAQ = () => {
     }
   };
 
-  // عرض حالة التحميل
   if (loading) {
     return (
       <div className="faq-container">
@@ -127,7 +124,6 @@ const FAQ = () => {
     );
   }
 
-  // عرض حالة الخطأ
   if (error || !faqData) {
     return (
       <div className="faq-container">
@@ -146,7 +142,6 @@ const FAQ = () => {
 
   const { section, questions = [] } = faqData;
 
-  // تصفية الأسئلة بناءً على البحث
   const filteredQuestions = searchQuery.trim() === '' 
     ? questions 
     : questions.filter(q => 
@@ -155,7 +150,6 @@ const FAQ = () => {
         q.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-  // الحصول على الفئات الفريدة
   const categories = [...new Set(filteredQuestions.map(q => q.category))];
 
   return (

@@ -19,7 +19,6 @@ export const scrollToTop = () => {
   });
 };
 
-// تأثيرات Parallax
 export const initParallax = () => {
   const parallaxElements = document.querySelectorAll('.parallax-element');
   

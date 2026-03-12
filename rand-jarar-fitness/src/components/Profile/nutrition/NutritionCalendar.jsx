@@ -5,7 +5,6 @@ import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext';
 const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) => {
   const { t } = useProfileLanguage();
 
-  // الحصول على رقم اليوم الحالي من الشهر
   const getCurrentDayOfMonth = () => {
     const today = new Date();
     return today.getDate();

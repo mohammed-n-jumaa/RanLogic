@@ -17,20 +17,19 @@
   padding: 1rem;
   direction: ltr;
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch; /* للنعومة على iOS */
+  -webkit-overflow-scrolling: touch; 
   backdrop-filter: blur(5px);
   
-  /* إخفاء scrollbar على بعض المتصفحات */
   &::-webkit-scrollbar {
     display: none;
   }
   
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
   
   @media (max-width: $breakpoint-mobile) {
     padding: 0;
-    align-items: flex-start; /* للتأكد من أن المحتوى يبدأ من الأعلى */
+    align-items: flex-start;
   }
 }
 

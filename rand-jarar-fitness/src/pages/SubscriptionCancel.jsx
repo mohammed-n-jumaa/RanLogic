@@ -13,7 +13,7 @@ const SubscriptionCancel = () => {
   const subscriptionId = searchParams.get('subscription_id');
 
   useEffect(() => {
-    // يمكنك هنا تحديث حالة الاشتراك إلى "cancelled" في قاعدة البيانات
+
     console.log('Payment cancelled for subscription:', subscriptionId);
   }, [subscriptionId]);
 

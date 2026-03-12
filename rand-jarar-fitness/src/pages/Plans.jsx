@@ -36,7 +36,7 @@ const Plans = () => {
 
   useEffect(() => {
     fetchPlans();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [currentLang]);
 
   const fetchPlans = async () => {
@@ -50,7 +50,6 @@ const Plans = () => {
         const data = response.data;
         setPlans(data);
 
-        // Generate structured data for plans
         const offersSchema = data.map((plan) => {
           const prices = Array.isArray(plan?.durations)
             ? plan.durations.map((d) => parseFloat(d.price)).filter((p) => !Number.isNaN(p))
@@ -64,7 +63,6 @@ const Plans = () => {
           });
         });
 
-        // ItemList schema for all plans
         const itemListSchema = {
           '@context': 'https://schema.org',
           '@type': 'ItemList',
@@ -85,7 +83,7 @@ const Plans = () => {
                 priceCurrency: 'JOD',
                 availability: 'https://schema.org/InStock',
                 validFrom: new Date().toISOString(),
-                priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString() // 90 days
+                priceValidUntil: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString() 
               }))
             }
           }))
@@ -114,7 +112,6 @@ const Plans = () => {
     navigate('/profile');
   };
 
-  // Loading state
   if (loading) {
     return (
       <>
@@ -138,7 +135,6 @@ const Plans = () => {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <>

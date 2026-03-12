@@ -195,20 +195,18 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
       age: parseInt(formData.age),
       gender: formData.gender,
       goal: formData.goal,
-      workout_place: formData.workoutPlace, // ✅ تصحيح اسم الحقل
-      health_notes: formData.healthNotes.trim(), // ✅ تصحيح اسم الحقل
+      workout_place: formData.workoutPlace, 
+      health_notes: formData.healthNotes.trim(), 
       program: formData.program.trim()
     };
 
-    // ✅ إضافة الصورة إذا تغيرت
     if (avatarPreview && avatarPreview !== userData.avatar_url) {
       updatedUser.avatar = avatarPreview;
     }
 
-    // ✅ إضافة كلمة المرور مع التأكيد
     if (formData.password && formData.password.trim() !== '') {
       updatedUser.password = formData.password.trim();
-      updatedUser.password_confirmation = formData.confirmPassword.trim(); // ✅ هذا مهم جداً!
+      updatedUser.password_confirmation = formData.confirmPassword.trim(); 
       
       console.log('Sending password data:', {
         has_password: !!updatedUser.password,

@@ -11,7 +11,7 @@ const RenewalCard = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
   const [showPayment, setShowPayment] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('paypal');
-  const [selectedPlan, setSelectedPlan] = useState('elite'); // Default to elite
+  const [selectedPlan, setSelectedPlan] = useState('elite'); 
   const [selectedDuration, setSelectedDuration] = useState('1month');
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -74,7 +74,6 @@ const RenewalCard = ({ userData, delay }) => {
   const daysLeft = calculateDaysLeft();
   const isExpiringSoon = daysLeft <= 7;
 
-  // خطط الاشتراك
   const availablePlans = [
     { value: 'basic', labelAr: 'خطة Basic', labelEn: 'Basic Plan', price: 39, icon: '💪' },
     { value: 'nutrition', labelAr: 'خطة Nutrition', labelEn: 'Nutrition Plan', price: 49, icon: '🥗' },
@@ -82,14 +81,12 @@ const RenewalCard = ({ userData, delay }) => {
     { value: 'vip', labelAr: 'خطة VIP', labelEn: 'VIP Plan', price: 149, icon: '👑' }
   ];
 
-  // مدد الاشتراك
   const durations = [
     { value: '1month', labelAr: 'شهر واحد', labelEn: '1 Month', discount: 0 },
     { value: '3months', labelAr: '3 أشهر', labelEn: '3 Months', discount: 5 },
     { value: '6months', labelAr: '6 أشهر', labelEn: '6 Months', discount: 10 }
   ];
 
-  // حساب السعر
   const selectedPlanData = availablePlans.find(p => p.value === selectedPlan);
   const selectedDurationData = durations.find(d => d.value === selectedDuration);
   

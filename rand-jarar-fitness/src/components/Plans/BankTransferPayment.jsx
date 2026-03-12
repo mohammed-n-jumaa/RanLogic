@@ -21,7 +21,6 @@ const BankTransferPayment = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [bankDetails, setBankDetails] = useState(null);
 
-  // ✅ جلب تفاصيل البنك (تصحيح: useEffect بدل useState)
   useEffect(() => {
     const fetchBankDetails = async () => {
       try {
@@ -103,7 +102,7 @@ const BankTransferPayment = ({
     setIsSubmitting(true);
 
     try {
-      // إنشاء اشتراك بنك تحويل
+
       const subscriptionData = {
         plan_type: planId,
         duration: duration,

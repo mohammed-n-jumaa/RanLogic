@@ -1,7 +1,7 @@
 import api from './index';
 
 const certificationApi = {
-  // جلب الشهادات النشطة للصفحة العامة
+
   getCertifications: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -11,12 +11,11 @@ const certificationApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching certifications:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+
       return getDefaultCertifications(lang);
     }
   },
 
-  // جلب جميع الشهادات للوحة الإدارة
   getAdminCertifications: async () => {
     try {
       const response = await api.get('/admin/certifications');
@@ -27,7 +26,6 @@ const certificationApi = {
     }
   },
 
-  // إنشاء شهادة جديدة
   createCertification: async (data) => {
     try {
       const response = await api.post('/admin/certifications', data);
@@ -38,7 +36,6 @@ const certificationApi = {
     }
   },
 
-  // تحديث شهادة
   updateCertification: async (id, data) => {
     try {
       const response = await api.put(`/admin/certifications/${id}`, data);
@@ -49,7 +46,6 @@ const certificationApi = {
     }
   },
 
-  // حذف شهادة
   deleteCertification: async (id) => {
     try {
       const response = await api.delete(`/admin/certifications/${id}`);
@@ -60,7 +56,6 @@ const certificationApi = {
     }
   },
 
-  // إعادة ترتيب الشهادات
   reorderCertifications: async (order) => {
     try {
       const response = await api.post('/admin/certifications/reorder', { order });
@@ -71,7 +66,6 @@ const certificationApi = {
     }
   },
 
-  // تحديث شامل للشهادات
   bulkUpdateCertifications: async (certifications) => {
     try {
       const response = await api.post('/admin/certifications/bulk-update', { certifications });
@@ -83,7 +77,6 @@ const certificationApi = {
   }
 };
 
-// بيانات افتراضية للشهادات
 const getDefaultCertifications = (language = 'ar') => {
   const isArabic = language === 'ar';
   

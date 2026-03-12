@@ -1,7 +1,7 @@
 import api from './index';
 
 const testimonialApi = {
-  // جبل البيانات لصفحة Testimonials العامة
+
   getTestimonials: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -11,12 +11,11 @@ const testimonialApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching testimonials:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+      
       return getDefaultTestimonials(lang);
     }
   },
 
-  // جبل البيانات للوحة الإدارة
   getAdminTestimonials: async () => {
     try {
       const response = await api.get('/admin/testimonials');
@@ -27,7 +26,6 @@ const testimonialApi = {
     }
   },
 
-  // تحديث إعدادات القسم
   updateSection: async (data) => {
     try {
       const response = await api.put('/admin/testimonials/section', data);
@@ -38,7 +36,6 @@ const testimonialApi = {
     }
   },
 
-  // تحديث شامل للآراء
   updateAll: async (data) => {
     try {
       const response = await api.post('/admin/testimonials/update-all', data);
@@ -49,7 +46,6 @@ const testimonialApi = {
     }
   },
 
-  // رفع صورة رأي
   uploadImage: async (id, file) => {
     try {
       const formData = new FormData();
@@ -67,7 +63,6 @@ const testimonialApi = {
     }
   },
 
-  // حذف صورة رأي
   deleteImage: async (id) => {
     try {
       const response = await api.delete(`/admin/testimonials/${id}/image`);
@@ -79,7 +74,6 @@ const testimonialApi = {
   }
 };
 
-// بيانات افتراضية للـ Testimonials
 const getDefaultTestimonials = (language = 'ar') => {
   const isArabic = language === 'ar';
   

@@ -24,7 +24,6 @@ const Header = () => {
   const navigate = useNavigate();
   const userDropdownRef = useRef(null);
 
-  // الصورة الافتراضية للمستخدم حسب الجنس
   const getDefaultAvatar = (user) => {
     console.log('User data in getDefaultAvatar:', user);
     
@@ -151,7 +150,6 @@ const Header = () => {
     setMenuOpen(false);
   };
 
-  // البيانات الثابتة للروابط
   const pageLinks = currentLang === 'ar' ? [
     { name: 'الرئيسية', path: '/' },
     { name: 'الأسئلة الشائعة', path: '/faq' }

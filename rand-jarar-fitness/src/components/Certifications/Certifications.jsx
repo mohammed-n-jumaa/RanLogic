@@ -4,7 +4,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import certificationApi from '../../api/certificationApi';
 import './Certifications.scss';
 
-// رموز الأيقونات لكل شهادة
 const getIconComponent = (icon) => {
   switch(icon) {
     case '🎖️': return '🎖️';
@@ -42,7 +41,7 @@ const Certifications = () => {
       const response = await certificationApi.getCertifications(currentLang);
       
       if (response.success && response.data) {
-        // ترتيب الشهادات حسب الـ order
+
         const sortedCerts = [...response.data].sort((a, b) => a.order - b.order);
         setCertifications(sortedCerts);
       } else {
@@ -56,15 +55,12 @@ const Certifications = () => {
     }
   };
 
-  // إنشاء عناصر لا نهائية للتمرير (للغتين العربية والإنجليزية)
   const createInfiniteItems = () => {
     if (certifications.length === 0) return [];
     
     let infiniteItems = [];
     
-    // ننسخ الشهادات عدة مرات لضمان التمرير اللامتناهي
-    // نستخدم عدد أكبر من النسخ لضمان عدم رؤية النهاية
-    const numberOfCopies = 8; // نسخ أقل قليلاً لأن السرعة أبطأ
+    const numberOfCopies = 8; 
     
     for (let copyIndex = 0; copyIndex < numberOfCopies; copyIndex++) {
       certifications.forEach((cert, certIndex) => {
@@ -85,7 +81,6 @@ const Certifications = () => {
     console.log(`Clicked on certification: ${cert.organization} - ${cert.title}`);
   };
 
-  // عرض حالة التحميل
   if (loading) {
     return (
       <section className="certifications" aria-label="Certified Credentials">
@@ -97,7 +92,6 @@ const Certifications = () => {
     );
   }
 
-  // عرض حالة الخطأ
   if (error) {
     return (
       <section className="certifications" aria-label="Certified Credentials">
@@ -114,7 +108,6 @@ const Certifications = () => {
     );
   }
 
-  // إذا لم توجد شهادات
   if (certifications.length === 0) {
     return (
       <section className="certifications" aria-label="Certified Credentials">

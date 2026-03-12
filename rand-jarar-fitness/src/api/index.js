@@ -10,7 +10,6 @@ const api = axios.create({
   timeout: 60000, 
 });
 
-// Interceptor لإضافة التوكن للطلبات المحمية
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token');
@@ -18,7 +17,6 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    // إضافة لغة المستخدم إلى الهيدر
     const language = localStorage.getItem('language') || 'ar';
     config.headers['Accept-Language'] = language;
     
@@ -29,7 +27,6 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor للتعامل مع الأخطاء
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -38,10 +35,10 @@ api.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          // إذا كان الخطأ 401 (غير مصرح) نقوم بتسجيل الخروج
-          localStorage.removeItem('auth_token');
-          // إعادة التوجيه إلى صفحة تسجيل الدخول فقط إذا لم يكن في صفحة auth
-          if (!window.location.pathname.includes('/auth')) {
+
+        localStorage.removeItem('auth_token');
+
+        if (!window.location.pathname.includes('/auth')) {
             window.location.href = '/auth';
           }
           break;
@@ -70,7 +67,6 @@ api.interceptors.response.use(
   }
 );
 
-// دالة مساعدة للتحقق من الاتصال
 api.checkConnection = async () => {
   try {
     const response = await api.get('/');

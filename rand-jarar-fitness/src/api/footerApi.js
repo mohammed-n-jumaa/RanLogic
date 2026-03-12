@@ -1,7 +1,7 @@
 import api from './index';
 
 const footerApi = {
-  // جلب بيانات الفوتر للصفحة العامة
+
   getFooter: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -9,12 +9,11 @@ const footerApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching footer:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+
       return getDefaultFooterData(lang);
     }
   },
 
-  // جلب بيانات الفوتر للوحة الإدارة
   getFooterForAdmin: async () => {
     try {
       const response = await api.get('/admin/footer');
@@ -25,7 +24,6 @@ const footerApi = {
     }
   },
 
-  // تحديث روابط السوشيال ميديا فقط
   updateSocialLinks: async (socialLinks) => {
     try {
       const response = await api.put('/admin/footer', { social_links: socialLinks });
@@ -36,7 +34,6 @@ const footerApi = {
     }
   },
 
-  // منصات السوشيال ميديا المدعومة
   socialPlatforms: [
     { value: 'facebook', label: 'Facebook', icon: 'fab fa-facebook-f', color: '#1877F2' },
     { value: 'instagram', label: 'Instagram', icon: 'fab fa-instagram', color: '#E4405F' },
@@ -48,7 +45,6 @@ const footerApi = {
     { value: 'snapchat', label: 'Snapchat', icon: 'fab fa-snapchat-ghost', color: '#FFFC00' },
   ],
 
-  // روابط سريعة ثابتة
   quickLinks: [
     { text_en: 'Home', text_ar: 'الرئيسية', url: '#home' },
     { text_en: 'About Coach', text_ar: 'عن المدرب', url: '#about' },
@@ -56,14 +52,12 @@ const footerApi = {
     { text_en: 'Testimonials', text_ar: 'آراء العملاء', url: '#testimonials' },
   ],
 
-  // روابط قانونية ثابتة
   legalLinks: [
     { text_en: 'Privacy Policy', text_ar: 'سياسة الخصوصية', url: '/privacy' },
     { text_en: 'Terms & Conditions', text_ar: 'الشروط والأحكام', url: '/terms' },
   ],
 };
 
-// بيانات افتراضية للفوتر
 const getDefaultFooterData = (language = 'ar') => {
   const isArabic = language === 'ar';
   

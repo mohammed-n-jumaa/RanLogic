@@ -6,7 +6,6 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import aboutApi from '../../api/aboutApi';
 import './About.scss';
 
-// رموز الأيقونات لكل ميزة
 const getIconComponent = (icon) => {
   switch(icon) {
     case '👥': return '👥';
@@ -101,7 +100,6 @@ const About = () => {
     }
   };
 
-  // عرض حالة التحميل
   if (loading) {
     return (
       <section className="about" id="about">
@@ -115,7 +113,6 @@ const About = () => {
     );
   }
 
-  // عرض حالة الخطأ
   if (error || !aboutData) {
     return (
       <section className="about" id="about">
@@ -143,7 +140,6 @@ const About = () => {
     features = [] 
   } = aboutData;
 
-  // دالة لتنسيق النص القادم من قاعدة البيانات
   const formatDescription = (html) => {
     if (!html) return '';
     

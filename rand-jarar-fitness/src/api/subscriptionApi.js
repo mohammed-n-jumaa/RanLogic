@@ -53,7 +53,6 @@ const subscriptionApi = {
     }
   },
 
-  // رفع إيصال بنك تحويل
   uploadBankReceipt: async (subscriptionId, data) => {
     try {
       const formData = new FormData();
@@ -71,7 +70,6 @@ const subscriptionApi = {
     }
   },
 
-  // جلب اشتراكات المستخدم
   getUserSubscriptions: async () => {
     try {
       const response = await api.get('/subscriptions/my-subscriptions');
@@ -82,7 +80,6 @@ const subscriptionApi = {
     }
   },
 
-  // جلب الاشتراك النشط
   getActiveSubscription: async () => {
     try {
       const response = await api.get('/subscriptions/active');
@@ -93,7 +90,6 @@ const subscriptionApi = {
     }
   },
 
-  // جلب تفاصيل البنك (مؤقت)
   getBankDetails: async () => {
     try {
       const response = await api.get('/subscriptions/bank-details');
@@ -115,7 +111,6 @@ const subscriptionApi = {
   }
 };
 
-// بيانات افتراضية للخطط
 const getDefaultPlans = (language = 'ar') => {
   const isArabic = language === 'ar';
 

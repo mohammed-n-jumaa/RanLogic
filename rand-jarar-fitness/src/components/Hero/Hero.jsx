@@ -61,7 +61,6 @@ const Hero = () => {
     }
   };
 
-  // عرض حالة التحميل
   if (loading) {
     return (
       <section className="hero" id="home">
@@ -78,7 +77,6 @@ const Hero = () => {
     );
   }
 
-  // عرض حالة الخطأ
   if (error || !heroData) {
     return (
       <section className="hero" id="home">

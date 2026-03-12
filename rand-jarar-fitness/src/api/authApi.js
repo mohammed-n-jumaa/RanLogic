@@ -1,9 +1,8 @@
 import api from './index';
 
 const authApi = {
-  /**
-   * تسجيل دخول المستخدم
-   */
+ 
+
   login: async (email, password) => {
     try {
       const response = await api.post('/auth/login', {
@@ -16,7 +15,6 @@ const authApi = {
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         localStorage.setItem('is_authenticated', 'true');
         
-        // تعيين وقت آخر نشاط
         authApi.updateLastActivity();
 
         if (response.data.data.user?.language) {
@@ -35,9 +33,7 @@ const authApi = {
     }
   },
 
-  /**
-   * تسجيل مستخدم جديد
-   */
+ 
   register: async (userData) => {
     try {
       const response = await api.post('/auth/register', userData);
@@ -47,7 +43,6 @@ const authApi = {
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         localStorage.setItem('is_authenticated', 'true');
         
-        // تعيين وقت آخر نشاط
         authApi.updateLastActivity();
 
         if (response.data.data.user?.language) {
@@ -66,14 +61,11 @@ const authApi = {
     }
   },
 
-  /**
-   * جلب معلومات المستخدم الحالي (من السيرفر)
-   */
+ 
   me: async () => {
     try {
       const response = await api.get('/auth/me');
       
-      // تحديث وقت آخر نشاط بعد طلب ناجح
       if (response.data.success) {
         authApi.updateLastActivity();
       }
@@ -88,23 +80,17 @@ const authApi = {
     }
   },
 
-  /**
-   * ✅ حفظ بيانات المستخدم في localStorage بشكل موحّد
-   */
+  
   setUser: (user) => {
     if (!user) return;
     localStorage.setItem('user', JSON.stringify(user));
 
-    // لو عندك لغة ضمن user
     if (user?.language) {
       localStorage.setItem('language', user.language);
     }
   },
 
-  /**
-   * ✅ تحديث بيانات المستخدم من السيرفر ثم تخزينها
-   * ترجع: { success, data: user }
-   */
+ 
   refreshUser: async () => {
     const res = await authApi.me();
     if (res?.success && res?.data) {
@@ -114,9 +100,7 @@ const authApi = {
     return { success: false, message: res?.message || 'فشل تحديث بيانات المستخدم' };
   },
 
-  /**
-   * تسجيل خروج (جهاز واحد)
-   */
+ 
   logout: async () => {
     try {
       const response = await api.post('/auth/logout');
@@ -132,9 +116,7 @@ const authApi = {
     }
   },
 
-  /**
-   * تسجيل خروج من جميع الأجهزة
-   */
+ 
   logoutAll: async () => {
     try {
       const response = await api.post('/auth/logout-all');
@@ -150,9 +132,7 @@ const authApi = {
     }
   },
 
-  /**
-   * تحديث التوكن
-   */
+
   refresh: async () => {
     try {
       const response = await api.post('/auth/refresh');
@@ -172,18 +152,13 @@ const authApi = {
     }
   },
 
-  /**
-   * التحقق من حالة المصادقة
-   */
   isAuthenticated: () => {
     const token = localStorage.getItem('auth_token');
     const isAuth = localStorage.getItem('is_authenticated');
     return !!(token && isAuth === 'true');
   },
 
-  /**
-   * جلب بيانات المستخدم المخزنة
-   */
+ 
   getUser: () => {
     try {
       const userStr = localStorage.getItem('user');
@@ -194,16 +169,12 @@ const authApi = {
     }
   },
 
-  /**
-   * جلب التوكن المخزن
-   */
+  
   getToken: () => {
     return localStorage.getItem('auth_token');
   },
 
-  /**
-   * مسح بيانات المصادقة
-   */
+ 
   clearAuthData: () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
@@ -211,49 +182,39 @@ const authApi = {
     localStorage.removeItem('last_activity');
   },
 
-  /**
-   * التحقق إذا كان المستخدم مدير
-   */
+  
   isAdmin: () => {
     const user = authApi.getUser();
     return user?.role === 'admin';
   },
 
-  /**
-   * التحقق إذا كان المستخدم مشترك
-   */
+ 
   hasActiveSubscription: () => {
     const user = authApi.getUser();
     return user?.has_active_subscription === true;
   },
 
-  /**
-   * تحديث وقت آخر نشاط
-   */
+ 
   updateLastActivity: () => {
     if (authApi.isAuthenticated()) {
       localStorage.setItem('last_activity', Date.now().toString());
     }
   },
 
-  /**
-   * الحصول على وقت آخر نشاط
-   */
+ 
   getLastActivity: () => {
     const lastActivity = localStorage.getItem('last_activity');
     return lastActivity ? parseInt(lastActivity) : null;
   },
 
-  /**
-   * التحقق من صلاحية الجلسة بناءً على آخر نشاط
-   */
+ 
   isSessionValid: (timeoutMinutes = 30) => {
     if (!authApi.isAuthenticated()) return false;
 
     const lastActivity = authApi.getLastActivity();
     
     if (!lastActivity) {
-      // إذا لم يكن هناك سجل للنشاط، احفظ الوقت الحالي
+
       authApi.updateLastActivity();
       return true;
     }
@@ -265,9 +226,7 @@ const authApi = {
     return timeSinceLastActivity <= timeoutDuration;
   },
 
-  /**
-   * الحصول على الوقت المتبقي للجلسة بالدقائق
-   */
+  
   getRemainingSessionTime: (timeoutMinutes = 30) => {
     if (!authApi.isAuthenticated()) return 0;
 
@@ -279,7 +238,7 @@ const authApi = {
     const timeoutDuration = timeoutMinutes * 60 * 1000;
     const remainingTime = timeoutDuration - timeSinceLastActivity;
 
-    return Math.max(0, Math.floor(remainingTime / 60000)); // تحويل لدقائق
+    return Math.max(0, Math.floor(remainingTime / 60000)); 
   },
 };
 

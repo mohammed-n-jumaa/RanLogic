@@ -7,9 +7,9 @@ export const pricingPlans = [
     tagline: 'للبداية المثالية',
     icon: FaDumbbell,
     monthlyPrice: 99,
-    yearlyPrice: 950, // خصم ~20%
+    yearlyPrice: 950, 
     duration: 'شهر واحد',
-    color: '#3b82f6', // أزرق
+    color: '#3b82f6', 
     gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     features: [
       { text: 'برنامج تدريب مخصص', included: true },
@@ -30,7 +30,7 @@ export const pricingPlans = [
     tagline: 'الأكثر شعبية',
     icon: FaFire,
     monthlyPrice: 299,
-    yearlyPrice: 2870, // خصم ~20%
+    yearlyPrice: 2870,
     duration: '3 أشهر',
     color: '#E91E63',
     gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
@@ -53,7 +53,7 @@ export const pricingPlans = [
     tagline: 'التجربة الكاملة',
     icon: FaCrown,
     monthlyPrice: 599,
-    yearlyPrice: 5750, // خصم ~20%
+    yearlyPrice: 5750,
     duration: '6 أشهر',
     color: '#fbbf24',
     gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',

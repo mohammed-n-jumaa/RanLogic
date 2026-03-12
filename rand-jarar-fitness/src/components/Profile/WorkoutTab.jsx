@@ -26,7 +26,7 @@ const WorkoutTab = () => {
     console.log('📊 Workout response in component:', response);
     
     if (response.success && response.data) {
-      // ✅ response.data contains { plan, exercises }
+
       setWorkoutPlan(response.data);
     } else {
       setWorkoutPlan(null);
@@ -58,7 +58,6 @@ const WorkoutTab = () => {
     }
   };
 
-  // ✅ Get current 10-day period workouts - with date normalization
 const getCurrentPeriodWorkouts = () => {
   if (!workoutPlan?.exercises || workoutPlan.exercises.length === 0) return [];
   
@@ -67,14 +66,12 @@ const getCurrentPeriodWorkouts = () => {
   const startDay = (currentPeriod - 1) * 10 + 1;
   const endDay = Math.min(currentPeriod * 10, 31);
   
-  // ✅ Helper function to normalize dates
   const normalizeDate = (dateString) => {
     if (!dateString) return null;
-    // Convert "2026-02-01T00:00:00.000000Z" to "2026-02-01"
+
     return dateString.split('T')[0];
   };
   
-  // Group exercises by date
   const exercisesByDate = {};
   workoutPlan.exercises.forEach(exercise => {
     const normalizedDate = normalizeDate(exercise.exercise_date);
@@ -98,7 +95,6 @@ const getCurrentPeriodWorkouts = () => {
     { nameAr: 'السبت', nameEn: 'Saturday' }
   ];
 
-  // ✅ Get month_start_date safely
   let monthStartDate;
   if (workoutPlan.plan?.month_start_date) {
     monthStartDate = new Date(workoutPlan.plan.month_start_date);
@@ -111,7 +107,6 @@ const getCurrentPeriodWorkouts = () => {
 
   const days = [];
   
-  // For each day in the current period (max 7 days for a week view)
   for (let day = startDay; day <= Math.min(endDay, startDay + 6); day++) {
     const date = new Date(monthStartDate);
     date.setDate(day);

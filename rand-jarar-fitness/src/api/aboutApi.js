@@ -1,7 +1,6 @@
 import api from './index';
 
 const aboutApi = {
-  // جلب بيانات "عن المدرب" للصفحة العامة
   getAboutCoach: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -11,12 +10,11 @@ const aboutApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching about coach:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+
       return getDefaultAboutData(lang);
     }
   },
 
-  // جلب بيانات "عن المدرب" للوحة الإدارة
   getAdminAboutCoach: async () => {
     try {
       const response = await api.get('/admin/about-coach');
@@ -27,7 +25,6 @@ const aboutApi = {
     }
   },
 
-  // تحديث بيانات "عن المدرب"
   updateAboutCoach: async (data) => {
     try {
       const response = await api.put('/admin/about-coach', data);
@@ -38,7 +35,6 @@ const aboutApi = {
     }
   },
 
-  // رفع صورة المدرب
   uploadCoachImage: async (file) => {
     try {
       const formData = new FormData();
@@ -56,7 +52,6 @@ const aboutApi = {
     }
   },
 
-  // حذف صورة المدرب
   deleteCoachImage: async () => {
     try {
       const response = await api.delete('/admin/about-coach/image');
@@ -68,7 +63,6 @@ const aboutApi = {
   }
 };
 
-// بيانات افتراضية لـ "عن المدرب"
 const getDefaultAboutData = (language = 'ar') => {
   const isArabic = language === 'ar';
   

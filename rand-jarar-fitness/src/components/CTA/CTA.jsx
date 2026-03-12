@@ -9,7 +9,6 @@ const CTA = () => {
   const navigate = useNavigate();
   const { isArabic } = useLanguage();
 
-  // بيانات ثابتة مترجمة
   const ctaData = isArabic ? {
     titleWords: ['مستعد', 'لتبدأ', 'تحولك؟'],
     description: 'انضم إلى أكثر من 500 متدرب حققوا أهدافهم في اللياقة والصحة',

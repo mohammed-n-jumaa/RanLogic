@@ -1,7 +1,7 @@
 import api from './index';
 
 const faqApi = {
-  // جلب بيانات FAQ للصفحة العامة
+
   getFaq: async (language = null) => {
     try {
       const lang = language || localStorage.getItem('language') || 'ar';
@@ -11,12 +11,11 @@ const faqApi = {
       return response.data;
     } catch (error) {
       console.error('Error fetching FAQ:', error);
-      // إرجاع بيانات افتراضية في حالة الخطأ
+
       return getDefaultFaqData(lang);
     }
   },
 
-  // إرسال سؤال جديد من المستخدم
   submitUserQuestion: async (data) => {
     try {
       const response = await api.post('/faq/user-question', data);
@@ -27,7 +26,6 @@ const faqApi = {
     }
   },
 
-  // جلب بيانات FAQ للوحة الإدارة
   getAdminFaq: async () => {
     try {
       const response = await api.get('/admin/faq');
@@ -38,7 +36,6 @@ const faqApi = {
     }
   },
 
-  // تحديث جميع بيانات FAQ
   updateAllFaq: async (data) => {
     try {
       const response = await api.post('/admin/faq/update-all', data);
@@ -50,7 +47,6 @@ const faqApi = {
   }
 };
 
-// بيانات افتراضية للـ FAQ
 const getDefaultFaqData = (language = 'ar') => {
   const isArabic = language === 'ar';
   

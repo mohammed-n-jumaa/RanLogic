@@ -16,7 +16,7 @@
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
-  direction: ltr; // Add LTR direction
+  direction: ltr; 
 
   @media (max-width: $breakpoint-mobile) {
     padding: 0.5rem;

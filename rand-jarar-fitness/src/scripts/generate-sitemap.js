@@ -12,12 +12,11 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const SITE_URL = 'https://ranlogic.com'; // Replace with actual domain
+const SITE_URL = 'https://ranlogic.com'; 
 const OUTPUT_DIR = path.join(__dirname, '../public');
 const SITEMAP_PATH = path.join(OUTPUT_DIR, 'sitemap.xml');
 const ROBOTS_PATH = path.join(OUTPUT_DIR, 'robots.txt');
 
-// Define all pages with their priorities and change frequencies
 const pages = [
   // Arabic pages (default language)
   {

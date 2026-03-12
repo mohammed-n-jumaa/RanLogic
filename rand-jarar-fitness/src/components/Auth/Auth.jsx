@@ -52,7 +52,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
   const { currentLang, isArabic } = useLanguage();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
   
-  // Refs للتحكم في السكروول
   const formContainerRef = useRef(null);
 
   useEffect(() => {
@@ -64,7 +63,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
       };
       window.addEventListener('keydown', handleEscape);
       
-      // منع scroll للصفحة الأساسية عند فتح المودال
       document.body.style.overflow = 'hidden';
       
       return () => {
@@ -108,7 +106,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
     }
   }, [isOpen, isArabic, onClose]);
 
-  // Real-time validation
   const validateField = (name, value) => {
     let error = '';
 
@@ -165,7 +162,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
     return error;
   };
 
-  // Password strength checker
   const checkPasswordStrength = (password) => {
     const checks = {
       length: password.length >= 8,
@@ -201,25 +197,21 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
       [name]: value
     }));
 
-    // Mark field as touched
     setTouched(prev => ({
       ...prev,
       [name]: true
     }));
 
-    // Real-time validation
     const error = validateField(name, value);
     setErrors(prev => ({
       ...prev,
       [name]: error
     }));
 
-    // Check password strength for register mode
     if (name === 'password' && mode === 'register') {
       const strength = checkPasswordStrength(value);
       setPasswordStrength(strength);
       
-      // إذا تحققت جميع الشروط، قم بإزالة رسالة الخطأ
       if (strength.score === 5 && errors.password) {
         setErrors(prev => ({
           ...prev,
@@ -228,7 +220,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
       }
     }
 
-    // Re-validate password confirmation if password changes
     if (name === 'password' && formData.password_confirmation) {
       const confirmError = validateField('password_confirmation', formData.password_confirmation);
       setErrors(prev => ({
@@ -237,7 +228,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
       }));
     }
 
-    // Clear submit error
     if (errors.submit) {
       setErrors(prev => ({
         ...prev,
@@ -276,7 +266,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
 
     setErrors(newErrors);
     
-    // Mark all fields as touched
     const touchedFields = {};
     fieldsToValidate.forEach(field => {
       touchedFields[field] = true;
@@ -465,7 +454,6 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
 
   if (!isOpen) return null;
 
-  // تسميات الحقول
   const fieldLabels = {
     name: isArabic ? 'الاسم الكامل' : 'Full Name',
     email: isArabic ? 'البريد الإلكتروني' : 'Email',

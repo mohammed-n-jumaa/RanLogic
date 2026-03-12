@@ -1,0 +1,899 @@
+@import '../../styles/variables.scss';
+
+// ===================================
+// MODAL OVERLAY
+// ===================================
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(28, 28, 28, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  direction: ltr; // Add LTR direction
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+}
+
+// ===================================
+// MODAL CONTAINER
+// ===================================
+.edit-profile-modal {
+  background: $background-color;
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: $shadow-lg;
+  display: flex;
+  flex-direction: column;
+  direction: ltr; // Add LTR direction
+
+  @media (max-width: $breakpoint-mobile) {
+    max-height: 95vh;
+    border-radius: $radius-lg $radius-lg $radius-sm $radius-sm;
+    max-width: 100%;
+  }
+}
+
+// ===================================
+// MODAL HEADER
+// ===================================
+.modal-header {
+  background: $gradient-primary;
+  color: $text-white;
+  padding: $spacing-md;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: $text-white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-normal;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      width: 35px;
+      height: 35px;
+      font-size: 1rem;
+    }
+  }
+}
+
+// ===================================
+// MODAL CONTENT
+// ===================================
+.modal-content {
+  padding: $spacing-md;
+  overflow-y: auto;
+  flex: 1;
+  direction: ltr; // Ensure content is LTR
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+  }
+}
+
+// ===================================
+// FORM SECTIONS
+// ===================================
+.form-section {
+  background: $accent-color;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  border: 2px solid $border-color;
+  text-align: left; // Ensure text alignment is left
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+  }
+
+  h3 {
+    color: $secondary-color;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 $spacing-md 0;
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid rgba($primary-color, 0.3);
+    text-align: left; // Ensure heading alignment is left
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.1rem;
+      margin-bottom: $spacing-sm;
+    }
+  }
+}
+
+// ===================================
+// FORM GRID
+// ===================================
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    gap: $spacing-xs;
+  }
+}
+
+// ===================================
+// FORM GROUPS
+// ===================================
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  text-align: left; // Ensure form labels align left
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $text-dark;
+
+    svg {
+      color: $primary-color;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.9rem;
+    }
+  }
+
+  input, select, textarea {
+    padding: 0.85rem 1rem;
+    border: 2px solid $border-color;
+    border-radius: $radius-md;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    background: $background-color;
+    color: $text-dark;
+    transition: all $transition-normal;
+    text-align: left; // Ensure input text aligns left
+
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    }
+
+    &.error {
+      border-color: #dc2626;
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+    }
+
+    &::placeholder {
+      color: $text-light;
+      text-align: left; // Ensure placeholder aligns left
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.75rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  select.select-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%231C1C1C'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center; // Move to right for LTR
+    background-size: 1.5rem;
+    padding-right: 3rem; // Add padding on right
+    padding-left: 1rem; // Standard padding on left
+  }
+
+  textarea.textarea-input {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+    text-align: left; // Ensure textarea text aligns left
+  }
+}
+
+// ===================================
+// RADIO GROUP
+// ===================================
+.radio-group {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  @media (max-width: $breakpoint-mobile) {
+    gap: $spacing-sm;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: $text-dark;
+    padding: 0.5rem 1rem;
+    border: 2px solid $border-color;
+    border-radius: $radius-md;
+    transition: all $transition-normal;
+    text-align: left; // Ensure radio labels align left
+
+    &:hover {
+      border-color: $primary-color;
+      background: rgba($primary-color, 0.05);
+    }
+
+    input[type="radio"] {
+      display: none;
+
+      &:checked + .radio-custom {
+        background: $primary-color;
+        border-color: $primary-color;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+
+    .radio-custom {
+      width: 20px;
+      height: 20px;
+      border: 2px solid $border-color;
+      border-radius: 50%;
+      position: relative;
+      transition: all $transition-normal;
+      order: -1; // Move radio button to left in LTR
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 10px;
+        height: 10px;
+        background: $background-color;
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity $transition-normal;
+      }
+    }
+  }
+}
+
+// ===================================
+// AVATAR SECTION
+// ===================================
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+
+  .avatar-upload {
+    position: relative;
+
+    .avatar-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 4px solid $primary-color;
+      position: relative;
+      box-shadow: $shadow-md;
+
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .avatar-upload-label {
+        position: absolute;
+        bottom: 0;
+        right: 0; // Position in bottom-right corner
+        width: 40px;
+        height: 40px;
+        background: $primary-color;
+        color: $text-white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all $transition-normal;
+
+        &:hover {
+          background: darken($primary-color, 10%);
+          transform: scale(1.1);
+        }
+
+        svg {
+          font-size: 1.2rem;
+        }
+      }
+    }
+
+    .avatar-input {
+      display: none;
+    }
+  }
+}
+
+// ===================================
+// MESSAGE STYLES
+// ===================================
+.success-message {
+  background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  color: #2d5016;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: $spacing-md;
+  animation: slideIn 0.3s ease;
+  border: 2px solid rgba(46, 204, 113, 0.3);
+  box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+  text-align: left; // Ensure message text aligns left
+
+  svg {
+    font-size: 1.3rem;
+    color: #2d5016;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+    gap: 0.5rem;
+    
+    svg {
+      font-size: 1.1rem;
+    }
+    
+    span {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.server-error {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+  color: white;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: $spacing-md;
+  animation: shake 0.5s ease;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+  text-align: left; // Ensure error text aligns left
+
+  svg {
+    font-size: 1.3rem;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  span {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: $spacing-sm;
+    gap: 0.5rem;
+    flex-direction: row; // Keep horizontal on mobile
+    text-align: left;
+    
+    svg {
+      font-size: 1.5rem;
+    }
+    
+    span {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.85rem;
+  margin: 0.25rem 0 0 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: left; // Ensure error messages align left
+
+  &::before {
+    content: '⚠️';
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.8rem;
+    gap: 0.3rem;
+  }
+}
+
+// ===================================
+// CHARACTER COUNT
+// ===================================
+.char-count {
+  text-align: left; // Align character count to left
+  font-size: 0.8rem;
+  color: $text-light;
+  margin-top: 0.5rem;
+  font-weight: 500;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.75rem;
+  }
+}
+
+// ===================================
+// MODAL ACTIONS
+// ===================================
+.modal-actions {
+  display: flex;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 2px solid $border-color;
+  direction: ltr; // Ensure buttons are LTR
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: row; // Keep buttons side by side on mobile
+    gap: $spacing-sm;
+  }
+
+  button {
+    flex: 1;
+    padding: 1rem;
+    border-radius: $radius-md;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all $transition-normal;
+    font-family: 'Inter', sans-serif;
+    border: none;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.85rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  .cancel-btn {
+    background: transparent;
+    color: $text-dark;
+    border: 2px solid $border-color;
+
+    &:hover:not(:disabled) {
+      background: rgba($text-dark, 0.05);
+      border-color: $text-dark;
+    }
+  }
+
+  .save-btn {
+    background: $gradient-primary;
+    color: $text-white;
+    box-shadow: $shadow-pink;
+
+    svg {
+      font-size: 1.2rem;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-color, 0.4);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: $text-white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 0.5rem; // Add margin to the right
+    }
+  }
+}
+
+// ===================================
+// ANIMATIONS
+// ===================================
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+// ===================================
+// FORM VALIDATION STATES
+// ===================================
+.form-group {
+  position: relative;
+
+  input.error, 
+  select.error, 
+  textarea.error {
+    animation: shake 0.5s ease;
+    border-color: #dc2626 !important;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+    }
+  }
+
+  input:valid:not(:placeholder-shown):not(.error),
+  select:valid:not(.error) {
+    border-color: #2ecc71;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+    }
+  }
+}
+
+// ===================================
+// LOADING STATES
+// ===================================
+.save-btn {
+  position: relative;
+  overflow: hidden;
+
+  &:disabled {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba($primary-color, 0.8);
+      border-radius: $radius-md;
+      animation: pulse 1.5s infinite;
+    }
+  }
+}
+
+// ===================================
+// SCROLLBAR STYLING
+// ===================================
+.modal-content {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $accent-color;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: darken($primary-color, 10%);
+  }
+}
+
+// ===================================
+// RESPONSIVE ENHANCEMENTS
+// ===================================
+@media (max-width: $breakpoint-mobile) {
+  .edit-profile-modal {
+    animation: slideIn 0.3s ease;
+  }
+
+  .form-section {
+    animation: slideIn 0.4s ease forwards;
+    opacity: 0;
+
+    @for $i from 1 through 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.1 * $i}s;
+      }
+    }
+  }
+
+  input, select, textarea {
+    font-size: 16px !important; // Prevent zoom on iOS
+  }
+
+  .form-grid {
+    .form-group {
+      &:nth-child(n+3) {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  
+  .radio-group {
+    .radio-label {
+      flex: 1;
+      justify-content: flex-start; // Align radio buttons to left
+    }
+  }
+}
+// ===================================
+// GENDER RADIO BUTTONS
+// ===================================
+.gender-radio-group {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+
+  @media (max-width: $breakpoint-mobile) {
+    gap: $spacing-sm;
+    flex-direction: column;
+  }
+
+  .gender-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: $text-dark;
+    padding: 1rem 1.25rem;
+    border: 2px solid $border-color;
+    border-radius: $radius-md;
+    transition: all $transition-normal;
+    flex: 1;
+    min-width: 120px;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.85rem 1rem;
+      min-width: auto;
+    }
+
+    &:hover {
+      border-color: $primary-color;
+      background: rgba($primary-color, 0.05);
+      transform: translateY(-2px);
+      box-shadow: $shadow-sm;
+    }
+
+    input[type="radio"] {
+      display: none;
+
+      &:checked + .gender-radio-custom {
+        background: $gradient-primary;
+        border-color: $primary-color;
+        transform: scale(1.1);
+        box-shadow: $shadow-pink;
+
+        svg {
+          color: white;
+        }
+      }
+    }
+
+    .gender-radio-custom {
+      width: 50px;
+      height: 50px;
+      border: 2px solid $border-color;
+      border-radius: $radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: $text-light;
+      transition: all $transition-normal;
+      background: white;
+
+      @media (max-width: $breakpoint-mobile) {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+      }
+
+      &.male {
+        color: #2196F3;
+        border-color: rgba(33, 150, 243, 0.3);
+      }
+
+      &.female {
+        color: #E91E63;
+        border-color: rgba(233, 30, 99, 0.3);
+      }
+    }
+
+    .gender-label {
+      font-size: 1rem;
+      font-weight: 700;
+      color: $text-dark;
+
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.95rem;
+      }
+    }
+
+    // Different colors for male/female
+    &:has(input[value="male"]:checked) {
+      border-color: #2196F3;
+      background: rgba(33, 150, 243, 0.1);
+
+      .gender-label {
+        color: #1976D2;
+      }
+    }
+
+    &:has(input[value="female"]:checked) {
+      border-color: #E91E63;
+      background: rgba(233, 30, 99, 0.1);
+
+      .gender-label {
+        color: #C2185B;
+      }
+    }
+  }
+}
+
+// ===================================
+// FIELD NOTES
+// ===================================
+.field-note {
+  display: block;
+  font-size: 0.8rem;
+  color: $text-light;
+  margin-top: 0.25rem;
+  font-style: italic;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.75rem;
+  }
+}
+
+// ===================================
+// DISABLED FIELD STYLES
+// ===================================
+input:disabled {
+  background: #f5f5f5;
+  color: #9e9e9e;
+  cursor: not-allowed;
+  border-color: #e0e0e0;
+  
+  &::placeholder {
+    color: #bdbdbd;
+  }
+}
+
+// ===================================
+// REQUIRED FIELD INDICATORS
+// ===================================
+.form-group {
+  position: relative;
+  
+  label {
+    position: relative;
+    
+    &::after {
+      content: attr(data-required);
+      color: #f44336;
+      font-size: 0.8rem;
+      margin-left: 0.25rem;
+      opacity: 0;
+      transition: opacity $transition-normal;
+    }
+    
+    &[data-required]::after {
+      content: '*';
+      color: #f44336;
+      font-size: 1.2rem;
+      margin-left: 0.25rem;
+      opacity: 1;
+    }
+  }
+}
+
+// ===================================
+// FORM SECTION ADJUSTMENTS
+// ===================================
+.form-section {
+  .form-grid {
+    @media (max-width: $breakpoint-mobile) {
+      .form-group:has(.gender-radio-group) {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}

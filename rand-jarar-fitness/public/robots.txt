@@ -1,0 +1,60 @@
+# RanLogic - Rand Jarrar Fitness Website
+# Robots.txt
+
+# Allow all good bots
+User-agent: *
+Allow: /
+
+# Disallow private/sensitive pages
+Disallow: /profile
+Disallow: /auth
+Disallow: /payment/
+Disallow: /api/
+Disallow: /admin/
+
+# Allow CSS and JS for better rendering
+Allow: /static/
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Sitemap location
+Sitemap: https://ranlogic.com/sitemap.xml
+
+# Crawl delay (be nice to the server)
+Crawl-delay: 1
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

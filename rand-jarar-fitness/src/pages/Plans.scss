@@ -1,0 +1,2217 @@
+@import '../styles/variables.scss';
+
+// ===================================
+// Plans Page - Complete Styles
+// ===================================
+.plans-page {
+  background: $background-color;
+  min-height: 100vh;
+  direction: ltr;
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    @media (max-width: $breakpoint-tablet) {
+      padding: 0 1.5rem;
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0 1rem;
+    }
+  }
+}
+
+// ===================================
+// Hero Section
+// ===================================
+.plans-hero {
+  position: relative;
+  padding: 150px 0 80px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+  margin-top: -50px;
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 120px 0 60px;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 100px 0 50px;
+  }
+  
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+      
+      &.orb-1 {
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(253, 184, 19, 0.25) 0%, transparent 70%);
+        top: -150px;
+        left: -150px;
+        animation-delay: 0s;
+      }
+      
+      &.orb-2 {
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(253, 184, 19, 0.2) 0%, transparent 70%);
+        bottom: -150px;
+        right: -150px;
+        animation-delay: 7s;
+      }
+      
+      &.orb-3 {
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(253, 184, 19, 0.15) 0%, transparent 70%);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 14s;
+      }
+    }
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    
+    .hero-label {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      background: rgba(253, 184, 19, 0.2);
+      border: 2px solid rgba(253, 184, 19, 0.3);
+      border-radius: $radius-xl;
+      color: $primary-color;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.8rem;
+        padding: 0.4rem 1.2rem;
+      }
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-tablet) {
+        font-size: 2.8rem;
+      }
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 2rem;
+      }
+      
+      .gradient-text {
+        background: linear-gradient(135deg, #FFD700, #FFA500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+      }
+    }
+    
+    .hero-description {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1rem;
+      }
+    }
+
+    .special-offer-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: $radius-xl;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+      
+      @media (max-width: $breakpoint-mobile) {
+        padding: 0.8rem 1.5rem;
+        gap: 0.75rem;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .offer-icon {
+        font-size: 2rem;
+        animation: bounce 2s infinite;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1.8rem;
+        }
+      }
+
+      .offer-text {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+        @media (max-width: $breakpoint-mobile) {
+          text-align: center;
+        }
+
+        strong {
+          color: $primary-color;
+          font-size: 1.1rem;
+          font-weight: 800;
+          margin-bottom: 0.25rem;
+          font-family: 'Poppins', sans-serif;
+          
+          @media (max-width: $breakpoint-mobile) {
+            font-size: 1rem;
+          }
+        }
+
+        span {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.9rem;
+          font-family: 'Poppins', sans-serif;
+          
+          @media (max-width: $breakpoint-mobile) {
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// Keyframe Animations
+// ===================================
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fireFlicker {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.7;
+    filter: brightness(1.2);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulseBadge {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+@keyframes checkPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ===================================
+// Plans Section
+// ===================================
+.plans-section {
+  padding: 60px 0 80px;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 50px 0 60px;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 40px 0 50px;
+  }
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    max-width: 900px;
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 500px;
+  }
+}
+
+// ===================================
+// Plan Card with Duration Selector
+// ===================================
+.plan-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-radius: $radius-xl;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(253, 184, 19, 0.15);
+  transition: all $transition-normal;
+  border: 2px solid transparent;
+  overflow: visible;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1.3rem;
+  }
+  
+  &:hover {
+    box-shadow: 0 12px 40px rgba(253, 184, 19, 0.25);
+    transform: translateY(-5px);
+    border-color: rgba(253, 184, 19, 0.2);
+  }
+  
+  &.popular {
+    border-color: $primary-color;
+    box-shadow: 0 12px 40px rgba(253, 184, 19, 0.3);
+    
+    @media (min-width: 1200px) {
+      transform: scale(1.05);
+    }
+    
+    @media (max-width: $breakpoint-tablet) {
+      transform: scale(1);
+    }
+    
+    &:hover {
+      box-shadow: 0 15px 50px rgba(253, 184, 19, 0.35);
+      
+      @media (min-width: 1200px) {
+        transform: scale(1.05) translateY(-5px);
+      }
+    }
+  }
+  
+  // ===================================
+  // Color Variations
+  // ===================================
+  &.blue {
+    .plan-icon {
+      background: linear-gradient(135deg, #2196F3, #03A9F4);
+    }
+    .check-icon {
+      color: #2196F3;
+    }
+    .duration-btn.active {
+      border-color: #2196F3;
+      background: rgba(33, 150, 243, 0.1);
+      color: #2196F3;
+    }
+    .plan-button {
+      background: linear-gradient(135deg, #2196F3, #03A9F4);
+      
+      &:hover {
+        background: linear-gradient(135deg, #1976D2, #0288D1);
+      }
+    }
+  }
+  
+  &.pink {
+    .plan-icon {
+      background: linear-gradient(135deg, #FDB813, #F9A825);
+    }
+    .check-icon {
+      color: #FDB813;
+    }
+    .duration-btn.active {
+      border-color: #FDB813;
+      background: rgba(253, 184, 19, 0.1);
+      color: #FDB813;
+    }
+    .plan-button {
+      background: linear-gradient(135deg, #FDB813, #F9A825);
+      
+      &:hover {
+        background: linear-gradient(135deg, #F9A825, #F57F17);
+      }
+    }
+  }
+  
+  &.gold {
+    .plan-icon {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+    }
+    .check-icon {
+      color: #FFA500;
+    }
+    .duration-btn.active {
+      border-color: #FFA500;
+      background: rgba(255, 165, 0, 0.1);
+      color: #FFA500;
+    }
+    .plan-button {
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      
+      &:hover {
+        background: linear-gradient(135deg, #FFA500, #FF8C00);
+      }
+    }
+  }
+  
+  &.green {
+    .plan-icon {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+    }
+    .check-icon {
+      color: #2ecc71;
+    }
+    .duration-btn.active {
+      border-color: #2ecc71;
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+    }
+    .plan-button {
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      
+      &:hover {
+        background: linear-gradient(135deg, #27ae60, #229954);
+      }
+    }
+  }
+  
+  // ===================================
+  // Badges
+  // ===================================
+  .popular-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #FDB813, #F9A825);
+    color: white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 15px rgba(253, 184, 19, 0.5);
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+    z-index: 10;
+    min-width: fit-content;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.7rem;
+      padding: 0.35rem 1rem;
+      top: -10px;
+    }
+    
+    svg {
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    
+    span {
+      line-height: 1;
+    }
+  }
+
+  .discount-badge {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    padding: 0.6rem 0.8rem;
+    border-radius: $radius-md;
+    font-weight: 800;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.5);
+    z-index: 10;
+    transform: rotate(-12deg);
+    font-family: 'Poppins', sans-serif;
+
+    svg {
+      font-size: 1rem;
+      animation: fireFlicker 1.5s infinite alternate;
+    }
+
+    span {
+      font-size: 0.8rem;
+    }
+  }
+  
+  // ===================================
+  // Plan Header
+  // ===================================
+  .plan-header {
+    text-align: center;
+    margin-bottom: 1.2rem;
+    
+    .plan-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 0.9rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      transition: all $transition-normal;
+      
+      @media (max-width: $breakpoint-mobile) {
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+      }
+    }
+    
+    .plan-name {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: $text-dark;
+      margin-bottom: 0.3rem;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.3rem;
+      }
+    }
+    
+    .plan-subtitle {
+      color: $text-light;
+      font-size: 0.85rem;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  // ===================================
+  // Duration Selector
+  // ===================================
+  .duration-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+    padding: 0.5rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: $radius-md;
+
+    .duration-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.6rem 0.4rem;
+      background: white;
+      border: 2px solid rgba(0, 0, 0, 0.08);
+      border-radius: $radius-sm;
+      cursor: pointer;
+      transition: all $transition-fast;
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+
+      svg {
+        font-size: 1rem;
+        color: $text-light;
+        transition: color $transition-fast;
+      }
+
+      span {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: $text-dark;
+        white-space: nowrap;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 0.65rem;
+        }
+      }
+
+      .mini-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        padding: 0.15rem 0.35rem;
+        border-radius: $radius-sm;
+        font-size: 0.6rem;
+        font-weight: 800;
+        box-shadow: 0 2px 8px rgba(46, 204, 113, 0.4);
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 0.55rem;
+          padding: 0.12rem 0.3rem;
+        }
+
+        &.hot {
+          background: linear-gradient(135deg, #e74c3c, #c0392b);
+          box-shadow: 0 2px 8px rgba(231, 76, 60, 0.4);
+          animation: pulseBadge 2s infinite;
+        }
+      }
+
+      &.active {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        
+        svg {
+          color: inherit;
+        }
+      }
+
+      &:hover:not(.active) {
+        border-color: rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+    }
+  }
+  
+  // ===================================
+  // Pricing Display
+  // ===================================
+  .plan-pricing {
+    text-align: center;
+    margin-bottom: 1.2rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: $radius-md;
+    position: relative;
+
+    .original-price-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+
+      .tag-icon {
+        color: #e74c3c;
+        font-size: 0.9rem;
+      }
+
+      .original-price {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #95a5a6;
+        text-decoration: line-through;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+    
+    .price-wrapper {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.2rem;
+      
+      .currency {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: $primary-color;
+        margin-top: 0.35rem;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .price {
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: $primary-color;
+        line-height: 1;
+        font-family: 'Poppins', sans-serif;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 2.5rem;
+        }
+      }
+    }
+    
+    .duration {
+      color: $text-light;
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+      display: block;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .savings-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.8rem;
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
+      color: white;
+      border-radius: $radius-lg;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-top: 0.6rem;
+      box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+      font-family: 'Poppins', sans-serif;
+    }
+  }
+  
+  // ===================================
+  // Features List
+  // ===================================
+  .plan-features {
+    margin-bottom: 1.2rem;
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 280px;
+      overflow-y: auto;
+      
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #f1f3f5;
+        border-radius: 10px;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+        border-radius: 10px;
+      }
+      
+      li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        .check-icon {
+          font-size: 0.95rem;
+          margin-top: 0.15rem;
+          flex-shrink: 0;
+        }
+        
+        span {
+          color: $text-dark;
+          line-height: 1.5;
+          font-size: 0.82rem;
+          font-family: 'Poppins', sans-serif;
+          text-align: left;
+          
+          @media (max-width: $breakpoint-mobile) {
+            font-size: 0.78rem;
+          }
+        }
+      }
+    }
+  }
+  
+  // ===================================
+  // Select Button
+  // ===================================
+  .plan-button {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    border-radius: $radius-md;
+    color: white;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    transition: all $transition-normal;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.9rem;
+      font-size: 0.9rem;
+    }
+    
+    .arrow {
+      font-size: 1.3rem;
+      font-weight: 900;
+      transition: transform $transition-fast;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ===================================
+// Trust Section
+// ===================================
+.trust-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  
+  @media (max-width: $breakpoint-tablet) {
+    gap: 1.5rem;
+  }
+  
+  .trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.2rem;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: $radius-lg;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.9rem;
+    transition: all $transition-normal;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(253, 184, 19, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(253, 184, 19, 0.3);
+    }
+    
+    .badge-icon {
+      font-size: 1.2rem;
+      color: $primary-color;
+    }
+  }
+}
+
+// ===================================
+// Features Comparison Section
+// ===================================
+.comparison-section {
+  padding: 100px 0;
+  background: linear-gradient(180deg, white 0%, #f8f9fa 100%);
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 80px 0;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 60px 0;
+  }
+  
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      margin-bottom: 3rem;
+    }
+    
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: $text-dark;
+      margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-tablet) {
+        font-size: 2.2rem;
+      }
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 2rem;
+      }
+    }
+    
+    p {
+      font-size: 1.1rem;
+      color: $text-light;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1rem;
+      }
+    }
+  }
+  
+  .comparison-table {
+    background: white;
+    border-radius: $radius-xl;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    
+    @media (max-width: $breakpoint-tablet) {
+      border-radius: $radius-md;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      &::-webkit-scrollbar {
+        height: 8px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: #f1f3f5;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: $primary-color;
+        border-radius: 10px;
+      }
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+      
+      @media (max-width: $breakpoint-mobile) {
+        min-width: 700px;
+      }
+      
+      thead {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        
+        tr {
+          th {
+            padding: 1.5rem 1rem;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-align: center;
+            border-bottom: 3px solid rgba(0, 0, 0, 0.05);
+            white-space: nowrap;
+            font-family: 'Poppins', sans-serif;
+            
+            @media (max-width: $breakpoint-tablet) {
+              padding: 1.2rem 0.8rem;
+              font-size: 1rem;
+            }
+            
+            @media (max-width: $breakpoint-mobile) {
+              padding: 1rem 0.6rem;
+              font-size: 0.9rem;
+            }
+            
+            &.feature-column {
+              text-align: left;
+              color: $text-dark;
+              min-width: 200px;
+              max-width: 250px;
+              position: sticky;
+              left: 0;
+              background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+              z-index: 11;
+              box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+              
+              @media (max-width: $breakpoint-tablet) {
+                min-width: 150px;
+                max-width: 180px;
+              }
+            }
+            
+            &.plan-column {
+              min-width: 120px;
+              
+              @media (max-width: $breakpoint-mobile) {
+                min-width: 100px;
+              }
+              
+              &.basic {
+                color: #2196F3;
+              }
+              
+              &.elite {
+                color: #FDB813;
+              }
+              
+              &.vip {
+                color: #FFA500;
+              }
+              
+              &.nutrition {
+                color: #2ecc71;
+              }
+            }
+          }
+        }
+      }
+      
+      tbody {
+        tr {
+          transition: background $transition-fast;
+          
+          &:hover {
+            background: rgba(253, 184, 19, 0.03);
+          }
+          
+          td {
+            padding: 1.2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            
+            @media (max-width: $breakpoint-tablet) {
+              padding: 1rem 0.8rem;
+            }
+            
+            @media (max-width: $breakpoint-mobile) {
+              padding: 0.9rem 0.6rem;
+            }
+            
+            &.feature-name {
+              text-align: left;
+              font-weight: 600;
+              color: $text-dark;
+              position: sticky;
+              left: 0;
+              background: white;
+              z-index: 9;
+              box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+              font-size: 0.95rem;
+              line-height: 1.5;
+              font-family: 'Poppins', sans-serif;
+              
+              @media (max-width: $breakpoint-mobile) {
+                font-size: 0.85rem;
+              }
+            }
+            
+            .check-icon {
+              color: #2ecc71;
+              font-size: 1.3rem;
+              
+              @media (max-width: $breakpoint-mobile) {
+                font-size: 1.1rem;
+              }
+            }
+            
+            .times-icon {
+              color: #e74c3c;
+              font-size: 1.3rem;
+              opacity: 0.3;
+              
+              @media (max-width: $breakpoint-mobile) {
+                font-size: 1.1rem;
+              }
+            }
+            
+            .feature-value {
+              font-weight: 600;
+              color: $primary-color;
+              font-size: 0.9rem;
+              display: block;
+              font-family: 'Poppins', sans-serif;
+              
+              @media (max-width: $breakpoint-mobile) {
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    .comparison-table::after {
+      content: 'Scroll right to see more →';
+      display: block;
+      text-align: center;
+      padding: 1rem;
+      color: $text-light;
+      font-size: 0.85rem;
+      background: white;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      font-family: 'Poppins', sans-serif;
+    }
+  }
+}
+
+// ===================================
+// Payment Modal
+// ===================================
+.payment-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.payment-modal {
+  background: white;
+  border-radius: $radius-xl;
+  max-width: 550px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f3f5;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $primary-color;
+    border-radius: 10px;
+  }
+  
+  // ===================================
+  // Modal Header
+  // ===================================
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1.5rem;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: $text-dark;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.5rem;
+      }
+    }
+    
+    .close-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.05);
+      color: $text-dark;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-normal;
+      flex-shrink: 0;
+      
+      &:hover {
+        background: rgba(253, 184, 19, 0.1);
+        color: $primary-color;
+      }
+    }
+  }
+  
+  .header-with-back {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    
+    .back-button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.05);
+      color: $text-dark;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-normal;
+      flex-shrink: 0;
+      
+      &:hover {
+        background: rgba(253, 184, 19, 0.1);
+        color: $primary-color;
+      }
+      
+      svg {
+        font-size: 1.2rem;
+      }
+    }
+    
+    h2 {
+      margin: 0;
+      flex: 1;
+    }
+  }
+  
+  // ===================================
+  // Modal Body
+  // ===================================
+  .modal-body {
+    padding: 2rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1.5rem;
+    }
+    
+    .plan-summary {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 1.5rem;
+      border-radius: $radius-md;
+      margin-bottom: 2rem;
+      
+      .summary-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+        
+        .plan-icon {
+          font-size: 2.5rem;
+          width: 60px;
+          height: 60px;
+          background: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          flex-shrink: 0;
+        }
+        
+        h3 {
+          font-size: 1.5rem;
+          font-weight: 900;
+          color: $text-dark;
+          margin: 0 0 0.25rem 0;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        p {
+          color: $text-light;
+          margin: 0;
+          font-size: 0.9rem;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+      
+      .pricing-details {
+        .duration-display {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
+          padding: 1rem;
+          background: linear-gradient(135deg, rgba(253, 184, 19, 0.1), rgba(253, 184, 19, 0.05));
+          border-radius: $radius-md;
+          margin-bottom: 1rem;
+          border: 2px solid rgba(253, 184, 19, 0.2);
+
+          svg {
+            color: $primary-color;
+            font-size: 1.2rem;
+          }
+
+          span {
+            font-weight: 800;
+            color: $text-dark;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+
+        .discount-highlight {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.8rem;
+          background: linear-gradient(135deg, #2ecc71, #27ae60);
+          border-radius: $radius-md;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+
+          svg {
+            color: white;
+            font-size: 1.1rem;
+          }
+
+          span {
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+        
+        .price-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 0.75rem 0;
+          font-size: 1rem;
+          font-family: 'Poppins', sans-serif;
+          
+          span:first-child {
+            color: $text-light;
+          }
+          
+          .tag-icon {
+            color: #e74c3c;
+            margin-right: 0.3rem;
+            font-size: 0.9rem;
+          }
+          
+          .original-price {
+            text-decoration: line-through;
+            color: $text-light;
+            font-weight: 500;
+          }
+          
+          .price {
+            font-weight: 700;
+            color: $text-dark;
+          }
+          
+          &.discount-row {
+            color: #2ecc71;
+            font-weight: 600;
+            
+            .discount {
+              color: #2ecc71;
+              font-weight: 800;
+              font-size: 1.1rem;
+            }
+          }
+          
+          &.total-row {
+            border-top: 2px solid rgba(0, 0, 0, 0.1);
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            
+            .final-price {
+              font-size: 1.8rem;
+              color: $primary-color;
+            }
+          }
+        }
+        
+        .duration-info {
+          margin-top: 1rem;
+          padding: 1rem;
+          background: white;
+          border-radius: $radius-sm;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          
+          svg {
+            color: #2ecc71;
+            font-size: 1.2rem;
+          }
+          
+          span {
+            font-weight: 600;
+            color: $text-dark;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+
+        .savings-highlight {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.6rem;
+          padding: 0.8rem 1rem;
+          background: linear-gradient(135deg, rgba(46, 204, 113, 0.15), rgba(46, 204, 113, 0.1));
+          border-radius: $radius-md;
+          margin-top: 1rem;
+          border: 2px solid rgba(46, 204, 113, 0.3);
+
+          svg {
+            color: #2ecc71;
+            font-size: 1.2rem;
+            animation: checkPulse 2s infinite;
+          }
+
+          span {
+            color: #27ae60;
+            font-weight: 800;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+      }
+    }
+    
+    .payment-info {
+      .info-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(253, 184, 19, 0.05);
+        border-radius: $radius-sm;
+        margin-bottom: 1rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        svg {
+          color: $primary-color;
+          font-size: 1.2rem;
+          flex-shrink: 0;
+        }
+        
+        p {
+          margin: 0;
+          color: $text-dark;
+          font-size: 0.9rem;
+          line-height: 1.5;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+    }
+
+    .payment-methods-selection {
+      margin-top: 2rem;
+      
+      h3 {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: $text-dark;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .methods-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        
+        @media (max-width: $breakpoint-mobile) {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        
+        .method-card {
+          padding: 2rem 1.5rem;
+          background: white;
+          border: 3px solid rgba(0, 0, 0, 0.08);
+          border-radius: $radius-md;
+          cursor: pointer;
+          transition: all $transition-normal;
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+          font-family: 'Poppins', sans-serif;
+          
+          @media (max-width: $breakpoint-mobile) {
+            padding: 1.5rem 1rem;
+          }
+          
+          .method-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            
+            @media (max-width: $breakpoint-mobile) {
+              font-size: 3rem;
+            }
+          }
+          
+          h4 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: $text-dark;
+            margin: 0;
+            
+            @media (max-width: $breakpoint-mobile) {
+              font-size: 1.2rem;
+            }
+          }
+          
+          p {
+            font-size: 0.95rem;
+            color: $text-light;
+            margin: 0;
+            line-height: 1.5;
+          }
+          
+          .method-badge {
+            padding: 0.4rem 1rem;
+            border-radius: $radius-lg;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+          }
+          
+          &.paypal-method {
+            .method-icon {
+              color: #0070ba;
+            }
+            
+            .method-badge {
+              background: linear-gradient(135deg, #0070ba, #003087);
+              color: white;
+            }
+            
+            &:hover {
+              border-color: #0070ba;
+              background: rgba(0, 112, 186, 0.05);
+              box-shadow: 0 8px 25px rgba(0, 112, 186, 0.2);
+            }
+          }
+          
+          &.bank-method {
+            .method-icon {
+              color: #2ecc71;
+            }
+            
+            .method-badge {
+              background: linear-gradient(135deg, #2ecc71, #27ae60);
+              color: white;
+            }
+            
+            &:hover {
+              border-color: #2ecc71;
+              background: rgba(46, 204, 113, 0.05);
+              box-shadow: 0 8px 25px rgba(46, 204, 113, 0.2);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  // ===================================
+  // Modal Footer
+  // ===================================
+  .modal-footer {
+    display: flex;
+    gap: 1rem;
+    padding: 2rem;
+    border-top: 2px solid rgba(0, 0, 0, 0.05);
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1.5rem;
+      flex-direction: column-reverse;
+    }
+    
+    button {
+      flex: 1;
+      padding: 1.2rem;
+      border-radius: $radius-md;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all $transition-normal;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      
+      &.cancel-button {
+        background: transparent;
+        color: $text-dark;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        
+        &:hover {
+          border-color: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.03);
+        }
+      }
+      
+      &.paypal-button {
+        background: linear-gradient(135deg, #0070ba, #003087);
+        color: white;
+        box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3);
+        
+        svg {
+          font-size: 1.3rem;
+        }
+        
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #005a93, #002466);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 112, 186, 0.4);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+  
+  // ===================================
+  // Processing & Success States
+  // ===================================
+  .processing-state,
+  .success-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 3rem 1.5rem;
+    }
+    
+    .spinner-large {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(253, 184, 19, 0.2);
+      border-top-color: $primary-color;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 2rem;
+    }
+    
+    .success-icon {
+      font-size: 5rem;
+      color: #2ecc71;
+      margin-bottom: 2rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 4rem;
+      }
+    }
+    
+    h3 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: $text-dark;
+      margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.5rem;
+      }
+    }
+    
+    p {
+      color: $text-light;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+  }
+}
+
+// ===================================
+// Bank Transfer Payment Styles
+// ===================================
+.bank-transfer-payment.plans-version {
+  .bank-details-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: $radius-md;
+    margin-bottom: 1.5rem;
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      
+      .bank-icon {
+        font-size: 2rem;
+        color: #2ecc71;
+      }
+      
+      h3 {
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: $text-dark;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+    
+    .bank-info {
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        
+        &:last-of-type {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+          margin-bottom: 0.75rem;
+        }
+        
+        &.clickable {
+          cursor: pointer;
+          transition: all $transition-fast;
+          
+          &:hover {
+            background: rgba(253, 184, 19, 0.05);
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            margin-left: -0.5rem;
+            margin-right: -0.5rem;
+            border-radius: $radius-sm;
+          }
+        }
+        
+        .label {
+          font-weight: 600;
+          color: $text-light;
+          font-size: 0.9rem;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        .value {
+          font-weight: 700;
+          color: $text-dark;
+          font-size: 0.95rem;
+          text-align: right;
+          font-family: 'Poppins', sans-serif;
+          
+          &.copy-value {
+            position: relative;
+            color: $primary-color;
+            
+            .copy-hint {
+              position: absolute;
+              top: -25px;
+              right: 0;
+              background: $text-dark;
+              color: white;
+              padding: 0.3rem 0.6rem;
+              border-radius: $radius-sm;
+              font-size: 0.75rem;
+              opacity: 0;
+              transition: opacity $transition-fast;
+              white-space: nowrap;
+              pointer-events: none;
+            }
+            
+            &:hover .copy-hint {
+              opacity: 1;
+            }
+          }
+        }
+      }
+      
+      .amount-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background: white;
+        border-radius: $radius-sm;
+        margin-top: 0.75rem;
+        
+        .label {
+          font-weight: 700;
+          color: $text-dark;
+          font-size: 1rem;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        .amount {
+          font-size: 1.8rem;
+          font-weight: 900;
+          color: $primary-color;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+
+      .plan-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        margin-top: 0.5rem;
+        
+        .label {
+          font-weight: 600;
+          color: $text-light;
+          font-size: 0.9rem;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        .value {
+          font-weight: 700;
+          color: $primary-color;
+          font-size: 0.95rem;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+    }
+    
+    .transfer-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(46, 204, 113, 0.1);
+      border-left: 4px solid #2ecc71;
+      border-radius: $radius-sm;
+      margin-top: 1rem;
+      
+      svg {
+        color: #2ecc71;
+        font-size: 1.2rem;
+        margin-top: 0.1rem;
+        flex-shrink: 0;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: $text-dark;
+        line-height: 1.6;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+  }
+  
+  .upload-section {
+    margin-bottom: 1.5rem;
+    
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: $text-dark;
+      margin-bottom: 1.5rem;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      
+      label {
+        display: block;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .transfer-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: $radius-md;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        transition: all $transition-normal;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba(253, 184, 19, 0.1);
+        }
+        
+        &:disabled {
+          background: #f8f9fa;
+          cursor: not-allowed;
+        }
+      }
+      
+      .upload-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+        border: 3px dashed rgba(0, 0, 0, 0.2);
+        border-radius: $radius-md;
+        cursor: pointer;
+        transition: all $transition-normal;
+        background: rgba(0, 0, 0, 0.02);
+        
+        &:hover {
+          border-color: $primary-color;
+          background: rgba(253, 184, 19, 0.05);
+        }
+        
+        .upload-icon {
+          font-size: 3rem;
+          color: $primary-color;
+          margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+          font-weight: 700;
+          color: $text-dark;
+          margin-bottom: 0.5rem;
+          font-size: 1rem;
+          font-family: 'Poppins', sans-serif;
+        }
+        
+        .upload-hint {
+          font-size: 0.85rem;
+          color: $text-light;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+      
+      .image-preview-container {
+        .image-preview {
+          position: relative;
+          border-radius: $radius-md;
+          overflow: hidden;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          
+          img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: contain;
+            background: #f8f9fa;
+          }
+          
+          .remove-image {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all $transition-normal;
+            
+            &:hover {
+              background: #dc2626;
+              transform: scale(1.1);
+            }
+            
+            svg {
+              font-size: 1.2rem;
+            }
+          }
+        }
+        
+        .image-info {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1rem;
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          border-radius: $radius-sm;
+          
+          svg {
+            color: $primary-color;
+            font-size: 1.2rem;
+          }
+          
+          span {
+            font-size: 0.9rem;
+            color: $text-dark;
+            font-weight: 600;
+            word-break: break-all;
+            font-family: 'Poppins', sans-serif;
+          }
+        }
+      }
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0;
+    
+    @media (max-width: $breakpoint-mobile) {
+      flex-direction: column-reverse;
+    }
+    
+    button {
+      flex: 1;
+      padding: 1.1rem;
+      border-radius: $radius-md;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: all $transition-normal;
+      font-family: 'Poppins', sans-serif;
+      border: none;
+      
+      &.cancel-button {
+        background: transparent;
+        color: $text-dark;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        
+        &:hover:not(:disabled) {
+          border-color: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.03);
+        }
+      }
+      
+      &.submit-button {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        
+        svg {
+          font-size: 1.2rem;
+        }
+        
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 3px solid rgba(255, 255, 255, 0.3);
+          border-top-color: white;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+        
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #27ae60, #229954);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+.plan-card .popular-badge {
+  position: absolute !important;
+  top: -12px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: linear-gradient(135deg, #FDB813, #F9A825) !important;
+  color: white !important;
+  padding: 0.4rem 1.2rem !important;
+  border-radius: 20px !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  gap: 0.4rem !important;
+  box-shadow: 0 4px 15px rgba(253, 184, 19, 0.5) !important;
+  z-index: 10 !important;
+  white-space: nowrap !important;
+  min-width: fit-content !important;
+  font-family: 'Poppins', sans-serif !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+.plan-card .popular-badge svg,
+.plan-card .popular-badge i {
+  font-size: 0.9rem !important;
+  flex-shrink: 0 !important;
+}
+
+.plan-card .popular-badge span {
+  line-height: 1 !important;
+  margin: 0 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .plan-card .popular-badge {
+    font-size: 0.7rem !important;
+    padding: 0.35rem 1rem !important;
+    top: -10px !important;
+  }
+}
+// Loading and Error States
+.plans-loading,
+.plans-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(253, 184, 19, 0.2);
+    border-top-color: #FDB813;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1.5rem;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: $text-dark;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif; // default
+  }
+}
+
+// إذا عندك <html dir="rtl"> أو عنصر أب يحتوي dir="rtl"
+[dir="rtl"] {
+  .plans-loading,
+  .plans-error {
+    p {
+      font-family: 'Tajawal', sans-serif;
+    }
+  }
+}
+
+.plans-error {
+  .retry-btn {
+    padding: 0.8rem 2rem;
+    background: $primary-color;
+    color: $secondary-color;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    font-family: 'Poppins', sans-serif; // default
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+    }
+  }
+}
+
+[dir="rtl"] {
+  .plans-error {
+    .retry-btn {
+      font-family: 'Tajawal', sans-serif;
+    }
+  }
+}

@@ -1,0 +1,141 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.sidebar-section {
+  margin-bottom: $spacing-sm;
+  position: relative;
+  
+  &__header {
+    padding: $spacing-sm;
+    cursor: pointer;
+    user-select: none;
+    transition: all $transition-normal;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-md;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      background: var(--bg-hover);
+      border-color: $primary-pink;
+    }
+  }
+  
+  &__header-content {
+    @include flex-between;
+    gap: $spacing-sm;
+  }
+  
+  &__icon {
+    @include flex-center;
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: $radius-sm;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    .sidebar-section__header:hover & {
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 15px currentColor;
+    }
+  }
+  
+  &__title {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  &__chevron {
+    @include flex-center;
+    min-width: 16px;
+    color: var(--text-muted);
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    .sidebar-section__header:hover & {
+      color: $primary-pink;
+    }
+  }
+  
+  &__items {
+    overflow: hidden;
+    margin-top: $spacing-xs;
+    padding: $spacing-xs;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: $radius-sm;
+    border: 1px solid var(--border-color);
+  }
+  
+  // Tooltip for collapsed state - FIXED
+  &__tooltip {
+    position: fixed;
+    left: calc(80px + 15px); // عرض السايدبار المغلق + مسافة
+    top: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all $transition-normal;
+    z-index: 10000;
+    
+    .sidebar.collapsed .sidebar-section:hover & {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+  }
+  
+  &__tooltip-content {
+    min-width: 250px;
+    max-width: 300px;
+    padding: $spacing-md;
+    background: var(--bg-card);
+    border: 2px solid $primary-pink;
+    border-radius: $radius-md;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    
+    h4 {
+      margin-bottom: $spacing-sm;
+      color: $primary-pink;
+      font-size: 1rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: $spacing-xs;
+    }
+  }
+  
+  &__tooltip-items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+}
+
+// Collapsed Sidebar Section Styling
+.sidebar.collapsed {
+  .sidebar-section {
+    &__header {
+      padding: $spacing-sm;
+      justify-content: center;
+    }
+    
+    &__header-content {
+      justify-content: center;
+    }
+    
+    &__title,
+    &__chevron {
+      display: none;
+    }
+    
+    &__icon {
+      margin: 0;
+    }
+  }
+}

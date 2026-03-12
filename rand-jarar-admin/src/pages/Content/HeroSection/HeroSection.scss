@@ -1,0 +1,664 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.hero-section {
+  &__loading {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    min-height: 400px;
+    color: var(--text-muted);
+    
+    .spinner-large {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba($primary-pink, 0.2);
+      border-top-color: $primary-pink;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+  }
+  
+  &__header-content {
+    @include flex-between;
+    gap: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  
+  &__title-section {
+    flex: 1;
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+    
+    @include mobile {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  
+  &__save-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: $radius-md;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba($primary-pink, 0.5);
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @include mobile {
+      width: 100%;
+    }
+  }
+  
+  // Alert Messages
+  &__alert {
+    @include flex-center;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-md;
+    font-weight: 600;
+    
+    &--success {
+      background: rgba($success, 0.1);
+      border: 1px solid $success;
+      color: $success;
+    }
+    
+    &--error {
+      background: rgba($danger, 0.1);
+      border: 1px solid $danger;
+      color: $danger;
+    }
+  }
+  
+  // Content Layout
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: $spacing-xl;
+    
+    @include tablet {
+      grid-template-columns: 1fr;
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+// Video Upload Card
+.video-upload-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  height: fit-content;
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-md;
+  }
+}
+
+// Video Dropzone
+.video-dropzone {
+  border: 2px dashed var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  text-align: center;
+  cursor: pointer;
+  transition: all $transition-normal;
+  background: var(--bg-hover);
+  min-height: 300px;
+  @include flex-center;
+  
+  &:hover {
+    border-color: $primary-pink;
+    background: rgba($primary-pink, 0.05);
+  }
+  
+  &__input {
+    display: none;
+  }
+  
+  &__content {
+    width: 100%;
+  }
+  
+  &__icon {
+    @include flex-center;
+    margin: 0 auto $spacing-md;
+    width: 80px;
+    height: 80px;
+    background: rgba($primary-pink, 0.1);
+    border-radius: 50%;
+    color: $primary-pink;
+  }
+  
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: $spacing-md;
+  }
+  
+  &__button {
+    padding: 0.7rem 1.5rem;
+    background: $primary-pink;
+    color: #ffffff;
+    border: none;
+    border-radius: $radius-sm;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: $primary-pink-light;
+      transform: translateY(-2px);
+    }
+  }
+  
+  &__info {
+    margin-top: $spacing-md;
+    padding-top: $spacing-md;
+    border-top: 1px solid var(--border-color);
+    
+    p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: $spacing-xs;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Video Preview
+.video-preview {
+  &__container {
+    position: relative;
+    border-radius: $radius-md;
+    overflow: hidden;
+    margin-bottom: $spacing-md;
+    background: #000;
+
+  }
+
+  &__video {
+    width: 100%;
+    height: 100%;         
+    object-fit: contain;  
+    display: block;
+    background: #000;     
+  }
+
+
+  
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    @include flex-center;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity $transition-normal;
+    
+    .video-preview__container:hover & {
+      opacity: 1;
+    }
+  }
+  
+  &__play-btn {
+    @include flex-center;
+    width: 64px;
+    height: 64px;
+    background: rgba($primary-pink, 0.9);
+    border: none;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: $primary-pink;
+      transform: scale(1.1);
+    }
+  }
+  
+  &__progress {
+    margin-bottom: $spacing-sm;
+  }
+  
+  &__progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-hover);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, $primary-pink 0%, $primary-pink-light 100%);
+    transition: width 0.3s ease;
+  }
+  
+  &__progress-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+  
+  &__action-btn {
+    @include flex-center;
+    flex: 1;
+    gap: $spacing-xs;
+    padding: 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-primary);
+      border-color: $primary-pink;
+      color: $primary-pink;
+    }
+    
+    &--danger:hover {
+      border-color: $danger;
+      color: $danger;
+    }
+  }
+}
+
+// Language Tabs
+.language-tabs {
+  display: flex;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-lg;
+}
+
+.language-tab {
+  @include flex-center;
+  gap: $spacing-xs;
+  flex: 1;
+  padding: 0.8rem 1rem;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: $radius-md;
+  color: var(--text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $primary-pink;
+    color: var(--text-primary);
+  }
+  
+  &.active {
+    background: rgba($primary-pink, 0.1);
+    border-color: $primary-pink;
+    color: $primary-pink;
+  }
+}
+
+// Content Editor Card
+.content-editor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-lg;
+  }
+}
+
+// Form Elements
+.form-group {
+  margin-bottom: $spacing-lg;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: $spacing-xs;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all $transition-normal;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+  }
+  
+  &--highlight {
+    font-weight: 600;
+    color: $primary-pink;
+  }
+  
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all $transition-normal;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+  }
+  
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: $spacing-xs;
+}
+
+// Stats Editor Card
+.stats-editor-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  
+  &__add-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.6rem 1rem;
+    background: rgba($primary-pink, 0.1);
+    border: 1px solid $primary-pink;
+    border-radius: $radius-sm;
+    color: $primary-pink;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: rgba($primary-pink, 0.2);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// Stats List
+.stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-xl;
+    text-align: center;
+    color: var(--text-muted);
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-md;
+    
+    &-en {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  }
+}
+
+// Stat Item
+.stat-item {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  transition: all $transition-normal;
+  
+  &--editing {
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+  }
+  
+  &__display {
+    @include flex-between;
+    gap: $spacing-md;
+  }
+  
+  &__content {
+    flex: 1;
+  }
+  
+  &__value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__labels {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs / 2;
+  }
+  
+  &__label {
+    font-size: 0.9rem;
+    
+    &--ar {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    
+    &--en {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $spacing-xs;
+  }
+  
+  &__action-btn {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-primary);
+      border-color: $primary-pink;
+      color: $primary-pink;
+    }
+    
+    &--danger:hover {
+      border-color: $danger;
+      color: $danger;
+    }
+  }
+  
+  &__form {
+    display: flex;
+    gap: $spacing-sm;
+  }
+  
+  &__inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+  
+  &__lang-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+  
+  &__input {
+    width: 100%;
+    padding: 0.6rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+    }
+    
+    &--value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: $primary-pink;
+    }
+  }
+  
+  &__save-btn {
+    @include flex-center;
+    width: 36px;
+    align-self: flex-start;
+    height: 36px;
+    background: $primary-pink;
+    border: none;
+    border-radius: $radius-sm;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: $primary-pink-light;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

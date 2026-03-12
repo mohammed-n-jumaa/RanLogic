@@ -1,0 +1,70 @@
+@import '../../../styles/variables.scss';
+
+.language-toggle-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid rgba(253, 184, 19, 0.4);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  z-index: 998;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all $transition-normal;
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    left: 20px;
+  }
+
+  .globe-icon {
+    font-size: 1.3rem;
+    color: $primary-color;
+    
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .lang-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: $secondary-color;
+    letter-spacing: 0.5px;
+    
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 0.6rem;
+    }
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(253, 184, 19, 0.3);
+  }
+
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+[dir="rtl"] {
+  .language-toggle-button {
+    left: auto;
+    right: 90px;
+    
+    @media (max-width: $breakpoint-tablet) {
+      right: 75px;
+    }
+  }
+}

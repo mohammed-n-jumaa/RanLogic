@@ -1,0 +1,2077 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.workout-plan {
+  padding: $spacing-md;
+  min-height: 100vh;
+  
+  @include mobile {
+    padding: $spacing-sm;
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__header-top {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      align-items: flex-start;
+    }
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.3rem;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  &__week-info {
+    padding: 0.6rem 1.2rem;
+    background: rgba($primary-pink, 0.1);
+    border: 1px solid $primary-pink;
+    border-radius: 50px;
+    color: $primary-pink;
+    font-size: 0.9rem;
+    font-weight: 600;
+    
+    @include mobile {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__stats {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: var(--bg-hover);
+    border-radius: $radius-md;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      padding: $spacing-sm;
+      gap: $spacing-sm;
+      justify-content: space-between;
+    }
+  }
+  
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    @include mobile {
+      flex: 1;
+      min-width: calc(50% - 8px);
+    }
+  }
+  
+  &__stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__days {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+// Workout Day
+.workout-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: all $transition-normal;
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  &--today {
+    border: 2px solid $primary-pink;
+    box-shadow: 0 0 20px rgba($primary-pink, 0.2);
+  }
+  
+  &__header {
+    cursor: pointer;
+    background: linear-gradient(135deg, 
+      rgba($primary-pink, 0.05) 0%, 
+      rgba($primary-pink-dark, 0.02) 100%
+    );
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: linear-gradient(135deg, 
+        rgba($primary-pink, 0.1) 0%, 
+        rgba($primary-pink-dark, 0.05) 100%
+      );
+    }
+    
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+  
+  &__header-top {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-md 0;
+    
+    @include mobile {
+      padding: 0;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__header-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-md $spacing-md;
+    
+    @include mobile {
+      padding: $spacing-sm 0 0;
+      margin-top: $spacing-sm;
+    }
+  }
+  
+  &__chevron {
+    @include flex-center;
+    color: $primary-pink;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    @include mobile {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  
+  &__title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    
+    @include mobile {
+      gap: 2px;
+    }
+  }
+  
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      flex-wrap: wrap;
+    }
+  }
+  
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__today-badge {
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    
+    @include mobile {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+    }
+  }
+  
+  &__count {
+    padding: 0.3rem 0.8rem;
+    background: rgba($primary-pink, 0.1);
+    border-radius: 50px;
+    color: $primary-pink;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    
+    @include mobile {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__expand-btn {
+    display: none;
+    
+    @include mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: rgba($primary-pink, 0.1);
+      border: none;
+      border-radius: $radius-sm;
+      color: $primary-pink;
+      cursor: pointer;
+      transition: all $transition-normal;
+      
+      &:hover {
+        background: rgba($primary-pink, 0.2);
+      }
+    }
+  }
+  
+  &__progress {
+    position: relative;
+    width: 120px;
+    height: 32px;
+    background: var(--bg-hover);
+    border-radius: 50px;
+    overflow: hidden;
+    
+    @include mobile {
+      width: 100px;
+      height: 28px;
+    }
+  }
+  
+  &__progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+    transition: width 0.5s ease;
+  }
+  
+  &__progress-text {
+    @include flex-center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 1;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-md;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-hover);
+    
+    @include mobile {
+      padding: $spacing-sm;
+    }
+  }
+  
+  &__exercises {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-radius: $radius-md;
+    border: 2px dashed var(--border-color);
+    
+    @include mobile {
+      padding: $spacing-lg;
+    }
+  }
+  
+  &__empty-sub {
+    font-size: 0.9rem;
+    margin-top: $spacing-xs;
+    color: var(--text-secondary);
+    
+    @include mobile {
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__add-exercise {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-md;
+    color: $primary-pink;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: rgba($primary-pink, 0.05);
+      border-color: $primary-pink;
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Exercise Item
+.exercise-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $primary-pink;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+    gap: $spacing-sm;
+    flex-direction: column;
+  }
+  
+  &__left, &__right {
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    min-width: 0;
+    
+    @include mobile {
+      width: 100%;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__check {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      color: $success;
+      transform: scale(1.1);
+    }
+    
+    &--completed {
+      color: $success;
+    }
+    
+    @include mobile {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+  
+  &__name {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.95rem;
+    }
+  }
+  
+  &__details {
+    display: flex;
+    gap: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+      justify-content: space-between;
+    }
+  }
+  
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  
+  &__detail-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__detail input {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+    }
+    
+    @include mobile {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__notes {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+    }
+    
+    &::placeholder {
+      color: var(--text-muted);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+      min-height: 60px;
+    }
+  }
+  
+  &__media-section {
+    margin-top: $spacing-xs;
+  }
+  
+  &__upload-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      border-color: $primary-pink;
+      color: $primary-pink;
+      background: rgba($primary-pink, 0.05);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__delete {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #ffffff;
+    }
+    
+    @include mobile {
+      width: auto;
+      flex: 1;
+      margin-left: $spacing-sm;
+      padding: 0 1rem;
+      
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+// Exercise Media Preview
+.exercise-media-preview {
+  position: relative;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  
+  &__image {
+    position: relative;
+    
+    img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+      
+      @include mobile {
+        max-height: 200px;
+      }
+    }
+  }
+  
+  &__video {
+    position: relative;
+    
+    video {
+      width: 100%;
+      max-height: 250px;
+      border-radius: $radius-sm;
+      
+      @include mobile {
+        max-height: 200px;
+      }
+    }
+  }
+  
+  &__remove {
+    @include flex-center;
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 32px;
+    height: 32px;
+    background: $danger;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    z-index: 2;
+    
+    &:hover {
+      background: darken($danger, 10%);
+      transform: scale(1.1);
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+// Media Modal
+.media-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  &__content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  &__close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 8px;
+    
+    &:hover {
+      color: $primary-pink;
+    }
+  }
+  
+  img, video {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: $radius-md;
+  }
+}
+
+// Touch-friendly enhancements
+@media (hover: none) and (pointer: coarse) {
+  .exercise-item__check,
+  .exercise-item__delete,
+  .workout-day__add-exercise {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, button {
+    font-size: 16px !important; // Prevents iOS zoom on focus
+  }
+  
+  .exercise-item__detail input {
+    padding: 12px !important;
+  }
+}
+
+// Tablet-specific styles
+@media (min-width: 768px) and (max-width: 1024px) {
+  .workout-plan {
+    padding: $spacing-lg;
+  }
+  
+  .workout-day__header {
+    padding: $spacing-lg;
+  }
+  
+  .exercise-item {
+    flex-direction: row;
+  }
+  
+  .exercise-item__details {
+    flex-direction: row;
+  }
+  
+  .exercise-item__detail {
+    flex-direction: row;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+  
+  .exercise-item__detail input {
+    width: 80px;
+  }
+}
+/* Workout Plan Styles */
+.workout-plan {
+  padding: 2rem;
+  background: linear-gradient(135deg, #0a1628 0%, #1a2942 100%);
+  min-height: 100vh;
+}
+
+.workout-plan__header {
+  margin-bottom: 2rem;
+}
+
+.workout-plan__header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.workout-plan__title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.btn-save {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #e91e63 0%, #c2185b 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.workout-days {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.day-card {
+  background: rgba(26, 41, 66, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.day-card:hover {
+  border-color: rgba(233, 30, 99, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.day-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.day-card__header:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.day-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.day-card__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.day-card__count {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.day-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progress-ring {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: conic-gradient(#e91e63 var(--progress, 0%), rgba(255, 255, 255, 0.1) var(--progress, 0%));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.progress-ring::before {
+  content: '';
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  background: #1a2942;
+  border-radius: 50%;
+}
+
+.progress-ring__value {
+  position: relative;
+  z-index: 1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.chevron {
+  color: rgba(255, 255, 255, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.chevron--rotated {
+  transform: rotate(180deg);
+}
+
+.day-card__content {
+  padding: 0 1.5rem 1.5rem;
+  overflow: hidden;
+}
+
+.exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.exercise-card {
+  background: rgba(10, 22, 40, 0.6);
+  border-radius: 12px;
+  padding: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.exercise-card:hover {
+  border-color: rgba(233, 30, 99, 0.2);
+}
+
+.exercise-card__main {
+  display: flex;
+  gap: 1rem;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.checkbox:hover:not(:disabled) {
+  border-color: #e91e63;
+  background: rgba(233, 30, 99, 0.1);
+}
+
+.checkbox--checked {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+}
+
+.checkbox:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.exercise-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.input-exercise-name {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.input-exercise-name:focus {
+  outline: none;
+  border-color: #e91e63;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input-exercise-name::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.exercise-card__details {
+  display: flex;
+  gap: 1rem;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.input-group input {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #e91e63;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.textarea-notes {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.875rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: all 0.2s ease;
+}
+
+.textarea-notes:focus {
+  outline: none;
+  border-color: #e91e63;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.textarea-notes::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.media-section {
+  margin-top: 0.5rem;
+}
+
+.media-preview {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.media-preview__youtube {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.media-preview__youtube a {
+  color: #e91e63;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.media-preview__youtube a:hover {
+  color: #ff4081;
+}
+
+.media-preview__video,
+.media-preview__image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.btn-remove-media {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 28px;
+  height: 28px;
+  background: rgba(244, 67, 54, 0.9);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-remove-media:hover {
+  background: #f44336;
+  transform: scale(1.1);
+}
+
+.media-upload-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-upload,
+.btn-youtube {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-upload:hover:not(:disabled),
+.btn-youtube:hover:not(:disabled) {
+  background: rgba(233, 30, 99, 0.1);
+  border-color: #e91e63;
+  transform: translateY(-1px);
+}
+
+.btn-upload:disabled,
+.btn-youtube:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-delete {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 8px;
+  color: #f44336;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  background: rgba(244, 67, 54, 0.2);
+  border-color: #f44336;
+  transform: scale(1.05);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.btn-add-exercise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(233, 30, 99, 0.1);
+  border: 2px dashed rgba(233, 30, 99, 0.3);
+  border-radius: 12px;
+  color: #e91e63;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-add-exercise:hover {
+  background: rgba(233, 30, 99, 0.15);
+  border-color: #e91e63;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .workout-plan {
+    padding: 1rem;
+  }
+  
+  .workout-plan__header-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn-save {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .exercise-card__details {
+    flex-direction: column;
+  }
+  
+  .media-upload-buttons {
+    flex-direction: column;
+  }
+  
+  .btn-upload,
+  .btn-youtube {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.workout-plan {
+  padding: $spacing-md;
+  min-height: 100vh;
+  
+  @include mobile {
+    padding: $spacing-sm;
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__header-top {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+      align-items: flex-start;
+    }
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.3rem;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  &__week-info {
+    padding: 0.6rem 1.2rem;
+    background: rgba($primary-pink, 0.1);
+    border: 1px solid $primary-pink;
+    border-radius: 50px;
+    color: $primary-pink;
+    font-size: 0.9rem;
+    font-weight: 600;
+    
+    @include mobile {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__stats {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: var(--bg-hover);
+    border-radius: $radius-md;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      padding: $spacing-sm;
+      gap: $spacing-sm;
+      justify-content: space-between;
+    }
+  }
+  
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    @include mobile {
+      flex: 1;
+      min-width: calc(50% - 8px);
+    }
+  }
+  
+  &__stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__days {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+}
+
+// Workout Day
+.workout-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: all $transition-normal;
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  &--today {
+    border: 2px solid $primary-pink;
+    box-shadow: 0 0 20px rgba($primary-pink, 0.2);
+  }
+  
+  &__header {
+    cursor: pointer;
+    background: linear-gradient(135deg, 
+      rgba($primary-pink, 0.05) 0%, 
+      rgba($primary-pink-dark, 0.02) 100%
+    );
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: linear-gradient(135deg, 
+        rgba($primary-pink, 0.1) 0%, 
+        rgba($primary-pink-dark, 0.05) 100%
+      );
+    }
+    
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+  
+  &__header-top {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md $spacing-md 0;
+    
+    @include mobile {
+      padding: 0;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__header-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-sm $spacing-md $spacing-md;
+    
+    @include mobile {
+      padding: $spacing-sm 0 0;
+      margin-top: $spacing-sm;
+    }
+  }
+  
+  &__chevron {
+    @include flex-center;
+    color: $primary-pink;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    @include mobile {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  
+  &__title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    
+    @include mobile {
+      gap: 2px;
+    }
+  }
+  
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      flex-wrap: wrap;
+    }
+  }
+  
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__today-badge {
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    
+    @include mobile {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+    }
+  }
+  
+  &__count {
+    padding: 0.3rem 0.8rem;
+    background: rgba($primary-pink, 0.1);
+    border-radius: 50px;
+    color: $primary-pink;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    
+    @include mobile {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__expand-btn {
+    display: none;
+    
+    @include mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: rgba($primary-pink, 0.1);
+      border: none;
+      border-radius: $radius-sm;
+      color: $primary-pink;
+      cursor: pointer;
+      transition: all $transition-normal;
+      
+      &:hover {
+        background: rgba($primary-pink, 0.2);
+      }
+    }
+  }
+  
+  &__progress {
+    position: relative;
+    width: 120px;
+    height: 32px;
+    background: var(--bg-hover);
+    border-radius: 50px;
+    overflow: hidden;
+    
+    @include mobile {
+      width: 100px;
+      height: 28px;
+    }
+  }
+  
+  &__progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+    transition: width 0.5s ease;
+  }
+  
+  &__progress-text {
+    @include flex-center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 1;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-md;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-hover);
+    
+    @include mobile {
+      padding: $spacing-sm;
+    }
+  }
+  
+  &__exercises {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-radius: $radius-md;
+    border: 2px dashed var(--border-color);
+    
+    @include mobile {
+      padding: $spacing-lg;
+    }
+    
+    p {
+      margin: 0;
+      
+      &:first-child {
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: $spacing-xs;
+        
+        @include mobile {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+  
+  &__empty-sub {
+    font-size: 0.9rem;
+    margin-top: $spacing-xs;
+    color: var(--text-secondary);
+    
+    @include mobile {
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__add-exercise {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-md;
+    color: $primary-pink;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: rgba($primary-pink, 0.05);
+      border-color: $primary-pink;
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Exercise Item
+.exercise-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $primary-pink;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+    gap: $spacing-sm;
+    flex-direction: column;
+  }
+  
+  &__left, &__right {
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    min-width: 0;
+    
+    @include mobile {
+      width: 100%;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__check {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      color: $success;
+      transform: scale(1.1);
+    }
+    
+    &--completed {
+      color: $success;
+    }
+    
+    @include mobile {
+      width: 36px;
+      height: 36px;
+    }
+  }
+  
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+  }
+  
+  &__name {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.95rem;
+    }
+  }
+  
+  &__details {
+    display: flex;
+    gap: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+      justify-content: space-between;
+    }
+  }
+  
+  &__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  
+  &__detail-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__detail input {
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+    }
+    
+    @include mobile {
+      padding: 0.4rem 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__notes {
+    width: 100%;
+    padding: 0.7rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-family: inherit;
+    resize: vertical;
+    transition: all $transition-normal;
+    min-height: 60px;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+    }
+    
+    &::placeholder {
+      color: var(--text-muted);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+      min-height: 50px;
+    }
+  }
+  
+  &__media-section {
+    margin-top: $spacing-xs;
+  }
+  
+  &__upload-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      border-color: $primary-pink;
+      color: $primary-pink;
+      background: rgba($primary-pink, 0.05);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__youtube-input {
+    display: flex;
+    gap: $spacing-sm;
+    align-items: center;
+    
+    input {
+      flex: 1;
+      padding: 0.7rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-color);
+      border-radius: $radius-sm;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-pink;
+      }
+      
+      @include mobile {
+        font-size: 0.85rem;
+        padding: 0.6rem;
+      }
+    }
+  }
+  
+  &__delete {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #ffffff;
+    }
+    
+    @include mobile {
+      width: auto;
+      flex: 1;
+      padding: 0 1rem;
+      
+      span {
+        display: none;
+      }
+    }
+  }
+}
+
+// Exercise Media Preview
+.exercise-media-preview {
+  position: relative;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  
+  &__image {
+    position: relative;
+    
+    img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+      
+      @include mobile {
+        max-height: 200px;
+      }
+    }
+  }
+  
+  &__video {
+    position: relative;
+    
+    video {
+      width: 100%;
+      max-height: 250px;
+      border-radius: $radius-sm;
+      
+      @include mobile {
+        max-height: 200px;
+      }
+    }
+  }
+  
+  &__youtube {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; // 16:9 aspect ratio
+    
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: $radius-sm;
+    }
+  }
+  
+  &__remove {
+    @include flex-center;
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 32px;
+    height: 32px;
+    background: $danger;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    z-index: 2;
+    
+    &:hover {
+      background: darken($danger, 10%);
+      transform: scale(1.1);
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+// Touch-friendly enhancements
+@media (hover: none) and (pointer: coarse) {
+  .exercise-item__check,
+  .exercise-item__delete,
+  .workout-day__add-exercise {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, button {
+    font-size: 16px !important;
+  }
+  
+  .exercise-item__detail input {
+    padding: 12px !important;
+  }
+}
+// إضافة في workout-plan.scss
+
+.workout-plan__save-btn {
+  @include flex-center;
+  gap: $spacing-xs;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+  border: none;
+  border-radius: $radius-md;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 15px rgba($success, 0.3);
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba($success, 0.5);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @include mobile {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}

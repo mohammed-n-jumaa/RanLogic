@@ -1,0 +1,522 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.progress-tracker {
+  padding: $spacing-md;
+  
+  @include mobile {
+    padding: 0;
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.3rem;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// Weekly Overview Card
+.weekly-overview-card {
+  padding: $spacing-xl;
+  background: linear-gradient(135deg, 
+    rgba($primary-pink, 0.1) 0%, 
+    rgba($primary-pink-dark, 0.05) 100%
+  );
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-xl;
+  
+  @include mobile {
+    padding: $spacing-lg;
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-lg;
+    
+    @include mobile {
+      font-size: 1.1rem;
+      margin-bottom: $spacing-md;
+    }
+  }
+  
+  &__progress {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__progress-header {
+    @include flex-between;
+    margin-bottom: $spacing-sm;
+  }
+  
+  &__percentage {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary-pink;
+    
+    @include mobile {
+      font-size: 1.3rem;
+    }
+  }
+  
+  &__progress-bar {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: var(--bg-hover);
+    border-radius: 50px;
+    overflow: hidden;
+    
+    @include mobile {
+      height: 20px;
+    }
+  }
+  
+  &__progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, $primary-pink 0%, $primary-pink-dark 100%);
+    border-radius: 50px;
+    transition: width 1s ease;
+  }
+  
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+.weekly-stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background: var(--bg-card);
+  border-radius: $radius-md;
+  
+  @include mobile {
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+  }
+  
+  &__icon {
+    @include flex-center;
+    width: 56px;
+    height: 56px;
+    border-radius: $radius-md;
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 48px;
+      height: 48px;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    
+    &--workout {
+      background: rgba($primary-pink, 0.1);
+      color: $primary-pink;
+    }
+    
+    &--nutrition {
+      background: rgba($success, 0.1);
+      color: $success;
+    }
+    
+    &--calories {
+      background: rgba($warning, 0.1);
+      color: $warning;
+    }
+  }
+  
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+    
+    @include mobile {
+      font-size: 1.3rem;
+    }
+  }
+  
+  &__label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Daily Progress Section
+.daily-progress-section {
+  margin-bottom: $spacing-xl;
+  
+  @include mobile {
+    margin-bottom: $spacing-lg;
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-lg;
+    
+    @include mobile {
+      font-size: 1.1rem;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+.daily-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: $spacing-md;
+  
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+  }
+}
+
+.daily-card {
+  padding: $spacing-md;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  text-align: center;
+  transition: all $transition-normal;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: $primary-pink;
+  }
+  
+  @include mobile {
+    padding: $spacing-sm;
+  }
+  
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      margin-bottom: $spacing-sm;
+    }
+  }
+  
+  &__day {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 0.9rem;
+    }
+  }
+  
+  &__date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    
+    @include mobile {
+      font-size: 0.7rem;
+    }
+  }
+  
+  &__progress-ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto $spacing-md;
+    
+    @include mobile {
+      width: 80px;
+      height: 80px;
+      margin-bottom: $spacing-sm;
+    }
+    
+    svg {
+      transform: rotate(0deg);
+      width: 100%;
+      height: 100%;
+    }
+  }
+  
+  &__progress-text {
+    @include flex-center;
+    position: absolute;
+    inset: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+  
+  &__detail {
+    @include flex-center;
+    gap: $spacing-xs;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    
+    @include mobile {
+      font-size: 0.75rem;
+    }
+    
+    svg {
+      width: 14px;
+      height: 14px;
+      
+      @include mobile {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+// Achievements Section
+.achievements-section {
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-lg;
+    
+    @include mobile {
+      font-size: 1.1rem;
+      margin-bottom: $spacing-md;
+    }
+  }
+}
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: $spacing-md;
+  
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+  }
+}
+
+.achievement-card {
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 2px solid var(--achievement-color);
+  border-radius: $radius-lg;
+  text-align: center;
+  transition: all $transition-normal;
+  
+  &:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(233, 30, 99, 0.3);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
+  
+  &__icon {
+    font-size: 3rem;
+    margin-bottom: $spacing-sm;
+    
+    @include mobile {
+      font-size: 2.5rem;
+    }
+  }
+  
+  &__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+    
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+  
+  &__description {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+}
+// إضافة في progress-tracker.scss
+
+.progress-tracker__loading,
+.progress-tracker__error {
+  @include flex-center;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-xl * 2;
+  text-align: center;
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    color: $primary-pink;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+.progress-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.progress-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  
+  &__header {
+    @include flex-center;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-lg;
+    
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    
+    svg {
+      color: $primary-pink;
+    }
+  }
+  
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-lg;
+  }
+  
+  &__stats {
+    display: flex;
+    gap: $spacing-xl;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.progress-ring {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  &__text {
+    @include flex-center;
+    position: absolute;
+    inset: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+  &__label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  
+  &__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+}

@@ -1,0 +1,1004 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.client-details {
+  min-height: 100vh;
+  padding: $spacing-lg;
+  background: var(--bg-primary);
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
+
+  &__header {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__back-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.7rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-md;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: $primary-pink;
+      color: $primary-pink;
+      transform: translateX(5px);
+    }
+    
+    @include mobile {
+      padding: 0.6rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  &__tabs {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-xl;
+    border-bottom: 2px solid var(--border-color);
+    overflow-x: auto;
+    
+    @include custom-scrollbar;
+    
+    @include mobile {
+      flex-direction: column;
+      border-bottom: none;
+      gap: $spacing-xs;
+    }
+  }
+
+  &__tab {
+    @include flex-center;
+    gap: $spacing-xs;
+    position: relative;
+    padding: $spacing-md $spacing-lg;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    white-space: nowrap;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $primary-pink;
+      transform: scaleX(0);
+      transition: transform $transition-normal;
+    }
+    
+    &:hover {
+      color: $primary-pink;
+      background: rgba($primary-pink, 0.05);
+    }
+    
+    &--active {
+      color: $primary-pink;
+      
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+    
+    @include mobile {
+      justify-content: center;
+      border: 1px solid var(--border-color);
+      border-radius: $radius-sm;
+      padding: $spacing-sm $spacing-md;
+      
+      &::after {
+        display: none;
+      }
+      
+      &--active {
+        background: rgba($primary-pink, 0.1);
+        border-color: $primary-pink;
+      }
+    }
+  }
+
+  &__content {
+    min-height: 400px;
+  }
+
+  // إضافة أنماط إدارة المتدربين من الكود الأول
+  &__title-section {
+    margin-bottom: $spacing-xl;
+  }
+
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+    
+    @include mobile {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  &__add-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    border: none;
+    border-radius: $radius-md;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
+    white-space: nowrap;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba($primary-pink, 0.5);
+    }
+    
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  // Statistics
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Filters
+  &__filters {
+    display: flex;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+    flex-wrap: wrap;
+    width: 100%;
+    
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  // Grid
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: $spacing-md;
+    grid-auto-rows: minmax(300px, auto);
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+  }
+
+  // Empty State
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xl * 2;
+    text-align: center;
+    color: var(--text-muted);
+    grid-column: 1 / -1;
+    width: 100%;
+    
+    svg {
+      color: $primary-pink;
+      opacity: 0.5;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    
+    p {
+      font-size: 1rem;
+      margin: 0;
+    }
+  }
+}
+
+// Stat Card - تصميم محسّن مع تأثيرات بصرية متقدمة
+.stat-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg $spacing-xl;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+  
+  // تأثير التدرج المتحرك في الخلفية
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.03) 50%, 
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+  }
+  
+  // شبكة نقطية ديكورية
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 150%;
+    height: 200%;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0;
+    transform: rotate(-12deg);
+    transition: opacity 0.4s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(233, 30, 99, 0.1);
+    border-color: rgba($primary-pink, 0.4);
+    
+    &::before {
+      left: 100%;
+    }
+    
+    &::after {
+      opacity: 1;
+    }
+    
+    .stat-card__icon {
+      transform: scale(1.1) rotate(-8deg);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    .stat-card__value {
+      transform: scale(1.08);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-card__label {
+      transform: translateX(-2px);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-4px) scale(1.01);
+  }
+  
+  &__icon {
+    @include flex-center;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 
+      0 4px 20px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    
+    // حلقة ضوئية حول الأيقونة
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 16px;
+      padding: 3px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), transparent 60%);
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    
+    // وهج داخلي
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      border-radius: 10px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), transparent 70%);
+      opacity: 0.8;
+    }
+    
+    &--primary {
+      background: linear-gradient(135deg, 
+        rgba($primary-pink, 0.2) 0%, 
+        rgba($primary-pink, 0.08) 100%
+      );
+      color: $primary-pink;
+      
+      &::before {
+        background: linear-gradient(135deg, $primary-pink 0%, transparent 70%);
+      }
+    }
+    
+    &--success {
+      background: linear-gradient(135deg, 
+        rgba($success, 0.2) 0%, 
+        rgba($success, 0.08) 100%
+      );
+      color: $success;
+      
+      &::before {
+        background: linear-gradient(135deg, $success 0%, transparent 70%);
+      }
+    }
+    
+    &--danger {
+      background: linear-gradient(135deg, 
+        rgba($danger, 0.2) 0%, 
+        rgba($danger, 0.08) 100%
+      );
+      color: $danger;
+      
+      &::before {
+        background: linear-gradient(135deg, $danger 0%, transparent 70%);
+      }
+    }
+    
+    &--warning {
+      background: linear-gradient(135deg, 
+        rgba($warning, 0.2) 0%, 
+        rgba($warning, 0.08) 100%
+      );
+      color: $warning;
+      
+      &::before {
+        background: linear-gradient(135deg, $warning 0%, transparent 70%);
+      }
+    }
+    
+    svg {
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+  }
+  
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+  
+  &__label {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    line-height: 1.3;
+  }
+  
+  &__value {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: linear-gradient(135deg, 
+      var(--text-primary) 0%, 
+      var(--text-secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    
+    // وميض خفيف
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255, 255, 255, 0.3) 50%, 
+        transparent 100%
+      );
+      transform: translateX(-100%);
+      animation: shimmer 3s infinite;
+    }
+  }
+  
+  // أنيميشن الوميض
+  @keyframes shimmer {
+    0%, 100% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+// Search Box - تصميم محسّن
+.search-box {
+  @include flex-center;
+  flex: 1;
+  gap: $spacing-sm;
+  padding: 0 $spacing-lg;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  // خط سفلي متحرك
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      $primary-pink 0%, 
+      rgba($primary-pink, 0.5) 50%, 
+      $primary-pink 100%
+    );
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  &:focus-within {
+    border-color: $primary-pink;
+    box-shadow: 
+      0 0 0 4px rgba($primary-pink, 0.1),
+      0 8px 24px rgba($primary-pink, 0.15);
+    transform: translateY(-2px);
+    
+    &::before {
+      transform: scaleX(1);
+    }
+    
+    svg {
+      color: $primary-pink;
+      transform: scale(1.1) rotate(-8deg);
+    }
+  }
+  
+  &:hover {
+    border-color: rgba($primary-pink, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+  }
+  
+  input {
+    flex: 1;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    
+    &:focus {
+      outline: none;
+    }
+    
+    &::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+  }
+}
+
+// Filter Box - تصميم محسّن
+.filter-box {
+  @include flex-center;
+  gap: $spacing-sm;
+  padding: 0 $spacing-lg;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  min-width: 220px;
+  flex: 0 1 auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba($primary-pink, 0.05) 50%, 
+      transparent 100%
+    );
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    border-color: rgba($primary-pink, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+    
+    &::before {
+      left: 100%;
+    }
+    
+    svg {
+      color: $primary-pink;
+      transform: rotate(180deg);
+    }
+  }
+  
+  @include mobile {
+    min-width: auto;
+    flex: 1;
+  }
+  
+  svg {
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  select {
+    flex: 1;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// بطاقة معلومات العميل - تصميم محسّن
+.client-info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-xl;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  // خلفية ديكورية
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba($primary-pink, 0.03) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  
+  &:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__main {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    padding-bottom: $spacing-xl;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: $spacing-xl;
+    position: relative;
+    z-index: 1;
+    
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+      gap: $spacing-md;
+      padding-bottom: $spacing-lg;
+      margin-bottom: $spacing-lg;
+    }
+  }
+
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid $primary-pink;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 
+      0 12px 40px rgba($primary-pink, 0.4),
+      0 0 0 8px rgba($primary-pink, 0.1);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    
+    &:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 
+        0 16px 50px rgba($primary-pink, 0.5),
+        0 0 0 12px rgba($primary-pink, 0.15);
+    }
+    
+    // حلقة متحركة
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      padding: 2px;
+      background: linear-gradient(45deg, $primary-pink, transparent 50%, $primary-pink);
+      -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      animation: rotate-border 3s linear infinite;
+    }
+    
+    @include mobile {
+      width: 100px;
+      height: 100px;
+      border-width: 3px;
+    }
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  @keyframes rotate-border {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &__avatar-placeholder {
+    @include flex-center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    color: #ffffff;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    
+    @include mobile {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__details {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-md;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    @include mobile {
+      font-size: 1.5rem;
+      margin-bottom: $spacing-sm;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    gap: $spacing-lg;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+  }
+
+  &__meta-item {
+    @include flex-center;
+    gap: $spacing-xs;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      color: $primary-pink;
+      transform: translateX(-4px);
+      
+      svg {
+        transform: scale(1.2);
+      }
+    }
+    
+    svg {
+      color: $primary-pink;
+      transition: transform 0.3s ease;
+    }
+    
+    @include mobile {
+      font-size: 0.85rem;
+    }
+  }
+
+  &__status {
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.4s ease, height 0.4s ease;
+    }
+    
+    &:hover::before {
+      width: 200%;
+      height: 200%;
+    }
+    
+    @include mobile {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+    
+    &--active {
+      background: rgba($success, 0.1);
+      color: $success;
+      border: 2px solid $success;
+      box-shadow: 0 4px 12px rgba($success, 0.2);
+    }
+    
+    &--expired {
+      background: rgba($danger, 0.1);
+      color: $danger;
+      border: 2px solid $danger;
+      box-shadow: 0 4px 12px rgba($danger, 0.2);
+    }
+    
+    &--pending {
+      background: rgba($warning, 0.1);
+      color: $warning;
+      border: 2px solid $warning;
+      box-shadow: 0 4px 12px rgba($warning, 0.2);
+    }
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-md;
+    position: relative;
+    z-index: 1;
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+// إحصائية معلومات - تصميم محسّن
+.info-stat {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: var(--bg-hover);
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba($primary-pink, 0.05) 50%, 
+      transparent 100%
+    );
+    transition: left 0.5s ease;
+  }
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-color: $primary-pink;
+    background: var(--bg-card);
+    
+    &::before {
+      left: 100%;
+    }
+    
+    .info-stat__icon {
+      transform: scale(1.1) rotate(-12deg);
+      box-shadow: 0 6px 20px rgba($primary-pink, 0.3);
+    }
+    
+    .info-stat__value {
+      transform: scale(1.05);
+      color: $primary-pink;
+    }
+  }
+  
+  @include mobile {
+    padding: $spacing-sm;
+    gap: $spacing-sm;
+  }
+
+  &__icon {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    background: rgba($primary-pink, 0.12);
+    border-radius: $radius-md;
+    color: $primary-pink;
+    flex-shrink: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 12px rgba($primary-pink, 0.15);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 3px;
+      border-radius: 8px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), transparent);
+    }
+    
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+    
+    svg {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    
+    @include mobile {
+      font-size: 0.75rem;
+    }
+  }
+
+  &__value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+}

@@ -1,0 +1,134 @@
+@import './variables';
+
+// Flexbox Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Card Style
+@mixin card {
+  background: var(--bg-card);
+  border-radius: $radius-md;
+  border: 1px solid var(--border-color);
+  transition: all $transition-normal;
+}
+
+@mixin card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: $primary-pink;
+  }
+}
+
+// Scrollbar
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-pink;
+    border-radius: 10px;
+    
+    &:hover {
+      background: $primary-pink-light;
+    }
+  }
+}
+
+// Responsive Breakpoints
+@mixin mobile {
+  @media (max-width: #{$mobile - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $mobile) and (max-width: #{$tablet - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+// Animations
+@mixin pulse-animation {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@mixin slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+// Pink Border Active
+@mixin pink-border-active {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $primary-pink;
+    border-radius: 0 4px 4px 0;
+    transform: scaleY(0);
+    transition: transform $transition-normal;
+  }
+  
+  &.active::before,
+  &:hover::before {
+    transform: scaleY(1);
+  }
+}

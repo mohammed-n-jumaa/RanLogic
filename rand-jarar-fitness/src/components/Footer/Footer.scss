@@ -1,0 +1,536 @@
+@import '../../styles/variables.scss';
+
+// ===================================
+// Footer
+// ===================================
+.footer {
+  background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 50%, #1C1C1C 100%);
+  color: $text-white;
+  padding: 4rem 0 2rem;
+  position: relative;
+  direction: ltr;
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 3rem 0 1.5rem;
+  }
+}
+
+// ===================================
+// Loading & Error States
+// ===================================
+.footer-loading,
+.footer-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  width: 100%;
+  
+  .spinner {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: $primary-color;
+    animation: spin 1.5s linear infinite;
+  }
+  
+  p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+  }
+}
+
+.footer-error {
+  .retry-btn {
+    padding: 0.8rem 1.8rem;
+    background: $primary-color;
+    color: $secondary-color;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+    }
+  }
+}
+
+// ===================================
+// Footer Container
+// ===================================
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 1.5rem;
+  }
+}
+
+// ===================================
+// Main Footer Content
+// ===================================
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(253, 184, 19, 0.2);
+  
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-bottom: 2rem;
+  }
+}
+
+// ===================================
+// Brand Section
+// ===================================
+.footer-brand {
+  .brand-logo {
+    margin-bottom: 1.5rem;
+    
+    .footer-logo-image {
+      height: 60px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+      filter: brightness(1.1) contrast(1.1);
+      transition: all $transition-normal;
+      
+      &:hover {
+        filter: brightness(1.2) contrast(1.15);
+      }
+      
+      @media (max-width: $breakpoint-tablet) {
+        height: 50px;
+      }
+      
+      @media (max-width: $breakpoint-mobile) {
+        height: 45px;
+      }
+    }
+    
+    .footer-logo-fallback {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      
+      .logo-icon {
+        font-size: 2rem;
+        color: $primary-color;
+      }
+      
+      .logo-text {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: $text-white;
+        letter-spacing: 0.5px;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+  }
+  
+  .brand-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 400px;
+    margin: 0 0 1.5rem 0;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.95rem;
+    }
+  }
+  
+  .contact-info {
+    .contact-item {
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      .contact-label {
+        font-weight: 600;
+        color: $primary-color;
+        font-size: 0.9rem;
+        min-width: 70px;
+        font-family: 'Poppins', sans-serif;
+      }
+      
+      .contact-value {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color $transition-fast;
+        font-family: 'Poppins', sans-serif;
+        
+        &:hover {
+          color: $primary-color;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// Footer Links
+// ===================================
+.footer-links {
+  .footer-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $text-white;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: 0.8rem;
+      
+      a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 1rem;
+        transition: all $transition-fast;
+        display: inline-block;
+        font-family: 'Poppins', sans-serif;
+        
+        &:hover {
+          color: $primary-color;
+          transform: translateX(5px);
+        }
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 0.95rem;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// Social Section
+// ===================================
+.footer-social {
+  .footer-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $text-white;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .social-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    
+    @media (max-width: $breakpoint-tablet) {
+      grid-template-columns: repeat(6, 1fr);
+      max-width: 400px;
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .social-link {
+    width: 50px;
+    height: 50px;
+    background: rgba(253, 184, 19, 0.1);
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-white;
+    font-size: 1.3rem;
+    transition: all $transition-normal;
+    border: 1px solid rgba(253, 184, 19, 0.2);
+    
+    svg {
+      transition: color $transition-normal;
+    }
+    
+    &:hover {
+      svg {
+        color: $text-white;
+      }
+      border-color: $primary-color;
+      background: rgba(253, 184, 19, 0.2);
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      width: 45px;
+      height: 45px;
+      font-size: 1.2rem;
+    }
+  }
+}
+
+// ===================================
+// Footer Bottom
+// ===================================
+.footer-bottom {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 1.5rem;
+  }
+}
+
+.footer-legal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
+  
+  .legal-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color $transition-fast;
+    font-family: 'Poppins', sans-serif;
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+  
+  .separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+  }
+}
+
+.footer-copyright {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  font-family: 'Poppins', sans-serif;
+  
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
+  
+  .heart-icon {
+    color: $primary-color;
+    font-size: 1rem;
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+}
+
+// ===================================
+// RTL Support for Arabic
+// ===================================
+[dir="rtl"] {
+  .footer {
+    .footer-links {
+      .links-list {
+        li {
+          a {
+            &:hover {
+              transform: translateX(-5px);
+            }
+          }
+        }
+      }
+    }
+    
+    .footer-brand {
+      .contact-info {
+        .contact-item {
+          flex-direction: row-reverse;
+          justify-content: flex-start;
+        }
+      }
+    }
+    
+    .footer-social {
+      .social-links {
+        direction: ltr;
+      }
+    }
+  }
+}
+
+// ===================================
+// Animations
+// ===================================
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  10%, 30% {
+    transform: scale(1.1);
+  }
+  20%, 40% {
+    transform: scale(1);
+  }
+}
+// ===================================
+// Loading & Error States
+// ===================================
+.footer-loading,
+.footer-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 50%, #1C1C1C 100%);
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(253, 184, 19, 0.3);
+    border-top-color: $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+  
+  p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1.5rem;
+  }
+}
+
+.footer-error {
+  .retry-btn {
+    padding: 0.7rem 1.5rem;
+    background: $primary-color;
+    color: $secondary-color;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+    }
+  }
+}
+
+// ===================================
+// Logo Image
+// ===================================
+.brand-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  
+  .logo-image {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .fallback-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    
+    .logo-icon {
+      font-size: 2rem;
+      color: $primary-color;
+    }
+    
+    .logo-text {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: $text-white;
+      letter-spacing: 0.5px;
+      font-family: 'Poppins', sans-serif;
+    }
+  }
+}
+
+// ===================================
+// RTL Support for Arabic
+// ===================================
+[dir="rtl"] {
+  .footer-main {
+    .footer-brand,
+    .footer-links,
+    .footer-social {
+      .links-list {
+        li {
+          a {
+            &:hover {
+              transform: translateX(-5px);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .footer-bottom {
+    .footer-legal {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+// ===================================
+// Animation Keyframes
+// ===================================
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

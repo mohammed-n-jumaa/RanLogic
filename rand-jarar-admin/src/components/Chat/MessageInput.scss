@@ -1,0 +1,129 @@
+// src/components/Chat/MessageInput.scss
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+
+.message-input {
+  display: flex;
+  align-items: flex-end;
+  gap: $spacing-md;
+  padding: $spacing-md $spacing-lg;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+
+  @include mobile {
+    padding: $spacing-sm;
+    gap: $spacing-sm;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-xs;
+    flex-shrink: 0;
+  }
+
+  &__action-btn {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    &:hover {
+      background: var(--bg-hover);
+      border-color: $primary-pink;
+      color: $primary-pink;
+    }
+
+    @include mobile {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  &__field {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    textarea {
+      width: 100%;
+      min-height: 40px;
+      max-height: 120px;
+      padding: 0.7rem 1rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-color);
+      border-radius: $radius-md;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-family: inherit;
+      resize: none;
+      transition: all $transition-normal;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-pink;
+        box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+      }
+
+      &::placeholder {
+        color: var(--text-muted);
+      }
+
+      @include mobile {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  &__send {
+    flex-shrink: 0;
+  }
+
+  &__send-btn {
+    @include flex-center;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    border: none;
+    border-radius: $radius-md;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    &:hover:not(:disabled) {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba($primary-pink, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @include mobile {
+      width: 44px;
+      height: 44px;
+    }
+  }
+}
+
+// Touch-friendly enhancements
+@media (hover: none) and (pointer: coarse) {
+  .message-input {
+    &__action-btn,
+    &__send-btn {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+}

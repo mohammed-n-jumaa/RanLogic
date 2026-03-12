@@ -1,0 +1,565 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+
+.paypal-subscriptions {
+  &__loading {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    min-height: 400px;
+    color: var(--text-muted);
+    
+    .spinner-large {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba($primary-pink, 0.2);
+      border-top-color: $primary-pink;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__header-content {
+    @include flex-between;
+    gap: $spacing-md;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  
+  &__title-section {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: $spacing-xs;
+    
+    @include tablet {
+      font-size: 1.8rem;
+    }
+    
+    @include mobile {
+      font-size: 1.5rem;
+      gap: $spacing-xs;
+    }
+  }
+  
+  &__subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      width: 100%;
+    }
+  }
+  
+  &__action-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.7rem 1.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: $primary-pink;
+      color: $primary-pink;
+      transform: translateY(-2px);
+    }
+    
+    @include mobile {
+      flex: 1;
+      padding: 0.7rem 1rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__add-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: $radius-sm;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba($primary-pink, 0.5);
+    }
+    
+    @include mobile {
+      width: 100%;
+      padding: 0.8rem 1.5rem;
+      font-size: 0.95rem;
+    }
+  }
+  
+  // Stats
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+  }
+  
+  // Filters
+  &__filters {
+    display: flex;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  
+  &__search {
+    position: relative;
+    flex: 1;
+    
+    svg {
+      position: absolute;
+      top: 50%;
+      right: 12px;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    
+    input {
+      width: 100%;
+      padding: 0.8rem 1rem 0.8rem 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: $radius-sm;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: all $transition-normal;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-pink;
+        box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+      }
+      
+      @include mobile {
+        padding: 0.7rem 0.9rem 0.7rem 2.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  &__filter-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.8rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    white-space: nowrap;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: $primary-pink;
+      color: $primary-pink;
+    }
+    
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  &__filter-panel {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    margin-bottom: $spacing-md;
+    overflow: hidden;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+    
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: $spacing-sm;
+      flex: 1;
+      
+      label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        white-space: nowrap;
+        
+        @include mobile {
+          font-size: 0.85rem;
+        }
+      }
+      
+      select {
+        flex: 1;
+        padding: 0.6rem;
+        background: var(--bg-hover);
+        border: 1px solid var(--border-color);
+        border-radius: $radius-sm;
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all $transition-normal;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-pink;
+        }
+        
+        @include mobile {
+          font-size: 0.85rem;
+        }
+      }
+      
+      @include mobile {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    
+    .filter-reset {
+      padding: 0.6rem 1.2rem;
+      background: rgba($danger, 0.1);
+      border: 1px solid $danger;
+      border-radius: $radius-sm;
+      color: $danger;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all $transition-normal;
+      white-space: nowrap;
+      
+      &:hover {
+        background: rgba($danger, 0.2);
+      }
+      
+      @include mobile {
+        width: 100%;
+      }
+    }
+  }
+  
+  // Content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+    
+    @include mobile {
+      gap: $spacing-lg;
+    }
+  }
+  
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    padding: $spacing-xxl;
+    text-align: center;
+    color: var(--text-muted);
+    
+    svg {
+      color: $primary-pink;
+      opacity: 0.5;
+    }
+    
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 0;
+      
+      @include mobile {
+        font-size: 1.2rem;
+      }
+    }
+    
+    p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin: 0;
+      
+      @include mobile {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  &__empty-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: $radius-sm;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    margin-top: $spacing-sm;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($primary-pink, 0.4);
+    }
+  }
+}
+
+// Plan Section
+.plan-section {
+  &__header {
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid var(--border-color);
+  }
+  
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.2rem;
+    }
+  }
+  
+  &__icon {
+    font-size: 1.8rem;
+    
+    @include mobile {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__count {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    
+    @include mobile {
+      font-size: 0.9rem;
+    }
+  }
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: $spacing-md;
+    
+    @include tablet {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    @include mobile {
+      grid-template-columns: 1fr;
+      gap: $spacing-sm;
+    }
+  }
+}
+
+// Stat Card
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  transition: all $transition-normal;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
+  
+  &__icon {
+    @include flex-center;
+    width: 60px;
+    height: 60px;
+    border-radius: $radius-md;
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 50px;
+      height: 50px;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  &__value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 4px;
+    
+    @include mobile {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &--blue {
+    &::before {
+      background: linear-gradient(135deg, $primary-blue 0%, $primary-blue-dark 100%);
+    }
+    
+    .stat-card__icon {
+      background: rgba($primary-blue, 0.1);
+      color: $primary-blue;
+    }
+  }
+  
+  &--success {
+    &::before {
+      background: linear-gradient(135deg, $success 0%, $success-dark 100%);
+    }
+    
+    .stat-card__icon {
+      background: rgba($success, 0.1);
+      color: $success;
+    }
+  }
+  
+  &--warning {
+    &::before {
+      background: linear-gradient(135deg, $warning 0%, $warning-dark 100%);
+    }
+    
+    .stat-card__icon {
+      background: rgba($warning, 0.1);
+      color: $warning;
+    }
+  }
+  
+  &--pink {
+    &::before {
+      background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+    }
+    
+    .stat-card__icon {
+      background: rgba($primary-pink, 0.1);
+      color: $primary-pink;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,1205 @@
+@import '../../styles/variables.scss';
+
+// ===================================
+// Auth Overlay - MOBILE SCROLL FIX
+// ===================================
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+  direction: ltr;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* للنعومة على iOS */
+  backdrop-filter: blur(5px);
+  
+  /* إخفاء scrollbar على بعض المتصفحات */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0;
+    align-items: flex-start; /* للتأكد من أن المحتوى يبدأ من الأعلى */
+  }
+}
+
+// ===================================
+// Auth Container
+// ===================================
+.auth-container {
+  position: relative;
+  perspective: 2000px;
+  max-width: 1100px;
+  width: 100%;
+  margin: auto;
+  min-height: 100%;
+  
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 900px;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    max-width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start; /* يبدأ من الأعلى */
+    padding: 0;
+  }
+}
+
+// ===================================
+// Floating Icons Background
+// ===================================
+.floating-icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: $radius-xxl;
+  
+  .floating-icon {
+    position: absolute;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.08);
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+// ===================================
+// Auth Card - Split Design
+// ===================================
+.auth-card {
+  background: white;
+  border-radius: $radius-xxl;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  display: grid;
+  grid-template-columns: 42% 58%;
+  position: relative;
+  max-width: 1100px;
+  width: 100%;
+  max-height: 85vh;
+  min-height: 600px;
+  
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    max-height: 90vh;
+    min-height: auto;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    border-radius: 0;
+    max-height: none; /* إزالة الحد الأقصى للارتفاع */
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+  }
+}
+
+// ===================================
+// Left Side - Visual Section
+// ===================================
+.auth-visual {
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  min-height: 600px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle, rgba(218, 165, 32, 0.05) 1px, transparent 1px);
+    background-size: 25px 25px;
+    opacity: 0.4;
+    z-index: 1;
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 2rem 1.5rem;
+    min-height: 250px;
+    order: -1; /* يجعلها في الأعلى على الشاشات الصغيرة */
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1.5rem 1rem;
+    min-height: 180px;
+    flex-shrink: 0; /* يمنع التقلص */
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(218, 165, 32, 0.1) 0%, rgba(184, 134, 11, 0.06) 50%, transparent 100%);
+    border-radius: 50%;
+    top: -80px;
+    left: -80px;
+    animation: float 15s ease-in-out infinite;
+    z-index: 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.03); }
+}
+
+.auth-visual {
+  .animated-circle-2 {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(205, 127, 50, 0.08) 0%, rgba(160, 82, 45, 0.04) 50%, transparent 100%);
+    border-radius: 50%;
+    bottom: -60px;
+    right: -60px;
+    animation: float 12s ease-in-out infinite reverse;
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+.visual-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+}
+
+.visual-circle {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  
+  @media (max-width: $breakpoint-mobile) {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+  }
+  
+  .circle-inner {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(218, 165, 32, 0.18) 0%, rgba(184, 134, 11, 0.12) 100%);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    border: 2.5px solid rgba(218, 165, 32, 0.35);
+    box-shadow: 
+      0 0 35px rgba(218, 165, 32, 0.2),
+      inset 0 0 35px rgba(218, 165, 32, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .circle-icon {
+      font-size: 4rem;
+      color: #DAA520;
+      filter: drop-shadow(0 3px 10px rgba(218, 165, 32, 0.35));
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
+
+.visual-text {
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 0.8rem;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 1.4rem;
+      margin-bottom: 0.6rem;
+    }
+  }
+  
+  p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.visual-stats {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  
+  @media (max-width: $breakpoint-mobile) {
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem;
+    border-radius: $radius-lg;
+    font-family: 'Poppins', sans-serif;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+    }
+    
+    svg {
+      font-size: 1rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+.visual-text {
+  .client-badge {
+    background: rgba(77, 171, 247, 0.15);
+    border: 1px solid rgba(77, 171, 247, 0.3);
+    border-radius: 14px;
+    padding: 0.5rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #4dabf7;
+    margin-top: 0.8rem;
+    
+    svg {
+      font-size: 0.75rem;
+    }
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+}
+
+// ===================================
+// Right Side - Form Section with FIXED SCROLL
+// ===================================
+.auth-form-container {
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 85vh;
+  -webkit-overflow-scrolling: touch; /* للنعومة على iOS */
+  
+  /* Custom Scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 4px;
+    
+    &:hover {
+      background: #ccc;
+    }
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 2rem;
+    max-height: calc(90vh - 250px);
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1.5rem 1.2rem;
+    max-height: none; /* إزالة الحد الأقصى للارتفاع */
+    flex: 1; /* يأخذ المساحة المتبقية */
+    overflow-y: visible; /* إزالة overflow-y */
+    min-height: 0; /* يسمح بالتقلص */
+  }
+}
+
+// ===================================
+// Field Labels
+// ===================================
+.field-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: $secondary-color;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+  
+  [dir="rtl"] & {
+    text-align: right;
+  }
+}
+
+.auth-header {
+  margin-bottom: 1.5rem;
+  
+  @media (max-width: $breakpoint-mobile) {
+    margin-bottom: 1.2rem;
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+    
+    h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: $secondary-color;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-tablet) {
+        font-size: 1.6rem;
+      }
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.4rem;
+      }
+    }
+    
+    .role-badge {
+      background: rgba(77, 171, 247, 0.12);
+      border: 1px solid rgba(77, 171, 247, 0.25);
+      border-radius: 12px;
+      padding: 0.3rem 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #4dabf7;
+      
+      svg {
+        font-size: 0.65rem;
+      }
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+      }
+    }
+  }
+  
+  p {
+    color: $text-light;
+    font-size: 0.9rem;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    line-height: 1.4;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// ===================================
+// Form Elements
+// ===================================
+.form-group {
+  margin-bottom: 1.2rem;
+  
+  @media (max-width: $breakpoint-mobile) {
+    margin-bottom: 1rem;
+  }
+}
+
+.input-wrapper {
+  position: relative;
+  
+  .input-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #FDB813;
+    font-size: 1rem;
+    z-index: 1;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.9rem;
+      right: 0.8rem;
+    }
+  }
+  
+  .validation-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    z-index: 1;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.9rem;
+      left: 0.8rem;
+    }
+    
+    [dir="rtl"] & {
+      left: auto;
+      right: 1rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        right: 0.8rem;
+      }
+    }
+    
+    &.success-icon {
+      color: #51cf66;
+    }
+    
+    &.error-icon {
+      color: #ff3860;
+    }
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.85rem 3rem 0.85rem 1rem;
+    border: 2px solid #f0f0f0;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    background: #fafafa;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0.75rem 2.5rem 0.75rem 0.8rem;
+      font-size: 0.9rem;
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: #FDB813;
+      background: white;
+      box-shadow: 0 3px 12px rgba(253, 184, 19, 0.08);
+      transform: translateY(-1px);
+    }
+    
+    &::placeholder {
+      color: #aaa;
+      font-size: 0.9rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.85rem;
+      }
+    }
+  }
+  
+  &.success {
+    input, .select-input {
+      border-color: #51cf66 !important;
+      background: rgba(81, 207, 102, 0.04) !important;
+    }
+    
+    .input-icon {
+      color: #51cf66 !important;
+    }
+  }
+  
+  &.error {
+    input, .select-input {
+      border-color: #ff3860 !important;
+      background: rgba(255, 56, 96, 0.04) !important;
+    }
+    
+    .input-icon {
+      color: #ff3860 !important;
+    }
+  }
+}
+
+// ===================================
+// Select Input
+// ===================================
+.select-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid #f0f0f0;
+  border-radius: $radius-lg;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  background: #fafafa;
+  color: #333;
+  appearance: none;
+  cursor: pointer;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0.75rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: #FDB813;
+    background: white;
+    box-shadow: 0 3px 12px rgba(253, 184, 19, 0.08);
+  }
+  
+  option {
+    color: #333;
+    font-family: 'Poppins', 'Tajawal', sans-serif;
+  }
+  
+  [dir="rtl"] & {
+    text-align: right;
+  }
+}
+
+// ===================================
+// Error & Success Messages
+// ===================================
+.error-message {
+  display: block;
+  color: #ff3860;
+  font-size: 0.75rem;
+  margin-top: 0.4rem;
+  text-align: right;
+  font-family: 'Tajawal', 'Poppins', sans-serif;
+  font-weight: 500;
+  
+  [dir="ltr"] & {
+    text-align: left;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.7rem;
+  }
+}
+
+.submit-error {
+  background: rgba(255, 56, 96, 0.08);
+  border: 1px solid rgba(255, 56, 96, 0.25);
+  border-radius: $radius-md;
+  padding: 0.7rem 0.9rem;
+  color: #ff3860;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  font-family: 'Tajawal', 'Poppins', sans-serif;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+  }
+}
+
+// ===================================
+// Password Strength
+// ===================================
+.password-strength {
+  margin-top: 0.6rem;
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: $radius-md;
+  padding: 0.8rem;
+  border: 1px solid #eee;
+  
+  .strength-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.7rem;
+    }
+    
+    span:first-child {
+      color: $text-light;
+      font-weight: 500;
+    }
+    
+    .strength-text {
+      font-weight: 700;
+      font-size: 0.8rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.75rem;
+      }
+      
+      &.weak {
+        color: #ff3860;
+      }
+      
+      &.fair {
+        color: #ff922b;
+      }
+      
+      &.medium {
+        color: #FDB813;
+      }
+      
+      &.strong {
+        color: #51cf66;
+      }
+    }
+  }
+  
+  .strength-bar {
+    width: 100%;
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.6rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      height: 5px;
+    }
+    
+    .strength-fill {
+      height: 100%;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      
+      &.weak {
+        background: linear-gradient(90deg, #ff3860, #ff6b96);
+      }
+      
+      &.fair {
+        background: linear-gradient(90deg, #ff922b, #ffa94d);
+      }
+      
+      &.medium {
+        background: linear-gradient(90deg, #FDB813, #ffc84a);
+      }
+      
+      &.strong {
+        background: linear-gradient(90deg, #51cf66, #7adb8c);
+      }
+    }
+  }
+}
+
+// ===================================
+// Password Requirements
+// ===================================
+.password-requirements {
+  margin-top: 0.6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    gap: 0.4rem;
+  }
+  
+  .requirement {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: #999;
+    transition: all 0.3s ease;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.7rem;
+      gap: 0.4rem;
+    }
+    
+    svg {
+      font-size: 0.8rem;
+      color: #ff3860;
+      flex-shrink: 0;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.75rem;
+      }
+    }
+    
+    span {
+      line-height: 1.3;
+    }
+    
+    &.met {
+      color: #51cf66;
+      
+      svg {
+        color: #51cf66;
+      }
+    }
+  }
+}
+
+// ===================================
+// Buttons
+// ===================================
+.submit-button {
+  width: 100%;
+  padding: 0.95rem;
+  background: linear-gradient(135deg, #4dabf7, #51cf66);
+  color: white;
+  border: none;
+  border-radius: $radius-lg;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(77, 171, 247, 0.25);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0.85rem;
+    font-size: 0.95rem;
+  }
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(77, 171, 247, 0.35);
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+    font-size: 1.2rem;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// ===================================
+// Switch Mode
+// ===================================
+.switch-mode {
+  margin-top: 1.2rem;
+  text-align: center;
+  
+  @media (max-width: $breakpoint-mobile) {
+    margin-top: 1rem;
+  }
+  
+  p {
+    color: $text-light;
+    font-size: 0.85rem;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 0.8rem;
+    }
+    
+    button {
+      background: none;
+      border: none;
+      color: #FDB813;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 0.4rem;
+      font-size: 0.85rem;
+      transition: all 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 0.8rem;
+      }
+      
+      &:hover {
+        color: #F9A825;
+        text-decoration: underline;
+      }
+      
+      [dir="rtl"] & {
+        margin-left: 0;
+        margin-right: 0.4rem;
+      }
+    }
+  }
+}
+
+// ===================================
+// Close Button
+// ===================================
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  font-size: 1.3rem;
+  color: $secondary-color;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  
+  @media (max-width: $breakpoint-mobile) {
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.9);
+  }
+  
+  &:hover {
+    background: #FDB813;
+    color: white;
+    box-shadow: 0 6px 18px rgba(253, 184, 19, 0.35);
+  }
+}
+
+// ===================================
+// Loading Check
+// ===================================
+.loading-check {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: #fff;
+  
+  .spinner-large {
+    font-size: 42px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 16px;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 36px;
+    }
+  }
+  
+  p {
+    font-size: 16px;
+    opacity: 0.85;
+    
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
+    }
+  }
+}
+
+// ===================================
+// Password Toggle Eye Icon
+// ===================================
+.password-wrapper {
+  position: relative;
+  
+  .password-toggle {
+    position: absolute;
+    left: 30rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 2;
+    
+    @media (max-width: $breakpoint-mobile) {
+      left: 2.8rem;
+      font-size: 0.9rem;
+      padding: 0.4rem;
+    }
+    
+    &:hover {
+      color: #666;
+    }
+    
+    &:focus {
+      outline: none;
+      color: #FDB813;
+    }
+    
+    svg {
+      pointer-events: none;
+    }
+    
+    [dir="rtl"] & {
+      left: 3rem;
+      right: auto;
+      
+      @media (max-width: $breakpoint-mobile) {
+        right: 2.8rem;
+      }
+    }
+  }
+  
+  // Adjust validation icon position when eye icon is present
+  .validation-icon {
+    left: 1rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      left: 0.8rem;
+    }
+    
+    [dir="rtl"] & {
+      left: auto;
+      right: 1rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        right: 0.8rem;
+      }
+    }
+  }
+  
+  // Adjust input padding to accommodate eye icon
+  input {
+    padding-left: 4.5rem;
+    padding-right: 3.5rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding-left: 4rem;
+      padding-right: 3rem;
+    }
+    
+    [dir="rtl"] & {
+      padding-left: 3.5rem;
+      padding-right: 4.5rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        padding-left: 3rem;
+        padding-right: 4rem;
+      }
+    }
+  }
+}
+
+// Enhanced hover effect for password toggle
+.password-wrapper {
+  &.success .password-toggle {
+    color: #51cf66;
+    
+    &:hover {
+      color: #40c057;
+    }
+  }
+  
+  &.error .password-toggle {
+    color: #ff3860;
+    
+    &:hover {
+      color: #ff1744;
+    }
+  }
+}
+
+// ===================================
+// RTL Support
+// ===================================
+[dir="rtl"] {
+  .auth-form-container {
+    .auth-header {
+      text-align: right;
+    }
+    
+    .input-wrapper {
+      .input-icon {
+        right: auto;
+        left: 1rem;
+        
+        @media (max-width: $breakpoint-mobile) {
+          left: 0.8rem;
+        }
+      }
+      
+      input {
+        padding: 0.85rem 1rem 0.85rem 3rem;
+        text-align: right;
+        
+        @media (max-width: $breakpoint-mobile) {
+          padding: 0.75rem 0.8rem 0.75rem 2.5rem;
+        }
+      }
+    }
+    
+    .switch-mode {
+      p {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// ===================================
+// Responsive Adjustments - MOBILE FIXES
+// ===================================
+@media (max-width: $breakpoint-tablet) {
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+  
+  .auth-visual {
+    order: -1;
+  }
+  
+  .auth-form-container {
+    order: 1;
+    max-height: calc(90vh - 250px);
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .auth-overlay {
+    padding: 0;
+    overflow-y: scroll; /* السماح بالسكروول الكامل */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .auth-container {
+    width: 100%;
+    min-height: 100%;
+    align-items: flex-start;
+  }
+  
+  .auth-card {
+    border-radius: 0;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-visual {
+    min-height: 180px;
+    padding: 1.5rem 1rem;
+    flex-shrink: 0;
+    
+    .visual-circle {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 0.8rem;
+      
+      .circle-inner {
+        .circle-icon {
+          font-size: 2.5rem;
+        }
+      }
+    }
+    
+    .visual-text {
+      h2 {
+        font-size: 1.4rem;
+      }
+      
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+  
+  .auth-form-container {
+    padding: 1.5rem 1.2rem;
+    max-height: none;
+    overflow-y: visible;
+    flex: 1;
+    min-height: 0;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+  
+  .submit-button {
+    margin-top: auto; /* يدفع الزر إلى الأسفل */
+  }
+  
+  .close-button {
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+  }
+}
+
+// Prevent body scroll when modal is open
+body.auth-modal-open {
+  overflow: hidden;
+}

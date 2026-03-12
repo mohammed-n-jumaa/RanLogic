@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Home Page - Arabic -->
+  <url>
+    <loc>https://ranlogic.com/</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en"/>
+  </url>
+  
+  <!-- Home Page - English -->
+  <url>
+    <loc>https://ranlogic.com/en</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en"/>
+  </url>
+
+  <!-- FAQ Page - Arabic -->
+  <url>
+    <loc>https://ranlogic.com/faq</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en/faq"/>
+  </url>
+
+  <!-- FAQ Page - English -->
+  <url>
+    <loc>https://ranlogic.com/en/faq</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/faq"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en/faq"/>
+  </url>
+
+  <!-- Plans Page - Arabic -->
+  <url>
+    <loc>https://ranlogic.com/plans</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/plans"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en/plans"/>
+  </url>
+
+  <!-- Plans Page - English -->
+  <url>
+    <loc>https://ranlogic.com/en/plans</loc>
+    <lastmod>2025-02-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ranlogic.com/plans"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ranlogic.com/en/plans"/>
+  </url>
+</urlset>

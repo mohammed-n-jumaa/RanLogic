@@ -1,0 +1,7 @@
+@import '../styles/variables.scss';
+
+.home-page {
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: $background-color;
+}

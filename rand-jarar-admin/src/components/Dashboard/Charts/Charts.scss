@@ -1,0 +1,213 @@
+.chart-wrapper {
+  direction: ltr;
+  position: relative;
+  
+  // ضمان أن العنصر يأخذ مساحة كافية
+  & > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  .recharts-wrapper {
+    direction: ltr !important;
+  }
+  
+  .recharts-cartesian-axis-tick-value {
+    fill: var(--text-secondary) !important;
+    font-size: 11px;
+  }
+  
+  .recharts-legend-item-text {
+    color: var(--text-secondary) !important;
+    font-size: 12px;
+  }
+  
+  .recharts-tooltip-wrapper {
+    direction: rtl !important;
+  }
+}
+
+.simple-heatmap {
+  direction: rtl;
+  
+  .heatmap-container {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 200px;
+  }
+  
+  .heatmap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  
+  .heatmap-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .heatmap-legend {
+    display: flex;
+    gap: 12px;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      
+      .legend-color {
+        width: 12px;
+        height: 12px;
+        border-radius: 2px;
+      }
+      
+      span {
+        color: var(--text-secondary);
+        font-size: 11px;
+      }
+    }
+  }
+  
+  .heatmap-grid {
+    display: flex;
+    flex-direction: column;
+    overflow-x: auto;
+    flex: 1;
+    min-height: 150px;
+    
+    .days-axis {
+      display: flex;
+      margin-bottom: 8px;
+      min-width: 400px;
+      
+      .day-label {
+        flex: 1;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 11px;
+        padding: 4px;
+        
+        &:first-child {
+          flex: 0 0 60px;
+          text-align: right;
+        }
+      }
+    }
+    
+    .heatmap-main {
+      flex: 1;
+      min-width: 400px;
+      
+      .hours-axis {
+        display: flex;
+        margin-bottom: 4px;
+        
+        .hour-label {
+          flex: 0 0 60px;
+          text-align: right;
+          color: var(--text-secondary);
+          font-size: 11px;
+          padding: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        
+        .heatmap-cell {
+          flex: 1;
+          margin: 0 2px;
+          border-radius: 3px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          height: 30px;
+          
+          .cell-value {
+            color: var(--text-primary);
+            font-size: 10px;
+            font-weight: 500;
+          }
+          
+          &:hover {
+            opacity: 0.9;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+.chart-wrapper {
+  direction: ltr;
+  position: relative;
+  
+  // ضمان أن العنصر يأخذ مساحة كافية
+  & > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  &.chart-no-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    
+    .no-data-message {
+      text-align: center;
+      color: var(--text-muted);
+      
+      svg {
+        margin-bottom: 0.5rem;
+        color: var(--text-muted);
+      }
+      
+      p {
+        font-size: 0.9rem;
+        margin: 0;
+      }
+    }
+  }
+  
+  .recharts-wrapper {
+    direction: ltr !important;
+  }
+  
+  .recharts-cartesian-axis-tick-value {
+    fill: var(--text-secondary) !important;
+    font-size: 11px;
+  }
+  
+  .recharts-legend-item-text {
+    color: var(--text-secondary) !important;
+    font-size: 12px;
+  }
+  
+  .recharts-tooltip-wrapper {
+    direction: rtl !important;
+  }
+}
+
+// ... باقي الكود

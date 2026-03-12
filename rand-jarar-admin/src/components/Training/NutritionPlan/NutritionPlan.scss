@@ -1,0 +1,1821 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.nutrition-plan {
+  padding: $spacing-md;
+  min-height: 100vh;
+  
+  @include mobile {
+    padding: $spacing-sm;
+  }
+  
+  &__header {
+    margin-bottom: $spacing-xl;
+    
+    @include mobile {
+      margin-bottom: $spacing-lg;
+    }
+  }
+  
+  &__header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__title {
+    @include flex-center;
+    gap: $spacing-sm;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.3rem;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  &__week-info {
+    padding: 0.6rem 1.2rem;
+    background: rgba($success, 0.1);
+    border: 1px solid $success;
+    border-radius: 50px;
+    color: $success;
+    font-size: 0.9rem;
+    font-weight: 600;
+    
+    @include mobile {
+      width: 100%;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__pdf-upload {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-md;
+    margin-bottom: $spacing-lg;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+    
+    input[type="file"] {
+      display: none;
+    }
+  }
+  
+  &__pdf-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    padding: 0.6rem 1rem;
+    background: rgba($success, 0.1);
+    border: 1px solid $success;
+    border-radius: $radius-sm;
+    color: $success;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: $success;
+      color: #ffffff;
+    }
+    
+    @include mobile {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  &__pdf-info {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    
+    @include mobile {
+      text-align: center;
+    }
+  }
+  
+  &__stats {
+    display: flex;
+    gap: $spacing-md;
+    padding: $spacing-md;
+    background: var(--bg-hover);
+    border-radius: $radius-md;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      padding: $spacing-sm;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: calc(33.333% - 10px);
+    
+    @include mobile {
+      min-width: calc(50% - 8px);
+    }
+  }
+  
+  &__stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    
+    @include mobile {
+      font-size: 0.75rem;
+    }
+  }
+  
+  &__stat-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__days {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+// Nutrition Day
+.nutrition-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  overflow: hidden;
+  transition: all $transition-normal;
+  
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+  
+  &--today {
+    border: 2px solid $success;
+    box-shadow: 0 0 20px rgba($success, 0.2);
+  }
+  
+  &__header {
+    cursor: pointer;
+    background: linear-gradient(135deg,
+      rgba($success, 0.05) 0%,
+      rgba($success, 0.02) 100%
+    );
+    transition: all $transition-normal;
+    padding: $spacing-md;
+    
+    @include mobile {
+      padding: $spacing-sm;
+    }
+  }
+  
+  &__header-top {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__header-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: $spacing-md;
+  }
+  
+  &__chevron {
+    @include flex-center;
+    color: $success;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    @include mobile {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+  
+  &__title-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+  }
+  
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      flex-wrap: wrap;
+    }
+  }
+  
+  &__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    @include mobile {
+      font-size: 1.1rem;
+    }
+  }
+  
+  &__date {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__today-badge {
+    padding: 0.3rem 0.8rem;
+    background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+    border-radius: 50px;
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    
+    @include mobile {
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+    }
+  }
+  
+  &__stats {
+    display: flex;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      margin-right: auto;
+    }
+  }
+  
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    background: var(--bg-hover);
+    border-radius: $radius-sm;
+    
+    @include mobile {
+      padding: 0.3rem 0.6rem;
+    }
+  }
+  
+  &__stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+  
+  &__stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  
+  &__calorie-icon {
+    color: #ff6b6b;
+    margin-bottom: 2px;
+  }
+  
+  &__expand-btn {
+    display: none;
+    
+    @include mobile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: rgba($success, 0.1);
+      border: none;
+      border-radius: $radius-sm;
+      color: $success;
+      cursor: pointer;
+      transition: all $transition-normal;
+      
+      &:hover {
+        background: rgba($success, 0.2);
+      }
+    }
+  }
+  
+  &__progress {
+    position: relative;
+    width: 120px;
+    height: 32px;
+    background: var(--bg-hover);
+    border-radius: 50px;
+    overflow: hidden;
+    
+    @include mobile {
+      width: 100px;
+      height: 28px;
+    }
+  }
+  
+  &__progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+    transition: width 0.5s ease;
+  }
+  
+  &__progress-text {
+    @include flex-center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    z-index: 1;
+    
+    @include mobile {
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-md;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-hover);
+    
+    @include mobile {
+      padding: $spacing-sm;
+    }
+  }
+  
+  &__meals {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__empty {
+    text-align: center;
+    padding: $spacing-xl;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-radius: $radius-md;
+    border: 2px dashed var(--border-color);
+    
+    @include mobile {
+      padding: $spacing-lg;
+    }
+  }
+  
+  &__empty-icon {
+    color: $success;
+    opacity: 0.3;
+    margin-bottom: $spacing-sm;
+  }
+  
+  &__empty-text {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: $spacing-xs;
+  }
+  
+  &__empty-sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+  
+  &__add-meal {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-md;
+    color: $success;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: rgba($success, 0.05);
+      border-color: $success;
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// Meal Card
+.meal-card {
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $success;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
+  
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-md;
+    }
+  }
+  
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+    flex: 1;
+    
+    @include mobile {
+      width: 100%;
+      gap: $spacing-sm;
+    }
+  }
+  
+  &__type-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    width: 100%;
+  }
+  
+  &__type {
+    flex: 1;
+    padding: 0.5rem 0.7rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 700;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-color);
+    }
+    
+    &:focus {
+      outline: none;
+      background: var(--bg-hover);
+      border-color: $success;
+    }
+    
+    @include mobile {
+      font-size: 0.95rem;
+      padding: 0.4rem 0.6rem;
+    }
+  }
+  
+  &__time-wrapper {
+    @include flex-center;
+    gap: $spacing-xs;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  
+  &__time {
+    padding: 0.2rem 0.4rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-color);
+    }
+    
+    &:focus {
+      outline: none;
+      background: var(--bg-hover);
+      border-color: $success;
+    }
+  }
+  
+  &__delete-btn {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #ffffff;
+    }
+    
+    @include mobile {
+      position: absolute;
+      top: $spacing-sm;
+      left: $spacing-sm;
+      background: $danger;
+      color: #ffffff;
+      border-color: $danger;
+    }
+  }
+  
+  &__image-section {
+    margin-bottom: $spacing-md;
+    position: relative;
+  }
+  
+  &__upload-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      border-color: $success;
+      color: $success;
+      background: rgba($success, 0.05);
+    }
+    
+    @include mobile {
+      padding: 0.6rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__add-item {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.6rem;
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: $success;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: rgba($success, 0.05);
+      border-color: $success;
+    }
+    
+    @include mobile {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// Meal Image Preview
+.meal-image-preview {
+  position: relative;
+  
+  img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+  }
+  
+  &__remove {
+    @include flex-center;
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    width: 32px;
+    height: 32px;
+    background: $danger;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      background: darken($danger, 10%);
+      transform: scale(1.1);
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+// Nutrition Item
+.nutrition-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  transition: all $transition-normal;
+  
+  &:hover {
+    border-color: $success;
+  }
+  
+  @include mobile {
+    padding: $spacing-xs;
+    gap: $spacing-xs;
+  }
+  
+  &__left, &__right {
+    flex-shrink: 0;
+    
+    @include mobile {
+      display: flex;
+      align-items: center;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    min-width: 0;
+    
+    @include mobile {
+      gap: 4px;
+    }
+  }
+  
+  &__check {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      color: $success;
+      transform: scale(1.1);
+    }
+    
+    &--completed {
+      color: $success;
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+  
+  &__name {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all $transition-normal;
+    
+    &:focus {
+      outline: none;
+      border-color: $success;
+    }
+    
+    @include mobile {
+      font-size: 0.85rem;
+      padding: 0.4rem;
+    }
+  }
+  
+  &__macros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-xs;
+    
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &__macro {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.4rem 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    
+    @include mobile {
+      padding: 0.3rem 0.4rem;
+      gap: 2px;
+    }
+  }
+  
+  &__macro-icon {
+    @include flex-center;
+    width: 16px;
+    height: 16px;
+    color: $success;
+    opacity: 0.7;
+    
+    @include mobile {
+      width: 14px;
+      height: 14px;
+    }
+  }
+  
+  &__macro input {
+    width: 40px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    
+    &:focus {
+      outline: none;
+    }
+    
+    @include mobile {
+      width: 30px;
+      font-size: 0.8rem;
+    }
+  }
+  
+  &__macro-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    white-space: nowrap;
+    
+    @include mobile {
+      font-size: 0.65rem;
+    }
+  }
+  
+  &__delete {
+    @include flex-center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #ffffff;
+    }
+    
+    @include mobile {
+      width: 26px;
+      height: 26px;
+      
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+  }
+}
+
+// Touch-friendly enhancements
+@media (hover: none) and (pointer: coarse) {
+  .nutrition-item__check,
+  .nutrition-item__delete,
+  .meal-card__delete-btn,
+  .nutrition-day__add-meal,
+  .meal-card__add-item {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, button {
+    font-size: 16px !important;
+  }
+  
+  .nutrition-item__macro input {
+    padding: 8px !important;
+  }
+  
+  .meal-card__time {
+    padding: 8px !important;
+  }
+}
+// إضافة في nutrition-plan.scss
+
+.nutrition-plan__save-btn {
+  @include flex-center;
+  gap: $spacing-xs;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
+  border: none;
+  border-radius: $radius-md;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 15px rgba($success, 0.3);
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba($success, 0.5);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @include mobile {
+    width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+// ====================================
+// إصلاحات صفحة التمارين - Workout Plan
+// ====================================
+
+// إصلاح عرض رابط اليوتيوب
+.exercise-media-preview {
+  position: relative;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  width: 100%;
+  
+  // إصلاح YouTube Preview
+  &__youtube {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; // 16:9 aspect ratio
+    background: var(--bg-hover);
+    border-radius: $radius-sm;
+    overflow: hidden;
+    
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: $radius-sm;
+    }
+    
+    // Thumbnail fallback
+    &-thumbnail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: $radius-sm;
+    }
+    
+    // Play button overlay
+    &-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 0, 0, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &::before {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 20px solid white;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        margin-left: 4px;
+      }
+      
+      &:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        background: rgba(255, 0, 0, 1);
+      }
+      
+      @include mobile {
+        width: 50px;
+        height: 50px;
+        
+        &::before {
+          border-left-width: 16px;
+          border-top-width: 10px;
+          border-bottom-width: 10px;
+        }
+      }
+    }
+  }
+  
+  // إصلاح عرض الفيديو العادي
+  &__video {
+    position: relative;
+    width: 100%;
+    
+    video {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+      background: #000;
+      
+      @include mobile {
+        max-height: 180px;
+      }
+    }
+  }
+  
+  // إصلاح عرض الصورة
+  &__image {
+    position: relative;
+    width: 100%;
+    
+    img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: $radius-sm;
+      
+      @include mobile {
+        max-height: 180px;
+      }
+    }
+  }
+  
+  // زر الحذف
+  &__remove {
+    @include flex-center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: $danger;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    
+    &:hover {
+      background: darken($danger, 10%);
+      transform: scale(1.1);
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+      top: 6px;
+      right: 6px;
+      
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+// إصلاح قسم الميديا في التمارين
+.exercise-item {
+  &__media-section {
+    width: 100%;
+    margin-top: $spacing-sm;
+    
+    // منع تداخل الفيديوهات
+    .exercise-media-preview + .exercise-media-preview {
+      margin-top: $spacing-sm;
+    }
+  }
+  
+  // إصلاح أزرار الرفع
+  &__media-buttons {
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+  
+  &__upload-btn,
+  &__youtube-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    flex: 1;
+    min-width: 140px;
+    padding: 0.6rem 1rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: $primary-pink;
+      color: $primary-pink;
+      background: rgba($primary-pink, 0.05);
+    }
+    
+    @include mobile {
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 0.9rem;
+    }
+  }
+  
+  // حقل إدخال رابط اليوتيوب
+  &__youtube-input {
+    display: flex;
+    gap: $spacing-sm;
+    align-items: center;
+    margin-top: $spacing-sm;
+    
+    @include mobile {
+      flex-direction: column;
+    }
+    
+    input {
+      flex: 1;
+      padding: 0.6rem 0.8rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-color);
+      border-radius: $radius-sm;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      direction: ltr;
+      text-align: left;
+      
+      &:focus {
+        outline: none;
+        border-color: $primary-pink;
+      }
+      
+      &::placeholder {
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+      
+      @include mobile {
+        width: 100%;
+        padding: 0.7rem;
+      }
+    }
+    
+    button {
+      @include flex-center;
+      padding: 0.6rem 1rem;
+      background: $primary-pink;
+      border: none;
+      border-radius: $radius-sm;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: darken($primary-pink, 10%);
+      }
+      
+      @include mobile {
+        width: 100%;
+        padding: 0.7rem;
+      }
+    }
+  }
+}
+
+// إصلاح عرض رابط YouTube كنص
+.youtube-link-preview {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  
+  &__icon {
+    color: #ff0000;
+    flex-shrink: 0;
+  }
+  
+  &__text {
+    flex: 1;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    word-break: break-all;
+    direction: ltr;
+    text-align: left;
+    
+    // إخفاء الرابط الطويل
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $spacing-xs;
+  }
+}
+// ====================================
+// إصلاحات صفحة النظام الغذائي - Nutrition Plan
+// ====================================
+
+// إصلاح عنصر الطعام والماكروز
+.nutrition-item {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-md;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: $success;
+  }
+  
+  @include mobile {
+    padding: $spacing-sm;
+    gap: $spacing-xs;
+    flex-direction: column;
+  }
+  
+  &__left {
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  
+  &__right {
+    flex-shrink: 0;
+    
+    @include mobile {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    min-width: 0;
+    width: 100%;
+  }
+  
+  &__check {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    
+    &:hover {
+      border-color: $success;
+      color: $success;
+    }
+    
+    &--completed {
+      background: rgba($success, 0.1);
+      border-color: $success;
+      color: $success;
+    }
+    
+    @include mobile {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  &__name {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: $success;
+    }
+    
+    @include mobile {
+      font-size: 0.9rem;
+      padding: 0.5rem 0.7rem;
+    }
+  }
+  
+  // ====================================
+  // إصلاح الماكروز - الجزء الأهم
+  // ====================================
+  &__macros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-sm;
+    width: 100%;
+    
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-xs;
+    }
+    
+    // للشاشات الصغيرة جداً
+    @media (max-width: 360px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &__macro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0.5rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: $success;
+    }
+    
+    @include mobile {
+      padding: 0.4rem;
+    }
+    
+    // أيقونة الماكرو
+    &-icon {
+      @include flex-center;
+      width: 20px;
+      height: 20px;
+      color: $success;
+      opacity: 0.8;
+      
+      @include mobile {
+        width: 18px;
+        height: 18px;
+      }
+      
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    
+    // حقل الإدخال
+    &-input {
+      width: 100%;
+      max-width: 60px;
+      padding: 0.3rem 0.4rem;
+      background: var(--bg-card);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.2s ease;
+      
+      &:focus {
+        outline: none;
+        border-color: $success;
+        background: var(--bg-card);
+      }
+      
+      // إزالة أسهم number input
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      
+      &[type=number] {
+        -moz-appearance: textfield;
+      }
+      
+      @include mobile {
+        font-size: 0.85rem;
+        max-width: 50px;
+        padding: 0.25rem 0.3rem;
+      }
+    }
+    
+    // تسمية الماكرو
+    &-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      white-space: nowrap;
+      
+      @include mobile {
+        font-size: 0.65rem;
+      }
+    }
+    
+    // ألوان مختلفة لكل نوع
+    &--calories {
+      .nutrition-item__macro-icon {
+        color: #ff6b6b;
+      }
+      
+      &:hover {
+        border-color: #ff6b6b;
+      }
+    }
+    
+    &--protein {
+      .nutrition-item__macro-icon {
+        color: #4ecdc4;
+      }
+      
+      &:hover {
+        border-color: #4ecdc4;
+      }
+    }
+    
+    &--carbs {
+      .nutrition-item__macro-icon {
+        color: #ffe66d;
+      }
+      
+      &:hover {
+        border-color: #ffe66d;
+      }
+    }
+    
+    &--fat {
+      .nutrition-item__macro-icon {
+        color: #ff9f43;
+      }
+      
+      &:hover {
+        border-color: #ff9f43;
+      }
+    }
+  }
+  
+  &__delete {
+    @include flex-center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #fff;
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+// ====================================
+// إصلاح بطاقة الوجبة
+// ====================================
+.meal-card {
+  position: relative;
+  padding: $spacing-lg;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: $success;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  @include mobile {
+    padding: $spacing-md;
+  }
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: $spacing-md;
+    gap: $spacing-sm;
+    
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+    }
+  }
+  
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    flex: 1;
+    
+    @include mobile {
+      width: 100%;
+    }
+  }
+  
+  &__type-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+  
+  &__type {
+    flex: 1;
+    padding: 0.5rem 0.7rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-color);
+    }
+    
+    &:focus {
+      outline: none;
+      background: var(--bg-hover);
+      border-color: $success;
+    }
+    
+    @include mobile {
+      font-size: 1rem;
+    }
+  }
+  
+  &__time-wrapper {
+    @include flex-center;
+    gap: $spacing-xs;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  &__time {
+    padding: 0.3rem 0.5rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-color);
+    }
+    
+    &:focus {
+      outline: none;
+      background: var(--bg-hover);
+      border-color: $success;
+    }
+  }
+  
+  &__delete-btn {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: $danger;
+      border-color: $danger;
+      color: #fff;
+    }
+    
+    @include mobile {
+      position: absolute;
+      top: $spacing-sm;
+      left: $spacing-sm;
+    }
+  }
+  
+  // صورة الوجبة
+  &__image-section {
+    margin-bottom: $spacing-md;
+    position: relative;
+    
+    @include mobile {
+      margin-bottom: $spacing-sm;
+    }
+  }
+  
+  &__upload-btn {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.8rem;
+    background: transparent;
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      border-color: $success;
+      color: $success;
+      background: rgba($success, 0.05);
+    }
+    
+    @include mobile {
+      padding: 0.7rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  // قائمة العناصر
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
+    
+    @include mobile {
+      gap: $spacing-xs;
+    }
+  }
+  
+  &__add-item {
+    @include flex-center;
+    gap: $spacing-xs;
+    width: 100%;
+    padding: 0.6rem;
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    border-radius: $radius-sm;
+    color: $success;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba($success, 0.05);
+      border-color: $success;
+    }
+    
+    @include mobile {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// ====================================
+// صورة الوجبة
+// ====================================
+.meal-image-preview {
+  position: relative;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    
+    @include mobile {
+      max-height: 160px;
+    }
+  }
+  
+  &__remove {
+    @include flex-center;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    background: $danger;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: darken($danger, 10%);
+      transform: scale(1.1);
+    }
+    
+    @include mobile {
+      width: 28px;
+      height: 28px;
+    }
+  }
+}
+
+// ====================================
+// Touch-friendly للموبايل
+// ====================================
+@media (hover: none) and (pointer: coarse) {
+  .nutrition-item__check,
+  .nutrition-item__delete,
+  .meal-card__delete-btn,
+  .meal-card__add-item,
+  .meal-card__upload-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  input, textarea, button {
+    font-size: 16px !important;
+  }
+  
+  .nutrition-item__macro-input {
+    min-height: 36px;
+    padding: 8px !important;
+  }
+}

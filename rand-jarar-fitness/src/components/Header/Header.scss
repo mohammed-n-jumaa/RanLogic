@@ -1,0 +1,1123 @@
+@import '../../styles/variables.scss';
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.2rem 0;
+  transition: all $transition-normal;
+  
+  @media (max-width: 1024px) {
+    padding: 1rem 0;
+  }
+  
+  // Before scroll - transparent
+  &:not(.scrolled) {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  // After scroll - white capsule
+  &.scrolled {
+    padding: 0.8rem 0;
+    background: transparent;
+    border-bottom: none;
+    
+    .header-container {
+      max-width: 1100px;
+      background: $background-color;
+      border-radius: $radius-xl;
+      padding: 0.9rem 2rem;
+      box-shadow: $shadow-md;
+      
+      @media (max-width: 1024px) {
+        padding: 0.6rem 1.5rem;
+        max-width: 95%;
+        border-radius: $radius-lg;
+      }
+      
+      @media (max-width: $breakpoint-tablet) {
+        padding: 0.5rem 1rem;
+        max-width: 96%;
+      }
+      
+      @media (max-width: 480px) {
+        padding: 0.5rem 0.8rem;
+        max-width: 98%;
+      }
+    }
+    
+    .nav-link {
+      color: $text-dark;
+    }
+    
+    .menu-toggle span {
+      background: $secondary-color;
+    }
+    
+    // Button colors after scroll
+    .login-button,
+    .language-button {
+      color: $text-dark;
+      border-color: rgba($text-dark, 0.2);
+      
+      &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+        background: rgba($primary-color, 0.05);
+      }
+      
+      .login-icon,
+      .language-icon {
+        color: $primary-color;
+      }
+    }
+    
+    .language-button-mobile {
+      background: rgba($primary-color, 0.12);
+      border-color: rgba($primary-color, 0.3);
+      
+      .language-icon {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  transition: all $transition-normal;
+  direction: ltr;
+  
+  @media (max-width: 1024px) {
+    padding: 0 1.5rem;
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 0.8rem;
+  }
+}
+
+// ===================================
+// Logo - centered on mobile
+// ===================================
+.logo-link {
+  text-decoration: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+}
+
+.logo-image {
+  width: 180px !important;    // ✅ ثابت
+  height: 60px !important;    // ✅ ثابت
+  object-fit: contain;
+  aspect-ratio: 180/60 !important;
+  transition: all $transition-normal;
+  filter: brightness(1.1) contrast(1.1);
+  
+  @media (max-width: 1024px) {
+    width: 160px !important;
+    height: 54px !important;
+    aspect-ratio: 160/54 !important;
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    width: 140px !important;
+    height: 48px !important;
+    aspect-ratio: 140/48 !important;
+  }
+  
+  @media (max-width: 480px) {
+    width: 130px !important;
+    height: 44px !important;
+    aspect-ratio: 130/44 !important;
+  }
+}
+
+// ===================================
+// Desktop Navigation
+// ===================================
+.nav.desktop-nav {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
+  }
+}
+
+// ===================================
+// Mobile Navigation Sidebar
+// ===================================
+.nav.mobile-nav {
+  display: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 320px;
+    max-width: 85%;
+    height: 100vh;
+    background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 50%, #1C1C1C 100%); /* تغيير من البنفسجي للأسود/الرمادي */
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: left $transition-normal;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.5);
+    padding: 3rem 2rem;
+    z-index: 1001;
+    
+    &.open {
+      left: 0;
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(180deg, rgba(253, 184, 19, 0.12) 0%, transparent 100%); /* تغيير للأصفر الشفاف */
+      pointer-events: none;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    width: 280px;
+    padding: 3rem 1.5rem;
+  }
+}
+
+.nav-link {
+  position: relative;
+  color: $text-white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all $transition-fast;
+  white-space: nowrap;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: $primary-color;
+    transition: width $transition-normal;
+  }
+  
+  &:hover {
+    color: $primary-color;
+    
+    &::after {
+      width: 100%;
+    }
+  }
+  
+  // In dropdown menu
+  @media (max-width: $breakpoint-tablet) {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 0.85rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    border-radius: $radius-lg;
+    
+    &:hover {
+      background: rgba(253, 184, 19, 0.12); /* تغيير للأصفر الشفاف */
+      color: $text-white;
+    }
+    
+    &::after {
+      display: none;
+    }
+  }
+}
+
+// Divider in menu
+.nav-divider {
+  display: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(253, 184, 19, 0.3) 50%, /* تغيير للأصفر الشفاف */
+      transparent 100%
+    );
+    margin: 1rem 0;
+  }
+}
+
+// ===================================
+// Mobile Left Side (Menu Toggle)
+// ===================================
+.mobile-left {
+  display: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+    align-items: center;
+    z-index: 1002;
+  }
+}
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+  }
+  
+  span {
+    width: 26px;
+    height: 3px;
+    background: $text-white;
+    border-radius: 3px;
+    transition: all $transition-normal;
+  }
+  
+  &.open {
+    span:nth-child(1) {
+      transform: rotate(45deg) translateY(8px);
+      background: $primary-color;
+    }
+    
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-8px);
+      background: $primary-color;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    span {
+      width: 25px;
+      height: 2.5px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    padding: 4px;
+    
+    span {
+      width: 23px;
+      height: 2.5px;
+    }
+  }
+}
+
+// ===================================
+// Mobile Right Side (Language Button)
+// ===================================
+.mobile-right {
+  display: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+    align-items: center;
+    z-index: 100;
+  }
+}
+
+.language-button-mobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  padding: 0;
+  background: rgba(253, 184, 19, 0.15); /* تغيير للأصفر الشفاف */
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all $transition-normal;
+  
+  .language-icon {
+    font-size: 1.2rem;
+    color: $primary-color;
+    transition: all $transition-normal;
+  }
+  
+  &:hover {
+    background: rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
+    border-color: $primary-color;
+    transform: scale(1.08);
+    box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3); /* تغيير للأصفر الشفاف */
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  @media (max-width: 1024px) {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    
+    .language-icon {
+      font-size: 1.15rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    
+    .language-icon {
+      font-size: 1.05rem;
+    }
+  }
+}
+
+// ===================================
+// Header Actions (Desktop)
+// ===================================
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
+  }
+}
+
+// ===================================
+// Language Button (Desktop)
+// ===================================
+.language-button.desktop-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1rem;
+  background: transparent;
+  color: $text-white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: $radius-lg;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  white-space: nowrap;
+  
+  .language-icon {
+    font-size: 1rem;
+    color: $text-white;
+    transition: all $transition-normal;
+  }
+  
+  .language-text {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    background: rgba(255, 255, 255, 0.1);
+    
+    .language-icon {
+      color: $primary-color;
+      transform: rotate(180deg);
+    }
+  }
+}
+
+// ===================================
+// Login Button
+// ===================================
+.login-button.desktop-only {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.2rem;
+  background: transparent;
+  color: $text-white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: $radius-lg;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  white-space: nowrap;
+  
+  .login-icon {
+    font-size: 0.95rem;
+    color: $text-white;
+    transition: all $transition-normal;
+  }
+  
+  &:hover {
+    border-color: $primary-color;
+    color: $primary-color;
+    background: rgba(255, 255, 255, 0.1);
+    
+    .login-icon {
+      color: $primary-color;
+    }
+  }
+}
+
+// Login button in dropdown menu
+.login-button.mobile-menu {
+  display: none;
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 1rem 2.5rem;
+    font-size: 1.05rem;
+    background: rgba(253, 184, 19, 0.12); /* تغيير للأصفر الشفاف */
+    border: 2px solid rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+    border-radius: $radius-xl;
+    color: rgba(255, 255, 255, 0.95);
+    font-family: 'Poppins', 'Tajawal', sans-serif;
+    cursor: pointer;
+    transition: all $transition-normal;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    
+    .login-icon {
+      font-size: 1.1rem;
+      color: $primary-color;
+    }
+    
+    &:hover {
+      background: rgba(253, 184, 19, 0.2); /* تغيير للأصفر الشفاف */
+      border-color: $primary-color;
+      color: $text-white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ===================================
+// CTA Button
+// ===================================
+.cta-button {
+  padding: 0.9rem 2rem;
+  background: $gradient-primary;
+  color: $secondary-color; /* تغيير للون الأسود ليكون مقروءاً */
+  border: none;
+  border-radius: $radius-xl;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  box-shadow: 0 4px 20px rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  white-space: nowrap;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+  }
+  
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
+  }
+}
+
+// ===================================
+// Menu Overlay
+// ===================================
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  
+  @media (min-width: calc(#{$breakpoint-tablet} + 1px)) {
+    display: none;
+  }
+}
+
+// Remove underline from links
+.header a {
+  text-decoration: none !important;
+}
+// أضف هذه الأنماط في نهاية الملف
+
+// ===================================
+// Loading and Error States
+// ===================================
+.logo-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 150px;
+  
+  @media (max-width: 1024px) {
+    height: 54px;
+    width: 140px;
+  }
+  
+  @media (max-width: 768px) {
+    height: 48px;
+    width: 130px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 44px;
+    width: 120px;
+  }
+  
+  .spinner {
+    font-size: 1.5rem;
+    color: $primary-color;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.logo-error,
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 150px;
+  background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba($secondary-color, 0.05));
+  border-radius: $radius-md;
+  
+  @media (max-width: 1024px) {
+    height: 54px;
+    width: 140px;
+  }
+  
+  @media (max-width: 768px) {
+    height: 48px;
+    width: 130px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 44px;
+    width: 120px;
+  }
+  
+  .error-text,
+  .placeholder-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: $primary-color;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    @media (max-width: 768px) {
+      font-size: 1.6rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+.fallback-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  width: 150px;
+  background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba($secondary-color, 0.05));
+  border-radius: $radius-md;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: $primary-color;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  @media (max-width: 1024px) {
+    height: 54px;
+    width: 140px;
+    font-size: 1.6rem;
+  }
+  
+  @media (max-width: 768px) {
+    height: 48px;
+    width: 130px;
+  }
+  
+  @media (max-width: 480px) {
+    height: 44px;
+    width: 120px;
+    font-size: 1.4rem;
+  }
+}
+
+// Spinner animation
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Language button spinner
+.language-button .spinner,
+.language-button-mobile .spinner {
+  animation: spin 1s linear infinite;
+  color: $primary-color;
+}
+
+// ===================================
+// RTL Support for Arabic
+// ===================================
+[dir="rtl"] {
+  .header-container {
+    direction: rtl;
+  }
+  
+  .nav-link::after {
+    left: auto;
+    right: 0;
+  }
+  
+  .language-button,
+  .login-button {
+    font-family: 'Tajawal', 'Poppins', sans-serif;
+  }
+  
+  .cta-button {
+    font-family: 'Tajawal', 'Poppins', sans-serif;
+  }
+  
+  // Mobile menu adjustment for RTL
+  @media (max-width: $breakpoint-tablet) {
+    .nav.mobile-nav {
+      left: auto;
+      right: -100%;
+      
+      &.open {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+}
+
+// ===================================
+// Accessibility Improvements
+// ===================================
+.menu-toggle,
+.language-button,
+.language-button-mobile,
+.login-button,
+.cta-button {
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.nav-link {
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 4px;
+    border-radius: $radius-sm;
+  }
+}
+
+// ===================================
+// Print Styles
+// ===================================
+@media print {
+  .header {
+    position: static;
+    background: white !important;
+    color: black !important;
+    
+    .header-container {
+      box-shadow: none !important;
+      background: white !important;
+    }
+    
+    .logo-image {
+      filter: grayscale(100%) !important;
+    }
+    
+    .language-button,
+    .login-button,
+    .cta-button,
+    .menu-toggle,
+    .language-button-mobile {
+      display: none !important;
+    }
+  }
+}
+// ===================================
+// User Dropdown Styles
+// ===================================
+.user-dropdown-container {
+  position: relative;
+  
+  .user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(253, 184, 19, 0.3);
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: all $transition-normal;
+    
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .avatar-icon {
+      font-size: 1.8rem;
+      color: $primary-color;
+    }
+    
+    .premium-badge {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border: 2px solid white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: $secondary-color;
+    }
+    
+    &:hover {
+      border-color: $primary-color;
+      transform: scale(1.05);
+    }
+  }
+  
+  .user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 280px;
+    background: white;
+    border-radius: $radius-lg;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    z-index: 1001;
+    overflow: hidden;
+    
+    @media (max-width: $breakpoint-mobile) {
+      width: 250px;
+      right: -20px;
+    }
+    
+    .user-info {
+      padding: 1.2rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      
+      .user-name {
+        font-weight: 700;
+        color: $secondary-color;
+        margin-bottom: 0.2rem;
+        font-size: 1.05rem;
+      }
+      
+      .user-email {
+        font-size: 0.85rem;
+        color: $text-light;
+        margin-bottom: 0.8rem;
+      }
+      
+      .user-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.8rem;
+        border-radius: $radius-md;
+        font-size: 0.8rem;
+        font-weight: 600;
+        
+        &.premium {
+          background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.1));
+          color: #FF8C00;
+          border: 1px solid rgba(255, 165, 0, 0.3);
+        }
+      }
+    }
+    
+    .dropdown-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+    }
+    
+    .dropdown-item {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      transition: all $transition-fast;
+      color: $text-dark;
+      font-size: 0.95rem;
+      font-weight: 500;
+      
+      svg {
+        color: $primary-color;
+        font-size: 1.1rem;
+        opacity: 0.8;
+      }
+      
+      &:hover {
+        background: rgba(253, 184, 19, 0.08);
+        color: $primary-color;
+        
+        svg {
+          opacity: 1;
+        }
+      }
+      
+      &:active {
+        background: rgba(253, 184, 19, 0.15);
+      }
+    }
+  }
+}
+
+.user-loading {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .spinner {
+    color: $primary-color;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Mobile User Info
+.mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: $radius-lg;
+  
+  .mobile-user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(253, 184, 19, 0.4);
+    
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .avatar-icon {
+      width: 100%;
+      height: 100%;
+      color: $primary-color;
+      font-size: 2.2rem;
+    }
+  }
+  
+  .mobile-user-details {
+    flex: 1;
+    
+    .mobile-user-name {
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
+    }
+    
+    .mobile-user-status {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+.logout-button.mobile-menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 2.5rem;
+  font-size: 1.05rem;
+  background: rgba(255, 59, 59, 0.12);
+  border: 2px solid rgba(255, 59, 59, 0.35);
+  border-radius: $radius-xl;
+  color: rgba(255, 255, 255, 0.95);
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all $transition-normal;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  
+  .logout-icon {
+    font-size: 1.1rem;
+    color: #FF3B3B;
+  }
+  
+  &:hover {
+    background: rgba(255, 59, 59, 0.2);
+    border-color: #FF3B3B;
+    color: $text-white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 59, 59, 0.25);
+  }
+}
+
+// ===================================
+// Logo Text Styles
+// ===================================
+.logo-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  
+  @media (max-width: $breakpoint-tablet) {
+    font-size: 1.6rem;
+  }
+  
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 1.4rem;
+  }
+  
+  .logo-first {
+    color: $primary-color;
+  }
+  
+  .logo-separator {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .logo-second {
+    color: white;
+  }
+}
+
+.header.scrolled .logo-text {
+  .logo-first {
+    color: $primary-color;
+  }
+  
+  .logo-separator {
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .logo-second {
+    color: $text-dark;
+  }
+}
+
+// ===================================
+// Animations
+// ===================================
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// ✅ منع CLS للشعار بشكل نهائي
+.logo,
+.logo-link,
+.logo div,
+.logo img {
+  max-width: 100%;
+}
+
+.logo {
+  width: 180px;
+  height: 60px;
+  
+  @media (max-width: 1024px) {
+    width: 160px;
+    height: 54px;
+  }
+  
+  @media (max-width: 768px) {
+    width: 140px;
+    height: 48px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 130px;
+    height: 44px;
+  }
+}

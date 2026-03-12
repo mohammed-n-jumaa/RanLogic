@@ -156,68 +156,114 @@ class SubscriptionController extends Controller
      * Create PayPal payment
      */
     public function createPayPalPayment(StoreSubscriptionRequest $request): JsonResponse
-    {
-        try {
-            $validated = $request->validated();
-            $user = $request->user();
+{
+    try {
+        $validated = $request->validated();
+        $user = $request->user();
 
-            return DB::transaction(function () use ($validated, $user) {
+        return DB::transaction(function () use ($validated, $user) {
 
-                $subscription = Subscription::create([
-                    'user_id' => $user->id,
-                    'plan_type' => $validated['plan_type'],
-                    'duration' => $validated['duration'],
-                    'amount' => $validated['amount'],
-                    'original_amount' => $validated['original_amount'] ?? $validated['amount'],
-                    'discount_percentage' => $validated['discount_percentage'] ?? 0,
-                    'payment_method' => 'paypal',
-                    'status' => 'pending',
-                    'currency' => 'USD',
-                ]);
+            $pricing = $this->resolvePlanPricing(
+                $validated['plan_type'],
+                $validated['duration']
+            );
 
-                $paypalOrder = $this->paymentService->createPayPalOrder([
-                    'amount' => number_format((float) $validated['amount'], 2, '.', ''),
-                    'currency' => 'USD',
-                    'description' => $validated['plan_type'] . ' - ' . $validated['duration'],
-                    'subscription_id' => $subscription->id,
-                ]);
+            $amount = $pricing['amount'];
+            $originalAmount = $pricing['original_amount'];
+            $discountPercentage = $pricing['discount_percentage'];
 
-                if (empty($paypalOrder['id'])) {
-                    throw new \Exception('PayPal order id missing in response');
-                }
-
-                $subscription->update([
-                    'paypal_order_id' => $paypalOrder['id'],
-                ]);
-
-                $approvalUrl = $this->paymentService->getApprovalUrl($paypalOrder);
-
-                if (!$approvalUrl) {
-                    throw new \Exception('PayPal approval url not found in response');
-                }
-
-                return response()->json([
-                    'success' => true,
-                    'data' => [
-                        'approval_url' => $approvalUrl,
-                        'order_id' => $paypalOrder['id'],
-                        'subscription_id' => $subscription->id,
-                    ],
-                ]);
-            });
-        } catch (\Throwable $e) {
-            Log::error('PayPal payment creation error', [
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
+            $subscription = Subscription::create([
+                'user_id' => $user->id,
+                'plan_type' => $validated['plan_type'],
+                'duration' => $validated['duration'],
+                'amount' => $amount,
+                'original_amount' => $originalAmount,
+                'discount_percentage' => $discountPercentage,
+                'payment_method' => 'paypal',
+                'status' => 'pending',
+                'currency' => 'USD',
             ]);
 
+            $paypalOrder = $this->paymentService->createPayPalOrder([
+                'amount' => number_format((float) $amount, 2, '.', ''),
+                'currency' => 'USD',
+                'description' => $validated['plan_type'] . ' - ' . $validated['duration'],
+                'subscription_id' => $subscription->id,
+            ]);
+
+            if (empty($paypalOrder['id'])) {
+                throw new \Exception('PayPal order id missing in response');
+            }
+
+            $subscription->update([
+                'paypal_order_id' => $paypalOrder['id'],
+            ]);
+
+            $approvalUrl = $this->paymentService->getApprovalUrl($paypalOrder);
+
+            if (!$approvalUrl) {
+                throw new \Exception('PayPal approval url not found in response');
+            }
+
             return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ], 500);
-        }
+                'success' => true,
+                'data' => [
+                    'approval_url' => $approvalUrl,
+                    'order_id' => $paypalOrder['id'],
+                    'subscription_id' => $subscription->id,
+                ],
+            ]);
+        });
+    } catch (\Throwable $e) {
+        Log::error('PayPal payment creation error', [
+            'error' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ]);
+
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
+
+
+     private function resolvePlanPricing(string $planType, string $duration): array
+       {
+    $plans = [
+        'basic' => [
+            '1month' => ['amount' => 39, 'original_amount' => 39, 'discount_percentage' => 0],
+            '3months' => ['amount' => 111, 'original_amount' => 117, 'discount_percentage' => 5],
+            '6months' => ['amount' => 210, 'original_amount' => 234, 'discount_percentage' => 10],
+        ],
+        'nutrition' => [
+            '1month' => ['amount' => 49, 'original_amount' => 49, 'discount_percentage' => 0],
+            '3months' => ['amount' => 139, 'original_amount' => 147, 'discount_percentage' => 5],
+            '6months' => ['amount' => 264, 'original_amount' => 294, 'discount_percentage' => 10],
+        ],
+        'elite' => [
+            '1month' => ['amount' => 79, 'original_amount' => 79, 'discount_percentage' => 0],
+            '3months' => ['amount' => 225, 'original_amount' => 237, 'discount_percentage' => 5],
+            '6months' => ['amount' => 426, 'original_amount' => 474, 'discount_percentage' => 10],
+        ],
+        'vip' => [
+            '1month' => ['amount' => 149, 'original_amount' => 149, 'discount_percentage' => 0],
+            '3months' => ['amount' => 424, 'original_amount' => 447, 'discount_percentage' => 5],
+            '6months' => ['amount' => 804, 'original_amount' => 894, 'discount_percentage' => 10],
+        ],
+    ];
+
+    if (!isset($plans[$planType])) {
+        throw new \Exception('Invalid plan type.');
+    }
+
+    if (!isset($plans[$planType][$duration])) {
+        throw new \Exception('Invalid duration for selected plan.');
+    }
+
+    return $plans[$planType][$duration];
+         }
 
     /**
      * ✅ Capture PayPal payment (FIXED)
@@ -333,50 +379,55 @@ class SubscriptionController extends Controller
      * Create bank transfer subscription
      */
     public function createBankTransferSubscription(StoreSubscriptionRequest $request): JsonResponse
-    {
-        try {
-            $validated = $request->validated();
-            $user = $request->user();
+{
+    try {
+        $validated = $request->validated();
+        $user = $request->user();
 
-            $subscription = Subscription::create([
-                'user_id' => $user->id,
-                'plan_type' => $validated['plan_type'],
-                'duration' => $validated['duration'],
-                'amount' => $validated['amount'],
-                'original_amount' => $validated['original_amount'] ?? $validated['amount'],
-                'discount_percentage' => $validated['discount_percentage'] ?? 0,
-                'payment_method' => 'bank_transfer',
-                'status' => 'pending',
-                'currency' => 'USD',
-                'notes' => $validated['notes'] ?? null,
-            ]);
+        $pricing = $this->resolvePlanPricing(
+            $validated['plan_type'],
+            $validated['duration']
+        );
 
-            Log::info('Bank transfer subscription created', [
-                'user_id' => $user->id,
+        $subscription = Subscription::create([
+            'user_id' => $user->id,
+            'plan_type' => $validated['plan_type'],
+            'duration' => $validated['duration'],
+            'amount' => $pricing['amount'],
+            'original_amount' => $pricing['original_amount'],
+            'discount_percentage' => $pricing['discount_percentage'],
+            'payment_method' => 'bank_transfer',
+            'status' => 'pending',
+            'currency' => 'USD',
+            'notes' => $validated['notes'] ?? null,
+        ]);
+
+        Log::info('Bank transfer subscription created', [
+            'user_id' => $user->id,
+            'subscription_id' => $subscription->id,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إنشاء طلب الاشتراك بنجاح',
+            'data' => [
                 'subscription_id' => $subscription->id,
-            ]);
+                'plan_type' => $subscription->plan_type,
+                'plan_name' => $subscription->plan_name,
+                'duration' => $subscription->duration,
+                'amount' => $subscription->amount,
+                'status' => $subscription->status,
+            ],
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Error creating bank transfer subscription: ' . $e->getMessage());
 
-            return response()->json([
-                'success' => true,
-                'message' => 'تم إنشاء طلب الاشتراك بنجاح',
-                'data' => [
-                    'subscription_id' => $subscription->id,
-                    'plan_type' => $subscription->plan_type,
-                    'plan_name' => $subscription->plan_name,
-                    'duration' => $subscription->duration,
-                    'amount' => $subscription->amount,
-                    'status' => $subscription->status,
-                ],
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error creating bank transfer subscription: ' . $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'حدث خطأ أثناء إنشاء طلب الاشتراك',
-            ], 500);
-        }
+        return response()->json([
+            'success' => false,
+            'message' => 'حدث خطأ أثناء إنشاء طلب الاشتراك',
+        ], 500);
     }
+}
 
     /**
      * Upload bank transfer receipt

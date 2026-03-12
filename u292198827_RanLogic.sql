@@ -935,10 +935,6 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `language`, `email_verified_at`, `password`, `role`, `is_active`, `avatar`, `phone`, `height`, `weight`, `waist`, `hips`, `age`, `gender`, `goal`, `workout_place`, `program`, `health_notes`, `has_active_subscription`, `subscription_start_date`, `subscription_end_date`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Rand Jarrar', 'admin@ranlogic.com', 'ar', '2026-01-17 23:12:26', '$2y$10$5AA0VjOK8CvfFdX.BHsdZ.1GS7madCY4esVm2QgG5DlJH.tedXXgu', 'admin', 1, 'avatars/avatar_1_1772134322.jpeg', NULL, NULL, NULL, NULL, NULL, 28, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, '2026-01-17 23:12:26', '2026-02-26 19:32:02', NULL),
-(43, 'رند', 'randa.nimer010@gmail.com', 'ar', NULL, '$2y$12$EA7ZdH.8nYY28PANJNbNtuPXLmQ2CI6PzJmSfv8aR7RuXhdVP/Pti', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 1, '2026-02-25', '2026-03-25', NULL, '2026-02-25 21:02:59', '2026-02-25 21:07:53', NULL),
-(58, 'Test', 'test@test.com', 'ar', NULL, '$2y$12$ek1XQiqP9h5EpS0ReGgZIu2Xzai161yhHL5W50BHJKIzEnMch4QZ6', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, '2026-03-11 19:20:33', '2026-03-11 19:20:33', NULL);
 
 -- --------------------------------------------------------
 

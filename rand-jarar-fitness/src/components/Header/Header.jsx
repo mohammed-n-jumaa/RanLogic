@@ -151,12 +151,14 @@ const Header = () => {
   };
 
   const pageLinks = currentLang === 'ar' ? [
-    { name: 'الرئيسية', path: '/' },
-    { name: 'الأسئلة الشائعة', path: '/faq' }
-  ] : [
-    { name: 'Home', path: '/' },
-    { name: 'FAQ', path: '/faq' }
-  ];
+  { name: 'الرئيسية', path: '/' },
+  { name: 'حاسبة السعرات', path: '/calorie-calculator' },
+  { name: 'الأسئلة الشائعة', path: '/faq' }
+] : [
+  { name: 'Home', path: '/' },
+  { name: 'Calorie Calculator', path: '/calorie-calculator' },
+  { name: 'FAQ', path: '/faq' }
+];
 
   const sectionLinks = currentLang === 'ar' ? [
     { name: 'عن المدرب', href: '#about' },

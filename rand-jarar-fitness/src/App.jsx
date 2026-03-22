@@ -18,6 +18,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService/TermsOfService';
 import RefundPolicy from './pages/RefundPolicy/RefundPolicy';
 import ContactPage from './pages/ContactPage/ContactPage';
+import CalorieCalculatorPage from './pages/CalorieCalculatorPage';
 import './styles/global.scss';
 
 
@@ -245,7 +246,7 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-
+              <Route path="/calorie-calculator" element={<CalorieCalculatorPage />} />
               <Route path="/payment/success" element={<SubscriptionSuccess />} />
               <Route path="/payment/cancel" element={<SubscriptionCancel />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />

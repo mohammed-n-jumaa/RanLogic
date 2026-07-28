@@ -1,0 +1,202 @@
+@import '../styles/variables.scss';
+
+.subscription-cancel-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+
+  .cancel-section {
+    padding: 150px 0 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: $breakpoint-tablet) {
+      padding: 120px 0 60px;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 100px 0 50px;
+    }
+  }
+
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0 1rem;
+    }
+  }
+
+  .cancel-card {
+    background: white;
+    border-radius: $radius-xl;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 2rem 1.5rem;
+    }
+
+    .cancel-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 2rem;
+
+      @media (max-width: $breakpoint-mobile) {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+      }
+    }
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: $text-dark;
+      margin-bottom: 1rem;
+      font-family: 'Poppins', sans-serif;
+
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.6rem;
+      }
+    }
+
+    .cancel-message {
+      font-size: 1.1rem;
+      color: $text-light;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+      font-family: 'Poppins', sans-serif;
+
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1rem;
+      }
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05));
+      border: 2px solid rgba(231, 76, 60, 0.2);
+      border-radius: $radius-md;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+
+      p {
+        color: $text-dark;
+        font-size: 0.95rem;
+        margin: 0;
+        line-height: 1.6;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+
+      @media (max-width: $breakpoint-mobile) {
+        flex-direction: column;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border-radius: $radius-md;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all $transition-normal;
+        font-family: 'Poppins', sans-serif;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        min-width: 200px;
+
+        @media (max-width: $breakpoint-mobile) {
+          width: 100%;
+          min-width: auto;
+        }
+
+        svg {
+          font-size: 1.2rem;
+        }
+
+        &.btn-primary {
+          background: linear-gradient(135deg, $primary-color, #F9A825);
+          color: $secondary-color;
+          box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+
+          &:hover {
+            background: linear-gradient(135deg, #F9A825, #F57F17);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(253, 184, 19, 0.4);
+          }
+        }
+
+        &.btn-outline {
+          background: transparent;
+          color: $text-dark;
+          border: 2px solid rgba(0, 0, 0, 0.2);
+
+          &:hover {
+            border-color: $primary-color;
+            color: $primary-color;
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+
+    .help-section {
+      padding-top: 1.5rem;
+      border-top: 2px solid rgba(0, 0, 0, 0.05);
+
+      p {
+        font-size: 0.95rem;
+        color: $text-light;
+        margin-bottom: 0.75rem;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .contact-link {
+        background: none;
+        border: none;
+        color: $primary-color;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        text-decoration: underline;
+        transition: all $transition-fast;
+        font-family: 'Poppins', sans-serif;
+
+        &:hover {
+          color: #F9A825;
+        }
+      }
+    }
+  }
+}
+
+[dir="rtl"] {
+  .subscription-cancel-page {
+    .cancel-card {
+      h2, p, .btn {
+        font-family: 'Tajawal', sans-serif;
+      }
+    }
+  }
+}

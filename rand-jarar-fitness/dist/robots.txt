@@ -1,0 +1,7 @@
+# robots.txt — RanLogic (auto-generated 2026-07-28)
+User-agent: *
+Allow: /
+Disallow: /profile
+Disallow: /payment
+
+Sitemap: http://127.0.0.1:8000/sitemap.xml

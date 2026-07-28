@@ -1,0 +1,326 @@
+@import '../styles/variables.scss';
+
+.subscription-success-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+
+  .success-section {
+    padding: 150px 0 80px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: $breakpoint-tablet) {
+      padding: 120px 0 60px;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 100px 0 50px;
+    }
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 0 1rem;
+    }
+  }
+
+  .status-card {
+    background: white;
+    border-radius: $radius-xl;
+    padding: 3rem;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+    @media (max-width: $breakpoint-mobile) {
+      padding: 2rem 1.5rem;
+    }
+
+    &.loading {
+      .spinner-large {
+        width: 80px;
+        height: 80px;
+        border: 6px solid rgba(253, 184, 19, 0.2);
+        border-top-color: $primary-color;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 2rem;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        color: $text-dark;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1.5rem;
+        }
+      }
+
+      p {
+        color: $text-light;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+
+    &.success {
+      .success-icon {
+        font-size: 5rem;
+        color: #2ecc71;
+        margin-bottom: 2rem;
+
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 4rem;
+        }
+      }
+
+      h2 {
+        font-size: 2.2rem;
+        font-weight: 900;
+        color: $text-dark;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1.8rem;
+        }
+      }
+
+      .success-message {
+        font-size: 1.1rem;
+        color: $text-light;
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+        font-family: 'Poppins', sans-serif;
+
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1rem;
+        }
+      }
+
+      .subscription-details {
+        margin-bottom: 2rem;
+
+        .detail-card {
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          border-radius: $radius-md;
+          padding: 1.5rem;
+          margin-bottom: 1rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &.dates-card {
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05));
+            border: 2px solid rgba(46, 204, 113, 0.2);
+          }
+
+          .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            &.status-item {
+              border-top: 2px solid rgba(46, 204, 113, 0.3);
+              padding-top: 1rem;
+              margin-top: 0.5rem;
+            }
+
+            .label {
+              font-weight: 600;
+              color: $text-light;
+              font-size: 0.95rem;
+              font-family: 'Poppins', sans-serif;
+            }
+
+            .value {
+              font-weight: 700;
+              color: $text-dark;
+              font-size: 1rem;
+              font-family: 'Poppins', sans-serif;
+
+              &.plan-name {
+                color: $primary-color;
+                font-size: 1.1rem;
+              }
+
+              &.amount {
+                color: $primary-color;
+                font-size: 1.3rem;
+              }
+
+              &.status-active {
+                color: #2ecc71;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 1.1rem;
+
+                svg {
+                  font-size: 1.2rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .info-box {
+        background: linear-gradient(135deg, rgba(253, 184, 19, 0.1), rgba(253, 184, 19, 0.05));
+        border: 2px solid rgba(253, 184, 19, 0.3);
+        border-radius: $radius-md;
+        padding: 1rem 1.5rem;
+        margin-bottom: 2rem;
+
+        p {
+          color: $text-dark;
+          font-size: 0.95rem;
+          margin: 0;
+          line-height: 1.6;
+          font-family: 'Poppins', sans-serif;
+        }
+      }
+    }
+
+    &.error {
+      .error-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #e74c3c, #c0392b);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        margin: 0 auto 2rem;
+        animation: pulse 2s infinite;
+
+        @media (max-width: $breakpoint-mobile) {
+          width: 80px;
+          height: 80px;
+          font-size: 2.5rem;
+        }
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #e74c3c;
+        margin-bottom: 1rem;
+        font-family: 'Poppins', sans-serif;
+
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1.6rem;
+        }
+      }
+
+      .error-message {
+        font-size: 1rem;
+        color: $text-light;
+        line-height: 1.8;
+        margin-bottom: 2.5rem;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      @media (max-width: $breakpoint-mobile) {
+        flex-direction: column;
+      }
+
+      .btn {
+        padding: 1rem 2rem;
+        border-radius: $radius-md;
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all $transition-normal;
+        font-family: 'Poppins', sans-serif;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        min-width: 200px;
+
+        @media (max-width: $breakpoint-mobile) {
+          width: 100%;
+          min-width: auto;
+        }
+
+        svg {
+          font-size: 1.2rem;
+        }
+
+        &.btn-primary {
+          background: linear-gradient(135deg, $primary-color, #F9A825);
+          color: $secondary-color;
+          box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+
+          &:hover {
+            background: linear-gradient(135deg, #F9A825, #F57F17);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(253, 184, 19, 0.4);
+          }
+        }
+
+        &.btn-outline {
+          background: transparent;
+          color: $text-dark;
+          border: 2px solid rgba(0, 0, 0, 0.2);
+
+          &:hover {
+            border-color: $primary-color;
+            color: $primary-color;
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+[dir="rtl"] {
+  .subscription-success-page {
+    .status-card {
+      h2, p, .label, .value {
+        font-family: 'Tajawal', sans-serif;
+      }
+    }
+  }
+}

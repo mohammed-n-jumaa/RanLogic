@@ -1,0 +1,515 @@
+@import '../../../styles/variables.scss';
+
+// ===================================
+// FLOATING AVATAR BUTTON (عائم في الصفحة)
+// ===================================
+
+.floating-avatar-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid rgba(253, 184, 19, 0.4);
+  background: white;
+  cursor: pointer;
+  padding: 0;
+  z-index: 999;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-normal;
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 50px;
+    height: 50px;
+    top: 15px;
+    right: 15px;
+  }
+
+  .avatar-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar-icon {
+    font-size: 2.5rem;
+    color: $primary-color;
+    
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 2rem;
+    }
+  }
+
+  .premium-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border: 3px solid white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    color: $secondary-color;
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+    
+    @media (max-width: $breakpoint-tablet) {
+      width: 20px;
+      height: 20px;
+      font-size: 0.6rem;
+      border-width: 2px;
+    }
+  }
+
+  &:hover {
+    border-color: $primary-color;
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(253, 184, 19, 0.3);
+  }
+
+  &.loading {
+    .spinner {
+      font-size: 1.5rem;
+      color: $primary-color;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+// ===================================
+// OVERLAY (خلفية شفافة)
+// ===================================
+
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+}
+
+// ===================================
+// SIDEBAR PANEL (ينزل من الجنب)
+// ===================================
+
+.profile-sidebar-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100vh;
+  background: linear-gradient(180deg, #1c1c1c 0%, #2a2a2a 100%);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1001;
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  
+  @media (max-width: $breakpoint-tablet) {
+    width: 280px;
+  }
+
+  @media (max-width: 400px) {
+    width: 250px;
+  }
+
+  // Decorative gradient
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(180deg, rgba(253, 184, 19, 0.15) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  // تخصيص الـ scrollbar
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(253, 184, 19, 0.5);
+    border-radius: 10px;
+  }
+}
+
+// ===================================
+// CLOSE BUTTON
+// ===================================
+
+.sidebar-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all $transition-normal;
+  z-index: 2;
+  
+  @media (max-width: $breakpoint-tablet) {
+    width: 36px;
+    height: 36px;
+    top: 15px;
+    right: 15px;
+  }
+
+  svg {
+    font-size: 1.2rem;
+    
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 1rem;
+    }
+  }
+
+  &:hover {
+    background: rgba(255, 59, 59, 0.2);
+    border-color: #FF3B3B;
+    transform: rotate(90deg);
+  }
+}
+
+// ===================================
+// LOGO
+// ===================================
+
+.sidebar-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+
+  .logo-container {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    transition: all $transition-normal;
+
+    @media (max-width: $breakpoint-tablet) {
+      max-width: 150px;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .logo-image {
+      width: 215px;
+      height: auto;
+      object-fit: contain;
+      filter: brightness(1.2);
+    }
+
+    .logo-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      
+      .spinner {
+        font-size: 2rem;
+        color: $primary-color;
+        animation: spin 1s linear infinite;
+      }
+    }
+
+    .logo-placeholder {
+      padding: 1rem;
+      
+      span {
+        font-size: 1.8rem;
+        font-weight: 900;
+        background: linear-gradient(135deg, $primary-color, #FFA500);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        
+        @media (max-width: $breakpoint-tablet) {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// USER INFO
+// ===================================
+
+.sidebar-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.5rem;
+
+  .user-avatar-large {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid rgba(253, 184, 19, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: white;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+    @media (max-width: $breakpoint-tablet) {
+      width: 80px;
+      height: 80px;
+    }
+
+    .avatar-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar-icon {
+      font-size: 3.5rem;
+      color: $primary-color;
+      
+      @media (max-width: $breakpoint-tablet) {
+        font-size: 3rem;
+      }
+    }
+
+    .premium-badge-large {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: linear-gradient(135deg, #FFD700, #FFA500);
+      border: 3px solid #1c1c1c;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: $secondary-color;
+      box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+      
+      @media (max-width: $breakpoint-tablet) {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .user-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    text-align: center;
+    
+    @media (max-width: $breakpoint-tablet) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .premium-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.15));
+    border: 1px solid rgba(255, 165, 0, 0.4);
+    border-radius: $radius-md;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #FFA500;
+  }
+}
+
+// ===================================
+// DIVIDER
+// ===================================
+
+.sidebar-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(253, 184, 19, 0.3) 50%, 
+    transparent 100%
+  );
+  margin: 1rem 0;
+}
+
+// ===================================
+// MENU ITEMS
+// ===================================
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 1;
+
+  .sidebar-menu-item {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: $radius-lg;
+    text-align: left;
+    cursor: pointer;
+    transition: all $transition-normal;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    
+    @media (max-width: $breakpoint-tablet) {
+      padding: 0.85rem 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    svg {
+      color: $primary-color;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      transition: all $transition-normal;
+      
+      @media (max-width: $breakpoint-tablet) {
+        font-size: 1.2rem;
+      }
+    }
+
+    &:hover {
+      background: rgba(253, 184, 19, 0.12);
+      border-color: rgba(253, 184, 19, 0.3);
+      color: white;
+      transform: translateX(5px);
+
+      svg {
+        color: $primary-color;
+        transform: scale(1.1);
+      }
+    }
+
+    &.logout {
+      margin-top: 0.5rem;
+      
+      svg {
+        color: #FF3B3B;
+      }
+
+      &:hover {
+        background: rgba(255, 59, 59, 0.12);
+        border-color: rgba(255, 59, 59, 0.3);
+        
+        svg {
+          color: #FF3B3B;
+        }
+      }
+    }
+  }
+}
+
+// ===================================
+// RTL SUPPORT
+// ===================================
+
+[dir="rtl"] {
+  .floating-avatar-button {
+    right: auto;
+    left: 20px;
+    
+    @media (max-width: $breakpoint-tablet) {
+      left: 15px;
+    }
+  }
+
+  .profile-sidebar-panel {
+    left: auto;
+    right: 0;
+  }
+
+  .sidebar-close {
+    right: auto;
+    left: 20px;
+    
+    @media (max-width: $breakpoint-tablet) {
+      left: 15px;
+    }
+  }
+
+  .sidebar-menu-item {
+    text-align: right;
+
+    &:hover {
+      transform: translateX(-5px);
+    }
+  }
+}
+
+// ===================================
+// ANIMATIONS
+// ===================================
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// ===================================
+// ACCESSIBILITY
+// ===================================
+
+.floating-avatar-button,
+.sidebar-close,
+.sidebar-menu-item {
+  &:focus-visible {
+    outline: 3px solid $primary-color;
+    outline-offset: 2px;
+  }
+}

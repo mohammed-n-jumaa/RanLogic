@@ -1,0 +1,1007 @@
+@import '../../../styles/variables.scss';
+
+// ===================================
+// PayPal Payment Component
+// ===================================
+.paypal-payment {
+  .payment-info {
+    margin-bottom: 2rem;
+    
+    .amount-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: $radius-md;
+      margin-bottom: 1rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        padding: 1.2rem;
+      }
+      
+      .amount-label {
+        font-size: 1rem;
+        color: $text-light;
+        font-weight: 600;
+      }
+      
+      .amount-value {
+        font-size: 2rem;
+        font-weight: 900;
+        color: $primary-color;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 1.7rem;
+        }
+      }
+    }
+    
+    .payment-note {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(255, 193, 7, 0.1);
+      border-right: 4px solid #ffc107;
+      border-radius: $radius-md;
+      
+      svg {
+        color: #ffc107;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      
+      p {
+        font-size: 0.9rem;
+        color: rgba(28, 28, 28, 0.8);
+        margin: 0;
+        line-height: 1.5;
+      }
+    }
+  }
+  
+  .paypal-button {
+    width: 100%;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, #0070ba, #003087);
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all $transition-normal;
+    font-family: 'Tajawal', sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3);
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1.1rem;
+      font-size: 1rem;
+    }
+    
+    .paypal-icon {
+      font-size: 1.5rem;
+      
+      @media (max-width: $breakpoint-mobile) {
+        font-size: 1.3rem;
+      }
+    }
+    
+    &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #005a93, #002466);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 112, 186, 0.4);
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    &.processing {
+      background: linear-gradient(135deg, #005a93, #002466);
+    }
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  }
+  
+  .payment-security {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    color: rgba(28, 28, 28, 0.6);
+    font-size: 0.85rem;
+    
+    svg {
+      color: #2ecc71;
+      font-size: 1rem;
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ===================================
+// Payment Status Card
+// ===================================
+.payment-status-card {
+  .status-icon {
+    font-size: 1.5rem;
+    
+    &.paid {
+      color: #2ecc71;
+    }
+    
+    &.pending {
+      color: #ffc107;
+    }
+  }
+  
+  .payment-details {
+    .detail-row {
+      &.highlight {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        padding: 1rem;
+        border-radius: $radius-md;
+        margin-top: 1rem;
+      }
+      
+      .days-left {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: $primary-color;
+        padding: inherit;
+        &.warning {
+          color: #dc2626;
+          animation: pulse 2s infinite;
+        }
+      }
+      
+      .status-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        svg {
+          font-size: 1.1rem;
+        }
+        
+        &.paid {
+          background: linear-gradient(135deg, #d4fc79, #96e6a1);
+          color: #2d5016;
+        }
+        
+        &.pending {
+          background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+          color: #d63031;
+        }
+      }
+    }
+  }
+  
+  .expiry-warning {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(220, 38, 38, 0.1);
+    border-right: 4px solid #dc2626;
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    svg {
+      color: #dc2626;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #dc2626;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+// ===================================
+// Renewal Card
+// ===================================
+.renewal-card {
+  .card-header {
+    .header-icon.warning {
+      color: #ffc107;
+      animation: ring 2s infinite;
+    }
+  }
+  
+  .renewal-content {
+    .renewal-info {
+      margin-bottom: 1.5rem;
+      
+      p {
+        font-size: 0.95rem;
+        color: $text-dark;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.6;
+        
+        @media (max-width: $breakpoint-mobile) {
+          font-size: 0.9rem;
+        }
+        
+        strong {
+          color: $primary-color;
+          
+          &.warning {
+            color: #dc2626;
+          }
+        }
+      }
+      
+      .days-remaining {
+        font-size: 1.1rem;
+        font-weight: 700;
+        padding: 0.75rem 1rem;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        border-radius: $radius-md;
+        text-align: center;
+      }
+      
+      .reminder {
+        padding: 1rem;
+        background: rgba(233, 30, 99, 0.1);
+        border-right: 4px solid $primary-color;
+        border-radius: $radius-md;
+        font-size: 0.9rem;
+      }
+    }
+    
+    .renewal-pricing {
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      padding: 1rem;
+      border-radius: $radius-md;
+      margin-bottom: 1.5rem;
+      
+      .price-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        font-size: 0.95rem;
+        
+        &.discount {
+          color: #2ecc71;
+          font-weight: 600;
+        }
+        
+        &.total {
+          border-top: 2px solid rgba(28, 28, 28, 0.1);
+          margin-top: 0.5rem;
+          padding-top: 1rem;
+          font-size: 1.1rem;
+          font-weight: 700;
+          
+          .total-price {
+            font-size: 1.5rem;
+            color: $primary-color;
+          }
+        }
+        
+        .original-price {
+          text-decoration: line-through;
+          color: $text-light;
+        }
+      }
+    }
+    
+    // Payment Methods Selection
+    .payment-methods {
+      margin-bottom: 1.5rem;
+      
+      h4 {
+        font-size: 1rem;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 1rem;
+      }
+      
+      .methods-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        
+        @media (max-width: $breakpoint-mobile) {
+          grid-template-columns: 1fr;
+        }
+        
+        .method-button {
+          padding: 1.2rem;
+          background: white;
+          border: 2px solid rgba(0, 0, 0, 0.1);
+          border-radius: $radius-md;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          transition: all $transition-normal;
+          font-family: 'Tajawal', sans-serif;
+          
+          @media (max-width: $breakpoint-mobile) {
+            padding: 1rem;
+          }
+          
+          .method-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+          }
+          
+          .method-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: right;
+            
+            .method-name {
+              font-size: 1rem;
+              font-weight: 700;
+              color: $text-dark;
+              margin-bottom: 0.25rem;
+            }
+            
+            .method-desc {
+              font-size: 0.85rem;
+              color: $text-light;
+            }
+          }
+          
+          &.paypal {
+            .method-icon {
+              color: #0070ba;
+            }
+            
+            &:hover {
+              border-color: #0070ba;
+              background: rgba(0, 112, 186, 0.05);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(0, 112, 186, 0.15);
+            }
+          }
+          
+          &.bank {
+            .method-icon {
+              color: #2ecc71;
+            }
+            
+            &:hover {
+              border-color: #2ecc71;
+              background: rgba(46, 204, 113, 0.05);
+              transform: translateY(-2px);
+              box-shadow: 0 4px 12px rgba(46, 204, 113, 0.15);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .renew-btn {
+    width: 100%;
+    padding: 1.1rem;
+    background: linear-gradient(135deg, #0070ba, #003087);
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-weight: 700;
+    font-size: 1.05rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all $transition-normal;
+    font-family: 'Tajawal', sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3);
+    
+    @media (max-width: $breakpoint-mobile) {
+      padding: 1rem;
+      font-size: 1rem;
+    }
+    
+    svg {
+      font-size: 1.3rem;
+    }
+    
+    &:hover {
+      background: linear-gradient(135deg, #005a93, #002466);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 112, 186, 0.4);
+    }
+  }
+  
+  .auto-renewal-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: $text-light;
+    margin-top: 1rem;
+    font-style: italic;
+  }
+  
+  .cancel-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: $text-dark;
+    border: 2px solid $border-color;
+    border-radius: $radius-md;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all $transition-normal;
+    font-family: 'Tajawal', sans-serif;
+    
+    &:hover {
+      border-color: $primary-color;
+      color: $primary-color;
+      background: rgba(233, 30, 99, 0.05);
+    }
+  }
+}
+
+@keyframes ring {
+  0%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(15deg); }
+  20%, 40% { transform: rotate(-15deg); }
+  50% { transform: rotate(0deg); }
+}
+
+// ===================================
+// Bank Transfer Payment
+// ===================================
+.bank-transfer-payment {
+  .bank-details-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: $radius-md;
+    margin-bottom: 2rem;
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+      
+      .bank-icon {
+        font-size: 2rem;
+        color: #2ecc71;
+      }
+      
+      h3 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: $text-dark;
+        margin: 0;
+      }
+    }
+    
+    .bank-info {
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        
+        &:last-of-type {
+          border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+          margin-bottom: 0.75rem;
+        }
+        
+        &.clickable {
+          cursor: pointer;
+          transition: all $transition-fast;
+          
+          &:hover {
+            background: rgba(233, 30, 99, 0.05);
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
+            margin-right: -0.5rem;
+            margin-left: -0.5rem;
+            border-radius: $radius-sm;
+          }
+        }
+        
+        .label {
+          font-weight: 600;
+          color: $text-light;
+          font-size: 0.9rem;
+        }
+        
+        .value {
+          font-weight: 700;
+          color: $text-dark;
+          font-size: 0.95rem;
+          text-align: left;
+          
+          &.copy-value {
+            position: relative;
+            color: $primary-color;
+            
+            .copy-hint {
+              position: absolute;
+              top: -25px;
+              left: 0;
+              background: $text-dark;
+              color: white;
+              padding: 0.3rem 0.6rem;
+              border-radius: $radius-sm;
+              font-size: 0.75rem;
+              opacity: 0;
+              transition: opacity $transition-fast;
+              white-space: nowrap;
+              pointer-events: none;
+            }
+            
+            &:hover .copy-hint {
+              opacity: 1;
+            }
+          }
+        }
+      }
+      
+      .amount-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background: white;
+        border-radius: $radius-sm;
+        margin-top: 0.75rem;
+        
+        .label {
+          font-weight: 700;
+          color: $text-dark;
+          font-size: 1rem;
+        }
+        
+        .amount {
+          font-size: 1.8rem;
+          font-weight: 900;
+          color: $primary-color;
+        }
+      }
+    }
+    
+    .transfer-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: rgba(46, 204, 113, 0.1);
+      border-right: 4px solid #2ecc71;
+      border-radius: $radius-sm;
+      margin-top: 1rem;
+      
+      svg {
+        color: #2ecc71;
+        font-size: 1.2rem;
+        margin-top: 0.1rem;
+        flex-shrink: 0;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: $text-dark;
+        line-height: 1.6;
+      }
+    }
+  }
+  
+  .upload-section {
+    margin-bottom: 2rem;
+    
+    h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: $text-dark;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+      
+      label {
+        display: block;
+        font-weight: 700;
+        color: $text-dark;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+      }
+      
+      .transfer-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-radius: $radius-md;
+        font-size: 1rem;
+        font-family: 'Tajawal', sans-serif;
+        transition: all $transition-normal;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
+        }
+        
+        &:disabled {
+          background: #f8f9fa;
+          cursor: not-allowed;
+        }
+      }
+      
+      .upload-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 2rem;
+        border: 3px dashed rgba(0, 0, 0, 0.2);
+        border-radius: $radius-md;
+        cursor: pointer;
+        transition: all $transition-normal;
+        background: rgba(0, 0, 0, 0.02);
+        
+        &:hover {
+          border-color: $primary-color;
+          background: rgba(233, 30, 99, 0.05);
+        }
+        
+        .upload-icon {
+          font-size: 3rem;
+          color: $primary-color;
+          margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+          font-weight: 700;
+          color: $text-dark;
+          margin-bottom: 0.5rem;
+          font-size: 1rem;
+        }
+        
+        .upload-hint {
+          font-size: 0.85rem;
+          color: $text-light;
+        }
+      }
+      
+      .image-preview-container {
+        .image-preview {
+          position: relative;
+          border-radius: $radius-md;
+          overflow: hidden;
+          margin-bottom: 1rem;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+          
+          img {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            background: #f8f9fa;
+          }
+          
+          .remove-image {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all $transition-normal;
+            
+            &:hover {
+              background: #dc2626;
+              transform: scale(1.1);
+            }
+            
+            svg {
+              font-size: 1.2rem;
+            }
+          }
+        }
+        
+        .image-info {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.75rem 1rem;
+          background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+          border-radius: $radius-sm;
+          
+          svg {
+            color: $primary-color;
+            font-size: 1.2rem;
+          }
+          
+          span {
+            font-size: 0.9rem;
+            color: $text-dark;
+            font-weight: 600;
+            word-break: break-all;
+          }
+        }
+      }
+    }
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    
+    @media (max-width: $breakpoint-mobile) {
+      flex-direction: column-reverse;
+    }
+    
+    button {
+      flex: 1;
+      padding: 1.1rem;
+      border-radius: $radius-md;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      transition: all $transition-normal;
+      font-family: 'Tajawal', sans-serif;
+      border: none;
+      
+      &.cancel-button {
+        background: transparent;
+        color: $text-dark;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        
+        &:hover:not(:disabled) {
+          border-color: rgba(0, 0, 0, 0.3);
+          background: rgba(0, 0, 0, 0.03);
+        }
+      }
+      
+      &.submit-button {
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
+        color: white;
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        
+        svg {
+          font-size: 1.2rem;
+        }
+        
+        .spinner {
+          width: 20px;
+          height: 20px;
+          border: 3px solid rgba(255, 255, 255, 0.3);
+          border-top-color: white;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+        
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #27ae60, #229954);
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ===================================
+// Payment History
+// ===================================
+.payment-history-card {
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-left: 0.5rem;
+    
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f3f5;
+      border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $primary-color;
+      border-radius: 10px;
+    }
+    
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: $radius-md;
+      transition: all $transition-normal;
+      
+      @media (max-width: $breakpoint-mobile) {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+      
+      &:hover {
+        transform: translateX(-5px);
+        box-shadow: $shadow-sm;
+      }
+      
+      .payment-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: $radius-md;
+        background: linear-gradient(135deg, #0070ba, #003087);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+        
+        @media (max-width: $breakpoint-mobile) {
+          width: 45px;
+          height: 45px;
+          font-size: 1.3rem;
+        }
+      }
+      
+      .payment-details {
+        flex: 1;
+        min-width: 0;
+        
+        h5 {
+          font-size: 1rem;
+          font-weight: 700;
+          color: $text-dark;
+          margin: 0 0 0.5rem 0;
+          
+          @media (max-width: $breakpoint-mobile) {
+            font-size: 0.95rem;
+          }
+        }
+        
+        .payment-meta {
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+          font-size: 0.85rem;
+          color: $text-light;
+          
+          span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+          }
+        }
+      }
+      
+      .payment-amount-status {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
+        
+        @media (max-width: $breakpoint-mobile) {
+          width: 100%;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+        }
+        
+        .amount {
+          font-size: 1.3rem;
+          font-weight: 800;
+          color: $primary-color;
+          
+          @media (max-width: $breakpoint-mobile) {
+            font-size: 1.2rem;
+          }
+        }
+        
+        .status {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          padding: 0.4rem 0.8rem;
+          border-radius: $radius-lg;
+          font-size: 0.85rem;
+          font-weight: 600;
+          
+          &.completed {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            color: #2d5016;
+          }
+        }
+      }
+    }
+    
+    .no-history {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: $text-light;
+      
+      svg {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+      }
+      
+      p {
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+  }
+  
+  .view-all-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: $primary-color;
+    border: 2px solid $primary-color;
+    border-radius: $radius-md;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: all $transition-normal;
+    font-family: 'Tajawal', sans-serif;
+    
+    &:hover {
+      background: $primary-color;
+      color: white;
+    }
+  }
+}

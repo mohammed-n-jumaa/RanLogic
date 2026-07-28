@@ -1,0 +1,20 @@
+// Helper file for common color values that work in both modes
+@import './variables';
+
+// Safe color function - returns CSS variable or fallback
+@function theme-color($color-name, $fallback) {
+  @return var(--#{$color-name}, $fallback);
+}
+
+// Mixins for theme-aware properties
+@mixin theme-background($var-name, $fallback) {
+  background: var(--#{$var-name}, $fallback);
+}
+
+@mixin theme-color($var-name, $fallback) {
+  color: var(--#{$var-name}, $fallback);
+}
+
+@mixin theme-border($var-name, $fallback) {
+  border-color: var(--#{$var-name}, $fallback);
+}

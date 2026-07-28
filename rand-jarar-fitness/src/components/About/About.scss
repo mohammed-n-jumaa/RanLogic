@@ -1,0 +1,797 @@
+@import '../../styles/variables.scss';
+
+// ─────────────────────────────────────────────────
+// Design tokens (local overrides / additions)
+// ─────────────────────────────────────────────────
+$gold:          #FDB813;
+$gold-soft:     #FFF3CC;
+$gold-mid:      rgba(253, 184, 19, 0.18);
+$dark:          #1C1C1C;
+$muted:         #888888;
+$muted-light:   #B8B4AE;
+$cream:         #FAFAF7;
+$surface:       #FFFFFF;
+$border-light:  #F0EDE8;
+$border-mid:    #E8E4DC;
+
+// ─────────────────────────────────────────────────
+// Section wrapper
+// ─────────────────────────────────────────────────
+.about {
+  position: relative;
+  padding: 6rem 0 5rem;
+  background: $cream;
+  overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: $breakpoint-desktop) {
+    padding: 5rem 0 4rem;
+    min-height: auto;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 4rem 0 3.5rem;
+    min-height: auto;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 3rem 0 2.5rem;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Decorative background shapes
+// ─────────────────────────────────────────────────
+.about-shape {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-shape--1 {
+  width: 560px;
+  height: 560px;
+  top: -200px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(253, 184, 19, 0.08) 0%, transparent 68%);
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 360px;
+    height: 360px;
+    top: -120px;
+    left: -100px;
+  }
+}
+
+.about-shape--2 {
+  width: 340px;
+  height: 340px;
+  bottom: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(253, 184, 19, 0.07) 0%, transparent 65%);
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 220px;
+    height: 220px;
+    bottom: -50px;
+    right: -50px;
+  }
+}
+
+.about-shape--3 {
+  width: 180px;
+  height: 180px;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(253, 184, 19, 0.05) 0%, transparent 60%);
+
+  @media (max-width: $breakpoint-tablet) {
+    display: none;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Container
+// ─────────────────────────────────────────────────
+.about-container {
+  max-width: 1220px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: $breakpoint-desktop) { padding: 0 1.5rem; }
+  @media (max-width: $breakpoint-tablet)  { padding: 0 1.25rem; }
+  @media (max-width: $breakpoint-mobile)  { padding: 0 1rem; }
+}
+
+// ─────────────────────────────────────────────────
+// Two-column grid
+// ─────────────────────────────────────────────────
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 5rem;
+  align-items: start;
+
+  @media (max-width: $breakpoint-desktop) {
+    grid-template-columns: 1fr 360px;
+    gap: 3.5rem;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Loading & Error
+// ─────────────────────────────────────────────────
+.about-loading,
+.about-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+
+  .spinner {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    color: $gold;
+    animation: spin 1.4s linear infinite;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: $muted;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.retry-btn {
+  padding: 0.75rem 1.8rem;
+  background: $gold;
+  color: $dark;
+  border: none;
+  border-radius: 99px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(253, 184, 19, 0.35);
+  }
+}
+
+// ─────────────────────────────────────────────────
+// LEFT COLUMN — details
+// ─────────────────────────────────────────────────
+.about-details {
+  padding-top: 0.5rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    order: 1;
+  }
+}
+
+// Eyebrow row
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.1rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
+}
+
+// ← تعديل: في RTL تبدأ من اليمين
+.section-eyebrow--rtl {
+  flex-direction: row-reverse !important;
+  justify-content: flex-end !important;
+
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center !important;
+    flex-direction: row-reverse !important;
+  }
+}
+
+.eyebrow-line {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: $gold;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.eyebrow-pill {
+  display: inline-block;
+  padding: 4px 14px;
+  background: $gold-soft;
+  border: 0.5px solid rgba(253, 184, 19, 0.5);
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #8A6200;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+// Section title
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $dark;
+  line-height: 1.3;
+  margin: 0 0 0.6rem;
+  letter-spacing: -0.4px;
+
+  .gold-word {
+    color: $gold;
+    font-weight: 800;
+  }
+
+  @media (max-width: $breakpoint-desktop) { font-size: 1.75rem; }
+  @media (max-width: $breakpoint-tablet)  { font-size: 1.55rem; text-align: center; }
+  @media (max-width: $breakpoint-mobile)  { font-size: 1.35rem; }
+}
+
+// Golden accent divider
+.title-divider {
+  width: 40px;
+  height: 3px;
+  background: $gold;
+  border-radius: 2px;
+  margin: 0.85rem 0 1.5rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// Body text
+.experience-text {
+  font-size: 1.05rem;
+  line-height: 1.82;
+  color: #555;
+  margin-bottom: 2rem;
+
+  .gold-word { color: $gold; font-weight: 600; }
+
+  p { margin-bottom: 0.9rem; }
+  p:last-child { margin-bottom: 0; }
+
+  @media (max-width: $breakpoint-tablet) {
+    font-size: 0.97rem;
+    text-align: center;
+    margin-bottom: 1.75rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 0.92rem;
+  }
+}
+
+// ─────────────────────────────────────────────────
+// Stats strip
+// ─────────────────────────────────────────────────
+.stats-strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: $surface;
+  border: 0.5px solid $border-mid;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    max-width: 100%;
+  }
+}
+
+.stat-block {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.1rem 1rem;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: $dark;
+  letter-spacing: -0.5px;
+  line-height: 1;
+
+  @media (max-width: $breakpoint-mobile) { font-size: 1.35rem; }
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: $muted-light;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.stat-sep {
+  width: 1px;
+  height: 36px;
+  background: $border-mid;
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────
+// Feature / Service cards
+// ─────────────────────────────────────────────────
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.9rem;
+  margin-bottom: 2.2rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 580px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+}
+
+.service-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1.1rem 1.1rem 1.1rem 1rem;
+  background: $surface;
+  border: 0.5px solid $border-light;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: border-color 0.22s, transform 0.22s;
+  position: relative;
+  overflow: hidden;
+
+  // left accent bar
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: $gold;
+    border-radius: 0 2px 2px 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.22s ease;
+  }
+
+  &:hover {
+    border-color: rgba(253, 184, 19, 0.4);
+    transform: translateY(-3px);
+
+    &::before { transform: scaleY(1); }
+
+    .service-icon {
+      background: $gold;
+      .icon-symbol { filter: grayscale(1) brightness(0); }
+    }
+
+    .service-arrow { color: $gold; opacity: 1; }
+  }
+
+  @media (max-width: $breakpoint-tablet) { padding: 1rem; gap: 0.75rem; }
+}
+
+[dir='rtl'] .service-card::before {
+  left: auto;
+  right: 0;
+  border-radius: 2px 0 0 2px;
+}
+
+.service-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  background: $gold-soft;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.22s;
+
+  .icon-symbol {
+    font-size: 1.3rem;
+    line-height: 1;
+    transition: filter 0.22s;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    .icon-symbol { font-size: 1.15rem; }
+  }
+}
+
+.service-content {
+  flex: 1;
+
+  h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $dark;
+    margin-bottom: 4px;
+    line-height: 1.3;
+
+    @media (max-width: $breakpoint-tablet) { font-size: 0.88rem; }
+  }
+
+  p {
+    font-size: 0.82rem;
+    color: $muted;
+    line-height: 1.5;
+    margin: 0;
+
+    @media (max-width: $breakpoint-tablet) { font-size: 0.78rem; }
+  }
+}
+
+.service-arrow {
+  font-size: 1.2rem;
+  color: $muted-light;
+  opacity: 0.4;
+  transition: color 0.22s, opacity 0.22s;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────
+// CTA row
+// ─────────────────────────────────────────────────
+.about-cta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+
+  @media (max-width: $breakpoint-tablet) {
+    justify-content: center;
+  }
+}
+
+.cta-button {
+  padding: 0.9rem 2.2rem;
+  background: $gold;
+  color: $dark;
+  border: none;
+  border-radius: 99px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.2px;
+  transition: box-shadow 0.22s, transform 0.22s;
+  box-shadow: 0 4px 18px rgba(253, 184, 19, 0.3);
+
+  &:hover {
+    box-shadow: 0 8px 28px rgba(253, 184, 19, 0.45);
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+}
+
+.cta-ghost {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: transparent;
+  border: none;
+  color: $muted;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+
+  &:hover { color: $dark; .play-circle { background: $gold; } }
+}
+
+.play-circle {
+  width: 32px;
+  height: 32px;
+  background: $surface;
+  border: 0.5px solid $border-mid;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: $dark;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+// ─────────────────────────────────────────────────
+// RIGHT COLUMN — trainer profile
+// ─────────────────────────────────────────────────
+.trainer-profile {
+  position: sticky;
+  top: 100px;
+
+  @media (max-width: $breakpoint-tablet) {
+    position: static;
+    max-width: 500px;
+    margin: 0 auto;
+    order: 2;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    max-width: 100%;
+  }
+}
+
+// Image wrapper
+.profile-image-wrapper {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #F0EBE0;
+  margin-bottom: 1.4rem;
+  border: 0.5px solid $border-mid;
+
+  &:hover .profile-image {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+// Gradient overlay at bottom
+.profile-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  background: linear-gradient(to top, rgba(248, 245, 240, 0.92) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+// Certified corner badge
+.cert-corner-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: $gold;
+  border-radius: 8px;
+  padding: 5px 10px;
+
+  svg {
+    font-size: 0.75rem;
+    color: #7A5A00;
+  }
+
+  span {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #7A5A00;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+}
+
+[dir='rtl'] .cert-corner-badge {
+  right: auto;
+  left: 14px;
+}
+
+// Floating stat card
+.float-stat {
+  position: absolute;
+  top: 18px;
+  left: -16px;
+  z-index: 3;
+  background: $surface;
+  border: 0.5px solid $border-mid;
+  border-radius: 12px;
+  padding: 10px 14px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+
+  @media (max-width: $breakpoint-tablet) {
+    left: 14px;
+  }
+
+  &--rtl {
+    left: auto;
+    right: -16px;
+
+    @media (max-width: $breakpoint-tablet) {
+      right: 14px;
+    }
+  }
+}
+
+.float-stat__num {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: $dark;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.float-stat__lbl {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: $muted-light;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+// Name pill at bottom of image
+.profile-name-pill {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 0.5px solid $border-mid;
+  border-radius: 99px;
+  padding: 7px 16px;
+  white-space: nowrap;
+}
+
+.name-pill-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $gold;
+  flex-shrink: 0;
+}
+
+.name-pill-name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: $dark;
+}
+
+.name-pill-role {
+  font-size: 0.72rem;
+  color: $muted;
+  font-weight: 500;
+}
+
+// ─────────────────────────────────────────────────
+// Quote block
+// ─────────────────────────────────────────────────
+.trainer-quote {
+  display: flex;
+  gap: 10px;
+  background: $surface;
+  border: 0.5px solid $border-mid;
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  border-left: 3px solid $gold;
+  border-radius: 0 14px 14px 0;
+
+  &--rtl {
+    border-left: none;
+    border-right: 3px solid $gold;
+    border-radius: 14px 0 0 14px;
+    flex-direction: row-reverse;
+  }
+}
+
+.quote-mark {
+  font-size: 2.2rem;
+  color: $gold;
+  line-height: 0.7;
+  flex-shrink: 0;
+  font-family: Georgia, serif;
+  opacity: 0.6;
+}
+
+.quote-text {
+  font-size: 0.92rem;
+  color: #666;
+  line-height: 1.7;
+  font-style: italic;
+  margin: 0;
+}
+
+// ─────────────────────────────────────────────────
+// RTL global adjustments
+// ─────────────────────────────────────────────────
+[dir='rtl'] {
+  // section-eyebrow يتحكم بها .section-eyebrow--rtl مباشرة
+
+  .title-divider {
+    margin-left: auto;
+    margin-right: 0;
+
+    @media (max-width: $breakpoint-tablet) {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .stats-strip     { direction: rtl; }
+  .service-card    { flex-direction: row-reverse; }
+  .service-arrow   { transform: rotate(180deg); }
+
+  // ← تعديل: زر CTA في المنتصف عند RTL
+  .about-cta {
+    justify-content: center;
+    flex-direction: row;
+
+    @media (max-width: $breakpoint-tablet) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+
+  .profile-name-pill { flex-direction: row-reverse; }
+}
+
+// ─────────────────────────────────────────────────
+// Animations
+// ─────────────────────────────────────────────────
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

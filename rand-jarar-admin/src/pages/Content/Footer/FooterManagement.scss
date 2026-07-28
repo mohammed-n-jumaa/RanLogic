@@ -1,0 +1,396 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.footer-mgmt {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding-bottom: $spacing-xl * 2;
+  direction: rtl;
+
+  &__loading {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 60vh;
+    gap: $spacing-sm; color: var(--text-muted);
+  }
+
+  // ── Header ─────────────────────────────────────────────────────────────────
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-lg $spacing-xl;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+
+    @include mobile { flex-direction: column; align-items: stretch; padding: $spacing-md; }
+  }
+
+  // ── Tabs ───────────────────────────────────────────────────────────────────
+  &__tabs {
+    display: flex;
+    gap: 4px;
+    padding: $spacing-sm $spacing-xl 0;
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+
+    @include mobile { padding: $spacing-xs $spacing-sm 0; }
+  }
+
+  // ── Body ───────────────────────────────────────────────────────────────────
+  &__body {
+    padding: $spacing-lg $spacing-xl;
+    @include mobile { padding: $spacing-md $spacing-sm; }
+  }
+}
+
+// ── Header pieces ─────────────────────────────────────────────────────────────
+.breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;
+  svg { opacity: 0.6; transform: rotate(180deg); }
+  .sep { opacity: 0.4; }
+  .crumb-active { color: $primary-pink; font-weight: 500; }
+}
+
+.fmh-title {
+  display: flex; align-items: center; gap: $spacing-xs;
+  font-size: 1.4rem; font-weight: 700; color: var(--text-primary); margin: 0 0 4px;
+  svg { color: $primary-pink; }
+  @include mobile { font-size: 1.15rem; }
+}
+
+.fmh-sub { font-size: 0.83rem; color: var(--text-muted); margin: 0; }
+
+.fmh-actions {
+  display: flex; align-items: center; gap: $spacing-sm;
+  @include mobile { flex-wrap: wrap; }
+}
+
+.lang-toggle {
+  display: flex; border-radius: $radius-md; overflow: hidden;
+  border: 1px solid var(--border-color);
+
+  button {
+    padding: 8px 14px; background: var(--bg-secondary);
+    border: none; color: var(--text-muted); font-size: 0.82rem;
+    cursor: pointer; transition: $transition-fast;
+    &.active { background: $primary-pink; color: #fff; font-weight: 600; }
+  }
+}
+
+.btn-save {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 24px; background: $primary-pink; color: #fff;
+  border: none; border-radius: $radius-md;
+  font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: $transition-fast;
+  white-space: nowrap;
+  &:hover:not(:disabled) { background: darken($primary-pink, 8%); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  &.saving { background: var(--bg-card); color: var(--text-muted); border: 1px solid var(--border-color); }
+  @include mobile { flex: 1; justify-content: center; }
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+.fm-toast {
+  display: flex; align-items: center; gap: 9px;
+  margin: 0 $spacing-xl;
+  padding: 11px 18px; border-radius: $radius-md;
+  font-size: 0.86rem; font-weight: 500;
+  @include mobile { margin: 0 $spacing-sm; }
+
+  &--success { background: rgba($success, 0.12); color: $success-light; border: 1px solid rgba($success, 0.25); }
+  &--error   { background: rgba($danger,  0.12); color: $danger-light;  border: 1px solid rgba($danger,  0.25); }
+}
+
+// ── Tab button ────────────────────────────────────────────────────────────────
+.fm-tab {
+  display: flex; align-items: center; gap: 7px;
+  padding: 10px 18px; background: transparent;
+  border: none; border-bottom: 2px solid transparent;
+  color: var(--text-muted); font-size: 0.86rem; cursor: pointer;
+  transition: $transition-fast; white-space: nowrap;
+  margin-bottom: -1px;
+
+  &:hover { color: var(--text-secondary); }
+  &.active { color: $primary-pink; border-bottom-color: $primary-pink; font-weight: 600; }
+
+  @include mobile { padding: 8px 12px; font-size: 0.8rem; }
+}
+
+// ── Tab pane ──────────────────────────────────────────────────────────────────
+.tab-pane { width: 100%; }
+
+// ── Social Tab Layout ────────────────────────────────────────────────────────
+.social-tab-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: $spacing-md;
+  align-items: start;
+
+  @include tablet { grid-template-columns: 1fr; }
+  @include mobile { grid-template-columns: 1fr; gap: $spacing-sm; }
+}
+
+// Desktop picker — يظهر فقط على الديسكتوب
+.desktop-picker {
+  @include mobile { display: none; }
+}
+
+// زر الإضافة في هيدر الكارد — مخفي على الديسكتوب
+.sc-add-btn {
+  display: none;
+  margin-right: auto;
+  align-items: center; gap: 5px;
+  padding: 5px 10px;
+  background: rgba($primary-pink, 0.12);
+  color: $primary-pink;
+  border: 1px solid rgba($primary-pink, 0.3);
+  border-radius: $radius-sm;
+  font-size: 0.78rem; font-weight: 600; cursor: pointer;
+  transition: $transition-fast;
+
+  .rotated { transform: rotate(180deg); transition: transform $transition-fast; }
+
+  &:hover { background: rgba($primary-pink, 0.22); }
+
+  @include mobile { display: flex; }
+}
+
+// Inline picker (موبايل)
+.inline-picker {
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-color);
+
+  .platforms-grid.inline {
+    border-radius: 0;
+  }
+}
+
+// ── Section Card ──────────────────────────────────────────────────────────────
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  &.full { width: 100%; }
+
+  .sc-hd {
+    display: flex; align-items: center; gap: 8px;
+    padding: 13px $spacing-md; border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+    font-size: 0.88rem; font-weight: 600; color: var(--text-secondary);
+    svg { color: $primary-pink; }
+    .sc-count {
+      margin-right: auto;
+      background: rgba($primary-pink, 0.15); color: $primary-pink;
+      font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;
+    }
+  }
+}
+
+// ── Platforms Grid ────────────────────────────────────────────────────────────
+.platforms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  padding: $spacing-md;
+  @include mobile {
+    grid-template-columns: repeat(4, 1fr);
+    padding: $spacing-sm;
+    gap: 8px;
+  }
+}
+
+.platform-card {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  padding: 12px 8px 10px;
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: $radius-md; cursor: pointer; transition: $transition-fast;
+  position: relative;
+
+  &:hover:not(.added) { border-color: $primary-pink; background: rgba($primary-pink, 0.06); }
+  &.added { opacity: 0.55; cursor: default; border-color: rgba($success, 0.35); }
+
+  .pc-icon {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.05rem;
+    @include mobile { width: 32px; height: 32px; border-radius: 8px; font-size: 0.9rem; }
+  }
+  .pc-label {
+    font-size: 0.68rem; color: var(--text-secondary); font-weight: 500;
+    text-align: center; line-height: 1.2;
+    @include mobile { font-size: 0.6rem; }
+  }
+  .pc-check { position: absolute; top: 5px; left: 5px; color: $success-light; }
+
+  @include mobile { padding: 10px 4px 8px; gap: 5px; border-radius: $radius-sm; }
+}
+
+// ── Social List ───────────────────────────────────────────────────────────────
+.social-list {
+  display: flex; flex-direction: column; gap: 6px; padding: $spacing-sm;
+  @include mobile { padding: $spacing-xs; gap: 5px; }
+}
+
+.social-row {
+  display: flex; align-items: center; gap: $spacing-sm;
+  padding: 10px 12px;
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: $radius-md; transition: $transition-fast;
+  &:hover { border-color: rgba($primary-pink, 0.3); }
+  @include mobile { padding: 8px 10px; gap: 8px; border-radius: $radius-sm; }
+
+  .sr-icon {
+    width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+    @include mobile { width: 32px; height: 32px; border-radius: 8px; font-size: 0.85rem; }
+  }
+  .sr-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .sr-name { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
+  .sr-input {
+    width: 100%; background: var(--bg-primary);
+    border: 1px solid var(--border-color); border-radius: $radius-sm;
+    padding: 6px 10px; color: var(--text-primary); font-size: 0.8rem;
+    outline: none; transition: $transition-fast; box-sizing: border-box;
+    &::placeholder { color: var(--text-muted); }
+    &:focus { border-color: $primary-pink; }
+    @include mobile { padding: 5px 8px; font-size: 0.75rem; }
+  }
+  .sr-btn {
+    width: 30px; height: 30px; border-radius: $radius-sm; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: none; cursor: pointer; transition: $transition-fast;
+    @include mobile { width: 28px; height: 28px; }
+  }
+  .preview-btn { background: rgba($primary-blue, 0.1); color: $primary-blue-light; &:hover { background: rgba($primary-blue, 0.2); } }
+  .delete-btn  { background: rgba($danger, 0.1);       color: $danger-light;       &:hover { background: rgba($danger, 0.2); } }
+}
+
+// ── Empty ─────────────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: $spacing-xl $spacing-md; color: var(--text-muted); gap: $spacing-xs; text-align: center;
+  svg { opacity: 0.25; margin-bottom: 4px; }
+  p   { margin: 0; font-size: 0.88rem; color: var(--text-secondary); }
+  span { font-size: 0.78rem; }
+}
+
+// ── LangField ────────────────────────────────────────────────────────────────
+.fields-stack { display: flex; flex-direction: column; gap: $spacing-md; padding: $spacing-md; }
+
+.lang-field {
+  display: flex; flex-direction: column; gap: 8px;
+
+  .lf-label { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+  .lf-hint  { font-size: 0.75rem; color: var(--text-muted); margin-top: -4px; }
+
+  .lf-inputs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: $spacing-sm;
+    @include mobile { grid-template-columns: 1fr; }
+  }
+
+  .lf-input-wrap {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+
+  .lf-lang {
+    font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
+    border-radius: $radius-sm; width: fit-content;
+    &.ar { background: rgba($primary-pink, 0.12); color: $primary-pink; }
+    &.en { background: rgba($primary-blue, 0.12); color: $primary-blue-light; }
+  }
+
+  .lf-input {
+    width: 100%; background: var(--bg-secondary);
+    border: 1px solid var(--border-color); border-radius: $radius-sm;
+    padding: 9px 12px; color: var(--text-primary); font-size: 0.88rem;
+    outline: none; resize: vertical; transition: $transition-fast;
+    box-sizing: border-box; font-family: inherit;
+    &::placeholder { color: var(--text-muted); }
+    &:focus { border-color: $primary-pink; }
+  }
+}
+
+// ── Simple Field ──────────────────────────────────────────────────────────────
+.simple-field {
+  display: flex; flex-direction: column; gap: 7px;
+
+  label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+    svg { color: $primary-pink; }
+  }
+
+  input {
+    width: 100%; background: var(--bg-secondary);
+    border: 1px solid var(--border-color); border-radius: $radius-sm;
+    padding: 9px 12px; color: var(--text-primary); font-size: 0.88rem;
+    outline: none; transition: $transition-fast; box-sizing: border-box;
+    &::placeholder { color: var(--text-muted); }
+    &:focus { border-color: $primary-pink; }
+  }
+}
+
+// ── Preview ───────────────────────────────────────────────────────────────────
+.preview-wrapper { max-width: 600px; }
+
+.preview-lang-toggle {
+  display: flex; gap: 8px; margin-bottom: $spacing-md;
+
+  button {
+    padding: 8px 18px;
+    background: var(--bg-card); border: 1px solid var(--border-color);
+    border-radius: $radius-md; color: var(--text-muted); font-size: 0.84rem;
+    cursor: pointer; transition: $transition-fast;
+    &.active { background: $primary-pink; border-color: $primary-pink; color: #fff; font-weight: 600; }
+  }
+}
+
+.footer-preview {
+  background: #0d0d0d; border: 1px solid rgba(255,255,255,0.08);
+  border-radius: $radius-lg; padding: $spacing-lg;
+  display: flex; flex-direction: column; gap: $spacing-sm;
+
+  .fp-logo {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 1.1rem; font-weight: 700; color: #C8971A;
+    svg { color: #C8971A; }
+  }
+
+  .fp-desc { font-size: 0.84rem; color: rgba(255,255,255,0.6); margin: 0; line-height: 1.6; }
+
+  .fp-socials { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .fp-social-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; transition: $transition-fast;
+    &:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+  }
+
+  .fp-contact {
+    display: flex; flex-wrap: wrap; gap: $spacing-sm;
+    span { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+    svg  { color: rgba(255,255,255,0.3); }
+  }
+
+  .fp-address {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+    svg { color: rgba(255,255,255,0.3); }
+  }
+
+  .fp-copy {
+    font-size: 0.75rem; color: rgba(255,255,255,0.35);
+    border-top: 1px solid rgba(255,255,255,0.07); padding-top: $spacing-xs; margin-top: $spacing-xs;
+  }
+}
+
+// ── Spin ──────────────────────────────────────────────────────────────────────
+.spin { animation: spin 0.9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,147 @@
+@import '../../styles/variables.scss';
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: $primary-color;
+  border: none;
+  cursor: pointer;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(253, 184, 19, 0.4);
+  transition: all 0.3s ease;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, 
+      #FDB813 0%,
+      #F9A825 100%
+    );
+    z-index: -1;
+    animation: pulse 2s infinite;
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(253, 184, 19, 0.6);
+    
+    .tooltip {
+      opacity: 1;
+      transform: translateX(-10px);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-2px);
+  }
+}
+
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  &__circle {
+    transform: rotate(-90deg);
+    
+    &-bg {
+      fill: transparent;
+      stroke: rgba(255, 255, 255, 0.2);
+    }
+    
+    &-progress {
+      fill: transparent;
+      stroke: white;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.3s ease;
+    }
+  }
+}
+
+.arrow-icon {
+  font-size: 1.3rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.tooltip {
+  position: absolute;
+  right: 70px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent rgba(0, 0, 0, 0.8);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// تحسينات للجوال
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    width: 55px;
+    height: 55px;
+  }
+  
+  .tooltip {
+    display: none;
+  }
+}
+
+// لمس الهاتف
+@media (hover: none) and (pointer: coarse) {
+  .scroll-to-top {
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}

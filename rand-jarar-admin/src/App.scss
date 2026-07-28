@@ -1,0 +1,26 @@
+@import './assets/styles/variables';
+@import './assets/styles/mixins';
+
+.temp-page {
+  @include flex-center;
+  min-height: 60vh;
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  padding: $spacing-xl;
+  
+  background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.main-content {
+  flex: 1;
+  min-width: 0; // مهم جداً!
+  width: 100%;
+  
+  @include mobile {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

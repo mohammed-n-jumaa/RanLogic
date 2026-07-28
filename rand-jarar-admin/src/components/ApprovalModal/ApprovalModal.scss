@@ -1,0 +1,380 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+
+.approval-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  @include flex-center;
+  z-index: 9999;
+  padding: $spacing-md;
+  overflow-y: auto;
+}
+
+.approval-modal {
+  background: var(--bg-card);
+  border-radius: $radius-lg;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  @include custom-scrollbar;
+  
+  @include mobile {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+  
+  &__header {
+    @include flex-between;
+    gap: $spacing-md;
+    padding: $spacing-lg;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    
+    &--success {
+      background: linear-gradient(135deg, rgba($success, 0.1) 0%, rgba($success, 0.05) 100%);
+      border-bottom-color: rgba($success, 0.2);
+    }
+    
+    &--danger {
+      background: linear-gradient(135deg, rgba($danger, 0.1) 0%, rgba($danger, 0.05) 100%);
+      border-bottom-color: rgba($danger, 0.2);
+    }
+    
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+  
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    
+    svg {
+      .approval-modal__header--success & {
+        color: $success;
+      }
+      
+      .approval-modal__header--danger & {
+        color: $danger;
+      }
+    }
+    
+    @include mobile {
+      font-size: 1.2rem;
+    }
+  }
+  
+  &__close {
+    @include flex-center;
+    width: 36px;
+    height: 36px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all $transition-normal;
+    flex-shrink: 0;
+    
+    &:hover {
+      background: var(--bg-primary);
+      border-color: $danger;
+      color: $danger;
+    }
+    
+    @include mobile {
+      width: 32px;
+      height: 32px;
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  
+  &__body {
+    padding: $spacing-lg;
+    
+    @include mobile {
+      padding: $spacing-md;
+    }
+  }
+  
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+    padding: $spacing-md;
+    background: var(--bg-hover);
+    border-radius: $radius-sm;
+    margin-bottom: $spacing-md;
+  }
+  
+  &__info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    
+    .label {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .value {
+      color: var(--text-secondary);
+      text-align: left;
+    }
+    
+    @include mobile {
+      font-size: 0.85rem;
+    }
+  }
+  
+  &__section-title {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: $spacing-sm;
+    
+    svg {
+      color: $primary-pink;
+    }
+    
+    @include mobile {
+      font-size: 0.9rem;
+    }
+  }
+  
+  &__receipt {
+    margin-bottom: $spacing-md;
+  }
+  
+  &__receipt-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: $radius-sm;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all $transition-normal;
+    
+    &:hover {
+      .approval-modal__receipt-overlay {
+        opacity: 1;
+      }
+    }
+  }
+  
+  &__receipt-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+  }
+  
+  &__receipt-overlay {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-xs;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    opacity: 0;
+    transition: all $transition-normal;
+    
+    svg {
+      opacity: 0.9;
+    }
+    
+    span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+  }
+  
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid var(--border-color);
+    
+    @include mobile {
+      flex-direction: column-reverse;
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: $spacing-xs;
+  
+  svg {
+    color: $primary-pink;
+  }
+  
+  @include mobile {
+    font-size: 0.85rem;
+  }
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all $transition-normal;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+  }
+  
+  @include mobile {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  border-radius: $radius-sm;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  transition: all $transition-normal;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-pink;
+    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
+  }
+  
+  @include mobile {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn {
+  @include flex-center;
+  gap: $spacing-xs;
+  flex: 1;
+  padding: 0.8rem 1.5rem;
+  border-radius: $radius-sm;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-normal;
+  border: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  &--success {
+    background: linear-gradient(135deg, $success 0%, $success-dark 100%);
+    color: #ffffff;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($success, 0.4);
+    }
+  }
+  
+  &--danger {
+    background: linear-gradient(135deg, $danger 0%, $danger-dark 100%);
+    color: #ffffff;
+    
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba($danger, 0.4);
+    }
+  }
+  
+  &--secondary {
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    
+    &:hover:not(:disabled) {
+      background: var(--bg-primary);
+      border-color: var(--text-muted);
+    }
+  }
+  
+  .spinner {
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @include mobile {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.95rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,382 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+
+.plan-card {
+    @include card;
+    border-left: 3px solid var(--card-accent, #{$primary-pink});
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+    overflow: hidden;
+
+    &--dirty {
+        border-left-color: $warning;
+        box-shadow: 0 0 0 1px rgba($warning, 0.25);
+    }
+
+    // ── Header ──────────────────────────────────────────────────────────────
+    &__header {
+        @include flex-between;
+        padding: $spacing-sm $spacing-md;
+        cursor: pointer;
+        user-select: none;
+        background: var(--card-bg, transparent);
+        gap: $spacing-xs;
+
+        @include mobile {
+            padding: $spacing-xs $spacing-sm;
+        }
+
+        &:hover {
+            background: var(--bg-hover);
+        }
+    }
+
+    &__header-left {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    &__icon {
+        font-size: 1.75rem;
+        line-height: 1;
+    }
+
+    &__title-wrap {
+        @include flex-column;
+        gap: 2px;
+    }
+
+    &__title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    &__key {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    &__header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+    }
+
+    &__popular-badge {
+        background: linear-gradient(135deg, $warning, $warning-light);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 20px;
+        white-space: nowrap;
+    }
+
+    &__unsaved {
+        font-size: 0.7rem;
+        color: $warning;
+        white-space: nowrap;
+    }
+
+    // ── Body ────────────────────────────────────────────────────────────────
+    &__body {
+        padding: 0 $spacing-md $spacing-md;
+        border-top: 1px solid var(--border-color);
+
+        @include mobile {
+            padding: 0 $spacing-sm $spacing-sm;
+        }
+    }
+
+    // ── Tabs ────────────────────────────────────────────────────────────────
+    &__tabs {
+        display: flex;
+        gap: 4px;
+        padding: $spacing-xs 0;
+        overflow-x: auto;
+        @include custom-scrollbar;
+    }
+
+    &__tab {
+        padding: 6px 14px;
+        border-radius: $radius-sm;
+        border: 1px solid var(--border-color);
+        background: transparent;
+        color: var(--text-secondary);
+        font-size: 0.78rem;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all $transition-fast;
+
+        &--active {
+            background: var(--card-accent, #{$primary-pink});
+            color: #fff;
+            border-color: transparent;
+        }
+
+        &:hover:not(&--active) {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+    }
+
+    // ── Section ─────────────────────────────────────────────────────────────
+    &__section {
+        margin-top: $spacing-sm;
+        @include flex-column;
+        gap: $spacing-sm;
+
+        &--grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: $spacing-sm;
+
+            @include mobile {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+
+    // ── Pricing row ─────────────────────────────────────────────────────────
+    &__pricing-row {
+        background: var(--bg-secondary);
+        border-radius: $radius-sm;
+        padding: $spacing-xs $spacing-sm;
+        border: 1px solid var(--border-color);
+    }
+
+    &__pricing-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--card-accent, #{$primary-pink});
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5rem;
+    }
+
+    &__pricing-inputs {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: $spacing-xs;
+
+        @include mobile {
+            grid-template-columns: 1fr 1fr;
+
+            .plan-card__field-wrap--result {
+                grid-column: 1 / -1;
+            }
+        }
+    }
+
+    // ── Field wrap ──────────────────────────────────────────────────────────
+    &__field-wrap {
+        @include flex-column;
+        gap: 4px;
+
+        &--full {
+            grid-column: 1 / -1;
+        }
+
+        &--result .plan-card__final-price {
+            background: rgba(var(--card-accent, #{$primary-pink}), 0.08);
+        }
+
+        label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+    }
+
+    &__input {
+        width: 100%;
+        padding: 7px 10px;
+        border-radius: $radius-sm;
+        border: 1px solid var(--border-color);
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 0.85rem;
+        transition: border-color $transition-fast;
+        box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            border-color: var(--card-accent, #{$primary-pink});
+        }
+    }
+
+    &__final-price {
+        padding: 7px 10px;
+        border-radius: $radius-sm;
+        border: 1px solid var(--border-color);
+        background: rgba($success, 0.08);
+        color: $success;
+        font-size: 0.9rem;
+        font-weight: 700;
+        border-style: dashed;
+    }
+
+    // ── Features ────────────────────────────────────────────────────────────
+    &__features-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: $spacing-md;
+
+        @include mobile {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    &__features-col {
+        @include flex-column;
+        gap: 8px;
+
+        h4 {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin: 0 0 4px;
+        }
+    }
+
+    &__feature-row {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+    &__add-feature {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.75rem;
+        color: var(--card-accent, #{$primary-pink});
+        background: transparent;
+        border: 1px dashed var(--card-accent, #{$primary-pink});
+        border-radius: $radius-sm;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: background $transition-fast;
+        margin-top: 4px;
+
+        &:hover {
+            background: rgba($primary-pink, 0.06);
+        }
+    }
+
+    // ── Icon button ─────────────────────────────────────────────────────────
+    &__icon-btn {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background: transparent;
+        cursor: pointer;
+        @include flex-center;
+        transition: all $transition-fast;
+
+        &--danger {
+            color: $danger;
+
+            &:hover {
+                background: rgba($danger, 0.1);
+                border-color: $danger;
+            }
+        }
+    }
+
+    // ── Toggle label ────────────────────────────────────────────────────────
+    &__toggle-label {
+        display: flex !important;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        font-size: 0.85rem !important;
+        color: var(--text-primary) !important;
+
+        input[type='checkbox'] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--card-accent, #{$primary-pink});
+            cursor: pointer;
+        }
+    }
+
+    // ── Actions ─────────────────────────────────────────────────────────────
+    &__actions {
+        @include flex-between;
+        padding-top: $spacing-sm;
+        border-top: 1px solid var(--border-color);
+        margin-top: $spacing-sm;
+        gap: $spacing-xs;
+
+        @include mobile {
+            flex-direction: column-reverse;
+        }
+    }
+
+    &__btn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 20px;
+        border-radius: $radius-sm;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all $transition-fast;
+        border: none;
+
+        @include mobile {
+            width: 100%;
+            justify-content: center;
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        &--primary {
+            background: var(--card-accent, #{$primary-pink});
+            color: #fff;
+
+            &:hover:not(:disabled) {
+                filter: brightness(1.1);
+            }
+        }
+
+        &--ghost {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+
+            &:hover:not(:disabled) {
+                background: var(--bg-hover);
+                color: var(--text-primary);
+            }
+        }
+    }
+
+    &__spinner {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 2px solid rgba(#fff, 0.4);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+}

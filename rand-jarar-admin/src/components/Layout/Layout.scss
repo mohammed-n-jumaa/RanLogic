@@ -1,0 +1,83 @@
+@import '../../assets/styles/variables';
+@import '../../assets/styles/mixins';
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  direction: rtl;
+  position: relative;
+  
+  // ============================================
+  // Main Content
+  // ============================================
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: $sidebar-width;
+    transition: margin-right $transition-normal;
+    min-width: 0;
+    width: 100%;
+    
+    @include mobile {
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+      width: 100%;
+      max-width: 100%;
+    }
+    
+    @include tablet {
+      margin-right: 0;
+      width: 100%;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    @include custom-scrollbar;
+    width: 100%;
+  }
+  
+  &__content-wrapper {
+    flex: 1;
+    padding: $spacing-lg;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    
+    @include mobile {
+      padding: $spacing-md;
+      padding-top: calc($spacing-md + 64px); // Space for mobile toggle button
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    @include tablet {
+      padding: $spacing-md;
+      padding-top: calc($spacing-md + 64px); // Space for mobile toggle button
+      max-width: 100%;
+    }
+  }
+  
+  // ============================================
+  // Sidebar Collapsed State
+  // ============================================
+  .sidebar.collapsed ~ &__main {
+    margin-right: $sidebar-collapsed-width;
+    
+    @include mobile {
+      margin-right: 0 !important;
+      margin-left: 0 !important;
+    }
+    
+    @include tablet {
+      margin-right: 0;
+    }
+  }
+}

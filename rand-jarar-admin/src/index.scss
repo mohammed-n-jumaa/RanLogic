@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+@import './styles/variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Cairo', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  
+  color-scheme: dark;
+  
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  
+  // Better touch scrolling
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+  // Prevent text size adjustment on orientation change
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #0a0a0f 0%,
+    #15151f 50%,
+    #0a0a0f 100%
+  );
+  color: $text-primary;
+  overflow-x: hidden;
+  
+  // Better touch scrolling on iOS
+  -webkit-overflow-scrolling: touch;
+  
+  // Prevent pull-to-refresh on mobile
+  overscroll-behavior-y: contain;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: $text-primary;
+}
+
+p {
+  line-height: 1.6;
+  color: $text-secondary;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+  transition: color $transition-fast;
+  // Better touch target
+  touch-action: manipulation;
+
+  &:hover {
+    color: $primary-light;
+  }
+}
+
+// Button reset
+button {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+  // Better touch target
+  touch-action: manipulation;
+  // Remove iOS button styling
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+// Input reset
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+  border: none;
+  background: transparent;
+  // Remove iOS styling
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+// Better tap highlight
+* {
+  -webkit-tap-highlight-color: rgba(233, 30, 99, 0.1);
+}
+
+// Scrollbar styling
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(233, 30, 99, 0.4) 0%,
+    rgba(233, 30, 99, 0.2) 100%
+  );
+  border-radius: 10px;
+
+  &:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(233, 30, 99, 0.6) 0%,
+      rgba(233, 30, 99, 0.4) 100%
+    );
+  }
+}
+
+// Firefox scrollbar
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(233, 30, 99, 0.3) rgba(255, 255, 255, 0.02);
+}
+
+// Selection
+::selection {
+  background-color: rgba(233, 30, 99, 0.3);
+  color: $text-primary;
+}
+
+// Focus visible
+:focus-visible {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// Animation classes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.slide-down {
+  animation: slideDown 0.5s ease-out;
+}
+
+// Utility classes
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.gap-sm {
+  gap: $spacing-sm;
+}
+
+.gap-md {
+  gap: $spacing-md;
+}
+
+.gap-lg {
+  gap: $spacing-lg;
+}
+
+// Mobile optimizations
+@media (max-width: 768px) {
+  :root {
+    // Slightly smaller base font for mobile
+    font-size: 15px;
+  }
+  
+  // Prevent zooming on input focus (iOS)
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+}

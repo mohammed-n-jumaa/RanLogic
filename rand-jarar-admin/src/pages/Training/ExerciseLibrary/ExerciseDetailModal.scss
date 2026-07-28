@@ -1,0 +1,235 @@
+// PATH: src/pages/Training/ExerciseLibrary/ExerciseDetailModal.scss
+
+@use '../../../assets/styles/variables' as *;
+
+// Desktop centering wrapper — flex container that centers the modal
+.detail-modal-wrapper {
+  display: none;
+
+  @media (min-width: $tablet) {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+}
+
+.detail-modal {
+  // ── Mobile: bottom sheet ──
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border-color);
+  border-radius: $radius-xl $radius-xl 0 0;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  // ── Desktop: child of wrapper, no longer fixed ──
+  @media (min-width: $tablet) {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    z-index: auto;
+    width: min(580px, calc(100vw - 2rem));
+    max-height: min(85vh, 700px);
+    border-radius: $radius-xl;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    pointer-events: all;
+  }
+
+  &__backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 199;
+    backdrop-filter: blur(4px);
+  }
+
+  &__handle {
+    width: 36px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-color);
+    margin: 0.7rem auto 0;
+    flex-shrink: 0;
+    @media (min-width: $tablet) { display: none; }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    gap: 0.75rem;
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
+    line-height: 1.3;
+  }
+
+  &__close {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-hover);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+    &:hover { background: var(--bg-primary); color: var(--text-primary); }
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  &__video-wrap {
+    border-radius: $radius-md;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+  }
+
+  &__iframe,
+  &__video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: none;
+  }
+
+  &__info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  &__info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    background: var(--bg-hover);
+    border-radius: $radius-md;
+    padding: 0.675rem 0.875rem;
+
+    svg { color: $primary-pink; flex-shrink: 0; margin-top: 2px; }
+    div { display: flex; flex-direction: column; gap: 0.1rem; }
+  }
+
+  &__info-label { font-size: 0.7rem; color: var(--text-muted); }
+  &__info-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    &--highlight { color: $primary-pink; }
+  }
+
+  &__notes {
+    background: var(--bg-hover);
+    border-right: 3px solid $primary-pink;
+    border-radius: 0 $radius-md $radius-md 0;
+    padding: 0.75rem 0.875rem;
+  }
+
+  &__notes-label { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin: 0 0 0.3rem; }
+  &__notes-text { font-size: 0.85rem; color: var(--text-primary); line-height: 1.6; margin: 0; }
+
+  &__url-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: var(--bg-hover);
+    border-radius: $radius-md;
+    padding: 0.575rem 0.875rem;
+    border: 1px solid var(--border-color);
+  }
+
+  &__url-icon { color: #ff0000; flex-shrink: 0; }
+  &__url-text {
+    flex: 1;
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__copy-btn {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-fast;
+    &.copied { border-color: $success; color: $success; background: rgba($success, 0.1); }
+  }
+
+  &__footer {
+    display: flex;
+    gap: 0.625rem;
+    padding: 0.875rem 1.125rem;
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
+  }
+
+  &__action-btn {
+    flex: 1;
+    height: 42px;
+    border-radius: $radius-md;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    transition: all $transition-fast;
+
+    &--delete {
+      background: rgba($danger, 0.1);
+      color: $danger;
+      border: 1px solid rgba($danger, 0.22);
+      &:hover { background: rgba($danger, 0.18); }
+    }
+
+    &--edit {
+      background: $primary-pink;
+      color: #fff;
+      &:hover { background: $primary-pink-dark; }
+    }
+  }
+}

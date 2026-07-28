@@ -1,0 +1,144 @@
+// Dark Mode Colors
+$dark-bg-primary: #0a0e27;
+$dark-bg-secondary: #141829;
+$dark-bg-card: #1a1f3a;
+$dark-bg-hover: #252b4a;
+
+$dark-text-primary: #ffffff;
+$dark-text-secondary: #b0b8d4;
+$dark-text-muted: #6c7293;
+
+$dark-border-color: #2d3454;
+
+// Light Mode Colors
+$light-bg-primary: #f5f7fa;
+$light-bg-secondary: #ffffff;
+$light-bg-card: #ffffff;
+$light-bg-hover: #f0f2f5;
+
+$light-text-primary: #1a1f3a;
+$light-text-secondary: #4a5568;
+$light-text-muted: #718096;
+
+$light-border-color: #e2e8f0;
+
+// Shared Colors (Used directly in SCSS)
+$primary-pink: #e91e63;
+$primary-pink-light: #f06292;
+$primary-pink-dark: #c2185b;
+
+$primary-purple: #9c27b0;
+$primary-purple-light: #ba68c8;
+$primary-purple-dark: #7b1fa2;
+
+$primary-blue: #2196f3;
+$primary-blue-light: #64b5f6;
+$primary-blue-dark: #1976d2;
+
+$success: #4caf50;
+$success-light: #81c784;
+$success-dark: #388e3c;
+
+$warning: #ff9800;
+$warning-light: #ffb74d;
+$warning-dark: #f57c00;
+
+$danger: #f44336;
+$danger-light: #ef5350;
+$danger-dark: #d32f2f;
+
+$info: #2196f3;
+$info-light: #64b5f6;
+$info-dark: #1976d2;
+
+// Text Colors (for SCSS usage)
+$text-primary: $dark-text-primary;
+$text-secondary: $dark-text-secondary;
+$text-muted: $dark-text-muted;
+
+// Background Colors (for SCSS usage)
+$bg-primary: $dark-bg-primary;
+$bg-secondary: $dark-bg-secondary;
+$bg-card: $dark-bg-card;
+$bg-hover: $dark-bg-hover;
+
+// Border Colors (for SCSS usage)
+$border-color: $dark-border-color;
+
+// Spacing
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+$spacing-xxl: 4rem;
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Border Radius
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 20px;
+
+// Shadows - Dark Mode
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+$shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+$shadow-glow: 0 0 20px rgba(233, 30, 99, 0.3);
+
+// Shadows - Light Mode
+$light-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+$light-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+$light-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+// Layout
+$sidebar-width: 280px;
+$sidebar-collapsed-width: 80px;
+$header-height: 70px;
+
+// Breakpoints
+$mobile: 576px;
+$tablet: 768px;
+$desktop: 1024px;
+$large: 1440px;
+
+// CSS Variables (Dynamic Theme)
+:root {
+  // Dark Mode (Default)
+  --bg-primary: #{$dark-bg-primary};
+  --bg-secondary: #{$dark-bg-secondary};
+  --bg-card: #{$dark-bg-card};
+  --bg-hover: #{$dark-bg-hover};
+  
+  --text-primary: #{$dark-text-primary};
+  --text-secondary: #{$dark-text-secondary};
+  --text-muted: #{$dark-text-muted};
+  
+  --border-color: #{$dark-border-color};
+  
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+}
+
+// Light Mode Override
+body.light-mode {
+  --bg-primary: #{$light-bg-primary};
+  --bg-secondary: #{$light-bg-secondary};
+  --bg-card: #{$light-bg-card};
+  --bg-hover: #{$light-bg-hover};
+  
+  --text-primary: #{$light-text-primary};
+  --text-secondary: #{$light-text-secondary};
+  --text-muted: #{$light-text-muted};
+  
+  --border-color: #{$light-border-color};
+  
+  --shadow-sm: #{$light-shadow-sm};
+  --shadow-md: #{$light-shadow-md};
+  --shadow-lg: #{$light-shadow-lg};
+}

@@ -1,0 +1,199 @@
+/* src/components/layout/Sidebar.module.css */
+
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--bg-sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 24px;
+  z-index: 100;
+  overflow: hidden;
+  transition: transform var(--transition);
+}
+
+/* ── Logo ── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  margin-bottom: 12px;
+  text-decoration: none;
+  width: 100%;
+}
+
+.logoIcon {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: transform var(--transition);
+}
+
+.logo:hover .logoIcon { transform: rotate(-8deg) scale(1.05); }
+
+.logoText {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: -.3px;
+}
+
+/* ── Nav ── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 12px;
+  flex: 1;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: rgba(255,255,255,.5);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-body);
+  transition: background var(--transition), color var(--transition);
+  cursor: pointer;
+  position: relative;
+}
+
+.navItem:hover {
+  background: rgba(255,255,255,.07);
+  color: rgba(255,255,255,.85);
+}
+
+.navItem.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.navIcon { flex-shrink: 0; }
+
+.navLabel { flex: 1; }
+
+/* Arrow only visible on hover / active */
+.navArrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.navItem:hover .navArrow,
+.navItem.active .navArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.navItem.active .navArrow { color: var(--accent-text); }
+
+/* ── Footer ── */
+.sidebarFooter {
+  padding: 0 24px;
+  margin-top: auto;
+}
+
+.version {
+  font-size: 11px;
+  color: rgba(255,255,255,.2);
+  font-family: var(--font-display);
+  letter-spacing: .5px;
+}
+
+/* ── Mobile: hide sidebar below 768px ── */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 40px rgba(0,0,0,.4);
+  }
+}
+
+/* ── Hamburger button (mobile only) ── */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 200;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition);
+}
+
+.hamburger:hover { background: var(--bg-hover); }
+
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+}
+
+/* ── Close button (mobile only) ── */
+.closeBtn {
+  display: none;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition);
+}
+
+.closeBtn:hover { background: rgba(255,255,255,.12); }
+
+@media (max-width: 768px) {
+  .closeBtn { display: flex; }
+}
+
+/* ── Backdrop (mobile only) ── */
+.backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 200ms ease;
+}
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+@media (max-width: 768px) {
+  .backdrop { display: block; }
+}

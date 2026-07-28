@@ -1,0 +1,246 @@
+/* ═══════════════════════════════════════
+   Themes.module.css — صفحة الثيمات
+═══════════════════════════════════════ */
+
+.page { padding: 32px; max-width: 1200px; margin: 0 auto; position: relative; }
+
+/* ── Header ── */
+.pageHeader {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px; flex-wrap: wrap; gap: 14px;
+}
+.headerLeft { display: flex; align-items: center; gap: 14px; }
+.headerIcon {
+  width: 44px; height: 44px; border-radius: var(--radius-md);
+  background: var(--accent); color: var(--accent-text);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.pageTitle {
+  font-family: var(--font-display); font-size: 1.55rem;
+  font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; line-height: 1.1;
+}
+.pageSubtitle { font-size: 0.82rem; color: var(--text-secondary); margin-top: 3px; }
+
+.currentBadge {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 999px; padding: 7px 16px; box-shadow: var(--shadow-sm);
+}
+.currentDot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.currentLabel { font-size: 0.73rem; color: var(--text-muted); font-weight: 500; }
+.currentName { font-size: 0.78rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-display); }
+
+/* ── Legend ── */
+.legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.legendItem { font-size: 0.73rem; font-weight: 600; letter-spacing: 0.04em; opacity: 0.8; }
+
+/* ── Grid — 5 cols → 3 → 2 ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+@media (max-width: 1100px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 820px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 560px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Card ── */
+.card {
+  background: var(--bg-card); border: 2px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden; cursor: pointer;
+  padding: 0; text-align: left; width: 100%;
+  transition: border-color var(--transition), box-shadow var(--transition),
+              transform 200ms cubic-bezier(.34,1.56,.64,1);
+}
+.card:hover {
+  border-color: var(--border-strong); box-shadow: var(--shadow-md);
+  transform: translateY(-4px) scale(1.015);
+}
+.cardActive {
+  border-color: var(--card-accent, var(--accent)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--card-accent, var(--accent)) 22%, transparent), var(--shadow-md) !important;
+}
+
+/* ── Card preview area ── */
+.cardPreview { position: relative; height: 170px; overflow: hidden; }
+
+/* ── Style badge ── */
+.styleBadge {
+  position: absolute; top: 7px; left: 7px; z-index: 10;
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.58rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 3px 7px; border-radius: 999px; border: 1px solid;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Hover overlay ── */
+.cardOverlay {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 180ms ease; z-index: 5;
+}
+.overlayVisible { opacity: 1; }
+.overlayApply, .overlayActive {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 8px 14px; border-radius: 999px;
+}
+.overlayApply { background: rgba(0,0,0,0.78); color: #fff; backdrop-filter: blur(4px); }
+.overlayActive { color: #111; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+
+/* ── Card footer ── */
+.cardFooter {
+  display: flex; align-items: center; gap: 7px;
+  padding: 9px 11px; border-top: 1px solid var(--border); background: var(--bg-card);
+}
+.cardAccentDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.cardName { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); flex: 1; font-family: var(--font-display); }
+.cardCheckBadge {
+  width: 17px; height: 17px; border-radius: 50%; color: #111;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  animation: popIn 250ms cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* ════════════════════════════════════════
+   MINI PREVIEW SCREEN
+════════════════════════════════════════ */
+.previewScreen {
+  width: 100%; height: 100%; position: relative; overflow: hidden;
+}
+
+/* Animated background classes (مرتبطة بـ themes.js animClass) */
+.auroraAnim   { animation: gradientShift 8s ease infinite; }
+.sunsetAnim   { animation: sunsetFlow 6s ease infinite; }
+.oceanAnim    { animation: oceanWave 7s ease-in-out infinite; }
+.blossomAnim  { animation: blossomDrift 9s ease infinite; }
+.forestAnim   { animation: forestBreath 8s ease-in-out infinite; }
+.goldAnim     { animation: goldShimmer 7s ease infinite; }
+.cyberAnim    { animation: cyberPulse 4s ease-in-out infinite; }
+.ironAnim     { animation: ironGlow 4s ease-in-out infinite; }
+.voltAnim     { animation: voltFlash 3s ease-in-out infinite; }
+.neonCyberAnim{ animation: neonCyberFlow 10s ease infinite, neonFlicker 5s step-end infinite; }
+.glassAnim    { animation: glassShift 12s ease infinite; }
+.fireAnim     { animation: fireRise 5s ease-in-out infinite; }
+
+/* Keyframes */
+@keyframes gradientShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes sunsetFlow    { 0%{background-position:0% 0%} 50%{background-position:100% 100%} 100%{background-position:0% 0%} }
+@keyframes oceanWave     { 0%,100%{background-position:0% 0%} 50%{background-position:0% 100%} }
+@keyframes blossomDrift  { 0%{background-position:0% 0%} 50%{background-position:100% 100%} 100%{background-position:0% 0%} }
+@keyframes forestBreath  { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.06)} }
+@keyframes goldShimmer   { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes cyberPulse    { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.06)} }
+@keyframes ironGlow      { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.05)} }
+@keyframes voltFlash     { 0%,90%,100%{filter:brightness(1)} 92%{filter:brightness(1.14) saturate(1.3)} }
+@keyframes neonCyberFlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes neonFlicker   { 0%,95%,100%{opacity:1} 96%{opacity:0.9} 98%{opacity:0.85} }
+@keyframes glassShift    { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+@keyframes fireRise      { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.1) saturate(1.2)} }
+
+/* ── Mini blobs ── */
+.miniBlob1 {
+  position: absolute; width: 70px; height: 70px; border-radius: 50%;
+  filter: blur(20px); top: -15px; right: -10px; pointer-events: none;
+  animation: blobF 5s ease-in-out infinite;
+}
+.miniBlob2 {
+  position: absolute; width: 55px; height: 55px; border-radius: 50%;
+  filter: blur(18px); bottom: 20px; left: -8px; pointer-events: none;
+  animation: blobF 6s ease-in-out infinite reverse;
+}
+@keyframes blobF { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+/* ── Scanlines ── */
+.miniScanlines {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.1) 3px,rgba(0,0,0,0.1) 4px);
+}
+
+/* ── Grid overlay ── */
+.miniGrid {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image: linear-gradient(rgba(168,85,247,0.07) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(168,85,247,0.07) 1px,transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* ── Pulse lines ── */
+.miniPulseWrap { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.miniPulseLine {
+  position: absolute; left: 0; right: 0; height: 1px; opacity: 0;
+  animation: linePulse 2.5s ease-in-out infinite;
+}
+@keyframes linePulse { 0%,100%{opacity:0;transform:scaleX(0)} 50%{opacity:1;transform:scaleX(1)} }
+
+/* ── Mini content ── */
+.miniContent {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 14px 10px; gap: 5px;
+}
+
+/* Avatar مصغّر */
+.miniAvatarWrap { position: relative; margin-bottom: 2px; }
+.miniAvatarGlow {
+  position: absolute; width: 44px; height: 44px; border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  filter: blur(10px); animation: glowPulse 2.5s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:0.35} 50%{opacity:0.75} }
+
+.miniAvatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid; display: grid; place-items: center; flex-shrink: 0;
+}
+.miniAvatarInner { width: 12px; height: 12px; border-radius: 50%; opacity: 0.85; }
+
+/* Text bars */
+.miniName { height: 6px; border-radius: 99px; }
+.miniBio  { height: 4px; border-radius: 99px; opacity: 0.6; margin-bottom: 4px; }
+
+/* Link rows */
+.miniLink {
+  height: 16px; border-radius: 5px;
+  display: flex; align-items: center; gap: 5px; padding: 0 6px; flex-shrink: 0;
+}
+.miniLinkDot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.miniLinkBar { flex: 1; height: 3px; border-radius: 99px; }
+
+/* Fire bar على اليسار */
+.miniFireBar {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+  animation: fireBarPulse 2s ease-in-out infinite;
+}
+@keyframes fireBarPulse { 0%,100%{opacity:0.5} 50%{opacity:1;box-shadow:0 0 6px rgba(255,106,0,0.8)} }
+
+/* Metal sweep */
+.miniSweep {
+  position: absolute; top: 0; left: -100%; bottom: 0; width: 50%;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+  animation: sweepAnim 3.5s ease-in-out infinite;
+}
+@keyframes sweepAnim { 0%{left:-100%} 50%,100%{left:160%} }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 32px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text-primary); color: var(--bg-card);
+  padding: 12px 22px; border-radius: 999px;
+  font-size: 0.82rem; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: var(--shadow-lg);
+  transition: transform 400ms cubic-bezier(.34,1.56,.64,1), opacity 400ms ease;
+  opacity: 0; pointer-events: none; z-index: 1000; white-space: nowrap;
+}
+.toastVisible { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+@media (max-width: 600px) {
+  .page { padding: 16px; }
+  .pageHeader { flex-direction: column; align-items: flex-start; }
+  .cardPreview { height: 145px; }
+}

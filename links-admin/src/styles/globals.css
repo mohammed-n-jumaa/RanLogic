@@ -1,0 +1,88 @@
+/* ─────────────────────────────────────────
+   src/styles/globals.css
+   Base styles + CSS Variables (light/dark)
+───────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ── Fonts ── */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* ── Light Theme Colors ── */
+  --bg-base:        #f5f4f0;
+  --bg-card:        #ffffff;
+  --bg-sidebar:     #0f0f0f;
+  --bg-input:       #f0efe9;
+  --bg-hover:       #eae9e3;
+
+  --text-primary:   #0f0f0f;
+  --text-secondary: #6b6b6b;
+  --text-muted:     #a8a8a8;
+  --text-on-dark:   #ffffff;
+  --text-on-dark-muted: rgba(255,255,255,0.5);
+
+  --accent:         #c8f135;      /* lime-green accent */
+  --accent-dark:    #a8cc1a;
+  --accent-text:    #0f0f0f;
+
+  --border:         #e5e4de;
+  --border-strong:  #d0cfc9;
+
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.08);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,.12);
+
+  --radius-sm:  8px;
+  --radius-md:  14px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+
+  --sidebar-w:  260px;
+  --header-h:   64px;
+
+  --transition: 200ms cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"] {
+  --bg-base:        #0f0f0f;
+  --bg-card:        #1a1a1a;
+  --bg-sidebar:     #111111;
+  --bg-input:       #222222;
+  --bg-hover:       #252525;
+
+  --text-primary:   #f5f4f0;
+  --text-secondary: #a0a0a0;
+  --text-muted:     #555555;
+
+  --border:         #2a2a2a;
+  --border-strong:  #333333;
+
+  --shadow-sm:   0 1px 3px rgba(0,0,0,.3);
+  --shadow-md:   0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,.5);
+}
+
+/* ── Base ── */
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--transition), color var(--transition);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 999px; }
+
+/* ── Utility classes ── */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap;
+}

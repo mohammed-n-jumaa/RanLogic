@@ -1,0 +1,61 @@
+/* src/components/ui/Toggle.module.css */
+
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wrap.disabled { opacity: .45; cursor: not-allowed; }
+
+/* Hide native checkbox */
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+  pointer-events: none;
+}
+
+/* ── Track ── */
+.track {
+  position: relative;
+  display: inline-block;
+  background: var(--border-strong);
+  border-radius: 999px;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+
+/* Thumb */
+.thumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+  transition: left 180ms cubic-bezier(.4,0,.2,1);
+  pointer-events: none;
+}
+
+/* ── Checked state — toggled via JS className, not CSS sibling ── */
+.trackOn { background: var(--accent) !important; }
+
+/* ── md size ── */
+.md .track { width: 42px; height: 24px; }
+.md .thumb { width: 18px; height: 18px; left: 3px; }
+.md .thumbOn { left: 21px; }
+
+/* ── sm size ── */
+.sm .track { width: 32px; height: 18px; }
+.sm .thumb { width: 13px; height: 13px; left: 2px; }
+.sm .thumbOn { left: 17px; }
+
+/* ── Label ── */
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}

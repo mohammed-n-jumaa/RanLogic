@@ -1,0 +1,1350 @@
+/* ═══════════════════════════════════════════
+   MobilePreview.module.css
+   كل الـ animations والـ effects
+═══════════════════════════════════════════ */
+
+/* ── Phone shell ── */
+.phoneWrap { display: flex; justify-content: center; align-items: flex-start; padding: 8px 0; }
+.phone {
+  width: 270px;
+  background: #111;
+  border-radius: 48px;
+  padding: 14px 10px 10px;
+  box-shadow:
+    0 0 0 2px #2a2a2a,
+    0 0 0 3px #1a1a1a,
+    0 28px 70px rgba(0,0,0,.6),
+    inset 0 0 0 1px rgba(255,255,255,.04);
+  display: flex; flex-direction: column; align-items: center;
+  position: relative;
+}
+.compact .phone { width: 196px; border-radius: 34px; padding: 10px 7px 8px; }
+
+/* ── Notch ── */
+.notch {
+  width: 80px; height: 24px;
+  background: #111; border-radius: 0 0 16px 16px;
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; align-items: center; justify-content: center;
+}
+.notch::after {
+  content: ''; width: 8px; height: 8px;
+  border-radius: 50%; background: #1a1a1a; border: 1px solid #333;
+}
+.compact .notch { width: 58px; height: 18px; top: 10px; }
+
+/* ── Screen ── */
+.screen {
+  width: 100%; min-height: 500px; max-height: 560px;
+  border-radius: 36px; overflow: hidden; overflow-y: auto;
+  scrollbar-width: none; position: relative;
+}
+.screen::-webkit-scrollbar { display: none; }
+.compact .screen { min-height: 360px; max-height: 400px; border-radius: 26px; }
+
+/* ════════════════════════════════════════
+   BACKGROUND ANIMATIONS — كل ثيم له class
+════════════════════════════════════════ */
+
+.auroraAnim  { animation: gradientShift 8s ease infinite; }
+.sunsetAnim  { animation: sunsetFlow 6s ease infinite; }
+.oceanAnim   { animation: oceanWave 7s ease-in-out infinite; }
+.blossomAnim { animation: blossomDrift 9s ease infinite; }
+.forestAnim  { animation: forestBreath 8s ease-in-out infinite; }
+.goldAnim    { animation: goldShimmer 7s ease infinite; }
+.cyberAnim   { animation: cyberPulse 4s ease-in-out infinite; }
+.sportAnim   { /* pattern static */ }
+
+/* Iron Mode — خلفية تلمع خافتة */
+.ironAnim {
+  animation: ironGlow 4s ease-in-out infinite;
+}
+@keyframes ironGlow {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.04); }
+}
+
+/* Volt Rush — نبض كهربائي */
+.voltAnim {
+  animation: voltFlash 3s ease-in-out infinite;
+}
+@keyframes voltFlash {
+  0%,90%,100% { filter: brightness(1); }
+  92%          { filter: brightness(1.12) saturate(1.3); }
+  94%          { filter: brightness(1); }
+}
+
+/* Neon Cyber — تدرج يتحرك + flicker */
+.neonCyberAnim {
+  animation: neonCyberFlow 10s ease infinite, neonFlicker 5s step-end infinite;
+}
+@keyframes neonCyberFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes neonFlicker {
+  0%,95%,100% { opacity: 1; }
+  96%          { opacity: 0.92; }
+  97%          { opacity: 1; }
+  98%          { opacity: 0.88; }
+}
+
+/* Glass — shift هادئ */
+.glassAnim { animation: glassShift 12s ease infinite; }
+@keyframes glassShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fire — وهج متحرك من الأسفل */
+.fireAnim { animation: fireRise 5s ease-in-out infinite; }
+@keyframes fireRise {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.08) saturate(1.2); }
+}
+
+/* الأنيميشنز العامة */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes sunsetFlow {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+@keyframes oceanWave {
+  0%,100% { background-position: 0% 0%; }
+  50%     { background-position: 0% 100%; }
+}
+@keyframes cyberPulse {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.06); }
+}
+@keyframes blossomDrift {
+  0%   { background-position: 0% 0%; }
+  50%  { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+@keyframes forestBreath {
+  0%,100% { filter: brightness(1); }
+  50%     { filter: brightness(1.06); }
+}
+@keyframes goldShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ════════════════════════════════════════
+   OVERLAY DECORATIONS
+════════════════════════════════════════ */
+.overlayDecor {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 1;
+  overflow: hidden;
+}
+
+/* Scanlines — خطوط أفقية شبه شفافة */
+.decor_scanlines::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 3px,
+    rgba(0,0,0,0.12) 3px, rgba(0,0,0,0.12) 4px
+  );
+}
+
+/* Grid — شبكة تقنية */
+.decor_grid::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(168,85,247,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,85,247,0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Spark dots */
+.spark {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: sparkBlink 2s ease-in-out infinite;
+  box-shadow: 0 0 6px currentColor;
+}
+@keyframes sparkBlink {
+  0%,100% { opacity: 0; transform: scale(0.5); }
+  50%     { opacity: 0.9; transform: scale(1.2); }
+}
+
+/* Pulse lines */
+.pulseLine {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  opacity: 0;
+  animation: linePulse 2.5s ease-in-out infinite;
+}
+@keyframes linePulse {
+  0%,100% { opacity: 0; transform: scaleX(0); }
+  50%     { opacity: 1; transform: scaleX(1); }
+}
+
+/* ════════════════════════════════════════
+   BLOBS — دوائر ضبابية خلفية
+════════════════════════════════════════ */
+.decorBlobs { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.blob1 {
+  position: absolute; width: 140px; height: 140px;
+  border-radius: 50%; filter: blur(40px);
+  top: -30px; right: -30px;
+  animation: blobFloat 6s ease-in-out infinite;
+}
+.blob2 {
+  position: absolute; width: 110px; height: 110px;
+  border-radius: 50%; filter: blur(35px);
+  bottom: 60px; left: -20px;
+  animation: blobFloat 7s ease-in-out infinite reverse;
+}
+@keyframes blobFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%     { transform: translateY(-12px) scale(1.05); }
+}
+
+/* ════════════════════════════════════════
+   CONTENT
+════════════════════════════════════════ */
+.content {
+  position: relative; z-index: 2;
+  padding: 50px 14px 24px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.compact .content { padding: 36px 10px 16px; }
+
+/* ════════════════════════════════════════
+   AVATAR + RINGS
+════════════════════════════════════════ */
+.avatarWrap { position: relative; margin-bottom: 12px; }
+
+/* Glow أسفل الـ avatar */
+.avatarGlow {
+  position: absolute;
+  width: 90px; height: 90px;
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  filter: blur(20px);
+  animation: glowPulse 2.5s ease-in-out infinite;
+  z-index: 0;
+}
+@keyframes glowPulse {
+  0%,100% { opacity: 0.4; transform: translate(-50%,-50%) scale(1); }
+  50%     { opacity: 0.8; transform: translate(-50%,-50%) scale(1.15); }
+}
+
+/* Ring دوّار عادي */
+.avatarRing {
+  position: absolute; inset: -5px;
+  border-radius: 50%; border: 1.5px dashed;
+  opacity: 0.45;
+  animation: ringRotate 9s linear infinite;
+}
+
+/* Iron ring — معدني يلمع */
+.ironRing {
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(192,192,192,0.4);
+  box-shadow: 0 0 8px rgba(192,192,192,0.2);
+  animation: metalSpin 6s linear infinite;
+}
+@keyframes metalSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Volt ring — نيون أخضر */
+.voltRing {
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,255,135,0.6);
+  box-shadow: 0 0 10px rgba(0,255,135,0.4), 0 0 20px rgba(0,255,135,0.2);
+  animation: voltSpin 4s linear infinite;
+}
+@keyframes voltSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+/* Fire ring — متوهج متنفس */
+.fireRing {
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,106,0,0.6);
+  box-shadow: 0 0 12px rgba(255,106,0,0.5), 0 0 24px rgba(255,0,0,0.3);
+  animation: fireBreath 2s ease-in-out infinite;
+}
+@keyframes fireBreath {
+  0%,100% { box-shadow: 0 0 12px rgba(255,106,0,0.5), 0 0 24px rgba(255,0,0,0.3); }
+  50%     { box-shadow: 0 0 20px rgba(255,106,0,0.8), 0 0 40px rgba(255,0,0,0.5); }
+}
+
+/* Glitch ring — بنفسجي متقطع */
+.glitchRing {
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(168,85,247,0.6);
+  box-shadow: 0 0 10px rgba(168,85,247,0.4);
+  animation: glitchRingAnim 3s step-end infinite;
+}
+@keyframes glitchRingAnim {
+  0%,100% { transform: translate(0,0); opacity: 1; }
+  90%     { transform: translate(-2px,1px); opacity: 0.7; }
+  92%     { transform: translate(2px,-1px); opacity: 0.9; }
+  94%     { transform: translate(0,0); opacity: 1; }
+}
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Avatar img / fallback ── */
+.avatar, .avatarFallback {
+  width: 68px; height: 68px; border-radius: 50%;
+  display: block; position: relative; z-index: 1;
+}
+.avatar { object-fit: cover; }
+.avatarFallback {
+  font-weight: 800; font-size: 22px;
+  display: grid; place-items: center;
+}
+.compact .avatar, .compact .avatarFallback {
+  width: 48px; height: 48px; font-size: 16px;
+}
+
+/* ── Glitch text effect ── */
+.glitchText {
+  animation: textGlitch 4s step-end infinite;
+}
+@keyframes textGlitch {
+  0%,100%  { clip-path: none; transform: none; }
+  94%      { clip-path: polygon(0 20%,100% 20%,100% 40%,0 40%); transform: translateX(-3px); }
+  95%      { clip-path: polygon(0 60%,100% 60%,100% 80%,0 80%); transform: translateX(3px); }
+  96%      { clip-path: none; transform: none; }
+}
+
+/* ── Name / Bio ── */
+.name {
+  font-size: 16px; font-weight: 700;
+  text-align: center; letter-spacing: -.3px; margin-bottom: 5px;
+}
+.compact .name { font-size: 12px; margin-bottom: 3px; }
+.bio {
+  font-size: 11px; text-align: center; line-height: 1.5;
+  margin-bottom: 14px; padding: 0 6px;
+}
+.compact .bio { font-size: 9px; margin-bottom: 10px; }
+
+/* ── Social circles ── */
+.socialCircles {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 6px; margin-bottom: 16px;
+}
+.compact .socialCircles { gap: 5px; margin-bottom: 12px; }
+.socialCircle {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; text-decoration: none;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  flex-shrink: 0;
+}
+.socialCircle:hover { transform: scale(1.15); }
+.compact .socialCircle { width: 26px; height: 26px; }
+
+/* Bounce on hover لـ Volt Rush */
+.socialBounce .socialCircle:hover {
+  animation: socialBounceAnim 0.4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes socialBounceAnim {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  70%  { transform: scale(0.95); }
+  100% { transform: scale(1.1); }
+}
+
+/* ════════════════════════════════════════
+   LINK CARDS
+════════════════════════════════════════ */
+.linkCards {
+  width: 100%; display: flex; flex-direction: column; gap: 7px;
+}
+.linkCard {
+  width: 100%; padding: 10px 11px; border-radius: 12px;
+  display: flex; align-items: center; gap: 9px;
+  cursor: pointer; transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+.compact .linkCard { padding: 7px 8px; border-radius: 9px; gap: 6px; }
+
+/* Iron card — هزة impact */
+.ironCardHover {
+  transition: transform 100ms ease, filter 100ms ease !important;
+}
+.ironCardHover:active {
+  transform: scale(0.97) !important;
+  filter: brightness(1.1) !important;
+}
+.ironCardHover:hover {
+  box-shadow: 0 0 12px rgba(192,192,192,0.15), inset 0 0 12px rgba(255,46,46,0.08) !important;
+}
+
+/* Metal sweep shimmer */
+.metalSweep {
+  position: absolute; top: 0; left: -100%; bottom: 0;
+  width: 60%; background: linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent);
+  animation: sweepAnim 4s ease-in-out infinite;
+}
+@keyframes sweepAnim {
+  0%   { left: -100%; }
+  50%,100% { left: 160%; }
+}
+
+/* Volt card — glow + scale */
+.voltCardHover:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 0 20px rgba(0,255,135,0.25), 0 0 40px rgba(0,209,255,0.1) !important;
+}
+
+/* Neon Cyber card — border glow */
+.neonCardHover:hover {
+  box-shadow: 0 0 16px rgba(168,85,247,0.35), 0 0 32px rgba(59,130,246,0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Glass card — شفافية تزيد */
+.glassCardHover:hover {
+  background: rgba(255,255,255,0.1) !important;
+  backdrop-filter: blur(24px) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Fire card — gradient bar + ripple */
+.fireBar {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 3px 0 0 3px;
+  animation: fireBarPulse 2s ease-in-out infinite;
+}
+@keyframes fireBarPulse {
+  0%,100% { opacity: 0.6; }
+  50%     { opacity: 1; box-shadow: 0 0 8px rgba(255,106,0,0.8); }
+}
+.fireCardHover:hover {
+  box-shadow: 0 0 20px rgba(255,106,0,0.25) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Default hover */
+.linkCard:hover { opacity: 0.88; transform: translateY(-1px); }
+.linkCard:active { transform: scale(0.98); }
+
+/* ── Link card parts ── */
+.linkCardIcon {
+  width: 28px; height: 28px; border-radius: 7px;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.compact .linkCardIcon { width: 20px; height: 20px; border-radius: 5px; }
+.linkCardTitle {
+  flex: 1; font-size: 12px; font-weight: 600;
+  text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.compact .linkCardTitle { font-size: 9px; }
+.linkCardArrow { font-size: 18px; line-height: 1; flex-shrink: 0; }
+.compact .linkCardArrow { font-size: 13px; }
+.emptyMsg { font-size: 10px; text-align: center; padding: 16px 0; opacity: .6; }
+
+/* ── Home bar ── */
+.homeBar {
+  width: 90px; height: 4px;
+  background: rgba(255,255,255,.2); border-radius: 999px; margin-top: 10px;
+}
+.compact .homeBar { width: 64px; margin-top: 7px; }
+.cyberAnim {
+  animation: cyberBg 10s ease infinite;
+  background-size: 200% 200% !important;
+}
+@keyframes cyberBg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 2. Space Sparkles */
+.decor_sparks .spark {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  animation: twinkle var(--duration, 2s) infinite ease-in-out;
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 10px #fff; }
+}
+
+/* 3. Neo-Brutalism Hover */
+.linkCardHover:hover {
+  transform: translate(-4px, -4px) !important;
+  box-shadow: 12px 12px 0px #000 !important;
+}
+
+/* 4. Bubble Animation */
+.bubbleAnim {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400% !important;
+  animation: gradientFlow 15s ease infinite;
+}
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 5. Cyber Card Hover */
+.cyberCardHover:hover {
+  box-shadow: 0 0 20px var(--accent) !important;
+  background: rgba(0, 255, 204, 0.1) !important;
+  transform: scale(1.02) !important;
+}
+/* 1. Velocity Anim (الرياضي الأصفر) */
+.velocityAnim {
+  background: linear-gradient(135deg, #ffcc00 0%, #ffcc00 50%, #e6b800 50%, #e6b800 100%);
+  background-size: 20px 20px !important; /* خلفية مخططة رياضية */
+  animation: stripeMove 1s linear infinite;
+}
+@keyframes stripeMove {
+  from { background-position: 0 0; }
+  to { background-position: 20px 20px; }
+}
+
+/* 2. Sport Card Boost (حركة الكروت الرياضية) */
+.sportCardBoost:hover {
+  transform: skewX(-5deg) scale(1.05) !important;
+  filter: brightness(1.2);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* 3. Grid Move (تأثير شبكة متحركة في الخلفية) */
+.gridMoveAnim {
+  background-image: 
+    linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px) !important;
+  background-size: 30px 30px !important;
+  animation: gridScroll 4s linear infinite;
+}
+@keyframes gridScroll {
+  from { background-position: 0 0; }
+  to { background-position: 30px 30px; }
+}
+
+/* 4. Magma Animation */
+.magmaAnim {
+  background: radial-gradient(circle at center, #ff4e00 0%, #000 100%) !important;
+  background-size: 200% 200% !important;
+  animation: magmaPulse 5s ease-in-out infinite;
+}
+@keyframes magmaPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+/* 5. Glitch Text (للكروت التقنية) */
+.cyberShift:hover {
+  animation: glitchSkew 0.3s infinite;
+  box-shadow: 4px -4px 0px #00f3ff, -4px 4px 0px #ff0055 !important;
+}
+@keyframes glitchSkew {
+  0% { transform: skew(0deg); }
+  20% { transform: skew(3deg); }
+  40% { transform: skew(-3deg); }
+  100% { transform: skew(0deg); }
+}
+
+/* 6. Carbon Fiber Animation */
+.carbonAnim {
+  background: #111 url("https://www.transparenttextures.com/patterns/carbon-fibre.png") !important;
+  opacity: 0.9;
+}
+/* 1. Mercury Flow (تأثير سائل) */
+.mercuryFlow:hover {
+  background: linear-gradient(135deg, #fff 0%, #aaa 50%, #fff 100%) !important;
+  background-size: 200% 200% !important;
+  animation: flowMove 2s linear infinite;
+  color: #000 !important;
+}
+@keyframes flowMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* 2. Water Wave (تأثير مائي عضوي) */
+@keyframes waterWave {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  33% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+  66% { border-radius: 30% 70% 30% 70% / 50% 40% 30% 60%; }
+}
+.waterWave:hover {
+  animation: waterWave 3s ease-in-out infinite;
+  background: rgba(0, 180, 216, 0.2) !important;
+}
+
+/* 3. Glitch Background (خلفية مهتزة رقمياً) */
+.glitchBg {
+  background: #000;
+  position: relative;
+  overflow: hidden;
+}
+.glitchBg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: repeating-linear-gradient(0deg, rgba(255,0,255,0.05) 0px, transparent 1px);
+  animation: scanMove 0.5s linear infinite;
+}
+@keyframes scanMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(10px); }
+}
+
+/* 4. White Glow (لثيم Void Walker) */
+.whiteGlow:hover {
+  box-shadow: 0 0 15px #fff !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+/* 5. Candy Float (حركة عائمة ناعمة) */
+.candyFloat {
+  background: linear-gradient(-45deg, #ffafbd, #ffc3a0, #2193b0, #6dd5ed);
+  background-size: 400% 400% !important;
+  animation: candyMove 10s ease infinite;
+}
+@keyframes candyMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+/* 1. Dimension Shift - Parallax perspective */
+.dimensionHover:hover {
+  transform: perspective(500px) rotateY(0deg) scale(1.05) !important;
+  background: rgba(255,255,255,0.1) !important;
+  box-shadow: 0px 10px 30px rgba(0,255,0,0.2) !important;
+}
+
+/* 2. Hologram Sweep Effect */
+.hologramSweep:hover {
+  background: linear-gradient(90deg, 
+    rgba(255,255,255,0) 0%, 
+    rgba(255,0,222,0.2) 50%, 
+    rgba(255,255,255,0) 100%) !important;
+  background-size: 200% 100% !important;
+  animation: holoSweep 1.5s infinite;
+}
+@keyframes holoSweep {
+  0% { background-position: -100% 0; }
+  100% { background-position: 100% 0; }
+}
+
+/* 3. VHS Distortion Effect */
+.vhsDistortion {
+  background: #1a1a1a;
+  filter: contrast(120%) brightness(90%);
+}
+.vhsDistortion::after {
+  content: "LIVE";
+  position: absolute; top: 20px; right: 20px; color: red; font-size: 10px;
+  animation: blink 0.5s infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* 4. Gold Shine - تأثير بريق الذهب */
+.goldShine:hover {
+  background: linear-gradient(45deg, #d4af37, #fdfc47, #d4af37) !important;
+  color: #000 !important;
+  background-size: 200% 200% !important;
+  animation: flowMove 1s infinite;
+}
+
+/* 5. Neumorphic Push - تأثير الضغط للداخل */
+.neuPush:active {
+  box-shadow: inset 4px 4px 10px #0d0d0d, inset -4px -4px 10px #232323 !important;
+  transform: scale(0.98);
+}
+
+/* 6. Toxic Glow */
+.toxicGlow:hover {
+  box-shadow: 0 0 25px #adff2f !important;
+  background: #adff2f !important;
+  color: #000 !important;
+}
+
+/* 7. Volt Flash - وميض كهربائي */
+.voltFlash:hover {
+  animation: flashEffect 0.2s infinite;
+}
+@keyframes flashEffect {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; box-shadow: 0 0 40px #ffff00; }
+}
+/* 1. Line Grow Hover (لثيم Architectural Mono) */
+.lineGrowHover:hover {
+  padding-left: 35px !important;
+  border-left-width: 8px !important;
+  background: rgba(0,0,0,0.02) !important;
+  transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* 2. Velvet Flow Animation */
+.velvetFlow {
+  background: linear-gradient(135deg, #0a0a2a 0%, #2a0a2a 50%, #0a0a2a 100%);
+  background-size: 400% 400% !important;
+  animation: velvetMove 15s ease infinite;
+}
+@keyframes velvetMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 3. Blob Animation (لثيم Organic Blob) */
+.blobMove {
+  position: relative;
+  overflow: hidden;
+}
+.blobMove::before {
+  content: '';
+  position: absolute; width: 300px; height: 300px;
+  background: radial-gradient(circle, #ff005533 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation: blobFloat 8s infinite alternate;
+}
+@keyframes blobFloat {
+  from { transform: translate(0,0); }
+  to { transform: translate(150px, 200px); }
+}
+
+/* 4. Gold Shine - بريق معدني فخم */
+.goldShine:hover {
+  background: linear-gradient(110deg, transparent 40%, rgba(212,175,55,0.4) 50%, transparent 60%) !important;
+  background-size: 200% 100% !important;
+  animation: shine 1.2s linear infinite;
+}
+@keyframes shine {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+/* 5. Heat Map Animation */
+.heatAnim {
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), #ff00ff44 0%, #2d004d 100%) !important;
+}
+.chromeXRanim {
+  animation: chromeShimmer 6s ease-in-out infinite;
+  position: relative;
+}
+
+.chromeXRanim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    transparent 0%,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: chromeReflection 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes chromeShimmer {
+  0%, 100% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(1.05) contrast(1.02);
+  }
+}
+
+@keyframes chromeReflection {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Chrome Card 3D - تحول ثلاثي الأبعاد مع انعكاس */
+.chromeCard3D {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.chromeCard3D:hover {
+  transform: translateY(-6px) scale(1.02) rotateX(2deg) !important;
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.3),
+    0 0 0 1px rgba(255,255,255,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.15) !important;
+}
+
+.chromeCard3D:hover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.1),
+    transparent
+  );
+  animation: chromeSweep 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes chromeSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* Chrome Avatar Pulse */
+@keyframes chromePulseEffect {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(200,200,200,0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(200,200,200,0);
+  }
+}
+.chromePulse {
+  animation: chromePulseEffect 2s ease-in-out infinite;
+}
+
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+/* 🌊 2. LIQUID DEEP - موجات سائلة كهرومغناطيسية                     */
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+
+.liquidDeepAnim {
+  animation: liquidWave 8s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.liquidDeepAnim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    rgba(56,189,248,0.08) 0%,
+    transparent 60%
+  );
+  animation: liquidMorph 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.liquidDeepAnim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 30px,
+    rgba(56,189,248,0.03) 30px,
+    rgba(56,189,248,0.03) 60px
+  );
+  animation: liquidFlow 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes liquidWave {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+  25% {
+    filter: brightness(1.03) saturate(1.05);
+  }
+  50% {
+    filter: brightness(1.06) saturate(1.1);
+  }
+  75% {
+    filter: brightness(1.03) saturate(1.05);
+  }
+}
+
+@keyframes liquidMorph {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.5) translate(10%, -10%);
+    opacity: 0.8;
+  }
+}
+
+@keyframes liquidFlow {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 60px 0;
+  }
+}
+
+/* Liquid Card Hover - تأثير مائي عند التمرير */
+.liquidCardHover {
+  transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.liquidCardHover:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow: 
+    0 20px 40px -12px rgba(56,189,248,0.3),
+    inset 0 0 30px rgba(56,189,248,0.05) !important;
+}
+
+.liquidCardHover:hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    rgba(56,189,248,0.15) 0%,
+    transparent 70%
+  );
+  animation: liquidRipple 0.6s ease-out;
+}
+
+@keyframes liquidRipple {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Liquid Pulse Avatar */
+@keyframes liquidPulseEffect {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(56,189,248,0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px rgba(56,189,248,0.6));
+  }
+}
+.liquidPulse {
+  animation: liquidPulseEffect 2s ease-in-out infinite;
+}
+
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+/* 💎 3. CRYSTAL NEXUS - كريستال متكسر + هندسة مقدسة                 */
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+
+.crystalNexusAnim {
+  animation: crystalBreath 4s ease-in-out infinite;
+  position: relative;
+}
+
+.crystalNexusAnim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, rgba(168,85,247,0.05) 48%, rgba(168,85,247,0.05) 52%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(236,72,153,0.05) 48%, rgba(236,72,153,0.05) 52%, transparent 52%);
+  background-size: 40px 40px;
+  animation: crystalShift 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes crystalBreath {
+  0%, 100% {
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    filter: brightness(1.04) saturate(1.08);
+  }
+}
+
+@keyframes crystalShift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 40px 40px;
+  }
+}
+
+/* Crystal Card Hover - تأثير كريستالي متكسر */
+.crystalCardHover {
+  transition: all 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+  position: relative;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 85%,
+    95% 100%,
+    5% 100%,
+    0% 85%
+  );
+}
+
+.crystalCardHover:hover {
+  transform: translateY(-5px) scale(1.02) !important;
+  box-shadow: 
+    0 25px 40px -15px rgba(139,92,246,0.4),
+    0 0 0 1px rgba(168,85,247,0.3),
+    inset 0 0 30px rgba(236,72,153,0.08) !important;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 90%,
+    92% 100%,
+    8% 100%,
+    0% 90%
+  );
+}
+
+/* Crystal Glow Avatar */
+@keyframes crystalGlowEffect {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(168,85,247,0.5));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(236,72,153,0.5));
+    transform: scale(1.02);
+  }
+}
+.crystalGlow {
+  animation: crystalGlowEffect 2.5s ease-in-out infinite;
+}
+
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+/* 🔮 4. QUANTUM AURA - مجال كمي مع wave collapse                    */
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+
+.quantumAuraAnim {
+  animation: quantumField 7s ease-in-out infinite;
+  position: relative;
+}
+
+.quantumAuraAnim::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(16,185,129,0.05) 0%,
+    rgba(139,92,246,0.03) 30%,
+    transparent 70%
+  );
+  animation: quantumOrbit 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes quantumField {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  33% {
+    filter: brightness(1.05) saturate(1.05);
+  }
+  66% {
+    filter: brightness(1.02) saturate(1.08);
+  }
+}
+
+@keyframes quantumOrbit {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(360deg) scale(1.2);
+  }
+}
+
+/* Quantum Card Hover - تأثير wave collapse */
+.quantumCardHover {
+  transition: all 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.2) !important;
+  position: relative;
+}
+
+.quantumCardHover:hover {
+  transform: translateY(-4px) scale(1.01) !important;
+  box-shadow: 
+    0 0 30px rgba(16,185,129,0.2),
+    0 0 60px rgba(139,92,246,0.1),
+    inset 0 0 20px rgba(16,185,129,0.05) !important;
+}
+
+.quantumCardHover:hover::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(16,185,129,0.3),
+    rgba(139,92,246,0.3),
+    transparent
+  );
+  border-radius: inherit;
+  animation: quantumWave 1.5s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes quantumWave {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(200%);
+  }
+}
+
+/* Quantum Pulse Avatar */
+@keyframes quantumPulseEffect {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16,185,129,0.4);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    box-shadow: 0 0 0 15px rgba(16,185,129,0);
+    filter: hue-rotate(30deg);
+  }
+}
+.quantumPulse {
+  animation: quantumPulseEffect 3s ease-in-out infinite;
+}
+
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+/* 🎭 5. ECLIPSE SHADOW - كسوف شمسي + هالة متحركة + ظل عميق          */
+/* ─━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━─ */
+
+.eclipseShadowAnim {
+  animation: eclipseCorona 6s ease-in-out infinite;
+  position: relative;
+}
+
+.eclipseShadowAnim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(245,158,11,0.06) 0%,
+    transparent 40%,
+    rgba(124,45,18,0.03) 80%
+  );
+  animation: coronaPulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes eclipseCorona {
+  0%, 100% {
+    filter: brightness(0.95) contrast(1.1);
+  }
+  50% {
+    filter: brightness(1.02) contrast(1.05);
+  }
+}
+
+@keyframes coronaPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* Eclipse Card Hover - ظل متحرك ثلاثي الأبعاد */
+.eclipseCardHover {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  position: relative;
+}
+
+.eclipseCardHover:hover {
+  transform: translateY(-8px) translateX(2px) !important;
+  box-shadow: 
+    0 30px 50px -20px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(245,158,11,0.25),
+    inset 0 0 30px rgba(245,158,11,0.05) !important;
+}
+
+.eclipseCardHover:hover::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  width: 80%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.4) 0%, transparent 70%);
+  filter: blur(8px);
+  animation: shadowMove 2s ease-in-out infinite;
+}
+
+@keyframes shadowMove {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 0.8;
+  }
+}
+
+/* Eclipse Pulse Avatar - هالة متغيرة مثل الكسوف */
+@keyframes eclipsePulseEffect {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245,158,11,0.4), 0 0 0 0 rgba(124,45,18,0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(245,158,11,0), 0 0 0 20px rgba(124,45,18,0);
+  }
+}
+.eclipsePulse {
+  animation: eclipsePulseEffect 2.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════ */
+/* ████████  إضافات خاصة للثيمات الجديدة - ديكورات متقدمة ████████    */
+/* ═══════════════════════════════════════════════════════════════════ */
+
+/* Decorative geometric shapes for Crystal Nexus */
+.crystalNexusAnim .decor_grid::before {
+  background-image: 
+    linear-gradient(45deg, rgba(168,85,247,0.08) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(236,72,153,0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Sparkles enhancement for Quantum Aura */
+.quantumAuraAnim .decor_sparks .spark {
+  animation-duration: calc(var(--duration, 2s) * 0.7);
+  filter: blur(0.5px);
+}
+
+/* Grid overlay enhancement for all new themes */
+.screen:has(.chromeXRanim) .overlayDecor::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,0.02) 2px,
+    rgba(255,255,255,0.02) 3px
+  );
+  pointer-events: none;
+}
+/* خلفية الليل والنجوم */
+.rainyAnimV2 {
+  background: radial-gradient(circle at 20% 20%, #1e1e3f 0%, #050510 100%) !important;
+  position: relative;
+}
+
+/* القمر: صغير وعالزاوية اليسرى */
+.rainyAnimV2::after {
+  content: "";
+  position: absolute;
+  top: 25px; 
+  left: 25px; /* الزاوية اليسرى */
+  width: 15px; height: 15px; /* حجم صغير جداً وفني */
+  background: #fffac0;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 250, 192, 0.5);
+  z-index: 1;
+}
+
+/* قطرات المطر */
+.decor_rainDropsV2 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.rainDrop {
+  position: absolute;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.4));
+  width: 1px;
+  height: 20px;
+  top: -20px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(500px); }
+}
+/* ❄️ ندفات الثلج (Snowflakes) */
+.decor_snowDrops {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2; /* فوق العناصر ليعطي عمقاً */
+}
+
+.snowFlake {
+  position: absolute;
+  background: #ffffff; /* لون الثلج أبيض */
+  border-radius: 50%; /* شكل دائري */
+  top: -10px;
+  /* إضافة توهج خفيف للثلج */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  animation: snowFall linear infinite;
+}
+
+/* حركة سقوط الثلج: بطيئة وناعمة */
+@keyframes snowFall {
+  0% { transform: translateY(-10px); }
+  100% { transform: translateY(550px); } /* يجب أن يغطي ارتفاع الشاشة */
+}
+
+/* تأثير هوفر "متجمد" للأزرار */
+.glassCardHover:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px);
+}

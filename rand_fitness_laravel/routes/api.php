@@ -276,11 +276,18 @@ Route::middleware(['auth:sanctum'])->prefix('admin/training')->group(function ()
     Route::post('/workout/exercises/{exerciseId}/toggle', [TrainingController::class, 'toggleExercise']);
     Route::delete('/workout/exercises/{exerciseId}', [TrainingController::class, 'deleteExercise']);
     
-    // Progress Stats
-    Route::get('/trainees/{userId}/progress', [TrainingController::class, 'getProgress']);
+    // Progress Stats 
+    Route::get('/trainees/{id}/progress', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'show']);
+    Route::post('/trainees/{id}/badge', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'awardBadge']);
+    Route::delete('/trainees/{id}/badge/{badgeId}', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'revokeBadge']);
     
     // Import exercises from Excel
     Route::post('/trainees/{userId}/workout/import-excel', [TrainingController::class, 'importWorkoutExcel']);
+
+    // Challenges management
+    Route::post('/challenges', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'createChallenge']);
+    Route::delete('/challenges/{id}', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'deleteChallenge']);
+    Route::put('/challenges/{id}', [App\Http\Controllers\Api\Admin\TraineeProgressController::class, 'updateChallenge']);
 });
 
 /*

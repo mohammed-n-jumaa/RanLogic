@@ -22,6 +22,7 @@ import WorkoutPlan from '../../../components/Training/WorkoutPlan';
 import NutritionPlan from '../../../components/Training/NutritionPlan';
 import ProgressTracker from '../../../components/Training/ProgressTracker';
 import trainingApi from '../../../api/trainingApi';
+import TraineeProgress from '../../../components/Training/TraineeProgress/TraineeProgress';
 import Swal from 'sweetalert2';
 import './ClientDetails.scss';
 
@@ -39,7 +40,7 @@ const ClientDetails = () => {
   const [currentMonth] = useState(new Date().getMonth() + 1);
   const [imageError, setImageError] = useState({});
 
-  const API_URL = import.meta.env.VITE_API_URL || 'https://api.ranlogic.com';
+  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
   
   const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || `${API_URL}/storage`;
 
@@ -485,11 +486,7 @@ const ClientDetails = () => {
         )}
 
         {activeTab === 'progress' && (
-          <ProgressTracker
-            clientId={client.id}
-            year={currentYear}
-            month={currentMonth}
-          />
+          <TraineeProgress clientId={client.id} />
         )}
       </motion.div>
     </div>

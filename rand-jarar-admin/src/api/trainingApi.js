@@ -146,6 +146,29 @@ const trainingApi = {
       params: { year, month }
     });
   },
+
+  getTraineeProgress: (id) => {
+    return apiClient.get(`/admin/training/trainees/${id}/progress`);
+  },
+
+  awardBadge: (userId, badgeId) => {
+    return apiClient.post(`/admin/training/trainees/${userId}/badge`, { badge_id: badgeId });
+  },
+
+  revokeBadge: (userId, badgeId) => {
+    return apiClient.delete(`/admin/training/trainees/${userId}/badge/${badgeId}`);
+  },
+
+  createChallenge: (data) => {
+    return apiClient.post('/admin/training/challenges', data);
+  },
+
+  deleteChallenge: (id) => {
+    return apiClient.delete(`/admin/training/challenges/${id}`);
+  },
+  updateChallenge: (id, data) => {
+    return apiClient.put(`/admin/training/challenges/${id}`, data);
+  },
 };
 
 export default trainingApi;

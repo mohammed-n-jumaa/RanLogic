@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Auth from '../components/Auth/Auth';
-import SEO from '../components/SEO/SEO';
+import Auth from '../features/Auth/Auth';
+import SEO from '../components/common/SEO/SEO';
 import { useLanguage } from '../contexts/LanguageContext';
 import { breadcrumbs } from '../utils/seoConfig';
 

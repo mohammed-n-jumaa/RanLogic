@@ -6,12 +6,7 @@ window.Pusher = Pusher;
 let echoInstance = null;
 
 const getAuthToken = () => {
-  return (
-    localStorage.getItem('token') ||
-    localStorage.getItem('auth_token') ||
-    localStorage.getItem('access_token') ||
-    ''
-  );
+  return localStorage.getItem('auth_token') || '';
 };
 
 export const getSocketId = () => {
@@ -34,7 +29,7 @@ export const getEcho = () => {
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
     forceTLS: true,
     enabledTransports: ['ws', 'wss'],
-    authEndpoint: 'https://api.ranlogic.com/broadcasting/auth',
+    authEndpoint: `${import.meta.env.VITE_BACKEND_URL}broadcasting/auth`,
     auth: {
       headers: {
         Accept: 'application/json',

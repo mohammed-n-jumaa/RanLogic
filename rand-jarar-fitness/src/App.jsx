@@ -1,29 +1,30 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { InactivityProvider } from './contexts/InactivityContext';
-import Home from './pages/Home';
-import FAQPage from './pages/FAQPage';
-import AuthPage from './pages/AuthPage.jsx';
-import Profile from './Profile/Profile-Clean.jsx';
-import Plans from './pages/Plans.jsx';
-import SubscriptionSuccess from './pages/SubscriptionSuccess';
-import LoadingSpinner from './components/LoadingSpinner';
-import ProtectedRoute from './components/Auth/ProtectedRoute';
-import SubscriptionCancel from './pages/SubscriptionCancel';
+const Home = lazy(() => import('./pages/Home'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
+const Profile = lazy(() => import('./pages/ProfilePage.jsx'));
+const Plans = lazy(() => import('./pages/Plans.jsx'));
+const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import ProtectedRoute from './features/auth/ProtectedRoute';
+const SubscriptionCancel = lazy(() => import('./pages/SubscriptionCancel'));
 import { initAnalytics } from './utils/analytics.loader';
 import { initPerformanceMonitoring } from './utils/performance.utils';
 import './styles/global.scss';
 import { trackPageView } from './utils/analytics.loader.js';
-import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy.jsx';
-import TermsOfService from './pages/TermsOfService/TermsOfService';
-import RefundPolicy from './pages/RefundPolicy/RefundPolicy';
-import ContactPage from './pages/ContactPage/ContactPage';
-import CalorieCalculatorPage from './pages/CalorieCalculatorPage';
-import MealCalculatorPage from './pages/MealCalculatorPage.jsx';
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy/PrivacyPolicy.jsx'));
+const TermsOfService = lazy(() => import('./pages/TermsOfService/TermsOfService'));
+const RefundPolicy = lazy(() => import('./pages/RefundPolicy/RefundPolicy'));
+const ContactPage = lazy(() => import('./pages/ContactPage/ContactPage'));
+const CalorieCalculatorPage = lazy(() => import('./pages/CalorieCalculatorPage'));
+const MealCalculatorPage = lazy(() => import('./pages/MealCalculatorPage.jsx'));
 import authApi from './api/authApi.js';
-
+import useOneSignal from './hooks/useOneSignal';
 
 const IS_PRODUCTION =
   import.meta.env?.PROD === true &&
@@ -45,74 +46,18 @@ function RouteTracker() {
 }
 
 function App() {
-  const [loading, setLoading]       = useState(false);
-const [showLoader, setShowLoader] = useState(false);
-const [appVisible, setAppVisible] = useState(true);
-const [isFirstVisit, setIsFirstVisit] = useState(false);
-  useEffect(() => {
-  import('react-onesignal').then(({ default: OneSignal }) => {
-    OneSignal.init({
-      appId: import.meta.env.VITE_ONESIGNAL_APP_ID,
-      safari_web_id: 'web.onesignal.auto.212e621b-efc2-4b2a-9d36-9f4cd158ecec',
-      notifyButton: { enable: false },
-      allowLocalhostAsSecureOrigin: false,
-    }).then(() => {
-      if (authApi.isAuthenticated()) {
-        OneSignal.Notifications.requestPermission().then(() => {
-  OneSignal.User.PushSubscription.optIn();
+  
+  const [loading, setLoading] = useState(false);
+  const [appVisible, setAppVisible] = useState(true);
+  useOneSignal();
 
-  setTimeout(() => {
-    const playerId = OneSignal.User.PushSubscription.id;
-    if (playerId && authApi.isAuthenticated()) {
-      import('./api/index.js').then(({ default: api }) => {
-        api.post('/fcm-token', { onesignal_id: playerId })
-          .then(() => localStorage.setItem('onesignal_id', playerId))
-          .catch(console.error);
-      });
-    }
-  }, 2000);
-});
-      }
-    });
-  });
-}, []);
-  // useEffect(() => {
-  //   const preloadGif = new Image();
-  //   preloadGif.src = '/fitness.gif';
-
-  //   let timer;
-  //   const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
-
-  //   if (!hasVisitedBefore) {
-  //     setIsFirstVisit(true);
-  //     timer = setTimeout(() => {
-  //       setLoading(false);
-  //       localStorage.setItem('hasVisitedBefore', 'true');
-  //     }, 7000);
-  //   } else {
-  //     const hasVisitedThisSession = sessionStorage.getItem('hasVisitedThisSession');
-  //     if (!hasVisitedThisSession) {
-  //       timer = setTimeout(() => {
-  //         setLoading(false);
-  //         sessionStorage.setItem('hasVisitedThisSession', 'true');
-  //       }, 3000);
-  //     } else {
-  //       setLoading(false);
-  //     }
-  //   }
-
-  //   return () => { if (timer) clearTimeout(timer); };
-  // }, []);
- 
-
-  useEffect(() => {
+ useEffect(() => {
     if (!loading) {
       const raf1 = requestAnimationFrame(() => {
         const raf2 = requestAnimationFrame(() => {
           setAppVisible(true);
-          setTimeout(() => setShowLoader(false), 500);
-          return () => cancelAnimationFrame(raf2);
         });
+        return () => cancelAnimationFrame(raf2);
       });
       return () => cancelAnimationFrame(raf1);
     }
@@ -132,10 +77,6 @@ const [isFirstVisit, setIsFirstVisit] = useState(false);
     }
   }, [loading]);
 
-  const message = isFirstVisit
-    ? 'Welcome to RanLogic — Your Fitness & Nutrition Team'
-    : 'Welcome back to RanLogic';
-
   return (
     <>
       <div className={`app-shell ${appVisible ? 'app-shell--visible' : ''}`}>
@@ -144,7 +85,8 @@ const [isFirstVisit, setIsFirstVisit] = useState(false);
             <Router>
               <RouteTracker />
               <AnimatePresence mode="wait">
-                <Routes>
+  <Suspense fallback={<LoadingSpinner message="Loading..." />}>
+    <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/faq" element={<FAQPage />} />
                   <Route path="/auth" element={<AuthPage />} />
@@ -176,18 +118,13 @@ const [isFirstVisit, setIsFirstVisit] = useState(false);
                   />
 
                   <Route path="*" element={<Navigate to="/" />} />
-                </Routes>
-              </AnimatePresence>
+               </Routes>
+            </Suspense>
+          </AnimatePresence>
             </Router>
           </InactivityProvider>
         </LanguageProvider>
       </div>
-
-      {showLoader && (
-        <div className={`loader-overlay ${!loading ? 'loader-overlay--hide' : ''}`}>
-          <LoadingSpinner message={message} />
-        </div>
-      )}
     </>
   );
 }

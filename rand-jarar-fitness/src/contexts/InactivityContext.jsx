@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from 'react';
+import { createContext, useContext, useEffect, useRef, useCallback } from 'react';
 import useInactivityTimeout from '../hooks/useInactivityTimeout';
 import authApi from '../api/authApi';
 
@@ -29,25 +29,30 @@ export const InactivityProvider = ({ children, timeoutMinutes = 30, warningMinut
     }
   }, [timeoutMinutes, logout]);
 
-  useEffect(() => {
-    const updateLastActivity = () => {
-      if (authApi.isAuthenticated()) {
-        authApi.updateLastActivity();
-      }
-    };
+  const lastUpdateRef = useRef(0);
 
-    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+  const throttledUpdateActivity = useCallback(() => {
+    const now = Date.now();
+    if (now - lastUpdateRef.current < 30000) return;
+    lastUpdateRef.current = now;
+    if (authApi.isAuthenticated()) {
+      authApi.updateLastActivity();
+    }
+  }, []);
+
+  useEffect(() => {
+    const events = ['mousedown', 'keypress', 'scroll', 'touchstart', 'click'];
 
     events.forEach(event => {
-      window.addEventListener(event, updateLastActivity, { passive: true });
+      window.addEventListener(event, throttledUpdateActivity, { passive: true });
     });
 
     return () => {
       events.forEach(event => {
-        window.removeEventListener(event, updateLastActivity);
+        window.removeEventListener(event, throttledUpdateActivity);
       });
     };
-  }, []);
+  }, [throttledUpdateActivity]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {

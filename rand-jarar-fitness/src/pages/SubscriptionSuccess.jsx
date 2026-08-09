@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle, FaArrowRight, FaTimes } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Header from '../components/Header/Header';
+import Header from '../components/layout/Header/Header';
 import { useLanguage } from '../contexts/LanguageContext';
 import subscriptionApi from '../api/subscriptionApi';
 import authApi from '../api/authApi'; 

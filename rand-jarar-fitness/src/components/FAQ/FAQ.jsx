@@ -4,7 +4,7 @@ import { FaChevronDown, FaQuestionCircle, FaPaperPlane, FaCheckCircle, FaSearch 
 import Swal from 'sweetalert2';
 import { useLanguage } from '../../contexts/LanguageContext';
 import faqApi from '../../api/faqApi';
-import SEO from '../SEO/SEO';
+import SEO from "../common/SEO/SEO";
 import './FAQ.scss';
 
 const FAQ = () => {

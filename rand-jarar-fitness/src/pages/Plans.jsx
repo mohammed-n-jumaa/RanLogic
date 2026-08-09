@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/Header/Header';
-import PlanCard from '../components/Plans/PlanCard';
-import PaymentModal from '../components/Plans/PaymentModal';
-import FeaturesComparison from '../components/Plans/FeaturesComparison';
-import SEO from '../components/SEO/SEO';
+import Header from '../components/layout/Header/Header';
+import PlanCard from "../features/plans/PlanCard";
+import PaymentModal from "../features/plans/PaymentModal";
+import FeaturesComparison from "../features/plans/FeaturesComparison";
+import SEO from '../components/common/SEO/SEO';
 import { useLanguage } from '../contexts/LanguageContext';
 import { breadcrumbs, siteConfig } from '../utils/seoConfig';
 import subscriptionApi from '../api/subscriptionApi';

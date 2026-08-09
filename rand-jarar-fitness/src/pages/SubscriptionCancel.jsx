@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaTimes, FaArrowRight, FaUndo } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Header from '../components/Header/Header';
+import Header from '../components/layout/Header/Header';
 import { useLanguage } from '../contexts/LanguageContext';
 import './SubscriptionCancel.scss';
 

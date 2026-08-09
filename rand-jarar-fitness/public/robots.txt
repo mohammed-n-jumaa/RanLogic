@@ -1,4 +1,4 @@
-# robots.txt — RanLogic (auto-generated 2026-07-28)
+# robots.txt — RanLogic (auto-generated 2026-08-09)
 User-agent: *
 Allow: /
 Disallow: /profile

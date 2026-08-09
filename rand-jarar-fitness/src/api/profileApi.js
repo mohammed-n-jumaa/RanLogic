@@ -21,13 +21,11 @@ updateProfile: async (profileData) => {
   try {
     console.log('🔍 profileApi.updateProfile received:', JSON.stringify(profileData, null, 2));
     
-    // ✅ فصل تحديث كلمة المرور عن البيانات الأخرى
     let passwordUpdateResult = null;
     
     if (profileData.password && profileData.password.trim() !== '') {
       console.log('🔐 Password update branch entered');
       
-      // ✅ البحث عن حقل التأكيد
       const confirmPassword = profileData.password_confirmation || 
                              profileData.confirmPassword || 
                              profileData.confirm_password;
@@ -41,7 +39,6 @@ updateProfile: async (profileData) => {
       
       console.log('🔐 Calling updatePassword...');
       
-      // تحديث كلمة المرور بشكل منفصل
       passwordUpdateResult = await profileApi.updatePassword(
         profileData.current_password || '',
         profileData.password,
@@ -50,13 +47,11 @@ updateProfile: async (profileData) => {
       
       console.log('✅ Password update result:', passwordUpdateResult);
       
-      // إذا فشل تحديث كلمة المرور، ارمِ الخطأ
       if (!passwordUpdateResult.success) {
         throw new Error(passwordUpdateResult.message || 'فشل تحديث كلمة المرور');
       }
     }
     
-    // إزالة حقول كلمة المرور من البيانات
     const cleanedData = { ...profileData };
     delete cleanedData.password;
     delete cleanedData.password_confirmation;
@@ -66,7 +61,6 @@ updateProfile: async (profileData) => {
     
     console.log('📤 Cleaned data for profile update:', cleanedData);
     
-    // إذا كان هناك صورة base64، أرسلها في حقل photo
     if (cleanedData.avatar && typeof cleanedData.avatar === 'string' && cleanedData.avatar.startsWith('data:image')) {
       const payload = {
         ...cleanedData,
@@ -79,7 +73,6 @@ updateProfile: async (profileData) => {
       return response.data;
     }
     
-    // إذا لم يكن هناك صورة، أرسل البيانات العادية فقط
     const payload = { ...cleanedData };
     delete payload.avatar;
     
@@ -119,7 +112,6 @@ updateProfile: async (profileData) => {
    */
   uploadPhoto: async (photoBase64OrFile) => {
     try {
-      // إذا كانت base64
       if (typeof photoBase64OrFile === 'string') {
         const response = await api.post('/profile/photo', {
           photo: photoBase64OrFile
@@ -127,7 +119,6 @@ updateProfile: async (profileData) => {
         return response.data;
       }
       
-      // إذا كان File object
       const formData = new FormData();
       formData.append('avatar', photoBase64OrFile);
       

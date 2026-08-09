@@ -1,0 +1,494 @@
+@import '../../../styles/variables.scss';
+
+// ===================================
+// Variables
+// ===================================
+$footer-bg: #2b2b2b;
+$footer-bg-alt: #333333;
+$gold: #FDB813;
+$gold-dim: rgba(253, 184, 19, 0.15);
+$gold-border: rgba(253, 184, 19, 0.25);
+$white-70: rgba(255, 255, 255, 0.90);
+$white-50: rgba(255, 255, 255, 0.80);
+$white-30: rgba(255, 255, 255, 0.65);
+$white-08: rgba(255, 255, 255, 0.08);
+$white-04: rgba(255, 255, 255, 0.04);
+
+// ===================================
+// Base
+// ===================================
+.footer {
+  background: #2b2b2b;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+  padding-top: 8px;
+  border-top: 3px solid $gold;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// ===================================
+// Loading & Error States
+// ===================================
+.footer-loading,
+.footer-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  background: $footer-bg;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $gold-dim;
+    border-top-color: $gold;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: $white-70;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+.footer-error {
+  .retry-btn {
+    padding: 0.7rem 1.5rem;
+    background: $gold;
+    color: #111;
+    border: none;
+    border-radius: $radius-lg;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: transform 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(253, 184, 19, 0.35);
+    }
+  }
+}
+
+// ===================================
+// Container
+// ===================================
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 48px;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 0 24px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0 16px;
+  }
+}
+
+// ===================================
+// Main Grid
+// ===================================
+.footer-main {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 0;
+  padding: 48px 0 0;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 32px 0 0;
+  }
+}
+
+// ===================================
+// Brand Column
+// ===================================
+.footer-brand {
+  padding-right: 40px;
+  padding-bottom: 40px;
+  border-right: 0.5px solid $white-08;
+  min-width: 0;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding-right: 0;
+    padding-bottom: 32px;
+    border-right: none;
+    border-bottom: 0.5px solid $white-08;
+  }
+}
+
+.brand-mark {
+  margin-bottom: 20px;
+}
+
+.logo-image {
+  height: 50px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  display: block;
+
+  @media (max-width: $breakpoint-mobile) {
+    height: 42px;
+  }
+}
+
+.brand-icon-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon-box {
+  width: 46px;
+  height: 46px;
+  background: $gold;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 900;
+  color: #111;
+  font-style: italic;
+  font-family: 'Georgia', serif;
+  flex-shrink: 0;
+}
+
+.brand-name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  font-family: 'Poppins', sans-serif;
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: $gold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+
+.brand-description {
+  font-size: 13px;
+  line-height: 1.85;
+  color: $white-50;
+  margin-bottom: 24px;
+  font-family: 'Poppins', sans-serif;
+  max-width: 340px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  @media (max-width: $breakpoint-tablet) {
+    max-width: 100%;
+    font-size: 12px;
+  }
+}
+
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: $gold-dim;
+  border: 0.5px solid $gold-border;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: $gold;
+  letter-spacing: 0.06em;
+  font-family: 'Poppins', sans-serif;
+  text-transform: uppercase;
+}
+
+.cert-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: $gold;
+  flex-shrink: 0;
+}
+
+// ===================================
+// Links Column
+// ===================================
+.footer-links {
+  padding: 0 32px 40px;
+  border-right: 0.5px solid $white-08;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 32px 0;
+    border-right: none;
+    border-bottom: 0.5px solid $white-08;
+  }
+}
+
+.footer-col-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $gold;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    &::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: $gold-border;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    &:hover::before {
+      background: $gold;
+    }
+
+    a {
+      color: $white-50;
+      text-decoration: none;
+      font-size: 13px;
+      font-family: 'Poppins', sans-serif;
+      transition: color 0.2s;
+      display: inline-block;
+
+      &:hover {
+        color: $gold;
+      }
+    }
+  }
+}
+
+[dir='rtl'] .links-list li a:hover {
+  transform: translateX(-4px);
+}
+
+[dir='ltr'] .links-list li a:hover {
+  transform: translateX(4px);
+}
+
+// ===================================
+// Social Column
+// ===================================
+.footer-social {
+  padding: 0 0 40px 32px;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 32px 0 0;
+  }
+}
+
+.social-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.social-card {
+  background: $white-04;
+  border: 0.5px solid $white-08;
+  border-radius: 10px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover {
+    background: $gold-dim;
+    border-color: $gold-border;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 10px 8px;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+.sc-icon {
+  font-size: 15px;
+  color: $gold;
+  line-height: 1;
+}
+
+.sc-name {
+  font-size: 10px;
+  color: $white-30;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  text-transform: capitalize;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 9px;
+  }
+}
+
+// ===================================
+// Footer Bottom
+// ===================================
+.footer-bottom {
+  padding: 20px 0;
+  border-top: 0.5px solid $white-08;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px 0;
+    gap: 10px;
+  }
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: $white-30;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.year-badge {
+  background: $gold-dim;
+  border: 0.5px solid $gold-border;
+  border-radius: 6px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: $gold;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+// ===================================
+// Animations
+// ===================================
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+// ── أضف هذا الكود داخل Footer.scss بدل .sc-icon و .sc-name الموجودين ──────
+
+.social-card {
+  background: $white-04;
+  border: 0.5px solid $white-08;
+  border-radius: 10px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+
+  &:hover {
+    background: $gold-dim;
+    border-color: $gold-border;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 10px 8px;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+  }
+}
+
+// أيقونة ملونة بخلفية المنصة
+.sc-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+
+  .social-card:hover & {
+    transform: scale(1.08);
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+    border-radius: 7px;
+  }
+}
+
+.sc-name {
+  font-size: 10px;
+  color: $white-30;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+
+  @media (max-width: $breakpoint-mobile) {
+    font-size: 9px;
+    text-align: right;
+  }
+}
+
+.no-social {
+  font-size: 0.82rem;
+  color: $white-30;
+  font-style: italic;
+}

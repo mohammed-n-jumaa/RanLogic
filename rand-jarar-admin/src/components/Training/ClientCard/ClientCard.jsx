@@ -24,7 +24,7 @@ import './ClientCard.scss';
 const ClientCard = ({ client, onEdit, onDelete }) => {
   const navigate = useNavigate();
   
-  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://api.ranlogic.com';
   
   const getImageUrl = (path) => {
     if (!path) return null;

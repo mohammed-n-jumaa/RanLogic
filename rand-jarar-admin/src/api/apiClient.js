@@ -6,7 +6,7 @@ import axios from 'axios';
  * 
  * Note: Vite uses VITE_ prefix instead of REACT_APP_
  */
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.ranlogic.com/api';
 
 /**
  * Create axios instance with default configuration

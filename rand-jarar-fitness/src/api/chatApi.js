@@ -17,13 +17,11 @@ const chatApi = {
     }
   },
 
-  // عدد الرسائل غير المقروءة + آخر 3 رسائل بدون فتح/تصفير المحادثة
-  getUnreadCount: async () => {
+ getUnreadCount: async () => {
     try {
       const response = await api.get('/trainee/chat/unread-count');
       return response.data;
-    } catch (error) {
-      console.error('Error fetching unread count:', error);
+    } catch {
       return { success: true, data: { unread_count: 0, recent_messages: [] } };
     }
   },

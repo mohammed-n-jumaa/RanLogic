@@ -63,13 +63,22 @@ export default defineConfig({
 
   build: {
     target: 'es2020',
-    minify: 'terser',
-    rollupOptions: {
+minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },    rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('framer-motion')) return 'framer'
             if (id.includes('react-icons')) return 'icons'
+            if (id.includes('sweetalert2')) return 'swal'
+            if (id.includes('pusher') || id.includes('laravel-echo')) return 'realtime'
+            if (id.includes('html2canvas')) return 'html2canvas'
+            if (id.includes('axios')) return 'axios'
             if (
               id.includes('/react/') ||
               id.includes('/react-dom/') ||

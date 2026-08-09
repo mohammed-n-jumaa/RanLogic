@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { FaEnvelope, FaInstagram, FaYoutube, FaTiktok } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import { useLanguage } from '../../contexts/LanguageContext';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
-import SEO from '../../components/SEO/SEO';
+import Header from '../../components/layout/Header/Header';
+import Footer from '../../components/layout/Footer/Footer';
+import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
+import SEO from '../../components/common/SEO/SEO';
 import { breadcrumbs } from '../../utils/seoConfig';
 import '../Legal/LegalPages.scss';
 

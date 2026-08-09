@@ -34,7 +34,7 @@ export const getEcho = () => {
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
     forceTLS: true,
     enabledTransports: ['ws', 'wss'],
-    authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+    authEndpoint: 'https://api.ranlogic.com/broadcasting/auth',
     auth: {
       headers: {
         Accept: 'application/json',

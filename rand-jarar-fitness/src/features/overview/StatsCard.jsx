@@ -1,16 +1,7 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { 
-  FaRuler, 
-  FaWeight, 
-  FaBullseye, 
-  FaUser,
-  FaHome,
-  FaHeartbeat,
-  FaRunning,
-  FaVenusMars,
-  FaChartLine
-} from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Ruler, Scale, Target, User, Home, HeartPulse, PersonStanding, Users, LineChart } from 'lucide-react';
 
 const StatsCard = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -48,15 +39,15 @@ const StatsCard = ({ userData, delay }) => {
   };
 
   const stats = [
-    { icon: FaRuler, labelAr: 'الطول (سم)', labelEn: 'Height (cm)', value: `${userData.height || '--'} ${t('سم', 'cm')}`, type: 'height' },
-    { icon: FaWeight, labelAr: 'الوزن الحالي (كجم)', labelEn: 'Current Weight (kg)', value: `${userData.weight || '--'} ${t('كجم', 'kg')}`, type: 'weight' },
-    { icon: FaVenusMars, labelAr: 'الجنس', labelEn: 'Gender', value: getGenderLabel(userData.gender), type: 'gender' },
-    { icon: FaUser, labelAr: 'الخصر (عند السرة)', labelEn: 'Waist (at navel)', value: `${userData.waist || '--'} ${t('سم', 'cm')}`, type: 'waist' },
-    { icon: FaUser, labelAr: 'الأرداف (للإناث)', labelEn: 'Hips (for females)', value: userData.gender === 'female' ? `${userData.hips || '--'} ${t('سم', 'cm')}` : '--', type: 'hips' },
-    { icon: FaBullseye, labelAr: 'هدفك', labelEn: 'Your Goal', value: getGoalLabel(userData.goal), type: 'goal' },
-    { icon: FaHome, labelAr: 'مكان التمرين', labelEn: 'Workout Place', value: getWorkoutPlaceLabel(userData.workout_place), type: 'place' },
-    { icon: FaHeartbeat, labelAr: 'ملاحظات صحية', labelEn: 'Health Notes', value: userData.health_notes || t('لا توجد إصابات أو حساسية', 'No injuries or allergies'), type: 'health' },
-    { icon: FaRunning, labelAr: 'العمر', labelEn: 'Age', value: `${userData.age || '--'} ${t('سنة', 'years')}`, type: 'age' }
+    { icon: Ruler, labelAr: 'الطول (سم)', labelEn: 'Height (cm)', value: `${userData.height || '--'} ${t('سم', 'cm')}`, type: 'height' },
+    { icon: Scale, labelAr: 'الوزن الحالي (كجم)', labelEn: 'Current Weight (kg)', value: `${userData.weight || '--'} ${t('كجم', 'kg')}`, type: 'weight' },
+    { icon: Users, labelAr: 'الجنس', labelEn: 'Gender', value: getGenderLabel(userData.gender), type: 'gender' },
+    { icon: User, labelAr: 'الخصر (عند السرة)', labelEn: 'Waist (at navel)', value: `${userData.waist || '--'} ${t('سم', 'cm')}`, type: 'waist' },
+    { icon: User, labelAr: 'الأرداف (للإناث)', labelEn: 'Hips (for females)', value: userData.gender === 'female' ? `${userData.hips || '--'} ${t('سم', 'cm')}` : '--', type: 'hips' },
+    { icon: Target, labelAr: 'هدفك', labelEn: 'Your Goal', value: getGoalLabel(userData.goal), type: 'goal' },
+    { icon: Home, labelAr: 'مكان التمرين', labelEn: 'Workout Place', value: getWorkoutPlaceLabel(userData.workout_place), type: 'place' },
+    { icon: HeartPulse, labelAr: 'ملاحظات صحية', labelEn: 'Health Notes', value: userData.health_notes || t('لا توجد إصابات أو حساسية', 'No injuries or allergies'), type: 'health' },
+    { icon: PersonStanding, labelAr: 'العمر', labelEn: 'Age', value: `${userData.age || '--'} ${t('سنة', 'years')}`, type: 'age' }
   ];
 
   return (
@@ -68,7 +59,7 @@ const StatsCard = ({ userData, delay }) => {
     >
       <div className="card-header">
         <h3>{t('الإحصائيات الشخصية', 'Personal Stats')}</h3>
-        <FaChartLine className="header-icon" />
+        <LineChart className="header-icon" />
       </div>
 
       <div className="stats-grid">
@@ -92,4 +83,4 @@ const StatsCard = ({ userData, delay }) => {
   );
 };
 
-export default StatsCard;
+export default memo(StatsCard);

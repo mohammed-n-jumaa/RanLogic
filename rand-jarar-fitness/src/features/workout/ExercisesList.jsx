@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
 import ExerciseItem from './ExerciseItem';
 
@@ -23,4 +24,4 @@ const ExercisesList = ({ exercises, dayIndex, onToggleExercise }) => {
   );
 };
 
-export default ExercisesList;
+export default memo(ExercisesList);

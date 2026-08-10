@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { memo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaBolt, FaFire, FaAppleAlt, FaDumbbell } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import profileApi from '../../api/profileApi';
+import { Zap, Flame, Apple, Dumbbell } from 'lucide-react';
 
 const TodayCard = ({ delay }) => {
   const { t } = useProfileLanguage();
@@ -30,21 +30,21 @@ const TodayCard = ({ delay }) => {
 
   const todayStats = [
     { 
-      icon: FaFire, 
+      icon: Flame, 
       labelAr: 'السعرات', 
       labelEn: 'Calories', 
       value: loading ? '--' : `${stats?.nutrition?.completed_items || 0} / ${stats?.nutrition?.total_items || 0}`,
       type: 'calories' 
     },
     { 
-      icon: FaAppleAlt, 
+      icon: Apple, 
       labelAr: 'الوجبات', 
       labelEn: 'Meals', 
       value: loading ? '--' : `${stats?.nutrition?.completed_items || 0} / ${stats?.nutrition?.total_items || 0}`,
       type: 'meals' 
     },
     { 
-      icon: FaDumbbell, 
+      icon: Dumbbell, 
       labelAr: 'التمارين', 
       labelEn: 'Workouts', 
       value: loading ? '--' : `${stats?.workout?.completed_exercises || 0} / ${stats?.workout?.total_exercises || 0}`,
@@ -61,7 +61,7 @@ const TodayCard = ({ delay }) => {
     >
       <div className="card-header">
         <h3>{t('ملخص اليوم', "Today's Summary")}</h3>
-        <FaBolt className="header-icon" />
+        <Zap fill="currentColor" className="header-icon" />
       </div>
 
       <div className="today-stats">
@@ -85,4 +85,4 @@ const TodayCard = ({ delay }) => {
   );
 };
 
-export default TodayCard;
+export default memo(TodayCard);

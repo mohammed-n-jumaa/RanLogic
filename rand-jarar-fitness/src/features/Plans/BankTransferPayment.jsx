@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaUniversity, FaUpload, FaCheckCircle, FaTimes, FaImage } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import subscriptionApi from '../../api/subscriptionApi';
+import { Landmark, Upload, CheckCircle, X, Image } from 'lucide-react';
 
 
 const BankTransferPayment = ({
@@ -142,7 +142,7 @@ const BankTransferPayment = ({
       {/* Bank details */}
       <div className="bank-details-card">
         <div className="card-header">
-          <FaUniversity className="bank-icon" />
+          <Landmark className="bank-icon" />
           <h3>{currentLang === 'ar' ? 'معلومات الحساب البنكي' : 'Bank Account Information'}</h3>
         </div>
 
@@ -196,7 +196,7 @@ const BankTransferPayment = ({
                 disabled={isSubmitting}
                 hidden
               />
-              <FaUpload className="upload-icon" />
+              <Upload className="upload-icon" />
               <span className="upload-text">
                 {currentLang === 'ar' ? 'انقر لرفع صورة الإيصال' : 'Click to upload receipt image'}
               </span>
@@ -214,11 +214,11 @@ const BankTransferPayment = ({
                   disabled={isSubmitting}
                   type="button"
                 >
-                  <FaTimes />
+                  <X />
                 </button>
               </div>
               <div className="image-info">
-                <FaImage />
+                <Image />
                 <span>{receiptImage?.name}</span>
               </div>
             </div>
@@ -254,7 +254,7 @@ const BankTransferPayment = ({
             </>
           ) : (
             <>
-              <FaCheckCircle />
+              <CheckCircle />
               <span>{currentLang === 'ar' ? 'إرسال الطلب' : 'Submit Request'}</span>
             </>
           )}

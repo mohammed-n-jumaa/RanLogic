@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaQuoteRight, FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import testimonialApi from '../../api/testimonialApi';
 import './Testimonials.scss';
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const DEFAULT_AVATAR = 'https://i.postimg.cc/WpqHf2CH/download.png';
 
@@ -199,7 +199,7 @@ const Testimonials = ({ onDataStatus }) => {
             aria-label={isArabic ? 'الآراء السابقة' : 'Previous testimonials'}
             disabled={testimonials.length <= cardsToShow}
           >
-            <FaChevronLeft />
+            <ChevronLeft />
           </button>
 
           <div className="testimonials-track">
@@ -226,12 +226,12 @@ const Testimonials = ({ onDataStatus }) => {
                     dir={isArabic ? 'rtl' : 'ltr'}
                   >
                     <div className="quote-icon">
-                      <FaQuoteRight />
+                      <Quote fill="currentColor" />
                     </div>
 
                     <div className="rating">
                       {[...Array(testimonial.rating || 5)].map((_, starIndex) => (
-                        <FaStar key={`star-${testimonial.id}-${starIndex}`} className="star" />
+                        <Star fill="currentColor" key={`star-${testimonial.id}-${starIndex}`} className="star" />
                       ))}
                     </div>
 
@@ -262,7 +262,7 @@ const Testimonials = ({ onDataStatus }) => {
             aria-label={isArabic ? 'الآراء التالية' : 'Next testimonials'}
             disabled={testimonials.length <= cardsToShow}
           >
-            <FaChevronRight />
+            <ChevronRight />
           </button>
         </div>
 

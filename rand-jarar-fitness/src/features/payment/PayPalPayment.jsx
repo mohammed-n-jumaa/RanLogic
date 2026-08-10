@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaPaypal, FaCheckCircle, FaExclamationTriangle, FaLock } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import subscriptionApi from '../../api/subscriptionApi';
 import Swal from 'sweetalert2';
+import { CheckCircle, AlertTriangle, Lock } from 'lucide-react';
+import { FaPaypal } from '@/components/common/SocialIcons';
 
 const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
   const { t } = useProfileLanguage();
@@ -52,7 +53,7 @@ const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPer
         </div>
 
         <div className="payment-note">
-          <FaExclamationTriangle />
+          <AlertTriangle />
           <p>
             {t('سيتم توجيهك إلى صفحة PayPal الآمنة', "You will be redirected to PayPal's secure page")}
           </p>
@@ -80,7 +81,7 @@ const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPer
       </motion.button>
 
       <div className="payment-security">
-        <FaLock />
+        <Lock />
         <span>{t('دفع آمن محمي بواسطة PayPal', 'Secure payment protected by PayPal')}</span>
       </div>
 

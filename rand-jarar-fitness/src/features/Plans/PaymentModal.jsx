@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaTimes, FaPaypal, FaUniversity,
-  FaCheckCircle, FaExclamationTriangle,
-  FaArrowLeft, FaCalendarAlt, FaTag
-} from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import BankTransferPayment from './BankTransferPayment';
 import subscriptionApi from '../../api/subscriptionApi';
 import { throttle } from '@/utils/debounce';
+import { X, Landmark, CheckCircle, AlertTriangle, ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { FaPaypal } from '@/components/common/SocialIcons';
 
 const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currency }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -117,7 +114,7 @@ const handlePayPalPayment = throttle(async () => {
             <>
               <div className="modal-header">
                 <h2>{currentLang === 'ar' ? 'اختر طريقة الدفع' : 'Choose Payment Method'}</h2>
-                <button className="close-button" onClick={onClose}><FaTimes /></button>
+                <button className="close-button" onClick={onClose}><X /></button>
               </div>
 
               <div className="modal-body">
@@ -133,7 +130,7 @@ const handlePayPalPayment = throttle(async () => {
 
                   <div className="pricing-details">
                     <div className="duration-display">
-                      <FaCalendarAlt />
+                      <Calendar />
                       <span>{durationLabel}</span>
                     </div>
 
@@ -147,7 +144,7 @@ const handlePayPalPayment = throttle(async () => {
                     {hasDiscount && (
                       <div className="price-row discount-row">
                         <span>
-                          <FaTag className="tag-icon" />
+                          <Tag fill="currentColor" className="tag-icon" />
                           {currentLang === 'ar' ? 'الخصم' : 'Discount'} ({selectedPricing.discount}%):
                         </span>
                         <span className="discount">
@@ -166,7 +163,7 @@ const handlePayPalPayment = throttle(async () => {
 
                     {hasDiscount && (
                       <div className="savings-highlight">
-                        <FaCheckCircle />
+                        <CheckCircle />
                         <span>
                           {currentLang === 'ar'
                             ? `وفرت ${sym}${(selectedPricing.originalPrice - selectedPricing.price).toFixed(2)} مع هذه الخطة!`
@@ -203,7 +200,7 @@ const handlePayPalPayment = throttle(async () => {
                       whileHover={{ scale: 1.03, y: -5 }}
                       whileTap={{ scale: 0.97 }}
                     >
-                      <FaUniversity className="method-icon" />
+                      <Landmark className="method-icon" />
                       <h4>{currentLang === 'ar' ? 'تحويل بنكي' : 'Bank Transfer'}</h4>
                       <p>{currentLang === 'ar' ? 'تفعيل خلال 48 ساعة' : 'Activation within 48 hours'}</p>
                       <span className="method-badge">
@@ -221,10 +218,10 @@ const handlePayPalPayment = throttle(async () => {
             <>
               <div className="modal-header">
                 <div className="header-with-back">
-                  <button className="back-button" onClick={handleBack}><FaArrowLeft /></button>
+                  <button className="back-button" onClick={handleBack}><ArrowLeft /></button>
                   <h2>{currentLang === 'ar' ? 'تأكيد الدفع - PayPal' : 'Payment Confirmation - PayPal'}</h2>
                 </div>
-                <button className="close-button" onClick={onClose}><FaTimes /></button>
+                <button className="close-button" onClick={onClose}><X /></button>
               </div>
 
               <div className="modal-body">
@@ -240,7 +237,7 @@ const handlePayPalPayment = throttle(async () => {
                   <div className="pricing-details">
                     {hasDiscount && (
                       <div className="discount-highlight">
-                        <FaTag />
+                        <Tag fill="currentColor" />
                         <span>
                           {selectedPricing.discount}%{' '}
                           {currentLang === 'ar' ? 'خصم مطبق' : 'Discount Applied'}
@@ -260,14 +257,14 @@ const handlePayPalPayment = throttle(async () => {
 
                 <div className="payment-info">
                   <div className="info-item">
-                    <FaExclamationTriangle />
+                    <AlertTriangle />
                     <p>{currentLang === 'ar'
                       ? 'سيتم توجيهك إلى صفحة PayPal الآمنة'
                       : "You will be redirected to PayPal's secure page"
                     }</p>
                   </div>
                   <div className="info-item">
-                    <FaCheckCircle />
+                    <CheckCircle />
                     <p>{currentLang === 'ar'
                       ? 'جميع المعاملات مشفرة ومحمية'
                       : 'All transactions are encrypted and protected'
@@ -297,10 +294,10 @@ const handlePayPalPayment = throttle(async () => {
             <>
               <div className="modal-header">
                 <div className="header-with-back">
-                  <button className="back-button" onClick={handleBack}><FaArrowLeft /></button>
+                  <button className="back-button" onClick={handleBack}><ArrowLeft /></button>
                   <h2>{currentLang === 'ar' ? 'تحويل بنكي' : 'Bank Transfer'}</h2>
                 </div>
-                <button className="close-button" onClick={onClose}><FaTimes /></button>
+                <button className="close-button" onClick={onClose}><X /></button>
               </div>
 
               <div className="modal-body">
@@ -339,7 +336,7 @@ const handlePayPalPayment = throttle(async () => {
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', stiffness: 200 }}
               >
-                <FaCheckCircle />
+                <CheckCircle />
               </motion.div>
               <h3>{currentLang === 'ar' ? 'نجاح!' : 'Success!'}</h3>
               <p>{currentLang === 'ar'

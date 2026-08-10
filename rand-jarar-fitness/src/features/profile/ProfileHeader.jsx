@@ -1,11 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaTrophy, FaFire, FaCalendarAlt, FaEdit,
-  FaBell, FaInfoCircle, FaCheck, FaComments,
-} from 'react-icons/fa';
 import EditProfileModal from './EditProfileModal';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Trophy, Flame, Calendar, Pencil, Bell, Info, Check, MessageSquare } from 'lucide-react';
 
 const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessages = [], onOpenChat }) => {
   const [isEditModalOpen, setIsEditModalOpen]     = useState(false);
@@ -128,7 +125,7 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
             transition={{ delay: 0.3, duration: 0.3 }}
           >
             <div className="reminder-content">
-              <div className="reminder-icon"><FaInfoCircle /></div>
+              <div className="reminder-icon"><Info /></div>
               <div className="reminder-text">
                 <p className="reminder-message">
                   <strong>{t('فحص الملف الشخصي:', 'Profile Check:')}</strong>{' '}
@@ -136,10 +133,10 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
                 </p>
                 <div className="reminder-actions">
                   <button className="review-btn" onClick={() => setIsEditModalOpen(true)}>
-                    <FaEdit /> {t('تحديث', 'Update')}
+                    <Pencil /> {t('تحديث', 'Update')}
                   </button>
                   <button className="dismiss-btn" onClick={() => setIsReminderVisible(false)}>
-                    <FaCheck /> {t('تم', 'Done')}
+                    <Check /> {t('تم', 'Done')}
                   </button>
                 </div>
               </div>
@@ -159,15 +156,15 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
                 className="avatar"
                 onError={(e) => { e.target.src = 'https://i.postimg.cc/WpqHf2CH/download.png'; }}
               />
-              <div className="avatar-badge"><FaTrophy /></div>
+              <div className="avatar-badge"><Trophy fill="currentColor" /></div>
             </motion.div>
 
             <div className="info-text">
               <h1>{userData?.name || t('المستخدم', 'User')}</h1>
               <p className="program-name">{userData?.program || t('برنامج تدريبي', 'Training Program')}</p>
               <div className="stats-mini">
-                <span><FaFire /> {progress}% {t('مكتمل', 'Complete')}</span>
-                <span><FaCalendarAlt /> {daysLeft} {t('يوم متبقي', 'days left')}</span>
+                <span><Flame fill="currentColor" /> {progress}% {t('مكتمل', 'Complete')}</span>
+                <span><Calendar /> {daysLeft} {t('يوم متبقي', 'days left')}</span>
               </div>
             </div>
           </div>
@@ -182,7 +179,7 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
               onClick={openDropdown}
               aria-label={t('الإشعارات', 'Notifications')}
             >
-              <FaBell />
+              <Bell />
               {hasUnread && (
                 <motion.span
                   className="notification-badge"
@@ -202,7 +199,7 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsEditModalOpen(true)}
             >
-              <FaEdit /> {t('تعديل الملف الشخصي', 'Edit Profile')}
+              <Pencil /> {t('تعديل الملف الشخصي', 'Edit Profile')}
             </motion.button>
           </div>
         </div>
@@ -236,7 +233,7 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
             transition={{ duration: 0.18 }}
           >
             <div className="bell-dropdown-header">
-              <FaComments />
+              <MessageSquare />
               <span>{t('رسائل المدربة', "Trainer's Messages")}</span>
               {hasUnread && <span className="dropdown-badge">{unreadCount}</span>}
             </div>
@@ -257,7 +254,7 @@ const ProfileHeader = ({ userData, onProfileUpdate, unreadCount = 0, recentMessa
             </div>
 
             <button className="bell-dropdown-footer" onClick={handleGoToChat}>
-              <FaComments /> {t('فتح المحادثة', 'Open Chat')}
+              <MessageSquare /> {t('فتح المحادثة', 'Open Chat')}
             </button>
           </motion.div>
         )}

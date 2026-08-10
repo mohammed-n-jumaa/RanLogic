@@ -3,16 +3,11 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaUtensils, FaSearch, FaPlus, FaTrash, FaFire,
-  FaDrumstickBite, FaBreadSlice, FaTint, FaLeaf,
-  FaCheckCircle, FaChevronDown, FaTimes,
-  FaExclamationCircle, FaSpinner
-} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import foodDatabase from '../../data/foodDatabase.json';
 import './MealCalculator.scss';
+import { UtensilsCrossed, Search, Plus, Trash2, Flame, Drumstick, Sandwich, Droplets, Leaf, CheckCircle, ChevronDown, X, AlertCircle, Loader2 } from 'lucide-react';
 
 /* ================================================================
    CONSTANTS
@@ -226,7 +221,7 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
     >
       {/* search bar */}
       <div className="fs-search">
-        <FaSearch className="fs-search__icon" aria-hidden />
+        <Search className="fs-search__icon" aria-hidden />
         <input
           ref={searchRef}
           type="text"
@@ -235,10 +230,10 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
           onChange={e => setQuery(e.target.value)}
           placeholder={isArabic ? 'ابحث...' : 'Search...'}
         />
-        {loading && <FaSpinner className="fs-search__spinner" aria-hidden />}
+        {loading && <Loader2 className="fs-search__spinner" aria-hidden />}
         {query && !loading && (
           <button className="fs-search__clear" onMouseDown={() => setQuery('')} type="button" aria-label="clear search">
-            <FaTimes />
+            <X />
           </button>
         )}
       </div>
@@ -253,7 +248,7 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
       {/* error */}
       {apiError && totalCount === 0 && (
         <div className="fs-empty">
-          <FaExclamationCircle />
+          <AlertCircle />
           <span>{isArabic ? 'لا توجد نتائج' : 'No results found'}</span>
         </div>
       )}
@@ -285,7 +280,7 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
                   <div className="fs-option__meta">
                     <span className="fs-option__cal">{food.calories} kcal</span>
                     {food.source === 'api' && <span className="fs-badge">API</span>}
-                    {isSelected && <FaCheckCircle className="fs-option__check" />}
+                    {isSelected && <CheckCircle className="fs-option__check" />}
                   </div>
                 </div>
               );
@@ -315,7 +310,7 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
         tabIndex={0}
         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } }}
       >
-        <FaSearch className="fs-trigger__icon" aria-hidden />
+        <Search className="fs-trigger__icon" aria-hidden />
         <span className={`fs-trigger__text ${!value ? 'fs-trigger__text--placeholder' : ''}`}>
           {value ? displayName : placeholder}
         </span>
@@ -328,10 +323,10 @@ function FoodSelect({ value, onChange, placeholder, isArabic, categoryLabels, er
               aria-label={isArabic ? 'مسح' : 'Clear'}
               onClick={e => e.stopPropagation()}
             >
-              <FaTimes />
+              <X />
             </button>
           )}
-          <FaChevronDown className={`fs-trigger__chevron ${isOpen ? 'fs-trigger__chevron--open' : ''}`} aria-hidden />
+          <ChevronDown className={`fs-trigger__chevron ${isOpen ? 'fs-trigger__chevron--open' : ''}`} aria-hidden />
         </div>
       </div>
 
@@ -437,10 +432,10 @@ function sumNutrients(items) {
 }
 
 const MACRO_CONFIG = [
-  { key: 'protein', icon: FaDrumstickBite, color: '#e74c3c' },
-  { key: 'carbs',   icon: FaBreadSlice,    color: '#f39c12' },
-  { key: 'fat',     icon: FaTint,           color: '#3498db' },
-  { key: 'fiber',   icon: FaLeaf,           color: '#27ae60' },
+  { key: 'protein', icon: Drumstick, color: '#e74c3c' },
+  { key: 'carbs',   icon: Sandwich,    color: '#f39c12' },
+  { key: 'fat',     icon: Droplets,           color: '#3498db' },
+  { key: 'fiber',   icon: Leaf,           color: '#27ae60' },
 ];
 
 export default function MealCalculator() {
@@ -492,7 +487,7 @@ export default function MealCalculator() {
           transition={{ duration:3, repeat:Infinity }}
           aria-hidden
         >
-          <FaUtensils />
+          <UtensilsCrossed />
         </motion.div>
         <h1 className="mc__title">{t.title}</h1>
         <p  className="mc__subtitle">{t.subtitle}</p>
@@ -509,7 +504,7 @@ export default function MealCalculator() {
           aria-label={t.selectLabel}
         >
           <div className="mc__card-head">
-            <FaSearch aria-hidden />
+            <Search aria-hidden />
             <h2>{t.selectLabel}</h2>
           </div>
 
@@ -535,7 +530,7 @@ export default function MealCalculator() {
                 animate={{ opacity:1, y:0 }}
                 exit={{   opacity:0, y:-6 }}
               >
-                <FaCheckCircle className="mc__preview-icon" aria-hidden />
+                <CheckCircle className="mc__preview-icon" aria-hidden />
                 <div>
                   <strong>{isArabic ? selectedFood.name_ar : selectedFood.name_en}</strong>
                   <span>
@@ -568,7 +563,7 @@ export default function MealCalculator() {
                 whileTap={{  scale:0.97 }}
                 type="button"
               >
-                <FaPlus aria-hidden />
+                <Plus aria-hidden />
                 {t.addBtn}
               </motion.button>
             </div>
@@ -587,7 +582,7 @@ export default function MealCalculator() {
           aria-label={t.mealTitle}
         >
           <div className="mc__card-head">
-            <FaUtensils aria-hidden />
+            <UtensilsCrossed aria-hidden />
             <h2>{t.mealTitle}</h2>
             {mealItems.length > 0 && (
               <span className="mc__badge" aria-label={`${mealItems.length} items`}>
@@ -624,7 +619,7 @@ export default function MealCalculator() {
                       </div>
                       <div className="mc__item-actions">
                         <span className="mc__item-cal">
-                          <FaFire aria-hidden />{item.nutrients.calories}
+                          <Flame fill="currentColor" aria-hidden />{item.nutrients.calories}
                         </span>
                         <button
                           className="mc__remove"
@@ -632,7 +627,7 @@ export default function MealCalculator() {
                           aria-label={isArabic ? 'حذف' : 'Remove item'}
                           type="button"
                         >
-                          <FaTrash aria-hidden />
+                          <Trash2 aria-hidden />
                         </button>
                       </div>
                     </div>
@@ -660,7 +655,7 @@ export default function MealCalculator() {
               aria-label={t.totalTitle}
             >
               <div className="mc__card-head">
-                <FaCheckCircle aria-hidden />
+                <CheckCircle aria-hidden />
                 <h2>{t.totalTitle}</h2>
               </div>
 

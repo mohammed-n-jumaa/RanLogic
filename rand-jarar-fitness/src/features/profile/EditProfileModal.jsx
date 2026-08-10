@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
-import { 
-  FaTimes, 
-  FaUser, 
-  FaEnvelope, 
-  FaLock, 
-  FaCamera, 
-  FaRuler, 
-  FaWeight, 
-  FaHeartbeat,
-  FaBullseye,
-  FaHome,
-  FaSave,
-  FaExclamationCircle,
-  FaCheckCircle,
-  FaVenusMars,
-  FaVenus,
-  FaMars
-} from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import './EditProfileModal.scss';
+import { X, User, Mail, Lock, Camera, Ruler, Scale, HeartPulse, Target, Home, Save, AlertCircle, CheckCircle, Users, Circle, CircleDot } from 'lucide-react';
 
 const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
   const { t } = useProfileLanguage();
@@ -256,8 +239,8 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
 };
 
   const genders = [
-    { value: 'male', labelAr: 'ذكر', labelEn: 'Male', icon: <FaMars /> },
-    { value: 'female', labelAr: 'أنثى', labelEn: 'Female', icon: <FaVenus /> }
+    { value: 'male', labelAr: 'ذكر', labelEn: 'Male', icon: <CircleDot /> },
+    { value: 'female', labelAr: 'أنثى', labelEn: 'Female', icon: <Circle /> }
   ];
 
   const goals = [
@@ -289,7 +272,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
           <div className="modal-header">
             <h2>{t('تعديل الملف الشخصي', 'Edit Profile')}</h2>
             <button className="close-btn" onClick={onClose}>
-              <FaTimes />
+              <X />
             </button>
           </div>
 
@@ -299,7 +282,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
               {/* Success Message */}
               {successMessage && (
                 <div className="success-message">
-                  <FaCheckCircle />
+                  <CheckCircle />
                   <span>{successMessage}</span>
                 </div>
               )}
@@ -307,7 +290,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
               {/* Server Error */}
               {serverError && (
                 <div className="server-error">
-                  <FaExclamationCircle />
+                  <AlertCircle />
                   <span>{serverError}</span>
                 </div>
               )}
@@ -322,7 +305,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                       className="avatar-img"
                     />
                     <label htmlFor="avatar-upload" className="avatar-upload-label">
-                      <FaCamera />
+                      <Camera />
                     </label>
                   </div>
                   <input
@@ -344,7 +327,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Name */}
                   <div className="form-group">
                     <label>
-                      <FaUser /> {t('الاسم الكامل', 'Full Name')}
+                      <User /> {t('الاسم الكامل', 'Full Name')}
                     </label>
                     <input
                       type="text"
@@ -361,7 +344,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Email */}
                   <div className="form-group">
                     <label>
-                      <FaEnvelope /> {t('البريد الإلكتروني', 'Email Address')}
+                      <Mail /> {t('البريد الإلكتروني', 'Email Address')}
                     </label>
                     <input
                       type="email"
@@ -377,7 +360,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Gender */}
                   <div className="form-group">
                     <label>
-                      <FaVenusMars /> {t('الجنس', 'Gender')}
+                      <Users /> {t('الجنس', 'Gender')}
                     </label>
                     <div className="gender-radio-group">
                       {genders.map(gender => (
@@ -425,7 +408,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Password */}
                   <div className="form-group">
                     <label>
-                      <FaLock /> {t('كلمة المرور الجديدة (اختياري)', 'New Password (Optional)')}
+                      <Lock /> {t('كلمة المرور الجديدة (اختياري)', 'New Password (Optional)')}
                     </label>
                     <input
                       type="password"
@@ -441,7 +424,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Confirm Password */}
                   <div className="form-group">
                     <label>
-                      <FaLock /> {t('تأكيد كلمة المرور', 'Confirm Password')}
+                      <Lock /> {t('تأكيد كلمة المرور', 'Confirm Password')}
                     </label>
                     <input
                       type="password"
@@ -464,7 +447,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Height */}
                   <div className="form-group">
                     <label>
-                      <FaRuler /> {t('الطول (سم)', 'Height (cm)')}
+                      <Ruler /> {t('الطول (سم)', 'Height (cm)')}
                     </label>
                     <input
                       type="number"
@@ -483,7 +466,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Weight */}
                   <div className="form-group">
                     <label>
-                      <FaWeight /> {t('الوزن الحالي (كجم)', 'Current Weight (kg)')}
+                      <Scale /> {t('الوزن الحالي (كجم)', 'Current Weight (kg)')}
                     </label>
                     <input
                       type="number"
@@ -552,7 +535,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Goal */}
                   <div className="form-group">
                     <label>
-                      <FaBullseye /> {t('ما هو هدفك؟', 'Your Goal?')}
+                      <Target /> {t('ما هو هدفك؟', 'Your Goal?')}
                     </label>
                     <select
                       name="goal"
@@ -571,7 +554,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                   {/* Workout Place */}
                   <div className="form-group">
                     <label>
-                      <FaHome /> {t('مكان التمرين؟', 'Workout Place?')}
+                      <Home /> {t('مكان التمرين؟', 'Workout Place?')}
                     </label>
                     <div className="radio-group">
                       {workoutPlaces.map(place => (
@@ -611,7 +594,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                 
                 <div className="form-group">
                   <label>
-                    <FaHeartbeat /> {t('هل لديك أي إصابات أو حساسية غذائية؟', 'Any injuries or food allergies?')}
+                    <HeartPulse /> {t('هل لديك أي إصابات أو حساسية غذائية؟', 'Any injuries or food allergies?')}
                   </label>
                   <textarea
                     name="healthNotes"
@@ -650,7 +633,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
                     </>
                   ) : (
                     <>
-                      <FaSave />
+                      <Save />
                       {t('حفظ التغييرات', 'Save Changes')}
                     </>
                   )}

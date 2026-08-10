@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaBell, FaPaypal, FaUniversity, FaStar } from 'react-icons/fa';
 import PayPalPayment from './PayPalPayment';
 import BankTransferPayment from './BankTransferPayment';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import subscriptionApi from '../../api/subscriptionApi';
 import Swal from 'sweetalert2';
+import { Bell, Landmark, Star } from 'lucide-react';
+import { FaPaypal } from '@/components/common/SocialIcons';
 
 const RenewalCard = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -113,7 +114,7 @@ const RenewalCard = ({ userData, delay }) => {
     >
       <div className="card-header">
         <h3>{t('تجديد الاشتراك', 'Renew Subscription')}</h3>
-        <FaBell className={`header-icon ${isExpiringSoon ? 'warning' : ''}`} />
+        <Bell className={`header-icon ${isExpiringSoon ? 'warning' : ''}`} />
       </div>
       
       <AnimatePresence mode="wait">
@@ -147,7 +148,7 @@ const RenewalCard = ({ userData, delay }) => {
                   >
                     {plan.popular && (
                       <div className="popular-badge">
-                        <FaStar /> {t('الأكثر شعبية', 'Most Popular')}
+                        <Star fill="currentColor" /> {t('الأكثر شعبية', 'Most Popular')}
                       </div>
                     )}
                     <div className="plan-icon">{plan.icon}</div>
@@ -221,7 +222,7 @@ const RenewalCard = ({ userData, delay }) => {
                   className={`payment-toggle-btn bank ${paymentMethod === 'bank' ? 'active' : ''}`}
                   onClick={() => setPaymentMethod('bank')}
                 >
-                  <FaUniversity className="btn-icon" />
+                  <Landmark className="btn-icon" />
                   <div className="btn-content">
                     <span className="btn-title">{t('تحويل بنكي', 'Bank Transfer')}</span>
                     <span className="btn-subtitle">{t('خلال 48 ساعة', 'Within 48 hours')}</span>

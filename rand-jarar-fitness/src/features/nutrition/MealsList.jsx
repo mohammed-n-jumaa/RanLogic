@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaUtensils, FaCalendarAlt, FaInfoCircle } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import MealCard from './MealCard';
+import { UtensilsCrossed, Calendar, Info } from 'lucide-react';
 
 const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMealItem }) => {
   const { t } = useProfileLanguage();
@@ -62,7 +63,7 @@ const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMe
                   ease: "easeInOut"
                 }}
               >
-                <FaUtensils />
+                <UtensilsCrossed />
               </motion.div>
             </div>
           </motion.div>
@@ -82,7 +83,7 @@ const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMe
                 whileHover={{ scale: 1.05, x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <FaCalendarAlt />
+                <Calendar />
                 <span>{t('جرب يوماً آخر', 'Try another day')}</span>
               </motion.div>
               <motion.div 
@@ -90,7 +91,7 @@ const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMe
                 whileHover={{ scale: 1.05, x: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <FaInfoCircle />
+                <Info />
                 <span>{t('تواصل مع مدربك', 'Contact your trainer')}</span>
               </motion.div>
             </div>
@@ -117,4 +118,4 @@ const MealsList = ({ meals, selectedMeal, setSelectedMeal, dayNumber, onToggleMe
   );
 };
 
-export default MealsList;
+export default memo(MealsList);

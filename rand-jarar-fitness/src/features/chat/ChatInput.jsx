@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaPaperPlane, FaImage, FaTimes } from 'react-icons/fa';
 import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext';
+import { Send, Image, X } from 'lucide-react';
 
 const ChatInput = ({ value, onChange, onSend, sending }) => {
   const { t } = useProfileLanguage();
@@ -66,7 +66,7 @@ const ChatInput = ({ value, onChange, onSend, sending }) => {
         <div className="image-preview-container">
           <img src={imagePreview} alt="Preview" className="image-preview" />
           <button className="remove-image-btn" onClick={handleRemoveImage}>
-            <FaTimes />
+            <X />
           </button>
         </div>
       )}
@@ -87,7 +87,7 @@ const ChatInput = ({ value, onChange, onSend, sending }) => {
           whileTap={{ scale: 0.95 }}
           disabled={sending}
         >
-          <FaImage />
+          <Image />
         </motion.button>
 
         <input
@@ -106,7 +106,7 @@ const ChatInput = ({ value, onChange, onSend, sending }) => {
           whileTap={{ scale: 0.95 }}
           disabled={sending || (!value.trim() && !selectedImage)}
         >
-          <FaPaperPlane />
+          <Send />
         </motion.button>
       </div>
     </div>

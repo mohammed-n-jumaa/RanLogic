@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaClock, FaCalendarAlt, FaExclamationTriangle } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { CheckCircle, Clock, Calendar, AlertTriangle } from 'lucide-react';
 
 const PaymentStatusCard = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -46,9 +46,9 @@ const PaymentStatusCard = ({ userData, delay }) => {
       <div className="card-header">
         <h3>{t('حالة الاشتراك', 'Subscription Status')}</h3>
         {isPaid ? (
-          <FaCheckCircle className="status-icon paid" />
+          <CheckCircle className="status-icon paid" />
         ) : (
-          <FaClock className="status-icon pending" />
+          <Clock className="status-icon pending" />
         )}
       </div>
 
@@ -61,14 +61,14 @@ const PaymentStatusCard = ({ userData, delay }) => {
         <div className="payment-item">
           <span>{t('تاريخ البدء', 'Start Date')}</span>
           <span>
-            <FaCalendarAlt /> {formatDate(userData.subscription_start_date)}
+            <Calendar /> {formatDate(userData.subscription_start_date)}
           </span>
         </div>
 
         <div className="payment-item">
           <span>{t('تاريخ الانتهاء', 'End Date')}</span>
           <span>
-            <FaCalendarAlt /> {formatDate(userData.subscription_end_date)}
+            <Calendar /> {formatDate(userData.subscription_end_date)}
           </span>
         </div>
 
@@ -82,7 +82,7 @@ const PaymentStatusCard = ({ userData, delay }) => {
         <div className="payment-item status">
           <span>{t('حالة الاشتراك', 'Subscription Status')}</span>
           <span className={`status-badge ${isPaid ? 'paid' : 'pending'}`}>
-            <FaCheckCircle />
+            <CheckCircle />
             {isPaid ? t('نشط', 'Active') : t('منتهي', 'Expired')}
           </span>
         </div>
@@ -90,7 +90,7 @@ const PaymentStatusCard = ({ userData, delay }) => {
 
       {isExpiringSoon && isPaid && (
         <div className="expiry-warning">
-          <FaExclamationTriangle />
+          <AlertTriangle />
           <p>
             {t('اشتراكك على وشك الانتهاء! جدد الآن للاستمرار.', 'Your subscription is about to expire! Renew now to continue.')}
           </p>

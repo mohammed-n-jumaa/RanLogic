@@ -1,16 +1,16 @@
 import { motion } from 'framer-motion';
-import { FaUser, FaUtensils, FaDumbbell, FaComments, FaCreditCard, FaThLarge } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { User, UtensilsCrossed, Dumbbell, MessageSquare, CreditCard, LayoutGrid } from 'lucide-react';
 
 const ProfileTabs = ({ activeTab, setActiveTab, unreadCount = 0 }) => {
   const { t } = useProfileLanguage();
 
   const tabs = [
-   { id: 'dashboard', labelAr: 'لوحة التحكم', labelEn: 'Dashboard', icon: <FaThLarge /> },
-    { id: 'nutrition', labelAr: 'التغذية',   labelEn: 'Nutrition', icon: <FaUtensils /> },
-    { id: 'workout',   labelAr: 'التمارين',  labelEn: 'Workout',   icon: <FaDumbbell /> },
-    { id: 'chat',      labelAr: 'الرسائل',   labelEn: 'Messages',  icon: <FaComments />, badge: unreadCount },
-    { id: 'payment',   labelAr: 'الدفع',     labelEn: 'Payment',   icon: <FaCreditCard /> },
+   { id: 'dashboard', labelAr: 'لوحة التحكم', labelEn: 'Dashboard', icon: <LayoutGrid /> },
+    { id: 'nutrition', labelAr: 'التغذية',   labelEn: 'Nutrition', icon: <UtensilsCrossed /> },
+    { id: 'workout',   labelAr: 'التمارين',  labelEn: 'Workout',   icon: <Dumbbell fill="currentColor" /> },
+    { id: 'chat',      labelAr: 'الرسائل',   labelEn: 'Messages',  icon: <MessageSquare />, badge: unreadCount },
+    { id: 'payment',   labelAr: 'الدفع',     labelEn: 'Payment',   icon: <CreditCard /> },
   ];
 
   return (

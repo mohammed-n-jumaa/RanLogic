@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaBan } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../../components/common/SEO/SEO';
 import '../Legal/LegalPages.scss';
+import { Ban } from 'lucide-react';
 
 const RefundPolicy = () => {
   const { isArabic, currentLang } = useLanguage();
@@ -129,7 +129,7 @@ const RefundPolicy = () => {
               transition={{ duration: 0.7 }}
             >
               <div className="hero-badge">
-                <FaBan />
+                <Ban />
                 <span>{t.badge}</span>
               </div>
               <h1 className="hero-title">{t.title}</h1>

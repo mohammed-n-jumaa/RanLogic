@@ -3,12 +3,10 @@ import { motion } from 'framer-motion';
 import MacrosSummary from './MacrosSummary';
 import NutritionCalendar from "./NutritionCalendar";
 import MealsList from "./MealsList";
-import { FaFilePdf, FaCalendarAlt, FaSpinner } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import profileApi from '../../api/profileApi';
 import Swal from 'sweetalert2';
-import { FaStar, FaCalendarDay } from 'react-icons/fa';
-
+import { FileDown, Calendar, Loader2, Star, CalendarDays } from 'lucide-react';
 const NutritionTab = () => {
   const { t } = useProfileLanguage();
   const [selectedMeal, setSelectedMeal] = useState(null);
@@ -68,7 +66,7 @@ const NutritionTab = () => {
 
   const handleDownloadMonthlyPDF = () => {
     if (nutritionPlan?.plan?.pdf_file) {
-      const pdfUrl = `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/storage/${nutritionPlan.plan.pdf_file}`;
+      const pdfUrl = `${import.meta.env.VITE_API_URL || ''}}/storage/${nutritionPlan.plan.pdf_file}`;
       window.open(pdfUrl, '_blank');
     } else {
       Swal.fire({
@@ -201,7 +199,7 @@ const NutritionTab = () => {
     return (
       <div className="nutrition-tab loading">
         <div className="loading-container">
-          <FaSpinner className="spinner" />
+          <Loader2 className="spinner" />
           <p>{t('جاري تحميل خطة التغذية...', 'Loading nutrition plan...')}</p>
         </div>
       </div>
@@ -212,7 +210,7 @@ const NutritionTab = () => {
   return (
     <div className="nutrition-tab empty">
       <div className="empty-state">
-        <FaCalendarAlt className="empty-icon" />
+        <Calendar className="empty-icon" />
         <h3>{t('لا توجد خطة تغذية', 'No Nutrition Plan')}</h3>
         <p>
           {t(
@@ -229,7 +227,7 @@ const NutritionTab = () => {
     return (
       <div className="nutrition-tab empty">
         <div className="empty-state">
-          <FaFilePdf className="empty-icon" />
+          <FileDown className="empty-icon" />
           <h3>{t('الخطة الغذائية متوفرة بصيغة PDF', 'Nutrition Plan Available as PDF')}</h3>
           <p>
             {t(
@@ -245,7 +243,7 @@ const NutritionTab = () => {
             whileTap={{ scale: 0.95 }}
             style={{ marginTop: '1rem' }}
           >
-            <FaFilePdf />
+            <FileDown />
             <span>{t('تحميل الخطة الشهرية (PDF)', 'Download Monthly Plan (PDF)')}</span>
           </motion.button>
         </div>
@@ -263,14 +261,14 @@ const NutritionTab = () => {
             className={`toggle-btn ${viewMode === 'daily' ? 'active' : ''}`}
             onClick={() => setViewMode('daily')}
           >
-            <FaCalendarAlt />
+            <Calendar />
             <span>{t('العرض اليومي', 'Daily View')}</span>
           </button>
           <button
             className={`toggle-btn ${viewMode === 'calendar' ? 'active' : ''}`}
             onClick={() => setViewMode('calendar')}
           >
-            <FaCalendarAlt />
+            <Calendar />
             <span>{t('تقويم 10 أيام', '10-Day Calendar')}</span>
           </button>
         </div>
@@ -311,7 +309,7 @@ const NutritionTab = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaFilePdf />
+          <FileDown />
           <span>{t('تحميل الخطة الشهرية (PDF)', 'Download Monthly Plan (PDF)')}</span>
         </motion.button>
       </div>
@@ -351,7 +349,7 @@ const NutritionTab = () => {
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ type: 'spring', stiffness: 500, delay: 0.3 }}
                     >
-                      <FaStar className="day-btn-star-icon" />
+                      <Star fill="currentColor" className="day-btn-star-icon" />
                       <span>{t('اليوم', 'Today')}</span>
                     </motion.div>
                   )}
@@ -364,7 +362,7 @@ const NutritionTab = () => {
                         animate={{ scale: 1 }}
                         transition={{ type: 'spring', stiffness: 500, delay: 0.2 }}
                       >
-                        <FaCalendarDay />
+                        <CalendarDays />
                       </motion.span>
                     )}
                     {t('يوم', 'Day')} {day.day}

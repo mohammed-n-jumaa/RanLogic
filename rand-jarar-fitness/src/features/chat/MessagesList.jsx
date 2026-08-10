@@ -1,17 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaCheckDouble,
-  FaCheck,
-  FaUser,
-  FaDumbbell,
-  FaFilePdf,
-  FaFileWord,
-  FaFileAlt,
-  FaDownload,
-  FaPlayCircle,
-} from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { CheckCheck, Check, User, Dumbbell, FileDown, FileText, Download, PlayCircle } from 'lucide-react';
 
 const MessagesList = ({ messages }) => {
   const { t, isRTL } = useProfileLanguage();
@@ -38,14 +28,14 @@ const MessagesList = ({ messages }) => {
   const renderFileIcon = (message) => {
     switch (message.type) {
       case 'pdf':
-        return <FaFilePdf className="message-file-icon pdf" />;
+        return <FileDown className="message-file-icon pdf" />;
       case 'doc':
-        return <FaFileWord className="message-file-icon doc" />;
+        return <FileText className="message-file-icon doc" />;
       case 'video':
-        return <FaPlayCircle className="message-file-icon video" />;
+        return <PlayCircle className="message-file-icon video" />;
       case 'file':
       default:
-        return <FaFileAlt className="message-file-icon file" />;
+        return <FileText className="message-file-icon file" />;
     }
   };
 
@@ -93,7 +83,7 @@ const MessagesList = ({ messages }) => {
               rel="noopener noreferrer"
               className="message-file-download"
             >
-              <FaDownload />
+              <Download />
             </a>
           </div>
 
@@ -124,7 +114,7 @@ const MessagesList = ({ messages }) => {
               rel="noopener noreferrer"
               className="message-file-download"
             >
-              <FaDownload />
+              <Download />
             </a>
           </div>
 
@@ -144,7 +134,7 @@ const MessagesList = ({ messages }) => {
     return (
       <div className="messages-list">
         <div className="no-messages">
-          <FaDumbbell />
+          <Dumbbell fill="currentColor" />
           <h4>{t('لا توجد رسائل بعد', 'No messages yet')}</h4>
           <p>{t('ابدأ المحادثة مع مدربك', 'Start chatting with your trainer')}</p>
         </div>
@@ -168,14 +158,14 @@ const MessagesList = ({ messages }) => {
           >
             {isTrainer && (
               <motion.div className="message-avatar trainer-avatar" whileHover={{ scale: 1.1 }}>
-                <FaDumbbell />
+                <Dumbbell fill="currentColor" />
               </motion.div>
             )}
 
             <div className={`message-bubble ${isTrainer ? 'trainer-bubble' : 'user-bubble'}`}>
               {isTrainer && (
                 <div className="sender-name">
-                  <FaDumbbell className="sender-icon" />
+                  <Dumbbell fill="currentColor" className="sender-icon" />
                   <span>{t('المدربة', 'Rand')}</span>
                 </div>
               )}
@@ -202,7 +192,7 @@ const MessagesList = ({ messages }) => {
                   }}>
                     {message.status === 'read' ? (
                       <>
-                        <FaCheckDouble
+                        <CheckCheck
                           title={t('تمت القراءة', 'Read')}
                           style={{
                             color: '#2d9cff',
@@ -218,7 +208,7 @@ const MessagesList = ({ messages }) => {
                         </span>
                       </>
                     ) : (
-                      <FaCheck
+                      <Check
                         title={t('تم الإرسال', 'Sent')}
                         style={{
                           color: '#b8b8b8',
@@ -233,7 +223,7 @@ const MessagesList = ({ messages }) => {
 
             {isUser && (
               <motion.div className="message-avatar user-avatar" whileHover={{ scale: 1.1 }}>
-                <FaUser />
+                <User />
               </motion.div>
             )}
           </motion.div>

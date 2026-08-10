@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaCheckCircle, FaClock } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Calendar, CheckCircle, Clock } from 'lucide-react';
 
 const SubscriptionTimeline = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -42,13 +42,13 @@ const SubscriptionTimeline = ({ userData, delay }) => {
     >
       <div className="card-header">
         <h3>{t('الجدول الزمني للاشتراك', 'Subscription Timeline')}</h3>
-        <FaCalendarAlt className="header-icon" />
+        <Calendar className="header-icon" />
       </div>
 
       <div className="timeline">
         <div className="timeline-item active">
           <div className="timeline-icon">
-            <FaCheckCircle />
+            <CheckCircle />
           </div>
           <div className="timeline-content">
             <h5>{t('بداية الاشتراك', 'Subscription Start')}</h5>
@@ -58,7 +58,7 @@ const SubscriptionTimeline = ({ userData, delay }) => {
 
         <div className="timeline-item upcoming">
           <div className="timeline-icon">
-            <FaClock />
+            <Clock />
           </div>
           <div className="timeline-content">
             <h5>{t('نهاية الاشتراك', 'Subscription End')}</h5>

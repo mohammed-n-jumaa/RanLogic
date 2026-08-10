@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCheck, FaCrown, FaCalendarAlt, FaTag, FaFire } from 'react-icons/fa';
-
+import { Check, Crown, Calendar, Tag, Flame } from 'lucide-react';
 const PlanCard = ({ plan, onSelect, delay, currency }) => {
   const { id, name, subtitle, pricing, popular, badge, features, color, icon } = plan;
   const [selectedDuration, setSelectedDuration] = useState('1month');
@@ -25,7 +24,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: delay + 0.3, type: 'spring', stiffness: 200 }}
         >
-          <FaCrown /> {badge}
+          <Crown fill="currentColor" /> {badge}
         </motion.div>
       )}
 
@@ -36,7 +35,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
           animate={{ scale: 1, rotate: -12 }}
           transition={{ delay: delay + 0.5, type: 'spring', stiffness: 150 }}
         >
-          <FaFire />
+          <Flame fill="currentColor" />
           <span>{selectedPricing.discount}% OFF</span>
         </motion.div>
       )}
@@ -61,7 +60,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaCalendarAlt />
+          <Calendar />
           <span>1 Month</span>
         </motion.button>
 
@@ -71,7 +70,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaCalendarAlt />
+          <Calendar />
           <span>3 Months</span>
           {pricing['3months'].discount > 0 && (
             <span className="mini-badge">-{pricing['3months'].discount}%</span>
@@ -84,7 +83,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <FaCalendarAlt />
+          <Calendar />
           <span>6 Months</span>
           {pricing['6months'].discount > 0 && (
             <span className="mini-badge hot">-{pricing['6months'].discount}%</span>
@@ -109,7 +108,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 200 }}
             >
-              <FaTag className="tag-icon" />
+              <Tag fill="currentColor" className="tag-icon" />
               <span className="original-price">{sym}{selectedPricing.originalPrice}</span>
             </motion.div>
           )}
@@ -149,7 +148,7 @@ const PlanCard = ({ plan, onSelect, delay, currency }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: delay + (index * 0.05) }}
             >
-              <FaCheck className="check-icon" />
+              <Check className="check-icon" />
               <span>{feature}</span>
             </motion.li>
           ))}

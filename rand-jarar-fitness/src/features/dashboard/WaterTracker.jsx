@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FaTint, FaCheck } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import dashboardApi from '../../api/dashboardApi';
+import { Droplets, Check } from 'lucide-react';
 
 const WaterTracker = ({ water }) => {
   const { t } = useProfileLanguage();
@@ -31,7 +31,7 @@ const WaterTracker = ({ water }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaTint />
+        <Droplets fill="currentColor" />
         <span>{t('متتبع المي', 'Water tracker')}</span>
       </div>
 
@@ -46,7 +46,7 @@ const WaterTracker = ({ water }) => {
               onMouseLeave={() => setTooltip(null)}
               style={{ position: 'relative' }}
             >
-              <FaTint />
+              <Droplets fill="currentColor" />
               {tooltip === i && (
                 <span className="dash-tooltip">
                   {t(`كوب ${i + 1}`, `Cup ${i + 1}`)}
@@ -67,11 +67,11 @@ const WaterTracker = ({ water }) => {
 
       {isDone && (
         <div className="water-done">
-          <FaCheck /> {t('أكملت هدف اليوم!', 'Daily goal reached!')}
+          <Check /> {t('أكملت هدف اليوم!', 'Daily goal reached!')}
         </div>
       )}
     </div>
   );
 };
 
-export default WaterTracker;
+export default memo(WaterTracker);

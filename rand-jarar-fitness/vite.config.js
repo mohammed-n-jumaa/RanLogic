@@ -80,7 +80,6 @@ minify: 'terser',
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('framer-motion')) return 'framer'
-            if (id.includes('react-icons')) return 'icons'
             if (id.includes('sweetalert2')) return 'swal'
             if (id.includes('pusher') || id.includes('laravel-echo')) return 'realtime'
             if (id.includes('html2canvas')) return 'html2canvas'

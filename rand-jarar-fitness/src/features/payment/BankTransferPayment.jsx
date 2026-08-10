@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUniversity, FaUpload, FaCheckCircle, FaTimes, FaImage } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import subscriptionApi from '../../api/subscriptionApi';
 import Swal from 'sweetalert2';
 import { throttle } from '@/utils/debounce';
+import { Landmark, Upload, CheckCircle, X, Image } from 'lucide-react';
 
 const BankTransferPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
   const { t } = useProfileLanguage();
@@ -164,7 +164,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
     <div className="bank-transfer-payment">
       <div className="bank-details-card">
         <div className="card-header">
-          <FaUniversity className="bank-icon" />
+          <Landmark className="bank-icon" />
           <h3>{t('معلومات الحساب البنكي', 'Bank Account Details')}</h3>
         </div>
 
@@ -215,7 +215,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         </div>
 
         <div className="transfer-note">
-          <FaCheckCircle />
+          <CheckCircle />
           <p>{t('بعد إتمام التحويل، يرجى رفع صورة الإيصال وإدخال رقم التحويل', 'After completing the transfer, please upload receipt image and enter transfer number')}</p>
         </div>
       </div>
@@ -247,7 +247,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
                 disabled={isSubmitting}
                 hidden
               />
-              <FaUpload className="upload-icon" />
+              <Upload className="upload-icon" />
               <span className="upload-text">{t('انقر لرفع صورة الإيصال', 'Click to upload receipt image')}</span>
               <span className="upload-hint">{t('PNG, JPG, JPEG (حتى 5 ميجابايت)', 'PNG, JPG, JPEG (up to 5MB)')}</span>
             </label>
@@ -261,11 +261,11 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
                   disabled={isSubmitting}
                   type="button"
                 >
-                  <FaTimes />
+                  <X />
                 </button>
               </div>
               <div className="image-info">
-                <FaImage />
+                <Image />
                 <span>{receiptImage?.name}</span>
               </div>
             </div>
@@ -298,7 +298,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
             </>
           ) : (
             <>
-              <FaCheckCircle />
+              <CheckCircle />
               <span>{t('إرسال الطلب', 'Submit Request')}</span>
             </>
           )}

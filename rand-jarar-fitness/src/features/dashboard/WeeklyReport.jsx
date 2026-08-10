@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { FaChartBar, FaShareAlt } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { BarChart3, Share2 } from 'lucide-react';
 
 const WeeklyReport = ({ report }) => {
   const { t } = useProfileLanguage();
@@ -51,7 +51,7 @@ const WeeklyReport = ({ report }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaChartBar />
+        <BarChart3 />
         <span>{t('تقرير الأسبوع', 'Weekly report')}</span>
       </div>
 
@@ -75,4 +75,4 @@ const WeeklyReport = ({ report }) => {
   );
 };
 
-export default WeeklyReport;
+export default memo(WeeklyReport);

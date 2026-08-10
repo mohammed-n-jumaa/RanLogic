@@ -1,15 +1,16 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaFire, FaDumbbell, FaAppleAlt, FaBolt } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Flame, Dumbbell, Apple, Zap } from 'lucide-react';
 
 const MacrosSummary = ({ macros }) => {
   const { t } = useProfileLanguage();
 
   const macroCards = [
-    { icon: FaFire, labelAr: 'السعرات', labelEn: 'Calories', value: macros.totalCalories || 0, type: 'calories' },
-    { icon: FaDumbbell, labelAr: 'البروتين', labelEn: 'Protein', value: `${Math.round(macros.protein || 0)}g`, type: 'protein' },
-    { icon: FaAppleAlt, labelAr: 'الكربوهيدرات', labelEn: 'Carbs', value: `${Math.round(macros.carbs || 0)}g`, type: 'carbs' },
-    { icon: FaBolt, labelAr: 'الدهون', labelEn: 'Fats', value: `${Math.round(macros.fats || 0)}g`, type: 'fats' }
+    { icon: Flame, labelAr: 'السعرات', labelEn: 'Calories', value: macros.totalCalories || 0, type: 'calories' },
+    { icon: Dumbbell, labelAr: 'البروتين', labelEn: 'Protein', value: `${Math.round(macros.protein || 0)}g`, type: 'protein' },
+    { icon: Apple, labelAr: 'الكربوهيدرات', labelEn: 'Carbs', value: `${Math.round(macros.carbs || 0)}g`, type: 'carbs' },
+    { icon: Zap, labelAr: 'الدهون', labelEn: 'Fats', value: `${Math.round(macros.fats || 0)}g`, type: 'fats' }
   ];
 
   return (
@@ -35,4 +36,4 @@ const MacrosSummary = ({ macros }) => {
   );
 };
 
-export default MacrosSummary;
+export default memo(MacrosSummary);

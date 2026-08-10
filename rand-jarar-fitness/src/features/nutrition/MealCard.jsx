@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaCheckCircle, FaClock, FaChevronDown, FaImage } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { CheckCircle, Clock, ChevronDown, Image } from 'lucide-react';
 
 const MealCard = ({ meal, index, isSelected, onToggle, dayNumber, onToggleMealItem }) => {
   const { t } = useProfileLanguage();
@@ -28,7 +29,7 @@ const MealCard = ({ meal, index, isSelected, onToggle, dayNumber, onToggleMealIt
   };
 
   const mealImageUrl = meal.meal_image 
-    ? `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/storage/${meal.meal_image}`
+    ? `${import.meta.env.VITE_API_URL || ''}}/storage/${meal.meal_image}`
     : null;
 
   return (
@@ -44,18 +45,18 @@ const MealCard = ({ meal, index, isSelected, onToggle, dayNumber, onToggleMealIt
             className={`check-btn ${meal.checked ? 'checked' : ''}`}
             onClick={handleCheckToggle}
           >
-            {meal.checked && <FaCheckCircle />}
+            {meal.checked && <CheckCircle />}
           </button>
           <div className="meal-info">
             <h4>{getMealTypeLabel(meal.name)}</h4>
             <span className="meal-time">
-              <FaClock /> {meal.time}
+              <Clock /> {meal.time}
             </span>
           </div>
         </div>
         <div className="meal-summary">
           <span className="calories">{meal.calories} {t('سعرة', 'kcal')}</span>
-          <FaChevronDown
+          <ChevronDown
             className="expand-icon"
             style={{ transform: isSelected ? 'rotate(180deg)' : 'rotate(0deg)' }}
           />
@@ -118,4 +119,4 @@ const MealCard = ({ meal, index, isSelected, onToggle, dayNumber, onToggleMealIt
   );
 };
 
-export default MealCard;
+export default memo(MealCard);

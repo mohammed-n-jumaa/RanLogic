@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowRight, FaDumbbell, FaFire, FaStar, FaBolt } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import './CTA.scss';
+import { ArrowRight, Dumbbell, Flame, Star, Zap } from 'lucide-react';
 
 const CTA = () => {
   const navigate = useNavigate();
@@ -14,18 +14,18 @@ const CTA = () => {
     description: 'انضم إلى أكثر من 200 متدرب حققوا أهدافهم في اللياقة والصحة',
     buttonText: 'احجز الآن',
     features: [
-      { icon: <FaDumbbell />, text: 'برامج مخصصة' },
-      { icon: <FaFire />, text: 'نتائج مضمونة' },
-      { icon: <FaStar />, text: 'متابعة يومية' }
+      { icon: <Dumbbell fill="currentColor" />, text: 'برامج مخصصة' },
+      { icon: <Flame fill="currentColor" />, text: 'نتائج مضمونة' },
+      { icon: <Star fill="currentColor" />, text: 'متابعة يومية' }
     ]
   } : {
     titleWords: ['Ready', 'to Start', 'Your Transformation?'],
     description: 'Join over 200 trainees who have achieved their fitness and health goals',
     buttonText: 'Book Now',
     features: [
-      { icon: <FaDumbbell />, text: 'Customized Programs' },
-      { icon: <FaFire />, text: 'Guaranteed Results' },
-      { icon: <FaStar />, text: 'Daily Follow-up' }
+      { icon: <Dumbbell fill="currentColor" />, text: 'Customized Programs' },
+      { icon: <Flame fill="currentColor" />, text: 'Guaranteed Results' },
+      { icon: <Star fill="currentColor" />, text: 'Daily Follow-up' }
     ]
   };
 
@@ -45,7 +45,7 @@ const CTA = () => {
             ease: "easeInOut"
           }}
         >
-          <FaDumbbell />
+          <Dumbbell fill="currentColor" />
         </motion.div>
 
         <motion.div 
@@ -61,7 +61,7 @@ const CTA = () => {
             delay: 0.5
           }}
         >
-          <FaFire />
+          <Flame fill="currentColor" />
         </motion.div>
 
         <motion.div 
@@ -77,7 +77,7 @@ const CTA = () => {
             delay: 1
           }}
         >
-          <FaStar />
+          <Star fill="currentColor" />
         </motion.div>
 
         <motion.div 
@@ -93,7 +93,7 @@ const CTA = () => {
             delay: 1.5
           }}
         >
-          <FaBolt />
+          <Zap fill="currentColor" />
         </motion.div>
 
         <div className="cta-content">
@@ -231,7 +231,7 @@ const CTA = () => {
                   transform: isArabic ? 'rotate(180deg)' : 'none'
                 }}
               >
-                <FaArrowRight />
+                <ArrowRight />
               </motion.div>
             </motion.button>
 

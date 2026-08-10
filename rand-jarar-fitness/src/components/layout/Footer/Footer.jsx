@@ -24,8 +24,8 @@ const Footer = () => {
 
   // نبدأ بالبيانات الافتراضية حتى يجي الـ API
   const [footerData, setFooterData] = useState(footerApi.getDefaultData(currentLang));
-  const [logoUrl, setLogoUrl]       = useState(null);
-  const [loading, setLoading]       = useState(true);
+  const [logoUrl, setLogoUrl]       = useState('/Logo.webp');
+  const [loading, setLoading]       = useState(false);
   const [error, setError]           = useState(false);
 
   useEffect(() => { loadFA(); }, []);
@@ -33,7 +33,7 @@ const Footer = () => {
   useEffect(() => { fetchData(); }, [currentLang]);
 
   const fetchData = async () => {
-    setLoading(true);
+
     setError(false);
     try {
       const [footerRes, logoRes] = await Promise.all([
@@ -73,16 +73,7 @@ const Footer = () => {
   const t = (arVal, enVal) => isArabic ? (arVal || enVal) : (enVal || arVal);
   const links = footerApi.quickLinks[currentLang] || footerApi.quickLinks.ar;
 
-  if (loading) {
-    return (
-      <footer className="footer">
-        <div className="footer-loading">
-          <div className="spinner" />
-          <p>{t('جاري تحميل الفوتر...', 'Loading footer...')}</p>
-        </div>
-      </footer>
-    );
-  }
+
 
   if (error) {
     return (

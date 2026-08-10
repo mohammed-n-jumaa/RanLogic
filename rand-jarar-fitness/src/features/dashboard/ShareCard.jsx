@@ -1,8 +1,8 @@
-import { useRef, useState } from 'react';
+import { memo, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
-import { FaShareAlt, FaTimes, FaFire, FaWeight, FaTint, FaDumbbell, FaTrophy } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import localLogo from '../../assets/logo.webp';
+import { Share2, X, Flame, Scale, Droplets, Dumbbell, Trophy } from 'lucide-react';
 
 const ShareCard = ({ data, onClose }) => {
   const { t, currentLang } = useProfileLanguage();
@@ -135,7 +135,7 @@ const ShareCard = ({ data, onClose }) => {
     <div className="share-overlay" onClick={onClose}>
       <div className="share-modal" onClick={e => e.stopPropagation()}>
 
-        <button className="share-close" onClick={onClose}><FaTimes /></button>
+        <button className="share-close" onClick={onClose}><X /></button>
 
         <div ref={cardRef} className="share-card-capture">
           <div className="sc-bg">
@@ -169,33 +169,33 @@ const ShareCard = ({ data, onClose }) => {
             <div className="sc-stats">
               {change && (
                 <div className="sc-stat highlight">
-                  <FaWeight />
+                  <Scale />
                   <div className="sc-stat-val">{change > 0 ? '+' : ''}{change} {t('كغ', 'kg')}</div>
                   <div className="sc-stat-lbl">{t('تغيير الوزن', 'Weight change')}</div>
                 </div>
               )}
               <div className="sc-stat">
-                <FaFire />
+                <Flame fill="currentColor" />
                 <div className="sc-stat-val">{data.streak.count}</div>
                 <div className="sc-stat-lbl">{t('يوم التزام', 'Day streak')}</div>
               </div>
               <div className="sc-stat">
-                <FaDumbbell />
+                <Dumbbell fill="currentColor" />
                 <div className="sc-stat-val">{report.exercise_rate}%</div>
                 <div className="sc-stat-lbl">{t('التزام التمارين', 'Exercise rate')}</div>
               </div>
               <div className="sc-stat">
-                <FaTint />
+                <Droplets fill="currentColor" />
                 <div className="sc-stat-val">{report.avg_water}</div>
                 <div className="sc-stat-lbl">{t('معدل المي', 'Avg water')}</div>
               </div>
               <div className="sc-stat">
-                <FaTrophy />
+                <Trophy fill="currentColor" />
                 <div className="sc-stat-val">{earnedBadges}</div>
                 <div className="sc-stat-lbl">{t('شارات', 'Badges')}</div>
               </div>
               <div className="sc-stat">
-                <FaDumbbell />
+                <Dumbbell fill="currentColor" />
                 <div className="sc-stat-val">{report.workout_days}/7</div>
                 <div className="sc-stat-lbl">{t('أيام التمرين', 'Workout days')}</div>
               </div>
@@ -248,7 +248,7 @@ const ShareCard = ({ data, onClose }) => {
           >
             {generating
               ? t('جاري التحميل...', 'Generating...')
-              : <><FaShareAlt /> {t('مشاركة التقدم', 'Share Progress')}</>
+              : <><Share2 /> {t('مشاركة التقدم', 'Share Progress')}</>
             }
           </button>
         </div>
@@ -257,4 +257,4 @@ const ShareCard = ({ data, onClose }) => {
   );
 };
 
-export default ShareCard;
+export default memo(ShareCard);

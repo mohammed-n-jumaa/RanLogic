@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { FaAward, FaLock, FaFire, FaTrophy, FaTint, FaMedal, FaBullseye, FaCamera } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Award, Lock, Flame, Trophy, Droplets, Medal, Target, Camera } from 'lucide-react';
 
 const BADGE_ICONS = {
-  flame:    <FaFire />,
-  trophy:   <FaTrophy />,
-  droplet:  <FaTint />,
-  award:    <FaMedal />,
-  target:   <FaBullseye />,
-  camera:   <FaCamera />,
+  flame:    <Flame fill="currentColor" />,
+  trophy:   <Trophy fill="currentColor" />,
+  droplet:  <Droplets fill="currentColor" />,
+  award:    <Medal fill="currentColor" />,
+  target:   <Target />,
+  camera:   <Camera />,
 };
 
 const BadgesCard = ({ badges }) => {
@@ -18,7 +18,7 @@ const BadgesCard = ({ badges }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaAward />
+        <Award fill="currentColor" />
         <span>{t('الشارات', 'Badges')}</span>
       </div>
 
@@ -32,7 +32,7 @@ const BadgesCard = ({ badges }) => {
             style={{ position: 'relative' }}
           >
             <div className="badge-icon">
-              {b.earned ? (BADGE_ICONS[b.icon] || <FaTrophy />) : <FaLock />}
+              {b.earned ? (BADGE_ICONS[b.icon] || <Trophy fill="currentColor" />) : <Lock />}
             </div>
             <span className="badge-name">
               {currentLang === 'ar' ? b.name_ar : b.name_en}
@@ -51,4 +51,4 @@ const BadgesCard = ({ badges }) => {
   );
 };
 
-export default BadgesCard;
+export default memo(BadgesCard);

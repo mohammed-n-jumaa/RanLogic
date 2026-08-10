@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaFire,
-  FaCalculator,
-  FaWeight,
-  FaRulerVertical,
-  FaBirthdayCake,
-  FaRunning,
-  FaBullseye,
-  FaCheckCircle
-} from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import './CalorieCalculator.scss';
+import { Flame, Calculator, Scale, RulerDimensionLine, Cake, PersonStanding, Target, CheckCircle } from 'lucide-react';
 
 const CalorieCalculator = () => {
   const { currentLang, isArabic } = useLanguage();
@@ -225,7 +216,7 @@ const CalorieCalculator = () => {
           }}
           transition={{ duration: 3, repeat: Infinity }}
         >
-          <FaFire />
+          <Flame fill="currentColor" />
         </motion.div>
 
         <h1 className="calculator-title">{t.title}</h1>
@@ -240,7 +231,7 @@ const CalorieCalculator = () => {
           transition={{ delay: 0.2 }}
         >
           <div className="card-header">
-            <FaCalculator />
+            <Calculator />
             <h2>{t.formTitle}</h2>
           </div>
 
@@ -262,7 +253,7 @@ const CalorieCalculator = () => {
               <div className="form-group">
                 <label>{t.age}</label>
                 <div className="input-with-icon">
-                  <FaBirthdayCake className="input-icon" />
+                  <Cake fill="currentColor" className="input-icon" />
                   <input
                     type="number"
                     min="1"
@@ -279,7 +270,7 @@ const CalorieCalculator = () => {
               <div className="form-group">
                 <label>{t.weight}</label>
                 <div className="input-with-icon">
-                  <FaWeight className="input-icon" />
+                  <Scale className="input-icon" />
                   <input
                     type="number"
                     min="1"
@@ -295,7 +286,7 @@ const CalorieCalculator = () => {
               <div className="form-group">
                 <label>{t.height}</label>
                 <div className="input-with-icon">
-                  <FaRulerVertical className="input-icon" />
+                  <RulerDimensionLine className="input-icon" />
                   <input
                     type="number"
                     min="1"
@@ -311,7 +302,7 @@ const CalorieCalculator = () => {
             <div className="form-group">
               <label>{t.activityLevel}</label>
               <div className="input-with-icon">
-                <FaRunning className="input-icon" />
+                <PersonStanding className="input-icon" />
                 <select
                   value={formData.activityLevel}
                   onChange={(e) => handleChange('activityLevel', e.target.value)}
@@ -337,7 +328,7 @@ const CalorieCalculator = () => {
                     className={`goal-option ${formData.goal === goal ? 'active' : ''}`}
                     onClick={() => handleChange('goal', goal)}
                   >
-                    <FaBullseye />
+                    <Target />
                     <span>{t.goalOptions[goal]}</span>
                   </button>
                 ))}
@@ -351,7 +342,7 @@ const CalorieCalculator = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FaCalculator />
+              <Calculator />
               {t.calculate}
             </motion.button>
           </form>
@@ -365,7 +356,7 @@ const CalorieCalculator = () => {
             transition={{ delay: 0.3 }}
           >
             <div className="card-header">
-              <FaCheckCircle />
+              <CheckCircle />
               <h2>{t.resultTitle}</h2>
             </div>
 

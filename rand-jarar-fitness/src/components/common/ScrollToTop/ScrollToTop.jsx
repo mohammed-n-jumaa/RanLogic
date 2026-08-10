@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaArrowUp } from 'react-icons/fa';
 import './ScrollToTop.scss';
+import { ArrowUp } from 'lucide-react';
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -84,7 +84,7 @@ const ScrollToTop = () => {
               />
             </svg>
           </div>
-          <FaArrowUp className="arrow-icon" />
+          <ArrowUp className="arrow-icon" />
           
         </motion.button>
       )}

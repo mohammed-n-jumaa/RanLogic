@@ -1,4 +1,5 @@
-import { FaRuler } from 'react-icons/fa';
+import { memo } from "react";
+import { Ruler } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 
 const BodyMeasurements = ({ measurements }) => {
@@ -8,7 +9,7 @@ const BodyMeasurements = ({ measurements }) => {
     return (
       <div className="dash-card">
         <div className="dash-card-title">
-          <FaRuler />
+          <Ruler />
           <span>{t('قياسات الجسم', 'Body measurements')}</span>
         </div>
         <p className="dash-empty">{t('لا توجد قياسات', 'No measurements')}</p>
@@ -30,7 +31,7 @@ const BodyMeasurements = ({ measurements }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaRuler />
+        <Ruler />
         <span>{t('قياسات الجسم', 'Body measurements')}</span>
       </div>
 
@@ -48,4 +49,4 @@ const BodyMeasurements = ({ measurements }) => {
   );
 };
 
-export default BodyMeasurements;
+export default memo(BodyMeasurements);

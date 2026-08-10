@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { FaThLarge } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { LayoutGrid } from 'lucide-react';
 
 const HeatmapCard = ({ heatmap }) => {
   const { t } = useProfileLanguage();
@@ -41,7 +41,7 @@ const HeatmapCard = ({ heatmap }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaThLarge />
+        <LayoutGrid />
         <span>{t('خريطة الالتزام — آخر 3 أشهر', 'Consistency — last 3 months')}</span>
       </div>
 
@@ -76,4 +76,4 @@ const HeatmapCard = ({ heatmap }) => {
   );
 };
 
-export default HeatmapCard;
+export default memo(HeatmapCard);

@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaFire, FaDumbbell, FaAppleAlt, FaBolt, FaEye, FaCalendarDay, FaStar } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Flame, Dumbbell, Apple, Zap, Eye, CalendarDays, Star } from 'lucide-react';
 
 const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) => {
   const { t } = useProfileLanguage();
@@ -56,7 +57,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                     delay: 0.3 
                   }}
                 >
-                  <FaStar className="star-icon" />
+                  <Star fill="currentColor" className="star-icon" />
                   <span>{t('اليوم', 'Today')}</span>
                 </motion.div>
               )}
@@ -70,7 +71,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                       animate={{ scale: 1 }}
                       transition={{ type: "spring", stiffness: 500, delay: 0.2 }}
                     >
-                      <FaCalendarDay />
+                      <CalendarDays />
                     </motion.span>
                   )}
                   {t('يوم', 'Day')} {day.day}
@@ -80,7 +81,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
 
               <div className="day-macros-grid">
                 <div className="macro-mini calories">
-                  <FaFire />
+                  <Flame fill="currentColor" />
                   <div className="macro-mini-info">
                     <span className="macro-mini-value">{day.totalCalories}</span>
                     <span className="macro-mini-label">{t('سعرة', 'kcal')}</span>
@@ -88,7 +89,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                 </div>
 
                 <div className="macro-mini protein">
-                  <FaDumbbell />
+                  <Dumbbell fill="currentColor" />
                   <div className="macro-mini-info">
                     <span className="macro-mini-value">{Math.round(day.protein)}g</span>
                     <span className="macro-mini-label">{t('بروتين', 'Protein')}</span>
@@ -96,7 +97,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                 </div>
 
                 <div className="macro-mini carbs">
-                  <FaAppleAlt />
+                  <Apple fill="currentColor" />
                   <div className="macro-mini-info">
                     <span className="macro-mini-value">{Math.round(day.carbs)}g</span>
                     <span className="macro-mini-label">{t('كربوهيدرات', 'Carbs')}</span>
@@ -104,7 +105,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                 </div>
 
                 <div className="macro-mini fats">
-                  <FaBolt />
+                  <Zap fill="currentColor" />
                   <div className="macro-mini-info">
                     <span className="macro-mini-value">{Math.round(day.fats)}g</span>
                     <span className="macro-mini-label">{t('دهون', 'Fats')}</span>
@@ -131,7 +132,7 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
                 className="view-day-btn"
                 onClick={() => handleViewDay(index + 1)}
               >
-                <FaEye />
+                <Eye />
                 <span>{t('عرض اليوم الكامل', 'View Full Day')}</span>
               </button>
             </motion.div>
@@ -142,4 +143,4 @@ const NutritionCalendar = ({ days, selectedDay, setSelectedDay, setViewMode }) =
   );
 };
 
-export default NutritionCalendar;
+export default memo(NutritionCalendar);

@@ -1,6 +1,8 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaPlayCircle, FaYoutube, FaDumbbell } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { CheckCircle, PlayCircle, Dumbbell } from 'lucide-react';
+import { FaYoutube } from '@/components/common/SocialIcons';
 
 const ExerciseItem = ({ exercise, dayIndex, exerciseIndex, onToggleExercise }) => {
   const { t } = useProfileLanguage();
@@ -56,7 +58,7 @@ const ExerciseItem = ({ exercise, dayIndex, exerciseIndex, onToggleExercise }) =
               damping: 20 
             }}
           >
-            <FaCheckCircle />
+            <CheckCircle />
           </motion.div>
         )}
       </motion.button>
@@ -64,7 +66,7 @@ const ExerciseItem = ({ exercise, dayIndex, exerciseIndex, onToggleExercise }) =
       {/* Exercise Info */}
       <div className="exercise-info">
         <h5>
-          <FaDumbbell 
+          <Dumbbell fill="currentColor" 
             style={{ 
               marginRight: '0.5rem',
               color: 'var(--primary-color)',
@@ -102,7 +104,7 @@ const ExerciseItem = ({ exercise, dayIndex, exerciseIndex, onToggleExercise }) =
             whileTap={{ scale: 0.95 }}
             title={t('مشاهدة الفيديو', 'Watch Video')}
           >
-            <FaPlayCircle />
+            <PlayCircle />
           </motion.button>
         )}
 
@@ -122,4 +124,4 @@ const ExerciseItem = ({ exercise, dayIndex, exerciseIndex, onToggleExercise }) =
   );
 };
 
-export default ExerciseItem;
+export default memo(ExerciseItem);

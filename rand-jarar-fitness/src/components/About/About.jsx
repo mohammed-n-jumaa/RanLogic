@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaCheckCircle } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import aboutApi from '../../api/aboutApi';
 import './About.scss';
+import { CheckCircle } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 const getIconComponent = (icon) => {
@@ -187,7 +188,7 @@ const About = () => {
             {/* Title */}
             <h2
               className="section-title"
-              dangerouslySetInnerHTML={{ __html: renderedTitle }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(renderedTitle) }}
             />
 
             {/* Golden divider */}
@@ -196,7 +197,7 @@ const About = () => {
             {/* Description */}
             <div
               className="experience-text"
-              dangerouslySetInnerHTML={{ __html: formatDescription(main_description) }}
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formatDescription(main_description)) }}
               dir={isArabic ? 'rtl' : 'ltr'}
               style={{
                 fontFamily: isArabic ? 'Tajawal, sans-serif' : 'Poppins, sans-serif',
@@ -272,7 +273,7 @@ const About = () => {
 
               {/* Certified badge */}
               <div className="cert-corner-badge">
-                <FaCheckCircle />
+                <CheckCircle />
                 <span>{isArabic ? 'معتمدة' : 'Certified'}</span>
               </div>
 

@@ -1,7 +1,5 @@
+import { Image, CheckCheck, Check } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { FaImage } from 'react-icons/fa';
-import { FaCheckDouble, FaCheck } from 'react-icons/fa';
-
 const Message = ({ message, index }) => {
   const isImage = message.type === 'image';
   const imageUrl = message.file_url;
@@ -28,7 +26,7 @@ const Message = ({ message, index }) => {
 
         {message.status && (
           <span className={`message-status ${message.status}`}>
-            {message.status === 'read' ? <FaCheckDouble /> : <FaCheck />}
+            {message.status === 'read' ? <CheckCheck /> : <Check />}
           </span>
         )}
 

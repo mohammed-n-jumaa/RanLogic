@@ -1,3 +1,4 @@
+import { memo } from "react";
 import DayCard from './DayCard';
 
 const WorkoutWeek = ({ workoutPlan, expandedDay, setExpandedDay, onToggleExercise }) => {
@@ -17,4 +18,4 @@ const WorkoutWeek = ({ workoutPlan, expandedDay, setExpandedDay, onToggleExercis
   );
 };
 
-export default WorkoutWeek;
+export default memo(WorkoutWeek);

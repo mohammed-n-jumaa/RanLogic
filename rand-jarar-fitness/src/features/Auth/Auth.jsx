@@ -1,29 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  FaSpinner,
-  FaUserShield,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaEye,
-  FaEyeSlash,
-  FaBolt,
-  FaFire,
-  FaTrophy,
-  FaUsers,
-  FaStar,
-  FaChartLine,
-  FaLock,
-  FaShieldAlt,
-} from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { useLanguage } from '../../contexts/LanguageContext';
 import authApi from '../../api/authApi';
 import logoApi from '../../api/logoApi';
-import { throttle } from '@/utils/debounce';
+import { throttle, createRateLimiter } from '@/utils/debounce';
 import './Auth.scss';
+import { Loader2, ShieldCheck, CheckCircle, XCircle, Eye, EyeOff, Zap, Flame, Trophy, Users, Star, LineChart, Lock, Shield } from 'lucide-react';
 
 const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
+  const [loginLimiter] = useState(() => createRateLimiter(5, 60000));
   const [mode, setMode] = useState(initialMode);
   const [formData, setFormData] = useState({
     name: '',
@@ -191,9 +177,13 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+   if (!loginLimiter.canProceed()) {
+      setErrors({ submit: isArabic ? 'محاولات كثيرة — انتظر دقيقة وحاول مرة ثانية' : 'Too many attempts — please wait a minute and try again' });
+      return;
+    }
     setIsSubmitting(true);
     setErrors({});
     try {
@@ -275,14 +265,14 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
   };
 
   const loginStats = [
-    { icon: <FaBolt />, label: isArabic ? 'هذا الأسبوع' : 'This week', value: isArabic ? '4 جلسات مكتملة' : '4 sessions completed' },
-    { icon: <FaFire />, label: isArabic ? 'الإنجاز الحالي' : 'Current streak', value: isArabic ? '12 يوم متواصل 🔥' : '12 days in a row 🔥' },
-    { icon: <FaTrophy />, label: isArabic ? 'الهدف الشهري' : 'Monthly goal', value: isArabic ? 'تحقق 98%' : '98% achieved' },
+    { icon: <Zap fill="currentColor" />, label: isArabic ? 'هذا الأسبوع' : 'This week', value: isArabic ? '4 جلسات مكتملة' : '4 sessions completed' },
+    { icon: <Flame fill="currentColor" />, label: isArabic ? 'الإنجاز الحالي' : 'Current streak', value: isArabic ? '12 يوم متواصل 🔥' : '12 days in a row 🔥' },
+    { icon: <Trophy fill="currentColor" />, label: isArabic ? 'الهدف الشهري' : 'Monthly goal', value: isArabic ? 'تحقق 98%' : '98% achieved' },
   ];
   const registerStats = [
-    { icon: <FaUsers />, label: isArabic ? 'المجتمع' : 'Community', value: isArabic ? '+200 عميل نشط' : '50+ active clients' },
-    { icon: <FaStar />, label: isArabic ? 'الرضا' : 'Satisfaction', value: isArabic ? '4.9 / 5 — 200 تقييم' : '4.9 / 5 — 200 reviews' },
-    { icon: <FaChartLine />, label: isArabic ? 'متوسط النتائج' : 'Avg. result', value: isArabic ? 'ظاهر خلال 8 أسابيع' : 'Visible in 8 weeks' },
+    { icon: <Users />, label: isArabic ? 'المجتمع' : 'Community', value: isArabic ? '+200 عميل نشط' : '200+ active clients' },
+    { icon: <Star fill="currentColor" />, label: isArabic ? 'الرضا' : 'Satisfaction', value: isArabic ? '4.9 / 5 — 200 تقييم' : '4.9 / 5 — 200 reviews' },
+    { icon: <LineChart />, label: isArabic ? 'متوسط النتائج' : 'Avg. result', value: isArabic ? 'ظاهر خلال 8 أسابيع' : 'Visible in 8 weeks' },
   ];
   const stats = mode === 'login' ? loginStats : registerStats;
 
@@ -304,7 +294,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
       <AnimatePresence>
         <motion.div className="auth-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
           <div className="loading-check">
-            <FaSpinner className="spinner-large" />
+            <Loader2 className="spinner-large" />
             <p>{isArabic ? 'جاري التحقق...' : 'Checking authentication...'}</p>
           </div>
         </motion.div>
@@ -458,7 +448,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
               <div className="auth-right__top">
                 <div>
                   <div className="auth-right__client-tag">
-                    <FaUserShield className="auth-right__client-tag-icon" />
+                    <ShieldCheck className="auth-right__client-tag-icon" />
                     {t.clientPortal}
                   </div>
                   <h1 className="auth-right__title">
@@ -494,7 +484,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                   >
-                    <FaTimesCircle />
+                    <XCircle />
                     {errors.submit}
                   </motion.div>
                 )}
@@ -516,8 +506,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         <label className="ff__label">{t.emailLabel}</label>
                         <div className={`ff__wrap ${touched.email && errors.email ? 'ff__wrap--error' : ''} ${touched.email && !errors.email && formData.email ? 'ff__wrap--success' : ''}`}>
                           <input type="email" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} placeholder={t.emailLabel} disabled={isSubmitting} autoComplete="email" />
-                          {touched.email && !errors.email && formData.email && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-                          {touched.email && errors.email && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+                          {touched.email && !errors.email && formData.email && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+                          {touched.email && errors.email && <XCircle className="ff__sfx ff__sfx--err" />}
                         </div>
                         <AnimatePresence>
                           {touched.email && errors.email && (
@@ -533,10 +523,10 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         <div className={`ff__wrap ff__wrap--pw ${touched.password && errors.password ? 'ff__wrap--error' : ''} ${touched.password && !errors.password && formData.password ? 'ff__wrap--success' : ''}`}>
                           <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleChange} onBlur={handleBlur} placeholder={t.passwordLabel} disabled={isSubmitting} autoComplete="current-password" />
                           <button type="button" className="ff__eye" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {showPassword ? <EyeOff /> : <Eye />}
                           </button>
-                          {touched.password && !errors.password && formData.password && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-                          {touched.password && errors.password && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+                          {touched.password && !errors.password && formData.password && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+                          {touched.password && errors.password && <XCircle className="ff__sfx ff__sfx--err" />}
                         </div>
                         <AnimatePresence>
                           {touched.password && errors.password && (
@@ -556,7 +546,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         whileTap={{ scale: 0.98 }}
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? <FaSpinner className="auth-spinner" /> : t.signIn}
+                        {isSubmitting ? <Loader2 className="auth-spinner" /> : t.signIn}
                       </motion.button>
 
                       <p className="auth-switch-link">
@@ -565,11 +555,11 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                       </p>
 
                       <div className="auth-trust-row">
-                        <span><FaLock /> {t.ssl}</span>
+                        <span><Lock /> {t.ssl}</span>
                         <span className="auth-trust-dot">·</span>
-                        <span><FaShieldAlt /> {t.privacy}</span>
+                        <span><Shield /> {t.privacy}</span>
                         <span className="auth-trust-dot">·</span>
-                        <span><FaEyeSlash /> {t.neverShared}</span>
+                        <span><EyeOff /> {t.neverShared}</span>
                       </div>
                     </motion.div>
                   )}
@@ -587,8 +577,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         <label className="ff__label">{t.nameLabel}</label>
                         <div className={`ff__wrap ${touched.name && errors.name ? 'ff__wrap--error' : ''} ${touched.name && !errors.name && formData.name ? 'ff__wrap--success' : ''}`}>
                           <input type="text" name="name" value={formData.name} onChange={handleChange} onBlur={handleBlur} placeholder={t.nameLabel} disabled={isSubmitting} autoComplete="name" />
-                          {touched.name && !errors.name && formData.name && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-                          {touched.name && errors.name && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+                          {touched.name && !errors.name && formData.name && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+                          {touched.name && errors.name && <XCircle className="ff__sfx ff__sfx--err" />}
                         </div>
                         <AnimatePresence>
                           {touched.name && errors.name && (
@@ -603,8 +593,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         <label className="ff__label">{t.emailLabel}</label>
                         <div className={`ff__wrap ${touched.email && errors.email ? 'ff__wrap--error' : ''} ${touched.email && !errors.email && formData.email ? 'ff__wrap--success' : ''}`}>
                           <input type="email" name="email" value={formData.email} onChange={handleChange} onBlur={handleBlur} placeholder={t.emailLabel} disabled={isSubmitting} autoComplete="email" />
-                          {touched.email && !errors.email && formData.email && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-                          {touched.email && errors.email && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+                          {touched.email && !errors.email && formData.email && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+                          {touched.email && errors.email && <XCircle className="ff__sfx ff__sfx--err" />}
                         </div>
                         <AnimatePresence>
                           {touched.email && errors.email && (
@@ -620,10 +610,10 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         <div className={`ff__wrap ff__wrap--pw ${touched.password && errors.password ? 'ff__wrap--error' : ''} ${touched.password && !errors.password && formData.password && passwordStrength.score === 5 ? 'ff__wrap--success' : ''}`}>
                           <input type={showPassword ? 'text' : 'password'} name="password" value={formData.password} onChange={handleChange} onBlur={handleBlur} placeholder={t.passwordLabel} disabled={isSubmitting} minLength={8} autoComplete="new-password" />
                           <button type="button" className="ff__eye" onClick={() => setShowPassword(!showPassword)} tabIndex={-1}>
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {showPassword ? <EyeOff /> : <Eye />}
                           </button>
-                          {touched.password && !errors.password && formData.password && passwordStrength.score === 5 && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-                          {touched.password && errors.password && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+                          {touched.password && !errors.password && formData.password && passwordStrength.score === 5 && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+                          {touched.password && errors.password && <XCircle className="ff__sfx ff__sfx--err" />}
                         </div>
                         <AnimatePresence>
                           {touched.password && errors.password && (
@@ -653,10 +643,10 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
   <div className={`ff__wrap ff__wrap--pw ${touched.password_confirmation && errors.password_confirmation ? 'ff__wrap--error' : ''} ${touched.password_confirmation && !errors.password_confirmation && formData.password_confirmation ? 'ff__wrap--success' : ''}`}>
     <input type={showPasswordConfirmation ? 'text' : 'password'} name="password_confirmation" value={formData.password_confirmation} onChange={handleChange} onBlur={handleBlur} placeholder={t.confirmPwLabel} disabled={isSubmitting} minLength={8} autoComplete="new-password" />
     <button type="button" className="ff__eye" onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)} tabIndex={-1}>
-      {showPasswordConfirmation ? <FaEyeSlash /> : <FaEye />}
+      {showPasswordConfirmation ? <EyeOff /> : <Eye />}
     </button>
-    {touched.password_confirmation && !errors.password_confirmation && formData.password_confirmation && <FaCheckCircle className="ff__sfx ff__sfx--ok" />}
-    {touched.password_confirmation && errors.password_confirmation && <FaTimesCircle className="ff__sfx ff__sfx--err" />}
+    {touched.password_confirmation && !errors.password_confirmation && formData.password_confirmation && <CheckCircle className="ff__sfx ff__sfx--ok" />}
+    {touched.password_confirmation && errors.password_confirmation && <XCircle className="ff__sfx ff__sfx--err" />}
   </div>
   <AnimatePresence>
     {touched.password_confirmation && errors.password_confirmation && (
@@ -684,7 +674,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                           onClick={() => setAgreeTerms(!agreeTerms)}
                           style={{ marginTop: '2px', flexShrink: 0 }}
                         >
-                          {agreeTerms && <FaCheckCircle style={{ fontSize: '9px', color: '#1C1C1C' }} />}
+                          {agreeTerms && <CheckCircle style={{ fontSize: '9px', color: '#1C1C1C' }} />}
                         </div>
                         <span>{t.terms}</span>
                       </div>
@@ -696,7 +686,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                         whileTap={{ scale: 0.98 }}
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? <FaSpinner className="auth-spinner" /> : t.createAccount}
+                        {isSubmitting ? <Loader2 className="auth-spinner" /> : t.createAccount}
                       </motion.button>
 
                       <p className="auth-switch-link">

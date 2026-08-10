@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaInstagram, FaYoutube, FaTiktok } from 'react-icons/fa';
-import { FaXTwitter } from 'react-icons/fa6';
 import usePageTitle from '@/hooks/usePageTitle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '../../components/layout/Header/Header';
@@ -10,6 +8,7 @@ import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../../components/common/SEO/SEO';
 import { breadcrumbs } from '../../utils/seoConfig';
 import '../Legal/LegalPages.scss';
+import { Mail } from "lucide-react";
 
 const ContactPage = () => {
   const { isArabic, currentLang } = useLanguage();
@@ -48,25 +47,25 @@ const ContactPage = () => {
       title:    'Instagram',
       subtitle: '@ranlogicc',
       href:     'https://www.instagram.com/ran.logicc/',
-      icon:     <FaInstagram />
+      icon:     '📸'
     },
     {
       title:    'YouTube',
       subtitle: 'RanLogic Channel',
       href:     'https://www.youtube.com/@Ran_Logic',
-      icon:     <FaYoutube />
+      icon:     '▶️'
     },
     {
       title:    'X',
       subtitle: '@ranLogic',
       href:     'https://x.com/ranLogic',
-      icon:     <FaXTwitter />
+      icon:     '𝕏'
     },
     {
       title:    'TikTok',
       subtitle: '@ranlogicc',
       href:     'https://tiktok.com/@ranlogic',
-      icon:     <FaTiktok />
+      icon:     '🎵'
     }
   ];
 
@@ -89,7 +88,7 @@ const ContactPage = () => {
               transition={{ duration: 0.7 }}
             >
               <div className="hero-badge">
-                <FaEnvelope />
+                <Mail />
                 <span>{t.badge}</span>
               </div>
               <h1 className="hero-title">{t.title}</h1>
@@ -110,7 +109,7 @@ const ContactPage = () => {
                 <div className="contact-list">
                   <a href="mailto:ran.logic1@gmail.com" className="contact-item">
                     <span className="icon-wrap">
-                      <FaEnvelope />
+                      <Mail />
                     </span>
                     <span>
                       <span className="item-title">{t.emailTitle}</span>

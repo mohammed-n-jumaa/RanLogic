@@ -1,4 +1,5 @@
-import { FaWeight, FaFire, FaTint, FaDumbbell, FaTrophy, FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { memo } from "react";
+import { Scale, Flame, Droplets, Dumbbell, Trophy, ArrowDown, ArrowUp } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 
 const QuickStats = ({ data }) => {
@@ -13,18 +14,18 @@ const QuickStats = ({ data }) => {
 
   const stats = [
     {
-      icon: <FaWeight />,
+      icon: <Scale />,
       value: lastW ? `${lastW}` : '--',
       unit: t('كغ', 'kg'),
       label: t('الوزن الحالي', 'Current weight'),
       sub: change ? `${change > 0 ? '+' : ''}${change}` : null,
-      subIcon: change < 0 ? <FaArrowDown /> : change > 0 ? <FaArrowUp /> : null,
+      subIcon: change < 0 ? <ArrowDown /> : change > 0 ? <ArrowUp /> : null,
       subColor: change < 0 ? '#639922' : change > 0 ? '#e24b4a' : '#888',
       color: '#993556',
       bg: '#FBEAF0',
     },
     {
-      icon: <FaFire />,
+      icon: <Flame fill="currentColor" />,
       value: `${data.streak.count}`,
       unit: t('يوم', 'days'),
       label: t('التزام متتالي', 'Streak'),
@@ -32,21 +33,21 @@ const QuickStats = ({ data }) => {
       bg: '#FAEEDA',
     },
     {
-      icon: <FaDumbbell />,
+      icon: <Dumbbell fill="currentColor" />,
       value: `${data.weekly_report.exercise_rate}%`,
       label: t('التزام الأسبوع', 'Weekly rate'),
       color: '#534AB7',
       bg: '#EEEDFE',
     },
     {
-      icon: <FaTint />,
+      icon: <Droplets fill="currentColor" />,
       value: `${data.water.cups}/${data.water.goal}`,
       label: t('المي اليوم', 'Water today'),
       color: '#185FA5',
       bg: '#E6F1FB',
     },
     {
-      icon: <FaTrophy />,
+      icon: <Trophy fill="currentColor" />,
       value: `${earnedBadges}/${totalBadges}`,
       label: t('الشارات', 'Badges'),
       color: '#854F0B',
@@ -77,4 +78,4 @@ const QuickStats = ({ data }) => {
   );
 };
 
-export default QuickStats;
+export default memo(QuickStats);

@@ -1,15 +1,16 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaTrophy, FaFire, FaBolt } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { Trophy, Flame, Zap } from 'lucide-react';
 
 const AchievementsCard = ({ delay }) => {
   const { t } = useProfileLanguage();
 
   const achievements = [
-    { icon: FaTrophy, textAr: 'أسبوع كامل', textEn: 'Full Week', unlocked: true },
-    { icon: FaFire, textAr: '5 أيام متتالية', textEn: '5 Day Streak', unlocked: true },
-    { icon: FaBolt, textAr: 'شهر كامل', textEn: 'Full Month', unlocked: false },
-    { icon: FaTrophy, textAr: 'هدف مثالي', textEn: 'Perfect Goal', unlocked: false }
+    { icon: Trophy, textAr: 'أسبوع كامل', textEn: 'Full Week', unlocked: true },
+    { icon: Flame, textAr: '5 أيام متتالية', textEn: '5 Day Streak', unlocked: true },
+    { icon: Zap, textAr: 'شهر كامل', textEn: 'Full Month', unlocked: false },
+    { icon: Trophy, textAr: 'هدف مثالي', textEn: 'Perfect Goal', unlocked: false }
   ];
 
   return (
@@ -21,7 +22,7 @@ const AchievementsCard = ({ delay }) => {
     >
       <div className="card-header">
         <h3>{t('الإنجازات', 'Achievements')}</h3>
-        <FaTrophy className="header-icon" />
+        <Trophy fill="currentColor" className="header-icon" />
       </div>
 
       <div className="achievements-grid">
@@ -40,4 +41,4 @@ const AchievementsCard = ({ delay }) => {
   );
 };
 
-export default AchievementsCard;
+export default memo(AchievementsCard);

@@ -1,4 +1,5 @@
-import { FaCalendarAlt } from 'react-icons/fa';
+import { memo } from "react";
+import { Calendar } from 'lucide-react';
 import { useProfileLanguage } from "../../contexts/ProfileLanguageContext";
 
 const monthNamesAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
@@ -26,7 +27,7 @@ const WorkoutCalendar = ({ calendar }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaCalendarAlt />
+        <Calendar />
         <span>{t(`تقويم التمارين — ${monthName}`, `Workout calendar — ${monthName}`)}</span>
       </div>
 
@@ -46,4 +47,4 @@ const WorkoutCalendar = ({ calendar }) => {
   );
 };
 
-export default WorkoutCalendar;
+export default memo(WorkoutCalendar);

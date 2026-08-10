@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowRight, FaArrowLeft, FaPlay } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import heroApi from '../../api/heroApi';
 import './Hero.scss';
+import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 // ─── Static fallback (مطابق للصور) ──────────────────────────────────────────
 const getStaticHero = (isArabic) => ({
@@ -107,20 +108,20 @@ const Hero = () => {
           <motion.p
             className="hero-description"
             variants={itemVariants}
-            dangerouslySetInnerHTML={{ __html: description }}
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }}
           />
 
           <motion.div className="hero-buttons" variants={itemVariants}>
             <button className="btn btn-primary" onClick={() => navigate('/auth')}>
               {isArabic
-                ? <><span>ابدأ الآن</span><FaArrowLeft /></>
-                : <><span>Start Now</span><FaArrowRight /></>}
+                ? <><span>ابدأ الآن</span><ArrowLeft /></>
+                : <><span>Start Now</span><ArrowRight /></>}
             </button>
             <button
               className="btn btn-white"
               onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <FaPlay />
+              <Play />
               {isArabic ? 'استكشف البرامج' : 'Explore Programs'}
             </button>
           </motion.div>

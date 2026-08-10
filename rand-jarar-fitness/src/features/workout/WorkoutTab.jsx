@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaSpinner, FaCalendarAlt, FaFilePdf, FaDownload } from 'react-icons/fa';
 import WorkoutWeek from './WorkoutWeek';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import profileApi from '../../api/profileApi';
 import Swal from 'sweetalert2';
+import { Loader2, Calendar, FileDown, Download } from 'lucide-react';
 
 const WorkoutTab = () => {
   const { t } = useProfileLanguage();
@@ -60,7 +60,7 @@ const WorkoutTab = () => {
   // ✅ دالة عرض PDF
   const handleViewPdf = () => {
     if (workoutPlan?.plan?.pdf_file) {
-      const pdfUrl = `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/storage/${workoutPlan.plan.pdf_file}`;
+      const pdfUrl = `${import.meta.env.VITE_API_URL || ''}}/storage/${workoutPlan.plan.pdf_file}`;
       window.open(pdfUrl, '_blank');
     } else {
       Swal.fire({
@@ -169,7 +169,7 @@ const WorkoutTab = () => {
     return (
       <div className="workout-tab loading">
         <div className="loading-container">
-          <FaSpinner className="spinner" />
+          <Loader2 className="spinner" />
           <p>{t('جاري تحميل خطة التمارين...', 'Loading workout plan...')}</p>
         </div>
       </div>
@@ -180,7 +180,7 @@ const WorkoutTab = () => {
   return (
     <div className="workout-tab empty">
       <div className="empty-state">
-        <FaCalendarAlt className="workout-empty-icon" />
+        <Calendar className="workout-empty-icon" />
           <h3>{t('لا توجد خطة تمارين', 'No Workout Plan')}</h3>
           <p>{t('لم يتم إنشاء خطة تمارين لهذا الشهر بعد', 'No workout plan has been created for this month yet')}</p>
         </div>
@@ -226,9 +226,9 @@ const WorkoutTab = () => {
           className="workout-pdf-btn"
           onClick={handleViewPdf}
         >
-          <FaFilePdf />
+          <FileDown />
           <span>{t('عرض PDF', 'View PDF')}</span>
-          <FaDownload />
+          <Download />
         </button>
       </div>
 

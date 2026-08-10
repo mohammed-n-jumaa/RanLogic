@@ -1,6 +1,5 @@
+import { Check, X } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-
 const FeaturesComparison = ({ plans }) => {
   const allFeatures = [
     {
@@ -97,8 +96,8 @@ const FeaturesComparison = ({ plans }) => {
   ];
 
   const renderCell = (value) => {
-    if (value === true) return <FaCheck className="check-icon" />;
-    if (value === false) return <FaTimes className="times-icon" />;
+    if (value === true) return <Check className="check-icon" />;
+    if (value === false) return <X className="times-icon" />;
     return <span className="feature-value">{value}</span>;
   };
 

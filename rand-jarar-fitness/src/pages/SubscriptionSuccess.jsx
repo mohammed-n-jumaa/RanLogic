@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaArrowRight, FaTimes } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/layout/Header/Header';
 import { useLanguage } from '../contexts/LanguageContext';
 import subscriptionApi from '../api/subscriptionApi';
 import authApi from '../api/authApi'; 
 import './SubscriptionSuccess.scss';
+import { CheckCircle, ArrowRight, X } from 'lucide-react';
 
 const SubscriptionSuccess = () => {
   const navigate = useNavigate();
@@ -158,7 +158,7 @@ const SubscriptionSuccess = () => {
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               >
-                <FaCheckCircle />
+                <CheckCircle />
               </motion.div>
 
               <h2>{isArabic ? 'تم الدفع بنجاح! 🎉' : 'Payment Successful! 🎉'}</h2>
@@ -214,7 +214,7 @@ const SubscriptionSuccess = () => {
                     <div className="detail-item status-item">
                       <span className="label">{isArabic ? 'الحالة:' : 'Status:'}</span>
                       <span className="value status-active">
-                        <FaCheckCircle /> {isArabic ? 'نشط' : 'Active'}
+                        <CheckCircle /> {isArabic ? 'نشط' : 'Active'}
                       </span>
                     </div>
                   </div>
@@ -238,7 +238,7 @@ const SubscriptionSuccess = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   {isArabic ? 'انتقل إلى الملف الشخصي الآن' : 'Go to Profile Now'}
-                  <FaArrowRight />
+                  <ArrowRight />
                 </motion.button>
 
                 <motion.button
@@ -263,7 +263,7 @@ const SubscriptionSuccess = () => {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="error-icon">
-                <FaTimes />
+                <X />
               </div>
 
               <h2>{isArabic ? 'حدث خطأ في الدفع' : 'Payment Error'}</h2>

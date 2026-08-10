@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronDown } from 'react-icons/fa';
 import ExercisesList from './ExercisesList';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { ChevronDown } from 'lucide-react';
 
 const DayCard = ({ day, dayIndex, isExpanded, onToggle, onToggleExercise }) => {
   const { t } = useProfileLanguage();
@@ -24,7 +25,7 @@ const DayCard = ({ day, dayIndex, isExpanded, onToggle, onToggleExercise }) => {
           {!isRestDay ? (
             <>
               <span className="exercise-count">{day.exercises.length} {t('تمارين', 'exercises')}</span>
-              <FaChevronDown
+              <ChevronDown
                 className="expand-icon"
                 style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
               />
@@ -48,4 +49,4 @@ const DayCard = ({ day, dayIndex, isExpanded, onToggle, onToggleExercise }) => {
   );
 };
 
-export default DayCard;
+export default memo(DayCard);

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaChevronDown, FaQuestionCircle, FaPaperPlane, FaCheckCircle, FaSearch } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { useLanguage } from '../../contexts/LanguageContext';
 import faqApi from '../../api/faqApi';
 import SEO from "../common/SEO/SEO";
 import './FAQ.scss';
+import { ChevronDown, HelpCircle, Send, CheckCircle, Search } from 'lucide-react';
 
 const FAQ = () => {
   const [faqData, setFaqData] = useState(null);
@@ -123,7 +123,7 @@ const FAQ = () => {
           ]}
         />
         <div className="faq-loading">
-          <FaQuestionCircle className="loading-icon" />
+          <HelpCircle className="loading-icon" />
           <p>{isArabic ? 'جاري تحميل الأسئلة الشائعة...' : 'Loading FAQ...'}</p>
         </div>
       </div>
@@ -200,7 +200,7 @@ const FAQ = () => {
           animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
-          <FaQuestionCircle />
+          <HelpCircle />
         </motion.div>
 
         <h1 className="faq-title">
@@ -221,7 +221,7 @@ const FAQ = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <FaSearch className="search-left-icon" />
+          <Search className="search-left-icon" />
           <input
             type="text"
             placeholder={isArabic ? 'ابحث عن إجابات...' : 'Search for answers...'}
@@ -229,7 +229,7 @@ const FAQ = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             dir={isArabic ? 'rtl' : 'ltr'}
           />
-          <FaQuestionCircle className="search-icon" />
+          <HelpCircle className="search-icon" />
         </motion.div>
       </motion.div>
 
@@ -314,7 +314,7 @@ const FAQ = () => {
                           animate={{ rotate: activeQuestion === faq.id ? 180 : 0 }}
                           transition={{ duration: 0.3 }}
                         >
-                          <FaChevronDown />
+                          <ChevronDown />
                         </motion.div>
                       </div>
 
@@ -328,7 +328,7 @@ const FAQ = () => {
                             transition={{ duration: 0.3 }}
                           >
                             <div className="answer-content">
-                              <FaCheckCircle className="check-icon" />
+                              <CheckCircle className="check-icon" />
                               <p>{faq.answer}</p>
                             </div>
                           </motion.div>
@@ -406,7 +406,7 @@ const FAQ = () => {
               whileTap={{ scale: 0.98 }}
               disabled={formSubmitted}
             >
-              <FaPaperPlane />
+              <Send />
               {formSubmitted
                 ? isArabic
                   ? 'جاري الإرسال...'

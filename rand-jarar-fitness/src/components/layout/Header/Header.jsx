@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaUser, FaGlobe, FaSpinner, FaSignOutAlt, FaUserCircle, FaCrown } from 'react-icons/fa';
 import Auth from '../../../features/Auth/Auth';
 import { useLanguage } from '../../../contexts/LanguageContext';
 import authApi from '../../../api/authApi';
 import logoApi from '../../../api/logoApi';
+
 import './Header.scss';
+import { User, Globe, Loader2, LogOut, CircleUser, Crown } from 'lucide-react';
 
 const Header = () => {
   const [scrolled, setScrolled]               = useState(false);
@@ -14,9 +15,7 @@ const Header = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [showAuth, setShowAuth]               = useState(false);
   const [user, setUser]                       = useState(null);
-  const [logoData, setLogoData]               = useState(null);
-  const [logoLoading, setLogoLoading]         = useState(true);
-  const [logoError, setLogoError]             = useState(null);
+  const [logoUrl, setLogoUrl]                 = useState('/Logo.webp');
   const [userLoading, setUserLoading]         = useState(true);
 
   const { currentLang, changeLanguage, isLoading: languageLoading } = useLanguage();
@@ -43,7 +42,6 @@ const Header = () => {
       !user.avatar_url.includes('default-avatar');
 
     if (hasCustomAvatar) {
-      console.log('Using custom avatar:', user.avatar_url);
       return user.avatar_url;
     }
 
@@ -82,15 +80,12 @@ const Header = () => {
 
   const fetchActiveLogo = async () => {
     try {
-      setLogoLoading(true);
-      setLogoError(null);
       const response = await logoApi.getActiveLogo();
-      if (response.success && response.data) setLogoData(response.data);
+      if (response.success && response.data?.file_url) {
+        setLogoUrl(response.data.file_url);
+      }
     } catch (err) {
-      console.error('Error fetching logo:', err);
-      setLogoError('فشل في تحميل الشعار');
-    } finally {
-      setLogoLoading(false);
+      // فشل؟ خلّي اللوجو المحلي — ما في مشكلة
     }
   };
 
@@ -197,36 +192,16 @@ const Header = () => {
               transition={{ type: 'spring', stiffness: 300 }}
               style={{ width: '180px', height: '60px', position: 'relative' }}
             >
-              {logoLoading ? (
-                <div className="logo-loading" style={{ width: '180px', height: '60px' }}>
-                  <FaSpinner className="spinner" />
-                </div>
-              ) : logoError ? (
-                <div className="logo-error" style={{ width: '180px', height: '60px' }}>
-                  <span className="error-text">Logo</span>
-                </div>
-              ) : logoData ? (
-                <img
-                  src={logoData.file_url}
-
-                  alt={currentLang === 'ar' ? 'شعار فريق RanLogic للتدريب والتغذية' : 'RanLogic Fitness Team Logo'}
-                  className="logo-image"
-                  width="180"
-                  height="60"
-                  loading="eager"
-                  style={{ width: '180px', height: '60px', objectFit: 'contain', aspectRatio: '180/60' }}
-                  onError={(e) => {
-                    console.error('Failed to load logo image');
-                    e.target.style.display = 'none';
-                    e.target.parentElement.innerHTML =
-                      '<span class="fallback-logo" style="width:180px;height:60px;display:flex;align-items:center;justify-content:center;">RanLogic</span>';
-                  }}
-                />
-              ) : (
-                <div className="logo-placeholder" style={{ width: '180px', height: '60px' }}>
-                  <span className="placeholder-text">RanLogic</span>
-                </div>
-              )}
+              <img
+                src={logoUrl}
+                alt={currentLang === 'ar' ? 'شعار فريق RanLogic للتدريب والتغذية' : 'RanLogic Fitness Team Logo'}
+                className="logo-image"
+                width="180"
+                height="60"
+                loading="eager"
+                style={{ width: '180px', height: '60px', objectFit: 'contain' }}
+                onError={(e) => { e.target.src = '/Logo.webp'; }}
+              />
             </motion.div>
           </Link>
 
@@ -277,7 +252,7 @@ const Header = () => {
               disabled={languageLoading}
               aria-label={currentLang === 'ar' ? 'تغيير اللغة' : 'Change language'}
             >
-              {languageLoading ? <FaSpinner className="spinner" /> : <FaGlobe className="language-icon" />}
+              {languageLoading ? <Loader2 className="spinner" /> : <Globe className="language-icon" />}
             </motion.button>
           </div>
 
@@ -291,10 +266,10 @@ const Header = () => {
               aria-label={currentLang === 'ar' ? 'تغيير اللغة' : 'Change language'}
             >
               {languageLoading ? (
-                <FaSpinner className="spinner" />
+                <Loader2 className="spinner" />
               ) : (
                 <>
-                  <FaGlobe className="language-icon" />
+                  <Globe className="language-icon" />
                   <span className="language-text">{currentLang === 'en' ? 'AR' : 'EN'}</span>
                 </>
               )}
@@ -303,7 +278,7 @@ const Header = () => {
             {/* User Area */}
             {userLoading ? (
               <div className="user-loading desktop-only">
-                <FaSpinner className="spinner" />
+                <Loader2 className="spinner" />
               </div>
             ) : user ? (
               <div className="user-dropdown-container desktop-only" ref={userDropdownRef}>
@@ -327,7 +302,7 @@ const Header = () => {
                   />
                   {user.has_active_subscription && (
                     <span className="premium-badge" title="Premium User">
-                      <FaCrown />
+                      <Crown fill="currentColor" />
                     </span>
                   )}
                 </motion.button>
@@ -346,7 +321,7 @@ const Header = () => {
                         <div className="user-email">{user.email}</div>
                         {user.has_active_subscription && (
                           <div className="user-status premium">
-                            <FaCrown /> {currentLang === 'ar' ? 'مشترك مميز' : 'Premium Member'}
+                            <Crown fill="currentColor" /> {currentLang === 'ar' ? 'مشترك مميز' : 'Premium Member'}
                           </div>
                         )}
                       </div>
@@ -360,7 +335,7 @@ const Header = () => {
                           setUserDropdownOpen(false);
                         }}
                       >
-                        <FaUserCircle />
+                        <CircleUser />
                         <span>
                           {user.has_active_subscription
                             ? (currentLang === 'ar' ? 'الملف الشخصي' : 'Profile')
@@ -369,7 +344,7 @@ const Header = () => {
                       </button>
 
                       <button className="dropdown-item" onClick={handleLogout}>
-                        <FaSignOutAlt />
+                        <LogOut />
                         <span>{currentLang === 'ar' ? 'تسجيل خروج' : 'Logout'}</span>
                       </button>
                     </motion.div>
@@ -383,7 +358,7 @@ const Header = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FaUser className="login-icon" />
+                <User className="login-icon" />
                 {currentLang === 'ar' ? 'تسجيل دخول' : 'Login'}
               </motion.button>
             )}
@@ -462,7 +437,7 @@ const Header = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FaUser className="login-icon" />
+              <User className="login-icon" />
               {user.has_active_subscription
                 ? (currentLang === 'ar' ? 'الملف الشخصي' : 'My Profile')
                 : (currentLang === 'ar' ? 'اشترك الآن'   : 'Subscribe Now')}
@@ -474,7 +449,7 @@ const Header = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FaSignOutAlt className="logout-icon" />
+              <LogOut className="logout-icon" />
               {currentLang === 'ar' ? 'تسجيل خروج' : 'Logout'}
             </motion.button>
           </>
@@ -486,7 +461,7 @@ const Header = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FaUser className="login-icon" />
+              <User className="login-icon" />
               {currentLang === 'ar' ? 'تسجيل دخول' : 'Login'}
             </motion.button>
 

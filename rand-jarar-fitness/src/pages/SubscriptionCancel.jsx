@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaTimes, FaArrowRight, FaUndo } from 'react-icons/fa';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Header from '../components/layout/Header/Header';
 import { useLanguage } from '../contexts/LanguageContext';
 import './SubscriptionCancel.scss';
+import { X, ArrowRight, Undo2 } from 'lucide-react';
 
 const SubscriptionCancel = () => {
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const SubscriptionCancel = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
             >
-              <FaTimes />
+              <X />
             </motion.div>
             
             <h2>{isArabic ? 'تم إلغاء عملية الدفع' : 'Payment Cancelled'}</h2>
@@ -61,7 +61,7 @@ const SubscriptionCancel = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FaUndo />
+                <Undo2 />
                 {isArabic ? 'إعادة المحاولة' : 'Try Again'}
               </motion.button>
               
@@ -72,7 +72,7 @@ const SubscriptionCancel = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 {isArabic ? 'العودة للصفحة الرئيسية' : 'Back to Home'}
-                <FaArrowRight />
+                <ArrowRight />
               </motion.button>
             </div>
 

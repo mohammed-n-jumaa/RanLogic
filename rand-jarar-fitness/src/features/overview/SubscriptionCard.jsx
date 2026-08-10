@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { motion } from 'framer-motion';
-import { FaDollarSign, FaCheckCircle } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { DollarSign, CheckCircle } from 'lucide-react';
 
 const SubscriptionCard = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -30,7 +31,7 @@ const SubscriptionCard = ({ userData, delay }) => {
     >
       <div className="card-header">
         <h3>{t('تفاصيل الاشتراك', 'Subscription Details')}</h3>
-        <FaDollarSign className="header-icon" />
+        <DollarSign fill="currentColor" className="header-icon" />
       </div>
 
       <div className="subscription-details">
@@ -49,7 +50,7 @@ const SubscriptionCard = ({ userData, delay }) => {
         <div className="detail-row status">
           <span className="detail-label">{t('حالة الاشتراك', 'Subscription Status')}</span>
           <span className={`payment-status ${userData.has_active_subscription ? 'paid' : 'expired'}`}>
-            <FaCheckCircle /> {userData.has_active_subscription ? t('نشط', 'Active') : t('منتهي', 'Expired')}
+            <CheckCircle /> {userData.has_active_subscription ? t('نشط', 'Active') : t('منتهي', 'Expired')}
           </span>
         </div>
       </div>
@@ -57,4 +58,4 @@ const SubscriptionCard = ({ userData, delay }) => {
   );
 };
 
-export default SubscriptionCard;
+export default memo(SubscriptionCard);

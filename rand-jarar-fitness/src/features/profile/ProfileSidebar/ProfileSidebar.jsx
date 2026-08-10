@@ -1,17 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  FaHome, 
-  FaSignOutAlt, 
-  FaCrown,
-  FaSpinner,
-  FaTimes
-} from 'react-icons/fa';
 import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext'; // ✅ مثل MealCard
 import authApi from '../../../api/authApi';
 import logoApi from '../../../api/logoApi';
 import './ProfileSidebar.scss';
+import { Home, LogOut, Crown, Loader2, X } from 'lucide-react';
 
 const ProfileSidebar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -118,7 +112,7 @@ const ProfileSidebar = () => {
   if (userLoading) {
     return (
       <div className="floating-button loading" aria-label={t('جاري التحميل...', 'Loading...')}>
-        <FaSpinner className="spinner" />
+        <Loader2 className="spinner" />
       </div>
     );
   }
@@ -147,7 +141,7 @@ const ProfileSidebar = () => {
         
         {user?.has_active_subscription && (
           <span className="premium-badge" title={t('مشترك مميز', 'Premium Member')}>
-            <FaCrown />
+            <Crown fill="currentColor" />
           </span>
         )}
       </motion.button>
@@ -183,7 +177,7 @@ const ProfileSidebar = () => {
               aria-label={t('إغلاق', 'Close')}
               title={t('إغلاق', 'Close')}
             >
-              <FaTimes />
+              <X />
             </button>
 
             {/* Logo */}
@@ -195,7 +189,7 @@ const ProfileSidebar = () => {
               >
                 {logoLoading ? (
                   <div className="logo-loading">
-                    <FaSpinner className="spinner" />
+                    <Loader2 className="spinner" />
                   </div>
                 ) : logoData ? (
                   <img 
@@ -225,7 +219,7 @@ const ProfileSidebar = () => {
                 
                 {user?.has_active_subscription && (
                   <span className="premium-badge-large" title={t('مشترك مميز', 'Premium Member')}>
-                    <FaCrown />
+                    <Crown fill="currentColor" />
                   </span>
                 )}
               </div>
@@ -234,7 +228,7 @@ const ProfileSidebar = () => {
               
               {user?.has_active_subscription && (
                 <span className="premium-text">
-                  <FaCrown /> {t('مشترك مميز', 'Premium Member')}
+                  <Crown fill="currentColor" /> {t('مشترك مميز', 'Premium Member')}
                 </span>
               )}
             </div>
@@ -248,7 +242,7 @@ const ProfileSidebar = () => {
                 className="sidebar-menu-item"
                 onClick={handleMenuItemClick}
               >
-                <FaHome />
+                <Home />
                 <span>{t('الصفحة الرئيسية', 'Home Page')}</span>
               </Link>
 
@@ -256,7 +250,7 @@ const ProfileSidebar = () => {
                 className="sidebar-menu-item logout"
                 onClick={handleLogout}
               >
-                <FaSignOutAlt />
+                <LogOut />
                 <span>{t('تسجيل خروج', 'Logout')}</span>
               </button>
             </div>

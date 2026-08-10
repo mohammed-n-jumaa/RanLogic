@@ -1,11 +1,10 @@
-import { FaDumbbell, FaFire, FaCrown } from 'react-icons/fa';
-
+import { Dumbbell, Flame, Crown } from 'lucide-react';
 export const pricingPlans = [
   {
     id: 'starter',
     name: 'البرنامج الأساسي',
     tagline: 'للبداية المثالية',
-    icon: FaDumbbell,
+    icon: Dumbbell,
     monthlyPrice: 99,
     yearlyPrice: 950, // خصم ~20%
     duration: 'شهر واحد',
@@ -28,7 +27,7 @@ export const pricingPlans = [
     id: 'premium',
     name: 'برنامج التحول الذهبي',
     tagline: 'الأكثر شعبية',
-    icon: FaFire,
+    icon: Flame,
     monthlyPrice: 299,
     yearlyPrice: 2870, // خصم ~20%
     duration: '3 أشهر',
@@ -51,7 +50,7 @@ export const pricingPlans = [
     id: 'elite',
     name: 'البرنامج الماسي',
     tagline: 'التجربة الكاملة',
-    icon: FaCrown,
+    icon: Crown,
     monthlyPrice: 599,
     yearlyPrice: 5750, // خصم ~20%
     duration: '6 أشهر',

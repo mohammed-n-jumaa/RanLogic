@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaHistory, FaPaypal, FaCheckCircle, FaCalendarAlt, FaUniversity } from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import subscriptionApi from '../../api/subscriptionApi';
+import { History, CheckCircle, Calendar, Landmark } from 'lucide-react';
+import { FaPaypal } from '@/components/common/SocialIcons';
 
 const PaymentHistory = ({ userData, delay }) => {
   const { t } = useProfileLanguage();
@@ -44,7 +45,7 @@ const PaymentHistory = ({ userData, delay }) => {
 };
 
   const getPaymentMethodIcon = (method) => {
-    return method === 'paypal' ? <FaPaypal /> : <FaUniversity />;
+    return method === 'paypal' ? <FaPaypal /> : <Landmark />;
   };
 
   const getPaymentMethodLabel = (method) => {
@@ -62,7 +63,7 @@ const PaymentHistory = ({ userData, delay }) => {
     >
       <div className="card-header">
         <h3>{t('سجل المدفوعات', 'Payment History')}</h3>
-        <FaHistory className="header-icon" />
+        <History className="header-icon" />
       </div>
 
       <div className="history-list">
@@ -88,7 +89,7 @@ const PaymentHistory = ({ userData, delay }) => {
                 <h5>{payment.plan_name || t('اشتراك', 'Subscription')}</h5>
                 <div className="payment-meta">
                   <span>
-                    <FaCalendarAlt /> {formatDate(payment.created_at)}
+                    <Calendar /> {formatDate(payment.created_at)}
                   </span>
                   <span>
                     {getPaymentMethodLabel(payment.payment_method)}
@@ -99,14 +100,14 @@ const PaymentHistory = ({ userData, delay }) => {
               <div className="payment-amount-status">
                 <span className="amount">${payment.amount}</span>
                 <span className={`status ${payment.status}`}>
-                  <FaCheckCircle /> {payment.status === 'approved' ? t('مكتمل', 'Completed') : t('قيد المراجعة', 'Pending')}
+                  <CheckCircle /> {payment.status === 'approved' ? t('مكتمل', 'Completed') : t('قيد المراجعة', 'Pending')}
                 </span>
               </div>
             </motion.div>
           ))
         ) : (
           <div className="no-history">
-            <FaHistory />
+            <History />
             <p>{t('لا يوجد سجل دفعات', 'No payment history')}</p>
           </div>
         )}

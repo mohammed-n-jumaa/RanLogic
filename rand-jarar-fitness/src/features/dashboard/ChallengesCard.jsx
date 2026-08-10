@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FaBullseye, FaPlus, FaCheck } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import dashboardApi from '../../api/dashboardApi';
+import { Target, Plus, Check } from 'lucide-react';
 
 const ChallengesCard = ({ challenges: initialChallenges }) => {
   const { t, currentLang } = useProfileLanguage();
@@ -39,7 +39,7 @@ const ChallengesCard = ({ challenges: initialChallenges }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaBullseye />
+        <Target />
         <span>{t('تحديات الشهر', 'Monthly challenges')}</span>
       </div>
 
@@ -57,7 +57,7 @@ const ChallengesCard = ({ challenges: initialChallenges }) => {
                 className="challenge-icon"
                 style={{ background: ch.color + '22', color: ch.color }}
               >
-                {isDone ? <FaCheck /> : <FaBullseye />}
+                {isDone ? <Check /> : <Target />}
               </div>
 
               <div className="challenge-info">
@@ -83,7 +83,7 @@ const ChallengesCard = ({ challenges: initialChallenges }) => {
                     onClick={() => handleJoin(ch.id)}
                     disabled={isLoading}
                   >
-                    {isLoading ? '...' : <><FaPlus /> {t('انضم', 'Join')}</>}
+                    {isLoading ? '...' : <><Plus /> {t('انضم', 'Join')}</>}
                   </button>
                 ) : !isDone ? (
                   <button
@@ -92,7 +92,7 @@ const ChallengesCard = ({ challenges: initialChallenges }) => {
                     disabled={isLoading}
                     style={{ borderColor: ch.color, color: ch.color }}
                   >
-                    {isLoading ? '...' : <><FaCheck /> {t('أنجزت اليوم', 'Done today')}</>}
+                    {isLoading ? '...' : <><Check /> {t('أنجزت اليوم', 'Done today')}</>}
                   </button>
                 ) : (
                   <span className="challenge-complete">
@@ -108,4 +108,4 @@ const ChallengesCard = ({ challenges: initialChallenges }) => {
   );
 };
 
-export default ChallengesCard;
+export default memo(ChallengesCard);

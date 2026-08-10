@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { FaChartLine } from 'react-icons/fa';
+import { memo, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { LineChart } from 'lucide-react';
 
 const WeightChart = ({ data }) => {
   const { t } = useProfileLanguage();
@@ -10,7 +10,7 @@ const WeightChart = ({ data }) => {
     return (
       <div className="dash-card">
         <div className="dash-card-title">
-          <FaChartLine />
+          <LineChart />
           <span>{t('تتبع الوزن', 'Weight tracking')}</span>
         </div>
         <p className="dash-empty">{t('لا توجد بيانات بعد — حدّث وزنك من البروفايل', 'No data yet — update your weight in profile')}</p>
@@ -57,7 +57,7 @@ const WeightChart = ({ data }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title">
-        <FaChartLine />
+        <LineChart />
         <span>{t('تتبع الوزن', 'Weight tracking')}</span>
       </div>
 
@@ -142,4 +142,4 @@ const WeightChart = ({ data }) => {
   );
 };
 
-export default WeightChart;
+export default memo(WeightChart);

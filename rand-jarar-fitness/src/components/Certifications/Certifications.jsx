@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
-import certificationApi from '../../api/certificationApi';
+import certificationApi, { getDefaultCertifications } from '../../api/certificationApi';
 import './Certifications.scss';
+import { Loader2 } from 'lucide-react';
 
 // ── أيقونات SVG ───────────────────────────────────────────────────────────────
 const getIconSVG = (icon) => {
@@ -251,10 +251,10 @@ const CheckIcon = () => (
 
 // ── Certifications ────────────────────────────────────────────────────────────
 const Certifications = () => {
-  const [certifications, setCertifications] = useState([]);
-  const [loading, setLoading]               = useState(true);
-  const [error, setError]                   = useState(null);
   const { currentLang, isArabic }           = useLanguage();
+  const [certifications, setCertifications] = useState(() => getDefaultCertifications(currentLang).data || []);
+  const [loading, setLoading]               = useState(false);
+  const [error, setError]                   = useState(null);
 
   useEffect(() => { fetchCertifications(); }, [currentLang]);
 
@@ -287,7 +287,7 @@ const Certifications = () => {
     return (
       <section className="certifications" aria-label="Certified Credentials">
         <div className="certifications-loading">
-          <FaSpinner className="spinner" />
+          <Loader2 className="spinner" />
           <p>{isArabic ? 'جاري تحميل الشهادات...' : 'Loading certifications...'}</p>
         </div>
       </section>

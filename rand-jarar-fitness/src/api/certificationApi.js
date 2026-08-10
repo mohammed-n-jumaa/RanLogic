@@ -137,4 +137,5 @@ const getDefaultCertifications = (language = 'ar') => {
   return { success: true, data };
 };
 
+export { getDefaultCertifications };
 export default certificationApi;

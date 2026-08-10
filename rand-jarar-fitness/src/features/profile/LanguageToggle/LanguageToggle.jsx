@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
-import { FaGlobe } from 'react-icons/fa';
 import { useProfileLanguage } from '../../../contexts/ProfileLanguageContext';
 import './LanguageToggle.scss';
+import { Globe } from 'lucide-react';
 
 const LanguageToggle = () => {
   const { currentLang, toggleLanguage } = useProfileLanguage();
@@ -16,7 +16,7 @@ const LanguageToggle = () => {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.3 }}
     >
-      <FaGlobe className="globe-icon" />
+      <Globe className="globe-icon" />
       <span className="lang-text">{currentLang === 'ar' ? 'EN' : 'AR'}</span>
     </motion.button>
   );

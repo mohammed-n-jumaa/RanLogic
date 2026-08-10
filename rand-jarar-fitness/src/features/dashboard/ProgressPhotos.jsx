@@ -1,7 +1,7 @@
-import { Fragment, useRef, useState } from 'react';
-import { FaCamera, FaArrowLeft, FaShieldAlt, FaCloudUploadAlt } from 'react-icons/fa';
+import { memo, Fragment, useRef, useState } from 'react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import dashboardApi from '../../api/dashboardApi';
+import { Camera, ArrowLeft, Shield, CloudUpload } from 'lucide-react';
 
 const ProgressPhotos = ({ photos, onRefresh, hasConsent }) => {
   const { t, currentLang } = useProfileLanguage();
@@ -49,20 +49,20 @@ const ProgressPhotos = ({ photos, onRefresh, hasConsent }) => {
   return (
     <div className="dash-card">
       <div className="dash-card-title" dir={dir}>
-        <FaCamera />
+        <Camera />
         <span>{t('صور التقدم', 'Progress photos')}</span>
       </div>
 
       <div className="photos-row">
         {photos.length === 0 ? (
           <div className="photos-empty">
-            <FaCamera style={{ fontSize: 28, opacity: 0.3 }} />
+            <Camera style={{ fontSize: 28, opacity: 0.3 }} />
             <p>{t('لا توجد صور بعد', 'No photos yet')}</p>
           </div>
         ) : (
           photos.map((photo, i) => (
             <Fragment key={photo.id || i}>
-              {i > 0 && <div className="photo-arrow"><FaArrowLeft /></div>}
+              {i > 0 && <div className="photo-arrow"><ArrowLeft /></div>}
               <div className="photo-item">
                 <img src={photo.photo_url} alt="" loading="lazy" />
                 <div className="photo-label">
@@ -79,7 +79,7 @@ const ProgressPhotos = ({ photos, onRefresh, hasConsent }) => {
         <div className="upload-left">
           {!pendingFile ? (
             <button className="upload-pick-btn" onClick={() => fileRef.current?.click()}>
-              <FaCloudUploadAlt />
+              <CloudUpload />
               <span>{t('اختر صورة جديدة', 'Choose new photo')}</span>
             </button>
           ) : (
@@ -110,7 +110,7 @@ const ProgressPhotos = ({ photos, onRefresh, hasConsent }) => {
               disabled={savingConsent}
             />
             <span className="consent-check" />
-            <FaShieldAlt className="consent-shield" />
+            <Shield className="consent-shield" />
             <span className="consent-msg">
               {t(
                 'أوافق على استخدام صوري لأغراض تسويقية مع الحفاظ على خصوصيتي.',
@@ -127,4 +127,4 @@ const ProgressPhotos = ({ photos, onRefresh, hasConsent }) => {
   );
 };
 
-export default ProgressPhotos;
+export default memo(ProgressPhotos);

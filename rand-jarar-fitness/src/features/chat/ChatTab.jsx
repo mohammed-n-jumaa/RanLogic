@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import ChatContainer from './ChatContainer';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import chatApi from '../../api/chatApi';
 import { getEcho } from '../../lib/echo';
 import { throttle } from '@/utils/debounce';
+import { Loader2 } from 'lucide-react';
 
 const ChatTab = () => {
   const { t } = useProfileLanguage();
@@ -236,7 +236,7 @@ const handleSendMessage = throttle(async (messageText, imageFile = null) => {
     return (
       <div className="chat-tab loading">
         <div className="loading-container">
-          <FaSpinner className="spinner" />
+          <Loader2 className="spinner" />
           <p>{t('جاري تحميل المحادثة...', 'Loading conversation...')}</p>
         </div>
       </div>

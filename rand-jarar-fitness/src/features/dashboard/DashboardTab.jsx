@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FaUser, FaRulerVertical, FaWeight, FaHeartbeat, FaVenusMars,
-  FaBullseye, FaHome, FaBirthdayCake, FaCalendarAlt,
-  FaCheckCircle, FaTimesCircle, FaShareAlt
-} from 'react-icons/fa';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import dashboardApi from '../../api/dashboardApi';
 import WeightChart from './WeightChart';
@@ -20,6 +15,7 @@ import WeeklyReport from './WeeklyReport';
 import ShareCard from './ShareCard';
 import QuickStats from './QuickStats';
 import "./Dashboard.scss";
+import { User, RulerDimensionLine, Scale, HeartPulse, Users, Target, Home, Cake, Calendar, CheckCircle, XCircle, Share2 } from 'lucide-react';
 
 const goalLabels = {
   'weight-loss': { ar: 'إنقاص الوزن', en: 'Weight Loss' },
@@ -99,7 +95,7 @@ const DashboardTab = () => {
       <div className="dash-header-row">
         <h2 className="dash-page-title">{t('لوحة التحكم', 'Dashboard')}</h2>
         <button className="dash-share-btn" onClick={() => setShowShare(true)}>
-          <FaShareAlt /> {t('شارك تقدمك', 'Share progress')}
+          <Share2 /> {t('شارك تقدمك', 'Share progress')}
         </button>
       </div>
 
@@ -124,8 +120,8 @@ const DashboardTab = () => {
               <div className="strip-pills">
                 <span className={`strip-pill ${sub.active ? 'active' : 'inactive'}`}>
                   {sub.active
-                    ? <><FaCheckCircle /> {t('نشط', 'Active')}</>
-                    : <><FaTimesCircle /> {t('منتهي', 'Expired')}</>
+                    ? <><CheckCircle /> {t('نشط', 'Active')}</>
+                    : <><XCircle /> {t('منتهي', 'Expired')}</>
                   }
                 </span>
               </div>
@@ -133,13 +129,13 @@ const DashboardTab = () => {
 
             <div className="strip-dates">
               <div className="strip-date-item">
-                <FaCalendarAlt />
+                <Calendar />
                 <span className="strip-date-label">{t('البدء', 'Start')}</span>
                 <span className="strip-date-value">{formatDate(sub.start_date)}</span>
               </div>
               <div className="strip-date-divider" />
               <div className="strip-date-item">
-                <FaCalendarAlt />
+                <Calendar />
                 <span className="strip-date-label">{t('الانتهاء', 'End')}</span>
                 <span className="strip-date-value">{formatDate(sub.end_date)}</span>
               </div>
@@ -147,16 +143,16 @@ const DashboardTab = () => {
 
             <div className="strip-stats">
               {[
-                { icon: <FaRulerVertical />, label: t('الطول', 'Height'), value: user.height ? `${user.height}` : '--', color: '#534AB7' },
-                { icon: <FaWeight />, label: t('الوزن', 'Weight'), value: user.weight ? `${user.weight}` : '--', color: '#993556' },
-                { icon: <FaUser />, label: t('الخصر', 'Waist'), value: user.waist ? `${user.waist}` : '--', color: '#0F6E56' },
+                { icon: <RulerDimensionLine />, label: t('الطول', 'Height'), value: user.height ? `${user.height}` : '--', color: '#534AB7' },
+                { icon: <Scale />, label: t('الوزن', 'Weight'), value: user.weight ? `${user.weight}` : '--', color: '#993556' },
+                { icon: <User />, label: t('الخصر', 'Waist'), value: user.waist ? `${user.waist}` : '--', color: '#0F6E56' },
                 ...(user.gender === 'female' && user.hips
-                  ? [{ icon: <FaUser />, label: t('الأرداف', 'Hips'), value: `${user.hips}`, color: '#8b5cf6' }]
+                  ? [{ icon: <User />, label: t('الأرداف', 'Hips'), value: `${user.hips}`, color: '#8b5cf6' }]
                   : []),
-                { icon: <FaVenusMars />, value: user.gender ? (genderLabels[user.gender]?.[currentLang] || user.gender) : '--', color: '#185FA5' },
-                { icon: <FaBirthdayCake />, value: user.age ? `${user.age} ${t('سنة', 'y')}` : '--', color: '#993C1D' },
+                { icon: <Users />, value: user.gender ? (genderLabels[user.gender]?.[currentLang] || user.gender) : '--', color: '#185FA5' },
+                { icon: <Cake fill="currentColor" />, value: user.age ? `${user.age} ${t('سنة', 'y')}` : '--', color: '#993C1D' },
                 ...(user.health_notes
-                  ? [{ icon: <FaHeartbeat />, value: user.health_notes, color: '#A32D2D' }]
+                  ? [{ icon: <HeartPulse />, value: user.health_notes, color: '#A32D2D' }]
                   : []),
               ].map((s, i) => (
                 <div key={i} className="strip-stat" style={{ color: s.color }}>

@@ -34,12 +34,17 @@ api.interceptors.response.use(
     
     if (error.response) {
       switch (error.response.status) {
-        case 401:
-          // إذا كان الخطأ 401 (غير مصرح) نقوم بتسجيل الخروج
-          localStorage.removeItem('auth_token');
-          // إعادة التوجيه إلى صفحة تسجيل الدخول فقط إذا لم يكن في صفحة auth
-          if (!window.location.pathname.includes('/auth')) {
-            window.location.href = '/auth';
+       case 401:
+          const url = error.config?.url || '';
+          const isAuthRequest = url.includes('/login') || url.includes('/register');
+          if (!isAuthRequest) {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            localStorage.removeItem('is_authenticated');
+            localStorage.removeItem('onesignal_id');
+            if (!window.location.pathname.includes('/auth')) {
+              window.location.href = '/';
+            }
           }
           break;
         case 403:

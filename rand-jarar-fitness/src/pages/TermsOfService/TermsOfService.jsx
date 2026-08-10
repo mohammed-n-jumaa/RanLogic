@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaFileContract } from 'react-icons/fa';
 import { useLanguage } from '../../contexts/LanguageContext';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../../components/common/SEO/SEO';
 import '../Legal/LegalPages.scss';
+import { FileText } from 'lucide-react';
 
 const TermsOfService = () => {
   const { isArabic, currentLang } = useLanguage();
@@ -150,7 +150,7 @@ const TermsOfService = () => {
               transition={{ duration: 0.7 }}
             >
               <div className="hero-badge">
-                <FaFileContract />
+                <FileText />
                 <span>{t.badge}</span>
               </div>
               <h1 className="hero-title">{t.title}</h1>

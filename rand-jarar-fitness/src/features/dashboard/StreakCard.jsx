@@ -1,4 +1,5 @@
-import { FaFire, FaCheck, FaTimes } from 'react-icons/fa';
+import { memo } from "react";
+import { Flame, Check, X } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 
 const dayNames = {
@@ -14,7 +15,7 @@ const StreakCard = ({ streak }) => {
     <div className="dash-card">
       <div className="dash-card-header">
         <div className="dash-card-title">
-          <FaFire />
+          <Flame fill="currentColor" />
           <span>{t('الالتزام الأسبوعي', 'Weekly streak')}</span>
         </div>
         <span className="streak-count">{streak.count} {t('يوم', 'days')}</span>
@@ -23,8 +24,8 @@ const StreakCard = ({ streak }) => {
       <div className="streak-grid">
         {streak.days.map((day, i) => (
           <div key={i} className={`streak-day ${day.status}`}>
-            {day.status === 'done' && <FaCheck />}
-            {day.status === 'missed' && <FaTimes />}
+            {day.status === 'done' && <Check />}
+            {day.status === 'missed' && <X />}
             {day.status === 'today' && t('اليوم', 'Today')}
           </div>
         ))}
@@ -36,4 +37,4 @@ const StreakCard = ({ streak }) => {
   );
 };
 
-export default StreakCard;
+export default memo(StreakCard);

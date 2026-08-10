@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaInstagram, FaYoutube, FaTiktok } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
-import { useLanguage } from '../../contexts/LanguageContext';
+import usePageTitle from '@/hooks/usePageTitle';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
 import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
@@ -12,6 +13,8 @@ import '../Legal/LegalPages.scss';
 
 const ContactPage = () => {
   const { isArabic, currentLang } = useLanguage();
+  usePageTitle('تواصل معنا', 'Contact Us', currentLang);
+  
 
   const content = {
     ar: {

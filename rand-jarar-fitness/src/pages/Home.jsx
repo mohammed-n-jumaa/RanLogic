@@ -9,12 +9,14 @@ import Footer from '../components/layout/Footer/Footer';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../components/common/SEO/SEO';
 import HiddenSEO from '../components/common/SEO/HiddenSEO';
-import { useLanguage } from '../contexts/LanguageContext';
 import { breadcrumbs, structuredData, siteConfig } from '../utils/seoConfig';
+import usePageTitle from '@/hooks/usePageTitle';
+import { useLanguage } from '@/contexts/LanguageContext';
 import './Home.scss';
 
 const Home = () => {
   const { currentLang, isArabic } = useLanguage();
+  usePageTitle('الرئيسية', 'Home', currentLang);
 
   const [hasCertifications, setHasCertifications] = useState(true);
   const [hasAbout, setHasAbout] = useState(true);

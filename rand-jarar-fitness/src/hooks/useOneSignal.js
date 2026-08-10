@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import authApi from '../api/authApi';
+import api from '../api/index';
 
 const useOneSignal = () => {
   const didInitRef = useRef(false);
@@ -26,11 +27,9 @@ const useOneSignal = () => {
               const savedId = localStorage.getItem('onesignal_id');
               if (savedId === playerId) return;
 
-              import('../api/index.js').then(({ default: api }) => {
-                api.post('/fcm-token', { onesignal_id: playerId })
-                  .then(() => localStorage.setItem('onesignal_id', playerId))
-                  .catch(console.error);
-              });
+              api.post('/fcm-token', { onesignal_id: playerId })
+                .then(() => localStorage.setItem('onesignal_id', playerId))
+                .catch(() => {});
             }
           }, 2000);
         });

@@ -5,6 +5,7 @@ import ChatContainer from './ChatContainer';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import chatApi from '../../api/chatApi';
 import { getEcho } from '../../lib/echo';
+import { throttle } from '@/utils/debounce';
 
 const ChatTab = () => {
   const { t } = useProfileLanguage();
@@ -188,8 +189,8 @@ const ChatTab = () => {
     }, 1200);
   };
 
-  const handleSendMessage = async (messageText, imageFile = null) => {
-    if ((!messageText || !messageText.trim()) && !imageFile) return;
+const handleSendMessage = throttle(async (messageText, imageFile = null) => {
+      if ((!messageText || !messageText.trim()) && !imageFile) return;
 
     setSending(true);
 
@@ -226,10 +227,10 @@ const ChatTab = () => {
         confirmButtonText: t('حسناً', 'OK'),
         confirmButtonColor: '#FDB813',
       });
-    } finally {
+   } finally {
       setSending(false);
     }
-  };
+  }, 1000);
 
   if (loading) {
     return (

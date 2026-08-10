@@ -8,7 +8,7 @@ import {
 import Swal from 'sweetalert2';
 import BankTransferPayment from './BankTransferPayment';
 import subscriptionApi from '../../api/subscriptionApi';
-
+import { throttle } from '@/utils/debounce';
 
 const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currency }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -39,8 +39,8 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
   };
 
 
-  const handlePayPalPayment = async () => {
-    setIsProcessing(true);
+const handlePayPalPayment = throttle(async () => {
+      setIsProcessing(true);
     setStep('processing');
 
     try {
@@ -69,7 +69,7 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
         confirmButtonColor: '#FDB813',
       });
     }
-  };
+    }, 3000);
 
   const handleBankTransferSuccess = () => {
     setStep('success');

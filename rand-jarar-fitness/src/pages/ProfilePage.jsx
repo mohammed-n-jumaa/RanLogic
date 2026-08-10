@@ -20,11 +20,14 @@ import profileApi from '../api/profileApi';
 import authApi from '../api/authApi';
 import chatApi from '../api/chatApi';
 import Swal from 'sweetalert2';
+import usePageTitle from '@/hooks/usePageTitle';
+import { throttle } from '@/utils/debounce';
 import './Profile.scss';
 
 const ProfileContent = () => {
-  const navigate        = useNavigate();
+ const navigate = useNavigate();
   const { currentLang } = useLanguage();
+  usePageTitle('الملف الشخصي', 'My Profile', currentLang);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [userData, setUserData]   = useState(null);
   const [loading, setLoading]     = useState(true);
@@ -91,8 +94,8 @@ const ProfileContent = () => {
     }
   };
 
-const handleProfileUpdate = useCallback(async (updatedData) => {
-      try {
+const handleProfileUpdate = useCallback(throttle(async (updatedData) => {
+        try {
       const updatePayload = {
         name:           updatedData.name,
         email:          updatedData.email,
@@ -129,7 +132,7 @@ const handleProfileUpdate = useCallback(async (updatedData) => {
       console.error('Error in handleProfileUpdate:', error);
       throw error;
    }
-  }, []);
+  }, 2000), []);
 
   const sharedSEO = (
     <SEO

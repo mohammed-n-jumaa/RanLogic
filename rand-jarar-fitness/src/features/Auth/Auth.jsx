@@ -20,6 +20,7 @@ import Swal from 'sweetalert2';
 import { useLanguage } from '../../contexts/LanguageContext';
 import authApi from '../../api/authApi';
 import logoApi from '../../api/logoApi';
+import { throttle } from '@/utils/debounce';
 import './Auth.scss';
 
 const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {

@@ -4,6 +4,7 @@ import { FaUniversity, FaUpload, FaCheckCircle, FaTimes, FaImage } from 'react-i
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import subscriptionApi from '../../api/subscriptionApi';
 import Swal from 'sweetalert2';
+import { throttle } from '@/utils/debounce';
 
 const BankTransferPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
   const { t } = useProfileLanguage();
@@ -59,7 +60,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
     setImagePreview(null);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = throttle(async () => {
     if (!transferNumber.trim()) {
       Swal.fire({
         title: t('تحذير', 'Warning'),
@@ -145,7 +146,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         confirmButtonColor: '#FDB813'
       });
     }
-  };
+  }, 3000);
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);

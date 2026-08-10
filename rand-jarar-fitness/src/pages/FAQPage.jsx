@@ -4,11 +4,13 @@ import FAQ from '../components/FAQ/FAQ';
 import Footer from '../components/layout/Footer/Footer';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
 import { useLanguage } from '../contexts/LanguageContext';
+import usePageTitle from '@/hooks/usePageTitle';
 import './FAQPage.scss';
 
 
 const FAQPage = () => {
-  const { currentLang } = useLanguage();
+    const { currentLang } = useLanguage();
+  usePageTitle('الأسئلة الشائعة', 'FAQ', currentLang);
 
   return (
     <div className="faq-page">

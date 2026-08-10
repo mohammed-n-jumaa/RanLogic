@@ -4,11 +4,14 @@ import Footer from '../components/layout/Footer/Footer';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../components/common/SEO/SEO';
 import CalorieCalculator from '../components/CalorieCalculator/CalorieCalculator';
-import { useLanguage } from '../contexts/LanguageContext';
+import usePageTitle from '@/hooks/usePageTitle';
+import { useLanguage } from '@/contexts/LanguageContext';
 import './CalorieCalculatorPage.scss';
 
 const CalorieCalculatorPage = () => {
   const { currentLang, isArabic } = useLanguage();
+  usePageTitle('حاسبة السعرات', 'Calorie Calculator', currentLang);
+  
 
   return (
     <>

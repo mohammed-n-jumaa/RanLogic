@@ -1,16 +1,15 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { InactivityProvider } from './contexts/InactivityContext';
-const Home = lazy(() => import('./pages/Home'));
+import Home from './pages/Home';
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
 const Profile = lazy(() => import('./pages/ProfilePage.jsx'));
 const Plans = lazy(() => import('./pages/Plans.jsx'));
 const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
-import LoadingSpinner from "./components/common/LoadingSpinner";
 import ProtectedRoute from './features/auth/ProtectedRoute';
 const SubscriptionCancel = lazy(() => import('./pages/SubscriptionCancel'));
 import { initAnalytics } from './utils/analytics.loader';
@@ -25,6 +24,11 @@ const CalorieCalculatorPage = lazy(() => import('./pages/CalorieCalculatorPage')
 const MealCalculatorPage = lazy(() => import('./pages/MealCalculatorPage.jsx'));
 import authApi from './api/authApi.js';
 import useOneSignal from './hooks/useOneSignal';
+import ErrorBoundary from './components/common/ErrorBoundary/ErrorBoundary';
+import PageErrorBoundary from './components/common/ErrorBoundary/PageErrorBoundary';
+const NotFound = lazy(() => import('./pages/NotFound'));
+import useNetworkStatus from './hooks/useNetworkStatus';
+import OfflineBanner from './components/common/OfflineBanner/OfflineBanner';
 
 const IS_PRODUCTION =
   import.meta.env?.PROD === true &&
@@ -37,6 +41,8 @@ function RouteTracker() {
   const location = useLocation();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (typeof trackPageView === 'function') {
       trackPageView(location.pathname + location.search);
     }
@@ -49,6 +55,7 @@ function App() {
   
   const [loading, setLoading] = useState(false);
   const [appVisible, setAppVisible] = useState(true);
+  const isOnline = useNetworkStatus();
   useOneSignal();
 
  useEffect(() => {
@@ -79,31 +86,32 @@ function App() {
 
   return (
     <>
+      <ErrorBoundary>
       <div className={`app-shell ${appVisible ? 'app-shell--visible' : ''}`}>
         <LanguageProvider>
           <InactivityProvider timeoutMinutes={30} warningMinutes={5}>
             <Router>
               <RouteTracker />
               <AnimatePresence mode="wait">
-  <Suspense fallback={<LoadingSpinner message="Loading..." />}>
+  <Suspense fallback={null}>
     <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/faq" element={<FAQPage />} />
-                  <Route path="/auth" element={<AuthPage />} />
-                  <Route path="/calorie-calculator" element={<CalorieCalculatorPage />} />
-                  <Route path="/meal-calculator" element={<MealCalculatorPage />} />
-                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="/terms-of-service" element={<TermsOfService />} />
-                  <Route path="/refund-policy" element={<RefundPolicy />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/payment/success" element={<SubscriptionSuccess />} />
-                  <Route path="/payment/cancel" element={<SubscriptionCancel />} />
+                  <Route path="/" element={<PageErrorBoundary><Home /></PageErrorBoundary>} />
+                  <Route path="/faq" element={<PageErrorBoundary><FAQPage /></PageErrorBoundary>} />
+                  <Route path="/auth" element={<PageErrorBoundary><AuthPage /></PageErrorBoundary>} />
+                  <Route path="/calorie-calculator" element={<PageErrorBoundary><CalorieCalculatorPage /></PageErrorBoundary>} />
+                  <Route path="/meal-calculator" element={<PageErrorBoundary><MealCalculatorPage /></PageErrorBoundary>} />
+                  <Route path="/privacy-policy" element={<PageErrorBoundary><PrivacyPolicy /></PageErrorBoundary>} />
+                  <Route path="/terms-of-service" element={<PageErrorBoundary><TermsOfService /></PageErrorBoundary>} />
+                  <Route path="/refund-policy" element={<PageErrorBoundary><RefundPolicy /></PageErrorBoundary>} />
+                  <Route path="/contact" element={<PageErrorBoundary><ContactPage /></PageErrorBoundary>} />
+                  <Route path="/payment/success" element={<PageErrorBoundary><SubscriptionSuccess /></PageErrorBoundary>} />
+                  <Route path="/payment/cancel" element={<PageErrorBoundary><SubscriptionCancel /></PageErrorBoundary>} />
 
                   <Route
                     path="/profile"
                     element={
                       <ProtectedRoute>
-                        <Profile />
+                        <PageErrorBoundary><Profile /></PageErrorBoundary>
                       </ProtectedRoute>
                     }
                   />
@@ -112,19 +120,21 @@ function App() {
                     path="/plans"
                     element={
                       <ProtectedRoute>
-                        <Plans />
+                        <PageErrorBoundary><Plans /></PageErrorBoundary>
                       </ProtectedRoute>
                     }
                   />
 
-                  <Route path="*" element={<Navigate to="/" />} />
-               </Routes>
+                  <Route path="*" element={<PageErrorBoundary><NotFound /></PageErrorBoundary>} />
+                </Routes>
             </Suspense>
           </AnimatePresence>
             </Router>
           </InactivityProvider>
         </LanguageProvider>
       </div>
+      </ErrorBoundary>
+      {!isOnline && <OfflineBanner />}
     </>
   );
 }

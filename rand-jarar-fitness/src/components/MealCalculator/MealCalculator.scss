@@ -1,4 +1,5 @@
-@import '../../styles/variables.scss';
+@use 'sass:color';
+@use '../../styles/variables.scss' as *;
 
 // ─────────────────────────────────────────────────────────────
 // Page wrapper
@@ -609,7 +610,7 @@
 
 .fs-group__count {
   background: rgba(253,184,19,.16);
-  color: darken(#fdb813, 22%);
+  color: color.adjust(#fdb813, $lightness: -22%);
   font-size: .64rem; font-weight: 700;
   padding: 1px 6px; border-radius: 20px;
 }

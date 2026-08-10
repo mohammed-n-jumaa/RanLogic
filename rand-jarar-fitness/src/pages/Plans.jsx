@@ -9,11 +9,15 @@ import SEO from '../components/common/SEO/SEO';
 import { useLanguage } from '../contexts/LanguageContext';
 import { breadcrumbs, siteConfig } from '../utils/seoConfig';
 import subscriptionApi from '../api/subscriptionApi';
+import usePageTitle from '@/hooks/usePageTitle';
 import './Plans.scss';
 
 const Plans = () => {
   const navigate = useNavigate();
   const { currentLang, isArabic } = useLanguage();
+  usePageTitle('باقات الاشتراك', 'Subscription Plans', currentLang);
+  
+  
 
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);

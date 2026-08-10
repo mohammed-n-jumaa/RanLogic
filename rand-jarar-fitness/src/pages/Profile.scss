@@ -1,5 +1,4 @@
-@import '../styles/variables.scss';
-
+@use '../styles/variables.scss' as *;
 // ===================================
 // BASE STYLES
 // ===================================
@@ -5786,7 +5785,6 @@
     }
   }
 }
-@import '../styles/variables.scss';
 
 // ===================================
 // NO MEALS EMPTY STATE - STUNNING DESIGN
@@ -6762,7 +6760,6 @@
 // ENHANCED EXERCISE ITEM STYLES
 // ===================================
 
-@import '../styles/variables.scss';
 
 .workout-tab {
   
@@ -7232,7 +7229,6 @@
     }
   }
 }
-@import '../styles/variables.scss';
 
 // ===================================
 // NUTRITION CALENDAR - ENHANCED TODAY DESIGN

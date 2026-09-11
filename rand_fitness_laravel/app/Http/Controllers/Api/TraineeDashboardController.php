@@ -7,6 +7,7 @@ use App\Models\BodyMeasurement;
 use App\Models\ProgressPhoto;
 use App\Models\WaterLog;
 use App\Models\WeightLog;
+use App\Services\ImageOptimizationService;
 use App\Services\TraineeDashboardService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,12 @@ use Illuminate\Support\Facades\DB;
 
 class TraineeDashboardController extends Controller
 {
-    public function __construct(private TraineeDashboardService $service) {}
+    protected ImageOptimizationService $imageOptimizer;
+
+    public function __construct(private TraineeDashboardService $service, ImageOptimizationService $imageOptimizer)
+    {
+        $this->imageOptimizer = $imageOptimizer;
+    }
 
     public function index(Request $request): JsonResponse
     {
@@ -95,7 +101,9 @@ class TraineeDashboardController extends Controller
             'marketing_consent' => 'nullable|boolean',
         ]);
 
-        $path = $request->file('photo')->store('progress-photos', 'public');
+        $photoFile = $request->file('photo');
+        $path = $photoFile->store('progress-photos', 'public');
+        $this->imageOptimizer->optimize($photoFile, $path, 'public', maxWidth: 1400, maxHeight: 1400);
         $user = $request->user();
 
         if ($request->boolean('marketing_consent', false) && !$user->marketing_consent) {

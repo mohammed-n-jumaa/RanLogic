@@ -9,6 +9,7 @@ use App\Http\Requests\CreateUserQuestionRequest;
 use App\Services\FaqService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class FaqController extends Controller
@@ -99,7 +100,9 @@ class FaqController extends Controller
         try {
             $locale = $request->get('locale', 'ar');
             
-            $data = $this->faqService->getForPublic($locale);
+            $data = Cache::remember("public:faq:{$locale}", 3600, function () use ($locale) {
+                return $this->faqService->getForPublic($locale);
+            });
 
             return response()->json([
                 'success' => true,
@@ -155,6 +158,9 @@ class FaqController extends Controller
                 'english_count' => count($data['english_questions'] ?? []),
             ]);
 
+            Cache::forget('public:faq:ar');
+            Cache::forget('public:faq:en');
+
             return response()->json([
                 'success' => true,
                 'message' => 'تم حفظ جميع التغييرات بنجاح',
@@ -165,7 +171,8 @@ class FaqController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'حدث خطأ أثناء حفظ التغييرات: ' . $e->getMessage(),
+                'message' => 'حدث خطأ أثناء حفظ التغييرات',
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }

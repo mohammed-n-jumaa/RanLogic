@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateFooterRequest;
 use App\Services\FooterService;
 use App\Services\LogoService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class FooterController extends Controller
 {
@@ -25,12 +26,15 @@ class FooterController extends Controller
     public function getPublicFooter(): JsonResponse
     {
         try {
-            $logo   = $this->logoService->getActiveLogo();
-            $footer = $this->footerService->getActiveFooter();
+            $data = Cache::remember('public:footer', 3600, function () {
+                $logo   = $this->logoService->getActiveLogo();
+                $footer = $this->footerService->getActiveFooter();
+                return $this->formatPublic($logo, $footer);
+            });
 
             return response()->json([
                 'success' => true,
-                'data'    => $this->formatPublic($logo, $footer),
+                'data'    => $data,
             ]);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to retrieve footer.'], 500);
@@ -62,6 +66,8 @@ class FooterController extends Controller
     {
         try {
             $footer = $this->footerService->createOrUpdate($request->validated());
+
+            Cache::forget('public:footer');
 
             return response()->json([
                 'success' => true,

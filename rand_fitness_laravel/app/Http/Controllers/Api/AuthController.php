@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Models\Subscription;
 use Illuminate\Http\JsonResponse;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AuthController extends Controller
 {
@@ -23,12 +25,25 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
+        $throttleKey = 'login-email:' . strtolower($request->email);
+
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+
+            return response()->json([
+                'success' => false,
+                'message' => "محاولات كثيرة جداً على هذا الحساب. حاول مرة أخرى بعد {$seconds} ثانية.",
+            ], 429);
+        }
+
         try {
             // Attempt to find user by email
             $user = User::where('email', $request->email)->first();
 
             // Check if user exists
             if (!$user) {
+                RateLimiter::hit($throttleKey, 60);
+
                 return response()->json([
                     'success' => false,
                     'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
@@ -37,6 +52,8 @@ class AuthController extends Controller
 
             // Check password
             if (!Hash::check($request->password, $user->password)) {
+                RateLimiter::hit($throttleKey, 60);
+
                 Log::warning('Failed login attempt', [
                     'email' => $request->email,
                     'ip' => $request->ip(),
@@ -56,19 +73,17 @@ class AuthController extends Controller
                 ], 403);
             }
 
+            // Successful login — clear failed attempts
+            RateLimiter::clear($throttleKey);
+
             // Create token
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            // ✅ Get active subscription - استخدم starts_at و ends_at
-            $activeSubscription = Subscription::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('ends_at', '>=', now())
-                ->latest()
-                ->first();
+            $user->load('activeSubscription');
+            $activeSubscription = $user->activeSubscription;
 
             Log::info('Successful login', [
                 'user_id' => $user->id,
-                'email' => $user->email,
                 'role' => $user->role,
             ]);
 
@@ -76,19 +91,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'تم تسجيل الدخول بنجاح.',
                 'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
-                        'gender' => $user->gender,
-                        'avatar_url' => $user->avatar_url,
-                        'has_active_subscription' => $user->has_active_subscription,
-                        'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-                        'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-                        'subscription_plan_type' => $activeSubscription ? $activeSubscription->plan_type : null,
-                        'language' => $user->language ?? 'ar',
-                    ],
+                    'user' => (new UserResource($user))->minimal(),
                     'token' => $token,
                 ],
             ], 200);
@@ -140,16 +143,11 @@ class AuthController extends Controller
             // Create token for immediate login
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            // ✅ Get active subscription - استخدم starts_at و ends_at
-            $activeSubscription = Subscription::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('ends_at', '>=', now())
-                ->latest()
-                ->first();
+            $user->load('activeSubscription');
+            $activeSubscription = $user->activeSubscription;
 
             Log::info('New user registered', [
                 'user_id' => $user->id,
-                'email' => $user->email,
                 'ip' => $request->ip(),
             ]);
 
@@ -157,19 +155,7 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'تم إنشاء الحساب بنجاح!',
                 'data' => [
-                    'user' => [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'role' => $user->role,
-                        'gender' => $user->gender,
-                        'avatar_url' => $user->avatar_url,
-                        'has_active_subscription' => $user->has_active_subscription,
-                        'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-                        'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-                        'subscription_plan_type' => $activeSubscription ? $activeSubscription->plan_type : null,
-                        'language' => $user->language,
-                    ],
+                    'user' => (new UserResource($user))->minimal(),
                     'token' => $token,
                 ],
             ], 201);
@@ -199,41 +185,12 @@ class AuthController extends Controller
         try {
             $user = $request->user();
 
-            // ✅ Get active subscription - استخدم starts_at و ends_at
-            $activeSubscription = Subscription::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('ends_at', '>=', now())
-                ->latest()
-                ->first();
+            $user->load('activeSubscription');
+            $activeSubscription = $user->activeSubscription;
 
             return response()->json([
                 'success' => true,
-                'data' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $user->role,
-                    'phone' => $user->phone,
-                    'gender' => $user->gender,
-                    'age' => $user->age,
-                    'height' => $user->height,
-                    'weight' => $user->weight,
-                    'waist' => $user->waist,
-                    'hips' => $user->hips,
-                    'goal' => $user->goal,
-                    'workout_place' => $user->workout_place,
-                    'health_notes' => $user->health_notes,
-                    'program' => $user->program,
-                    'avatar_url' => $user->avatar_url,
-                    'is_active' => $user->is_active,
-                    'has_active_subscription' => $user->has_active_subscription,
-                    'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-                    'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-                    'subscription_plan_type' => $activeSubscription ? $activeSubscription->plan_type : null,
-                    'subscription_status' => $activeSubscription ? $activeSubscription->status : null,
-                    'language' => $user->language ?? 'ar',
-                    'email_verified_at' => $user->email_verified_at,
-                ],
+                'data' => new UserResource($user),
             ], 200);
 
         } catch (\Exception $e) {

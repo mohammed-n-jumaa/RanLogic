@@ -148,14 +148,12 @@ if (!openssl_sign($signingInput, $signature, $keyResource, 'SHA256')) {
         . $serverKeyDetails['ec']['x']
         . $serverKeyDetails['ec']['y'];
 
-    // حساب ECDH shared secret
     $userX = substr($userPublicKey, 1, 32);
     $userY = substr($userPublicKey, 33, 32);
 
-    // بناء shared secret يدوياً من EC coordinates
+  
     $serverPrivateD = $serverKeyDetails['ec']['d'];
 
-    // استخدام openssl_pkey_derive للـ ECDH
     $userKeyDer = "\x30\x59"
         . "\x30\x13"
         . "\x06\x07\x2a\x86\x48\xce\x3d\x02\x01"
@@ -170,7 +168,6 @@ if (!openssl_sign($signingInput, $signature, $keyResource, 'SHA256')) {
 
     $userKeyResource = openssl_pkey_get_public($userPublicKeyPem);
 
-    // openssl_pkey_derive (PHP 7.3+)
     $sharedSecret = openssl_pkey_derive($userKeyResource, $serverKeyPair, 32);
 
     if (!$sharedSecret) {
@@ -179,10 +176,8 @@ if (!openssl_sign($signingInput, $signature, $keyResource, 'SHA256')) {
 
     $salt = random_bytes(16);
 
-    // HKDF Extract
     $prk = hash_hmac('sha256', $sharedSecret, $userAuth, true);
 
-    // HKDF Expand
     $info = "WebPush: info\x00" . $userPublicKey . $serverPublicKeyUncompressed;
     $ikm = hash_hmac('sha256', $info . "\x01", $prk, true);
 

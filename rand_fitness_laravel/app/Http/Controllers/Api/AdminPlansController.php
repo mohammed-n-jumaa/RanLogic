@@ -107,7 +107,7 @@ class AdminPlansController extends Controller
                 'line'  => $e->getLine(),
             ]);
 
-            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء تحديث الخطة: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء تحديث الخطة', 'error' => config('app.debug') ? $e->getMessage() : null], 500);
         }
     }
 
@@ -177,7 +177,7 @@ class AdminPlansController extends Controller
         } catch (\Exception $e) {
             Log::error('AdminPlansController@bulkUpdate', ['error' => $e->getMessage()]);
 
-            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء التحديث: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء التحديث', 'error' => config('app.debug') ? $e->getMessage() : null], 500);
         }
     }
 

@@ -7,6 +7,7 @@ use App\Http\Requests\StoreLogoRequest;
 use App\Services\LogoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class LogoController extends Controller
@@ -36,9 +37,27 @@ class LogoController extends Controller
     public function getActiveLogo(): JsonResponse
     {
         try {
-            $logo = $this->logoService->getActiveLogo();
+            $data = Cache::remember('public:active-logo', 3600, function () {
+                $logo = $this->logoService->getActiveLogo();
 
-            if (!$logo) {
+                if (!$logo) {
+                    return null;
+                }
+
+                return [
+                    'id' => $logo->id,
+                    'file_name' => $logo->file_name,
+                    'file_url' => $logo->full_url,
+                    'file_type' => $logo->file_type,
+                    'file_size' => $logo->file_size,
+                    'file_size_formatted' => $logo->file_size_formatted,
+                    'width' => $logo->width,
+                    'height' => $logo->height,
+                    'uploaded_at' => $logo->created_at->format('Y-m-d H:i:s'),
+                ];
+            });
+
+            if (!$data) {
                 return response()->json([
                     'success' => true,
                     'message' => 'لا يوجد شعار نشط حالياً.',
@@ -49,17 +68,7 @@ class LogoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'تم جلب الشعار بنجاح.',
-                'data' => [
-                    'id' => $logo->id,
-                    'file_name' => $logo->file_name,
-                    'file_url' => $logo->full_url,
-                    'file_type' => $logo->file_type,
-                    'file_size' => $logo->file_size,
-                    'file_size_formatted' => $logo->file_size_formatted,
-                    'width' => $logo->width,
-                    'height' => $logo->height,
-                    'uploaded_at' => $logo->created_at->format('Y-m-d H:i:s'),
-                ],
+                'data' => $data,
             ], 200);
 
         } catch (\Exception $e) {
@@ -91,6 +100,9 @@ class LogoController extends Controller
             // Upload logo using service
             $logo = $this->logoService->uploadLogo($file, $uploadedBy);
 
+            Cache::forget('public:active-logo');
+            Cache::forget('public:footer');
+
             return response()->json([
                 'success' => true,
                 'message' => 'تم رفع الشعار بنجاح.',
@@ -116,7 +128,7 @@ class LogoController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage() ?: 'حدث خطأ أثناء رفع الشعار.',
+                'message' => 'حدث خطأ أثناء رفع الشعار.',
                 'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
@@ -182,6 +194,9 @@ class LogoController extends Controller
         try {
             $this->logoService->deleteLogo($id);
 
+            Cache::forget('public:active-logo');
+            Cache::forget('public:footer');
+
             return response()->json([
                 'success' => true,
                 'message' => 'تم حذف الشعار بنجاح.',
@@ -216,6 +231,9 @@ class LogoController extends Controller
     {
         try {
             $logo = $this->logoService->activateLogo($id);
+
+            Cache::forget('public:active-logo');
+            Cache::forget('public:footer');
 
             return response()->json([
                 'success' => true,

@@ -17,6 +17,13 @@ class AboutCoachService
     const CACHE_KEY             = 'about_coach';
     const CACHE_TTL             = 3600; // 1 hour
 
+    protected ImageOptimizationService $imageOptimizer;
+
+    public function __construct(ImageOptimizationService $imageOptimizer)
+    {
+        $this->imageOptimizer = $imageOptimizer;
+    }
+
     // -------------------------------------------------------------------------
     // READ
     // -------------------------------------------------------------------------
@@ -131,6 +138,8 @@ class AboutCoachService
 
         $filename = $this->generateFilename($file, 'coach');
         $path     = $file->storeAs('images/coach', $filename, 'public');
+
+        $this->imageOptimizer->optimize($file, $path, 'public', maxWidth: 1200, maxHeight: 1200);
 
         $this->copyToPublic($path, 'images/coach', $filename);
 

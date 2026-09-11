@@ -18,6 +18,13 @@ class TestimonialService
     const CACHE_KEY           = 'testimonials';
     const CACHE_TTL           = 3600; // 1 hour
 
+    protected ImageOptimizationService $imageOptimizer;
+
+    public function __construct(ImageOptimizationService $imageOptimizer)
+    {
+        $this->imageOptimizer = $imageOptimizer;
+    }
+
     // -------------------------------------------------------------------------
     // READ
     // -------------------------------------------------------------------------
@@ -64,10 +71,7 @@ class TestimonialService
         });
     }
 
-    // -------------------------------------------------------------------------
-    // WRITE
-    // -------------------------------------------------------------------------
-
+  
     /**
      * Create or update testimonials section.
      */
@@ -140,10 +144,7 @@ class TestimonialService
         }
     }
 
-    // -------------------------------------------------------------------------
-    // IMAGE
-    // -------------------------------------------------------------------------
-
+  
     /**
      * Upload and store testimonial image.
      */
@@ -159,6 +160,8 @@ class TestimonialService
 
         $filename = $this->generateFilename($file, 'testimonial');
         $path     = $file->storeAs('images/testimonials', $filename, 'public');
+
+        $this->imageOptimizer->optimize($file, $path, 'public', maxWidth: 1000, maxHeight: 1000);
 
         $this->copyToPublic($path, 'images/testimonials', $filename);
 
@@ -182,10 +185,7 @@ class TestimonialService
         $this->clearCache();
     }
 
-    // -------------------------------------------------------------------------
-    // PRIVATE HELPERS
-    // -------------------------------------------------------------------------
-
+    
     private function deleteImageFiles(string $path): void
     {
         Storage::disk('public')->exists($path) && Storage::disk('public')->delete($path);

@@ -12,9 +12,7 @@ class StoreLogoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // Add your authorization logic here
-        // For example: return $this->user()->can('manage-logos');
-        return true; // Change this based on your auth system
+        return $this->user() && $this->user()->isAdmin();
     }
 
     /**

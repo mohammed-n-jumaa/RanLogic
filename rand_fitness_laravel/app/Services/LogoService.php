@@ -10,6 +10,13 @@ use Illuminate\Support\Str;
 
 class LogoService
 {
+    protected ImageOptimizationService $imageOptimizer;
+
+    public function __construct(ImageOptimizationService $imageOptimizer)
+    {
+        $this->imageOptimizer = $imageOptimizer;
+    }
+
     const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     const ALLOWED_MIMES = [
@@ -36,9 +43,17 @@ class LogoService
 
             // Generate unique filename
             $filename = $this->generateUniqueFilename($file);
+
+            // Sanitize SVG content to strip embedded scripts before storing
+            if ($file->getMimeType() === 'image/svg+xml') {
+                $this->sanitizeSvgFile($file);
+            }
             
             // Store in storage/app/public/logos
             $path = $file->storeAs('logos', $filename, 'public');
+
+            // Resize/compress the stored image (skips SVG automatically)
+            $this->imageOptimizer->optimize($file, $path, 'public', maxWidth: 800, maxHeight: 800);
 
             // حفظ نسخة في public/logos (حل للـ Windows/WAMP)
             $publicLogoDir = public_path('logos');
@@ -215,5 +230,33 @@ class LogoService
             DB::rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * Strip <script> tags, event handler attributes (onclick, onload...),
+     * and javascript: URIs from an uploaded SVG file in-place.
+     * Prevents stored XSS via malicious SVG uploads.
+     */
+    private function sanitizeSvgFile(UploadedFile $file): void
+    {
+        $content = file_get_contents($file->getRealPath());
+
+        if ($content === false) {
+            return;
+        }
+
+        // Remove <script>...</script> blocks
+        $content = preg_replace('/<script\b[^>]*>.*?<\/script>/is', '', $content);
+
+        // Remove on* event handler attributes (onclick, onload, onerror, ...)
+        $content = preg_replace('/\son\w+\s*=\s*("[^"]*"|\'[^\']*\')/i', '', $content);
+
+        // Remove javascript: URIs
+        $content = preg_replace('/(xlink:href|href)\s*=\s*(["\'])\s*javascript:[^"\']*\2/i', '', $content);
+
+        // Remove <foreignObject> which can embed arbitrary HTML/JS
+        $content = preg_replace('/<foreignObject\b[^>]*>.*?<\/foreignObject>/is', '', $content);
+
+        file_put_contents($file->getRealPath(), $content);
     }
 }

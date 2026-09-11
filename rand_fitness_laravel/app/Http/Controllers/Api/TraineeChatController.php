@@ -12,10 +12,19 @@ use Illuminate\Support\Facades\Log;
 class TraineeChatController extends Controller
 {
     protected ChatService $chatService;
+    protected ?User $admin = null;
 
     public function __construct(ChatService $chatService)
     {
         $this->chatService = $chatService;
+    }
+
+    protected function getAdmin(): ?User
+    {
+        if ($this->admin === null) {
+            $this->admin = User::where('role', 'admin')->first();
+        }
+        return $this->admin;
     }
 
     /**
@@ -41,7 +50,7 @@ class TraineeChatController extends Controller
                 ], 403);
             }
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json([
@@ -95,7 +104,7 @@ class TraineeChatController extends Controller
                 'content' => 'required|string|max:5000',
             ]);
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json([
@@ -156,7 +165,7 @@ class TraineeChatController extends Controller
                 'content' => 'nullable|string|max:5000',
             ]);
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json([
@@ -213,7 +222,7 @@ class TraineeChatController extends Controller
                 ], 403);
             }
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json([
@@ -268,7 +277,7 @@ class TraineeChatController extends Controller
                 'is_typing' => ['required', 'boolean'],
             ]);
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json([
@@ -307,7 +316,7 @@ class TraineeChatController extends Controller
                 return response()->json(['success' => false, 'message' => 'غير مصرح'], 403);
             }
 
-            $admin = User::where('role', 'admin')->first();
+            $admin = $this->getAdmin();
 
             if (!$admin) {
                 return response()->json(['success' => true, 'data' => ['unread_count' => 0, 'recent_messages' => []]]);

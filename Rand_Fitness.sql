@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 23, 2026 at 09:43 PM
--- Server version: 11.8.8-MariaDB-log
+-- Generation Time: Sep 11, 2026 at 12:51 AM
+-- Server version: 11.8.9-MariaDB-log
 -- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,9 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Rand_Fitness`
+-- Database: `u292198827_RanLogic`
 --
-USE `Rand_Fitness`;
 
 -- --------------------------------------------------------
 
@@ -28,7 +27,6 @@ USE `Rand_Fitness`;
 -- Table structure for table `about_coach`
 --
 
-DROP TABLE IF EXISTS `about_coach`;
 CREATE TABLE `about_coach` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `image_path` varchar(191) DEFAULT NULL,
@@ -53,7 +51,571 @@ CREATE TABLE `about_coach` (
 --
 
 INSERT INTO `about_coach` (`id`, `image_path`, `image_name`, `badge_en`, `badge_ar`, `title_en`, `title_ar`, `main_description_en`, `main_description_ar`, `highlight_text_en`, `highlight_text_ar`, `is_active`, `updated_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'images/coach/coach_20260719152746_vhQ068d9.jpeg', 'coach_20260719152746_vhQ068d9.jpeg', 'About Us', 'من نحن', 'RanLogic Team - certified trainers and nutrition specialist designing personalized fitness and nutrition programs tailored to your goals and lifestyle.', 'فريق RanLogic - مدربون معتمدون وأخصائية تغذية، نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك.', 'At RanLogic, we provide comprehensive support that combines fitness training with proper nutrition. Our programs are carefully designed to achieve sustainable results, with continuous support from a specialized team that accompanies you every step of the way toward a better version of yourself.', 'في RanLogic، نوفر لك متابعة شاملة تجمع بين التدريب الرياضي والتغذية السليمة. برامجنا مصممة بعناية لتحقيق نتائج مستدامة، مع دعم مستمر من فريق متخصص يرافقك في كل خطوة من رحلتك نحو نسخة أفضل منك.', 'With us, you don\'t just get a workout plan; you get a partner who supports you every step of the way.', 'معنا ، لن تحصل على مجرد جدول تمارين، بل على رفيق يدعمك في كل خطوة.', 1, 1, '2026-01-18 16:02:36', '2026-07-19 15:27:46', NULL);
+(1, 'images/coach/coach_20260730225407_hHvailQp.jpeg', 'coach_20260730225407_hHvailQp.jpeg', 'About Us', 'من نحن', 'RanLogic Team - certified trainers and nutrition specialist designing personalized fitness and nutrition programs tailored to your goals and lifestyle.', 'فريق RanLogic  مدربون معتمدون وأخصائية تغذية، نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك.', 'At RanLogic, we provide comprehensive support that combines fitness training with proper nutrition. Our programs are carefully designed to achieve sustainable results, with continuous support from a specialized team that accompanies you every step of the way toward a better version of yourself.', 'في RanLogic، نوفر لك متابعة شاملة تجمع بين التدريب الرياضي والتغذية السليمة. برامجنا مصممة بعناية لتحقيق نتائج مستدامة، مع دعم مستمر من فريق متخصص يرافقك في كل خطوة من رحلتك نحو نسخة أفضل منك.', 'With us, you don\'t just get a workout plan; you get a partner who supports you every step of the way.', 'معنا ، لن تحصل على مجرد جدول تمارين، بل على رفيق يدعمك في كل خطوة.', 1, 1, '2026-01-18 16:02:36', '2026-07-30 22:54:46', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `badges`
+--
+
+CREATE TABLE `badges` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `key` varchar(50) NOT NULL,
+  `name_ar` varchar(191) NOT NULL,
+  `name_en` varchar(191) NOT NULL,
+  `icon` varchar(50) NOT NULL DEFAULT 'trophy',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `badges`
+--
+
+INSERT INTO `badges` (`id`, `key`, `name_ar`, `name_en`, `icon`, `created_at`, `updated_at`) VALUES
+(1, 'first_week', 'أسبوع كامل', 'Full week', 'flame', '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(2, 'first_month', 'أول شهر', 'First month', 'trophy', '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(3, 'water_streak', 'عطشان', 'Hydrated', 'droplet', '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(4, 'three_months', '3 أشهر', 'Three months', 'award', '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(5, 'challenge_done', 'منهي تحدي', 'Challenge complete', 'target', '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(6, 'photo_progress', 'أول صورة تقدم', 'First progress pic', 'camera', '2026-07-28 21:37:51', '2026-07-28 21:37:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `badge_user`
+--
+
+CREATE TABLE `badge_user` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `badge_id` bigint(20) UNSIGNED NOT NULL,
+  `earned_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `badge_user`
+--
+
+INSERT INTO `badge_user` (`id`, `user_id`, `badge_id`, `earned_at`) VALUES
+(1, 100, 1, '2026-06-08 10:00:00'),
+(2, 100, 2, '2026-07-01 10:00:00'),
+(3, 100, 3, '2026-07-15 10:00:00'),
+(5, 100, 6, '2026-07-28 22:32:13');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `body_measurements`
+--
+
+CREATE TABLE `body_measurements` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `waist` decimal(5,2) DEFAULT NULL COMMENT 'الخصر سم',
+  `hips` decimal(5,2) DEFAULT NULL COMMENT 'الأرداف سم',
+  `arm` decimal(5,2) DEFAULT NULL COMMENT 'الذراع سم',
+  `thigh` decimal(5,2) DEFAULT NULL COMMENT 'الفخذ سم',
+  `chest` decimal(5,2) DEFAULT NULL COMMENT 'الصدر سم',
+  `measured_at` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cache`
+--
+
+CREATE TABLE `cache` (
+  `key` varchar(191) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('laravel_cache_000a5eb1e2fa2c339940324442c26f69', 'i:1;', 1786730083),
+('laravel_cache_000a5eb1e2fa2c339940324442c26f69:timer', 'i:1786730083;', 1786730083),
+('laravel_cache_00e6148794a4db3b47d601468c77b70c', 'i:1;', 1786924115),
+('laravel_cache_00e6148794a4db3b47d601468c77b70c:timer', 'i:1786924115;', 1786924115),
+('laravel_cache_03355321bab64a8b892da9367d17d6c3', 'i:2;', 1786729210),
+('laravel_cache_03355321bab64a8b892da9367d17d6c3:timer', 'i:1786729210;', 1786729210),
+('laravel_cache_04a957b4765f3001eb38ce6afdebbcef', 'i:1;', 1788177140),
+('laravel_cache_04a957b4765f3001eb38ce6afdebbcef:timer', 'i:1788177140;', 1788177140),
+('laravel_cache_04c8d881c827b7d88be02982ea414c2b', 'i:1;', 1788807500),
+('laravel_cache_04c8d881c827b7d88be02982ea414c2b:timer', 'i:1788807500;', 1788807500),
+('laravel_cache_08cbc2f761f51ecc133f1c105861a467', 'i:1;', 1788775353),
+('laravel_cache_08cbc2f761f51ecc133f1c105861a467:timer', 'i:1788775353;', 1788775353),
+('laravel_cache_097598328e415082346b9be743fe0834', 'i:1;', 1786730083),
+('laravel_cache_097598328e415082346b9be743fe0834:timer', 'i:1786730083;', 1786730083),
+('laravel_cache_0bf2dfb50faa759e700eb806d3dac049', 'i:7;', 1787402750),
+('laravel_cache_0bf2dfb50faa759e700eb806d3dac049:timer', 'i:1787402750;', 1787402750),
+('laravel_cache_0dd8b40bf5de27d89aa54e648e1d3178', 'i:1;', 1787053212),
+('laravel_cache_0dd8b40bf5de27d89aa54e648e1d3178:timer', 'i:1787053212;', 1787053212),
+('laravel_cache_0fe22dd9cba5c4bbbda5f5c2c0e714b7', 'i:1;', 1787053212),
+('laravel_cache_0fe22dd9cba5c4bbbda5f5c2c0e714b7:timer', 'i:1787053212;', 1787053212),
+('laravel_cache_11d0541e43c23c0afa7908ed6cd53070', 'i:19;', 1787369165),
+('laravel_cache_11d0541e43c23c0afa7908ed6cd53070:timer', 'i:1787369165;', 1787369165),
+('laravel_cache_131b92123e02322904b71db55d2ff42b', 'i:2;', 1788934205),
+('laravel_cache_131b92123e02322904b71db55d2ff42b:timer', 'i:1788934205;', 1788934205),
+('laravel_cache_131e18c44c3d662aae4cac125328e698', 'i:7;', 1787406065),
+('laravel_cache_131e18c44c3d662aae4cac125328e698:timer', 'i:1787406065;', 1787406065),
+('laravel_cache_14d5211e60d877dc26d21ff40331fd3c', 'i:7;', 1786761184),
+('laravel_cache_14d5211e60d877dc26d21ff40331fd3c:timer', 'i:1786761184;', 1786761184),
+('laravel_cache_17f566265285da4b53a853dc25e80490', 'i:1;', 1787016494),
+('laravel_cache_17f566265285da4b53a853dc25e80490:timer', 'i:1787016494;', 1787016494),
+('laravel_cache_194e08b1081cc49895cb9df413ca1c54', 'i:2;', 1789019798),
+('laravel_cache_194e08b1081cc49895cb9df413ca1c54:timer', 'i:1789019798;', 1789019798),
+('laravel_cache_19e1aa4a92a89c07f758f47d20e96c76', 'i:1;', 1789082543),
+('laravel_cache_19e1aa4a92a89c07f758f47d20e96c76:timer', 'i:1789082543;', 1789082543),
+('laravel_cache_1a11ddea4e3a07c37a9a3ce193bce87e', 'i:7;', 1788750322),
+('laravel_cache_1a11ddea4e3a07c37a9a3ce193bce87e:timer', 'i:1788750322;', 1788750322),
+('laravel_cache_1ab2e88e86be6e8a606c00a98f5d1b2f', 'i:3;', 1788619792),
+('laravel_cache_1ab2e88e86be6e8a606c00a98f5d1b2f:timer', 'i:1788619792;', 1788619792),
+('laravel_cache_1adef48b4c3965d545ad803a99c92ef5', 'i:2;', 1788379448),
+('laravel_cache_1adef48b4c3965d545ad803a99c92ef5:timer', 'i:1788379448;', 1788379448),
+('laravel_cache_1bc63db609886bf19213f7692e810eb9', 'i:10;', 1787872749),
+('laravel_cache_1bc63db609886bf19213f7692e810eb9:timer', 'i:1787872749;', 1787872749),
+('laravel_cache_1c899adaee9f818b6958f81ad797bb80', 'i:7;', 1788741895),
+('laravel_cache_1c899adaee9f818b6958f81ad797bb80:timer', 'i:1788741895;', 1788741895),
+('laravel_cache_1cbb1e610123b2566aa19c12bb6ab0a1', 'i:1;', 1788934206),
+('laravel_cache_1cbb1e610123b2566aa19c12bb6ab0a1:timer', 'i:1788934206;', 1788934206),
+('laravel_cache_1cc271de6f7e7a8bbcc9d94e07e6322b', 'i:3;', 1787670476),
+('laravel_cache_1cc271de6f7e7a8bbcc9d94e07e6322b:timer', 'i:1787670476;', 1787670476),
+('laravel_cache_1dca8b5bc223f0f0ff5fea7a5f860485', 'i:14;', 1787402412),
+('laravel_cache_1dca8b5bc223f0f0ff5fea7a5f860485:timer', 'i:1787402412;', 1787402412),
+('laravel_cache_1dcb2e1e9e7f76cebec320ff44ede4fc', 'i:7;', 1787484108),
+('laravel_cache_1dcb2e1e9e7f76cebec320ff44ede4fc:timer', 'i:1787484108;', 1787484108),
+('laravel_cache_1faa76888560a5bd553173aca904ccc5', 'i:1;', 1787327133),
+('laravel_cache_1faa76888560a5bd553173aca904ccc5:timer', 'i:1787327133;', 1787327133),
+('laravel_cache_214297cb6f178e332a9a41ae61041ccc', 'i:1;', 1788840626),
+('laravel_cache_214297cb6f178e332a9a41ae61041ccc:timer', 'i:1788840626;', 1788840626),
+('laravel_cache_2176584f1f5b471b123d8afc527d94e9', 'i:1;', 1787334384),
+('laravel_cache_2176584f1f5b471b123d8afc527d94e9:timer', 'i:1787334384;', 1787334384),
+('laravel_cache_240d4d33d693eb3116e66fe9ae41224f', 'i:2;', 1788648822),
+('laravel_cache_240d4d33d693eb3116e66fe9ae41224f:timer', 'i:1788648822;', 1788648822),
+('laravel_cache_261435a127c2f24cf1aa57ba369365fa', 'i:1;', 1787718468),
+('laravel_cache_261435a127c2f24cf1aa57ba369365fa:timer', 'i:1787718468;', 1787718468),
+('laravel_cache_27689ae8b83c90bb62ec2caceb6026d2', 'i:1;', 1786730110),
+('laravel_cache_27689ae8b83c90bb62ec2caceb6026d2:timer', 'i:1786730110;', 1786730110),
+('laravel_cache_27cb4cd427228c5465afcd4fc9175f9b', 'i:6;', 1788821890),
+('laravel_cache_27cb4cd427228c5465afcd4fc9175f9b:timer', 'i:1788821890;', 1788821890),
+('laravel_cache_28d03c4631bae924f351366df2c243d5', 'i:8;', 1788775482),
+('laravel_cache_28d03c4631bae924f351366df2c243d5:timer', 'i:1788775482;', 1788775482),
+('laravel_cache_29698ff2ba8b4b8b9b0314641ede4862', 'i:1;', 1788902867),
+('laravel_cache_29698ff2ba8b4b8b9b0314641ede4862:timer', 'i:1788902867;', 1788902867),
+('laravel_cache_297a8b03a3926d298cbda7563a9d0d20', 'i:1;', 1789082535),
+('laravel_cache_297a8b03a3926d298cbda7563a9d0d20:timer', 'i:1789082535;', 1789082535),
+('laravel_cache_2ac7baffb06b5fdbc2adb5a9ca3ba85a', 'i:2;', 1787050319),
+('laravel_cache_2ac7baffb06b5fdbc2adb5a9ca3ba85a:timer', 'i:1787050319;', 1787050319),
+('laravel_cache_2bba0555ec03ae15f2bcf098e7a67011', 'i:12;', 1788902503),
+('laravel_cache_2bba0555ec03ae15f2bcf098e7a67011:timer', 'i:1788902503;', 1788902503),
+('laravel_cache_2d3ef92d53fc7e1feb5a71837551db61', 'i:7;', 1788750371),
+('laravel_cache_2d3ef92d53fc7e1feb5a71837551db61:timer', 'i:1788750371;', 1788750371),
+('laravel_cache_2d7caa66ff2c5bc854f26046afa8d572', 'i:1;', 1787334384),
+('laravel_cache_2d7caa66ff2c5bc854f26046afa8d572:timer', 'i:1787334384;', 1787334384),
+('laravel_cache_2da7c9477546c5f4e00d0d31cb39b840', 'i:2;', 1787411056),
+('laravel_cache_2da7c9477546c5f4e00d0d31cb39b840:timer', 'i:1787411056;', 1787411056),
+('laravel_cache_2e6bb01cd92931a6875ef17a0dbbc5d2', 'i:2;', 1787170569),
+('laravel_cache_2e6bb01cd92931a6875ef17a0dbbc5d2:timer', 'i:1787170569;', 1787170569),
+('laravel_cache_2f34acf9bf3b937ca472ea3cecfcd42f', 'i:1;', 1788741931),
+('laravel_cache_2f34acf9bf3b937ca472ea3cecfcd42f:timer', 'i:1788741931;', 1788741931),
+('laravel_cache_3046daafddd97dd114162192db88b55b', 'i:1;', 1787334384),
+('laravel_cache_3046daafddd97dd114162192db88b55b:timer', 'i:1787334384;', 1787334384),
+('laravel_cache_30728867758106d3c7dbbeb4d9f2ba94', 'i:7;', 1788750373),
+('laravel_cache_30728867758106d3c7dbbeb4d9f2ba94:timer', 'i:1788750373;', 1788750373),
+('laravel_cache_30c888679e6db5aee70bc352977d7fee', 'i:4;', 1787763868),
+('laravel_cache_30c888679e6db5aee70bc352977d7fee:timer', 'i:1787763868;', 1787763868),
+('laravel_cache_35bf394876d35a1bac5a3893160192e5', 'i:1;', 1786730110),
+('laravel_cache_35bf394876d35a1bac5a3893160192e5:timer', 'i:1786730110;', 1786730110),
+('laravel_cache_36760c74e16eb33937511215bc108fa6', 'i:1;', 1787223386),
+('laravel_cache_36760c74e16eb33937511215bc108fa6:timer', 'i:1787223386;', 1787223386),
+('laravel_cache_38f5a58b5eb1ba904a8f7725fd859c36', 'i:1;', 1786924114),
+('laravel_cache_38f5a58b5eb1ba904a8f7725fd859c36:timer', 'i:1786924114;', 1786924114),
+('laravel_cache_3ac6aa18e008c4f172205e57e239a650', 'i:1;', 1788840624),
+('laravel_cache_3ac6aa18e008c4f172205e57e239a650:timer', 'i:1788840624;', 1788840624),
+('laravel_cache_3b108d23b8886c2c5a30daec1aa632d0', 'i:2;', 1788741913),
+('laravel_cache_3b108d23b8886c2c5a30daec1aa632d0:timer', 'i:1788741913;', 1788741913),
+('laravel_cache_3c0bab09d2550804d5bc27405575614b', 'i:2;', 1787520670),
+('laravel_cache_3c0bab09d2550804d5bc27405575614b:timer', 'i:1787520670;', 1787520670),
+('laravel_cache_3ca098012ec83488bc8c288721b32330', 'i:1;', 1787089221),
+('laravel_cache_3ca098012ec83488bc8c288721b32330:timer', 'i:1787089221;', 1787089221),
+('laravel_cache_3d291b46061879a157708a4620831b9a', 'i:7;', 1787024644),
+('laravel_cache_3d291b46061879a157708a4620831b9a:timer', 'i:1787024644;', 1787024644),
+('laravel_cache_3d41f980ffd9104f9747f26e66307df7', 'i:6;', 1787790085),
+('laravel_cache_3d41f980ffd9104f9747f26e66307df7:timer', 'i:1787790085;', 1787790085),
+('laravel_cache_3da221060e2ee47a043c764b08539afb', 'i:1;', 1787050319),
+('laravel_cache_3da221060e2ee47a043c764b08539afb:timer', 'i:1787050319;', 1787050319),
+('laravel_cache_427568940a5a723882ed44f22d8ecb88', 'i:2;', 1788482151),
+('laravel_cache_427568940a5a723882ed44f22d8ecb88:timer', 'i:1788482151;', 1788482151),
+('laravel_cache_42cab166799a630407e1da1cc030be67', 'i:1;', 1788482151),
+('laravel_cache_42cab166799a630407e1da1cc030be67:timer', 'i:1788482151;', 1788482151),
+('laravel_cache_43508de262c4d3c3d85fed82f0b6cb49', 'i:4;', 1788619797),
+('laravel_cache_43508de262c4d3c3d85fed82f0b6cb49:timer', 'i:1788619797;', 1788619797),
+('laravel_cache_43b1d3d282205d23165e005f47cc8bc2', 'i:2;', 1788168347),
+('laravel_cache_43b1d3d282205d23165e005f47cc8bc2:timer', 'i:1788168347;', 1788168347),
+('laravel_cache_43d49f6514dba9af0539579944ed1bad', 'i:1;', 1787223386),
+('laravel_cache_43d49f6514dba9af0539579944ed1bad:timer', 'i:1787223386;', 1787223386),
+('laravel_cache_45e423ed304105c7fe16117f2dfcf44c', 'i:1;', 1786730083),
+('laravel_cache_45e423ed304105c7fe16117f2dfcf44c:timer', 'i:1786730083;', 1786730083),
+('laravel_cache_485f82e692fd87987fa2bb60c778a236', 'i:7;', 1787339705),
+('laravel_cache_485f82e692fd87987fa2bb60c778a236:timer', 'i:1787339705;', 1787339705),
+('laravel_cache_491aba39f67625eb8d5c258e839c5ab8', 'i:1;', 1788482151),
+('laravel_cache_491aba39f67625eb8d5c258e839c5ab8:timer', 'i:1788482151;', 1788482151),
+('laravel_cache_493a3217bead2d242dd384aeed25dded', 'i:8;', 1788247398),
+('laravel_cache_493a3217bead2d242dd384aeed25dded:timer', 'i:1788247398;', 1788247398),
+('laravel_cache_4e47cc2d483a2bb86ad03640c093e8f4', 'i:8;', 1786798045),
+('laravel_cache_4e47cc2d483a2bb86ad03640c093e8f4:timer', 'i:1786798045;', 1786798045),
+('laravel_cache_4fb1a7f696391324c890c401444e2772', 'i:2;', 1788901936),
+('laravel_cache_4fb1a7f696391324c890c401444e2772:timer', 'i:1788901936;', 1788901936),
+('laravel_cache_4fe6d76398461557977687a65b3dd0f9', 'i:2;', 1787411927),
+('laravel_cache_4fe6d76398461557977687a65b3dd0f9:timer', 'i:1787411927;', 1787411927),
+('laravel_cache_5019b59d417c2781ca2b1cc2ddd9f0ea', 'i:1;', 1787050319),
+('laravel_cache_5019b59d417c2781ca2b1cc2ddd9f0ea:timer', 'i:1787050319;', 1787050319),
+('laravel_cache_510935bdbf2d02920a0d2ff5209a2265', 'i:1;', 1786743607),
+('laravel_cache_510935bdbf2d02920a0d2ff5209a2265:timer', 'i:1786743607;', 1786743607),
+('laravel_cache_5172979ee8d83ad08e3a493896b48220', 'i:1;', 1787614953),
+('laravel_cache_5172979ee8d83ad08e3a493896b48220:timer', 'i:1787614953;', 1787614953),
+('laravel_cache_51d90c0d897849a743417f0db204d87a', 'i:1;', 1787879680),
+('laravel_cache_51d90c0d897849a743417f0db204d87a:timer', 'i:1787879680;', 1787879680),
+('laravel_cache_5262ab2c7786723fa8d480711c1bab36', 'i:7;', 1787992904),
+('laravel_cache_5262ab2c7786723fa8d480711c1bab36:timer', 'i:1787992904;', 1787992904),
+('laravel_cache_52c5d542ca2562e0488598655ef9edde', 'i:1;', 1787016494),
+('laravel_cache_52c5d542ca2562e0488598655ef9edde:timer', 'i:1787016494;', 1787016494),
+('laravel_cache_53df70fc06372918c73b729db22a9465', 'i:4;', 1786906402),
+('laravel_cache_53df70fc06372918c73b729db22a9465:timer', 'i:1786906402;', 1786906402),
+('laravel_cache_55b0ae3ddb66b4b9652e6e31889c1a38', 'i:1;', 1787796128),
+('laravel_cache_55b0ae3ddb66b4b9652e6e31889c1a38:timer', 'i:1787796128;', 1787796128),
+('laravel_cache_55edbdc783bf41c70550e0cd0965efea', 'i:2;', 1787385544),
+('laravel_cache_55edbdc783bf41c70550e0cd0965efea:timer', 'i:1787385544;', 1787385544),
+('laravel_cache_59565fb18d6d2b676821b462db107209', 'i:1;', 1786743607),
+('laravel_cache_59565fb18d6d2b676821b462db107209:timer', 'i:1786743607;', 1786743607),
+('laravel_cache_59bc2e71db4b1a9e187368cd6112a882', 'i:1;', 1788036150),
+('laravel_cache_59bc2e71db4b1a9e187368cd6112a882:timer', 'i:1788036150;', 1788036150),
+('laravel_cache_5bafb4081366d20a50596902ae6df119', 'i:1;', 1786809458),
+('laravel_cache_5bafb4081366d20a50596902ae6df119:timer', 'i:1786809458;', 1786809458),
+('laravel_cache_5bb7947cbaa667fb7bae020c323ca67f', 'i:1;', 1788160592),
+('laravel_cache_5bb7947cbaa667fb7bae020c323ca67f:timer', 'i:1788160592;', 1788160592),
+('laravel_cache_5ce6610956463a1cfab077abbcea33f9', 'i:3;', 1786752605),
+('laravel_cache_5ce6610956463a1cfab077abbcea33f9:timer', 'i:1786752605;', 1786752605),
+('laravel_cache_5fdb780077fe7d7d0f73b4597ab7aa06', 'i:8;', 1788380690),
+('laravel_cache_5fdb780077fe7d7d0f73b4597ab7aa06:timer', 'i:1788380690;', 1788380690),
+('laravel_cache_601e6a8212ed1529a0a7a66b5f74d0f0', 'i:3;', 1787053211),
+('laravel_cache_601e6a8212ed1529a0a7a66b5f74d0f0:timer', 'i:1787053211;', 1787053211),
+('laravel_cache_603a2553813c312dd1af186ae14a84f0', 'i:1;', 1787480526),
+('laravel_cache_603a2553813c312dd1af186ae14a84f0:timer', 'i:1787480526;', 1787480526),
+('laravel_cache_605eb52822ed8236cbdad51e23a430f7', 'i:6;', 1786832917),
+('laravel_cache_605eb52822ed8236cbdad51e23a430f7:timer', 'i:1786832917;', 1786832917),
+('laravel_cache_61dca6da3dec4d84cf397df66cfd49a7', 'i:1;', 1789082572),
+('laravel_cache_61dca6da3dec4d84cf397df66cfd49a7:timer', 'i:1789082572;', 1789082572),
+('laravel_cache_6218d8824b36b902a1511ed86034b1c4', 'i:1;', 1788160592),
+('laravel_cache_6218d8824b36b902a1511ed86034b1c4:timer', 'i:1788160592;', 1788160592),
+('laravel_cache_630578a87c063deae407146418902ae8', 'i:1;', 1789054372),
+('laravel_cache_630578a87c063deae407146418902ae8:timer', 'i:1789054372;', 1789054372),
+('laravel_cache_63540eb740282f26ff369f2df6b1a103', 'i:7;', 1787406107),
+('laravel_cache_63540eb740282f26ff369f2df6b1a103:timer', 'i:1787406107;', 1787406107),
+('laravel_cache_6830db74a8ea7535cf24ff948b46e501', 'i:2;', 1787428830),
+('laravel_cache_6830db74a8ea7535cf24ff948b46e501:timer', 'i:1787428830;', 1787428830),
+('laravel_cache_69b8e1d6ee846ab8c66c0d532933480d', 'i:1;', 1787360295),
+('laravel_cache_69b8e1d6ee846ab8c66c0d532933480d:timer', 'i:1787360295;', 1787360295),
+('laravel_cache_6a1a897753edbcb75b5fb12253c94130', 'i:1;', 1787234252),
+('laravel_cache_6a1a897753edbcb75b5fb12253c94130:timer', 'i:1787234252;', 1787234252),
+('laravel_cache_6a5499025931981b4d8e0d9a2657c6e9', 'i:1;', 1786756871),
+('laravel_cache_6a5499025931981b4d8e0d9a2657c6e9:timer', 'i:1786756871;', 1786756871),
+('laravel_cache_6b2677cdec16f08d8c49e5c65ee3dcbe', 'i:2;', 1787083726),
+('laravel_cache_6b2677cdec16f08d8c49e5c65ee3dcbe:timer', 'i:1787083726;', 1787083726),
+('laravel_cache_6c5f1d61844651752dc4f04012af80df', 'i:1;', 1788741913),
+('laravel_cache_6c5f1d61844651752dc4f04012af80df:timer', 'i:1788741913;', 1788741913),
+('laravel_cache_6e367e5082fc0cce69eebb3b7fce0a14', 'i:1;', 1788943984),
+('laravel_cache_6e367e5082fc0cce69eebb3b7fce0a14:timer', 'i:1788943984;', 1788943984),
+('laravel_cache_6e9660b80ca9d3e390806cc44d737fc2', 'i:11;', 1788833600),
+('laravel_cache_6e9660b80ca9d3e390806cc44d737fc2:timer', 'i:1788833600;', 1788833600),
+('laravel_cache_6f7f0cb2e84670f549b39ab83a30b5d2', 'i:1;', 1787879680),
+('laravel_cache_6f7f0cb2e84670f549b39ab83a30b5d2:timer', 'i:1787879680;', 1787879680),
+('laravel_cache_70b8cb61977e04fb47895a4530cb2dc1', 'i:2;', 1788776058),
+('laravel_cache_70b8cb61977e04fb47895a4530cb2dc1:timer', 'i:1788776058;', 1788776058),
+('laravel_cache_73c297e9c9e479964fc9e2e00c564c8f', 'i:1;', 1788939753),
+('laravel_cache_73c297e9c9e479964fc9e2e00c564c8f:timer', 'i:1788939753;', 1788939753),
+('laravel_cache_74393f66aede80fbec5ecb61fb8cda0b', 'i:7;', 1787406108),
+('laravel_cache_74393f66aede80fbec5ecb61fb8cda0b:timer', 'i:1787406108;', 1787406108),
+('laravel_cache_750d982bcf8c677beb3405587415f645', 'i:7;', 1788344778),
+('laravel_cache_750d982bcf8c677beb3405587415f645:timer', 'i:1788344778;', 1788344778),
+('laravel_cache_7810914b3848ed941f8956aee48f4f77', 'i:12;', 1787365983),
+('laravel_cache_7810914b3848ed941f8956aee48f4f77:timer', 'i:1787365983;', 1787365983),
+('laravel_cache_78488e28a09347cf5cb0b66ae7eca310', 'i:1;', 1788723957),
+('laravel_cache_78488e28a09347cf5cb0b66ae7eca310:timer', 'i:1788723957;', 1788723957),
+('laravel_cache_7974a7de3b9f8d87a859d457f5a0fdd3', 'i:6;', 1788721582),
+('laravel_cache_7974a7de3b9f8d87a859d457f5a0fdd3:timer', 'i:1788721582;', 1788721582),
+('laravel_cache_79a950e1960b9bfffc6ed70042543d1c', 'i:1;', 1786799953),
+('laravel_cache_79a950e1960b9bfffc6ed70042543d1c:timer', 'i:1786799953;', 1786799953),
+('laravel_cache_7ae3314b5737a13dd0bac7405033ff77', 'i:1;', 1787879680),
+('laravel_cache_7ae3314b5737a13dd0bac7405033ff77:timer', 'i:1787879680;', 1787879680),
+('laravel_cache_7b38faa30e0fa86026cf797be524342b', 'i:1;', 1787369212),
+('laravel_cache_7b38faa30e0fa86026cf797be524342b:timer', 'i:1787369212;', 1787369212),
+('laravel_cache_7bb47c5f698e9e5216f8f32a7c98223f', 'i:9;', 1787406060),
+('laravel_cache_7bb47c5f698e9e5216f8f32a7c98223f:timer', 'i:1787406060;', 1787406060),
+('laravel_cache_7f16833ea16313d1d9d77af262883fcc', 'i:8;', 1788591262),
+('laravel_cache_7f16833ea16313d1d9d77af262883fcc:timer', 'i:1788591262;', 1788591262),
+('laravel_cache_80aa9f1d7bc9666bdcaa2f385c7129db', 'i:7;', 1788902313),
+('laravel_cache_80aa9f1d7bc9666bdcaa2f385c7129db:timer', 'i:1788902313;', 1788902313),
+('laravel_cache_80b244060ffdd94067a8f857708a1c74', 'i:1;', 1786752627),
+('laravel_cache_80b244060ffdd94067a8f857708a1c74:timer', 'i:1786752627;', 1786752627),
+('laravel_cache_810e8d425cf73666c279a9dddc9b79d8', 'i:2;', 1789051612),
+('laravel_cache_810e8d425cf73666c279a9dddc9b79d8:timer', 'i:1789051612;', 1789051612),
+('laravel_cache_84b3d38905af00ae04d77bc580d426b7', 'i:1;', 1787223386),
+('laravel_cache_84b3d38905af00ae04d77bc580d426b7:timer', 'i:1787223386;', 1787223386),
+('laravel_cache_86c419cf42ceb22a855985dfce84d61c', 'i:1;', 1788775482),
+('laravel_cache_86c419cf42ceb22a855985dfce84d61c:timer', 'i:1788775482;', 1788775482),
+('laravel_cache_880aa4f24e8f81c994907f4617fdfeac', 'i:1;', 1787115489),
+('laravel_cache_880aa4f24e8f81c994907f4617fdfeac:timer', 'i:1787115489;', 1787115489),
+('laravel_cache_884c6c9f9f67de86428359b8fd56c6d3', 'i:1;', 1787507944),
+('laravel_cache_884c6c9f9f67de86428359b8fd56c6d3:timer', 'i:1787507944;', 1787507944),
+('laravel_cache_8915bbda8d6be0d9e8b41ab5f66eeb60', 'i:1;', 1786730083),
+('laravel_cache_8915bbda8d6be0d9e8b41ab5f66eeb60:timer', 'i:1786730083;', 1786730083),
+('laravel_cache_8e022c3e70831678af3e63e00ccd8ab7', 'i:1;', 1786729210),
+('laravel_cache_8e022c3e70831678af3e63e00ccd8ab7:timer', 'i:1786729210;', 1786729210),
+('laravel_cache_90b9d64f8d602383945b5ad1ae71a1e1', 'i:2;', 1787369216),
+('laravel_cache_90b9d64f8d602383945b5ad1ae71a1e1:timer', 'i:1787369216;', 1787369216),
+('laravel_cache_97ed2d6151ce0400a0795384f92d1814', 'i:1;', 1787198622),
+('laravel_cache_97ed2d6151ce0400a0795384f92d1814:timer', 'i:1787198622;', 1787198622),
+('laravel_cache_9f797c990520c9b78cfd795cfb944a10', 'i:5;', 1787912448),
+('laravel_cache_9f797c990520c9b78cfd795cfb944a10:timer', 'i:1787912448;', 1787912448),
+('laravel_cache_9fa8a77b39d52a67b58ad4217bed245e', 'i:3;', 1788939753),
+('laravel_cache_9fa8a77b39d52a67b58ad4217bed245e:timer', 'i:1788939753;', 1788939753),
+('laravel_cache_9fbb1ae378ed684cc23d1675401fe578', 'i:1;', 1788741913),
+('laravel_cache_9fbb1ae378ed684cc23d1675401fe578:timer', 'i:1788741913;', 1788741913),
+('laravel_cache_a1dd648e482e26a0d40211b08df3f700', 'i:7;', 1788368888),
+('laravel_cache_a1dd648e482e26a0d40211b08df3f700:timer', 'i:1788368888;', 1788368888),
+('laravel_cache_a1fc45de98d636e65edc761b02e36caf', 'i:1;', 1786924114),
+('laravel_cache_a1fc45de98d636e65edc761b02e36caf:timer', 'i:1786924114;', 1786924114),
+('laravel_cache_a56d1f5803e51cfc4dac5fb6053e2ee2', 'i:1;', 1787050319),
+('laravel_cache_a56d1f5803e51cfc4dac5fb6053e2ee2:timer', 'i:1787050319;', 1787050319),
+('laravel_cache_a6a3076fa35780f35cf60b2e016e04f3', 'i:6;', 1787341266),
+('laravel_cache_a6a3076fa35780f35cf60b2e016e04f3:timer', 'i:1787341266;', 1787341266),
+('laravel_cache_a6a8ff4072926c0801334ef5ccbca55e', 'i:1;', 1788482151),
+('laravel_cache_a6a8ff4072926c0801334ef5ccbca55e:timer', 'i:1788482151;', 1788482151),
+('laravel_cache_a6d7fa6860c01c2f1a5880e36dd60983', 'i:3;', 1786752606),
+('laravel_cache_a6d7fa6860c01c2f1a5880e36dd60983:timer', 'i:1786752606;', 1786752606),
+('laravel_cache_a71a7da3d7e1a2f34353fc75b5805015', 'i:1;', 1788908553),
+('laravel_cache_a71a7da3d7e1a2f34353fc75b5805015:timer', 'i:1788908553;', 1788908553),
+('laravel_cache_a7ab09dc5e8c8e035e035908db0758b3', 'i:7;', 1788903063),
+('laravel_cache_a7ab09dc5e8c8e035e035908db0758b3:timer', 'i:1788903063;', 1788903063),
+('laravel_cache_a820f09eda8affa27ab58743d2f88b22', 'i:6;', 1787302098),
+('laravel_cache_a820f09eda8affa27ab58743d2f88b22:timer', 'i:1787302098;', 1787302098),
+('laravel_cache_a9453d06d4122c20eacaea9683aefd2c', 'i:1;', 1788741931),
+('laravel_cache_a9453d06d4122c20eacaea9683aefd2c:timer', 'i:1788741931;', 1788741931),
+('laravel_cache_aa058ac1778b5cd33698cf9da6595c30', 'i:3;', 1788379515),
+('laravel_cache_aa058ac1778b5cd33698cf9da6595c30:timer', 'i:1788379515;', 1788379515),
+('laravel_cache_aa74d43099c4586b73cbcee9c58faeac', 'i:1;', 1789082535),
+('laravel_cache_aa74d43099c4586b73cbcee9c58faeac:timer', 'i:1789082535;', 1789082535),
+('laravel_cache_about_coach:ar', 'a:6:{s:5:\"badge\";s:11:\"من نحن\";s:5:\"title\";s:186:\"فريق RanLogic  مدربون معتمدون وأخصائية تغذية، نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك.\";s:16:\"main_description\";s:341:\"في RanLogic، نوفر لك متابعة شاملة تجمع بين التدريب الرياضي والتغذية السليمة. برامجنا مصممة بعناية لتحقيق نتائج مستدامة، مع دعم مستمر من فريق متخصص يرافقك في كل خطوة من رحلتك نحو نسخة أفضل منك.\";s:14:\"highlight_text\";s:117:\"معنا ، لن تحصل على مجرد جدول تمارين، بل على رفيق يدعمك في كل خطوة.\";s:9:\"image_url\";s:72:\"https://api.ranlogic.com/images/coach/coach_20260730225407_hHvailQp.jpeg\";s:8:\"features\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:3:{s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:49:\"أنظمة غذائية وعلاجية مختصة\";s:11:\"description\";s:46:\"خطط تغذية مصممة خصيصاً لك\";}i:1;a:3:{s:4:\"icon\";s:11:\"👩‍🏫\";s:5:\"title\";s:34:\"تدريب شخصي أونلاين\";s:11:\"description\";s:60:\"جلسات تدريب متنوعة ومتابعة يومية\";}i:2;a:3:{s:4:\"icon\";s:4:\"📊\";s:5:\"title\";s:25:\"متابعة مستمرة\";s:11:\"description\";s:52:\"دعم ومتابعة على مدار الأسبوع\";}i:3;a:3:{s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:39:\"تنشيف، نحت، زيادة عضل\";s:11:\"description\";s:47:\"برامج شاملة لتحقيق أهدافك\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789086075),
+('laravel_cache_about_coach:en', 'a:6:{s:5:\"badge\";s:8:\"About Us\";s:5:\"title\";s:151:\"RanLogic Team - certified trainers and nutrition specialist designing personalized fitness and nutrition programs tailored to your goals and lifestyle.\";s:16:\"main_description\";s:295:\"At RanLogic, we provide comprehensive support that combines fitness training with proper nutrition. Our programs are carefully designed to achieve sustainable results, with continuous support from a specialized team that accompanies you every step of the way toward a better version of yourself.\";s:14:\"highlight_text\";s:101:\"With us, you don\'t just get a workout plan; you get a partner who supports you every step of the way.\";s:9:\"image_url\";s:72:\"https://api.ranlogic.com/images/coach/coach_20260730225407_hHvailQp.jpeg\";s:8:\"features\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:3:{s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:38:\"Specialized Medical Nutrition Programs\";s:11:\"description\";s:43:\"Nutrition plans designed especially for you\";}i:1;a:3:{s:4:\"icon\";s:11:\"👩‍🏫\";s:5:\"title\";s:24:\"Online Personal Training\";s:11:\"description\";s:45:\"Diverse daily training and follow-up sessions\";}i:2;a:3:{s:4:\"icon\";s:4:\"📊\";s:5:\"title\";s:20:\"Continuous Follow-up\";s:11:\"description\";s:41:\"Support and follow-up throughout the week\";}i:3;a:3:{s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:31:\"Cutting, Sculpting, Muscle Gain\";s:11:\"description\";s:44:\"Comprehensive programs to achieve your goals\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789035130),
+('laravel_cache_adae8803c3933bae638b3c50b204a8af', 'i:1;', 1788963176),
+('laravel_cache_adae8803c3933bae638b3c50b204a8af:timer', 'i:1788963176;', 1788963176),
+('laravel_cache_ae6fcee6e008e1d184867549b5bc99c2', 'i:6;', 1787943454),
+('laravel_cache_ae6fcee6e008e1d184867549b5bc99c2:timer', 'i:1787943454;', 1787943454),
+('laravel_cache_afa9674935f1748ea6188c8f2ec0ef3d', 'i:1;', 1789033786),
+('laravel_cache_afa9674935f1748ea6188c8f2ec0ef3d:timer', 'i:1789033786;', 1789033786),
+('laravel_cache_b033dfb52237d8c5902a8bed88e1503d', 'i:2;', 1788901936),
+('laravel_cache_b033dfb52237d8c5902a8bed88e1503d:timer', 'i:1788901936;', 1788901936),
+('laravel_cache_b058ec7d1094858575ed6bb0d494b408', 'i:7;', 1788185738),
+('laravel_cache_b058ec7d1094858575ed6bb0d494b408:timer', 'i:1788185738;', 1788185738),
+('laravel_cache_b0eb191dc9e008a0b5ce4803e137cd34', 'i:1;', 1788697172),
+('laravel_cache_b0eb191dc9e008a0b5ce4803e137cd34:timer', 'i:1788697172;', 1788697172),
+('laravel_cache_b2a71dea96a78a34ce2925c88499b919', 'i:1;', 1788282865),
+('laravel_cache_b2a71dea96a78a34ce2925c88499b919:timer', 'i:1788282865;', 1788282865),
+('laravel_cache_b32c8e9b97e6e9534234d97ee5825f46', 'i:2;', 1789082535),
+('laravel_cache_b32c8e9b97e6e9534234d97ee5825f46:timer', 'i:1789082535;', 1789082535),
+('laravel_cache_b4b4ced8985f9db09486fd4710b0f190', 'i:6;', 1788915333),
+('laravel_cache_b4b4ced8985f9db09486fd4710b0f190:timer', 'i:1788915333;', 1788915333),
+('laravel_cache_b52b486e1626f2cf7329466d1d6df8cb', 'i:1;', 1788160592),
+('laravel_cache_b52b486e1626f2cf7329466d1d6df8cb:timer', 'i:1788160592;', 1788160592),
+('laravel_cache_b7fcd13f4d5dcb7f8350e60521b19ee9', 'i:2;', 1787582179),
+('laravel_cache_b7fcd13f4d5dcb7f8350e60521b19ee9:timer', 'i:1787582179;', 1787582179),
+('laravel_cache_b82ae287f50222fdc868c937c319bbf9', 'i:7;', 1788220340),
+('laravel_cache_b82ae287f50222fdc868c937c319bbf9:timer', 'i:1788220340;', 1788220340),
+('laravel_cache_b83866828a032c72c7d60e6c4f352f6d', 'i:3;', 1788154479),
+('laravel_cache_b83866828a032c72c7d60e6c4f352f6d:timer', 'i:1788154479;', 1788154479),
+('laravel_cache_b9a5c885639f4be733f753df3071c9ff', 'i:7;', 1788245950),
+('laravel_cache_b9a5c885639f4be733f753df3071c9ff:timer', 'i:1788245950;', 1788245950),
+('laravel_cache_b9f10681fc78017f4d5dd1bc0d9cfb42', 'i:1;', 1788785808),
+('laravel_cache_b9f10681fc78017f4d5dd1bc0d9cfb42:timer', 'i:1788785808;', 1788785808),
+('laravel_cache_bc67aedd65a68dd313dd50c6a005a39a', 'i:8;', 1788390423),
+('laravel_cache_bc67aedd65a68dd313dd50c6a005a39a:timer', 'i:1788390423;', 1788390423),
+('laravel_cache_bcf2c8a523fdde904fe850d6e6459abc', 'i:1;', 1789082572),
+('laravel_cache_bcf2c8a523fdde904fe850d6e6459abc:timer', 'i:1789082572;', 1789082572),
+('laravel_cache_bd8ae69721f1ffe12255253a499f08a3', 'i:1;', 1788840627),
+('laravel_cache_bd8ae69721f1ffe12255253a499f08a3:timer', 'i:1788840627;', 1788840627),
+('laravel_cache_be3518b13877dd81796878461cd8fbfe', 'i:1;', 1788943984),
+('laravel_cache_be3518b13877dd81796878461cd8fbfe:timer', 'i:1788943984;', 1788943984),
+('laravel_cache_c0a7007156b80bbf76dbe89cc180b4f3', 'i:13;', 1789031577),
+('laravel_cache_c0a7007156b80bbf76dbe89cc180b4f3:timer', 'i:1789031577;', 1789031577),
+('laravel_cache_c359e966ac01dfe03b4965641dd59fa4', 'i:1;', 1788820054),
+('laravel_cache_c359e966ac01dfe03b4965641dd59fa4:timer', 'i:1788820054;', 1788820054),
+('laravel_cache_c4b08c0e0bfa20eeece8e3b5cdab382f', 'i:14;', 1787690460),
+('laravel_cache_c4b08c0e0bfa20eeece8e3b5cdab382f:timer', 'i:1787690460;', 1787690460),
+('laravel_cache_c65018817b2d1949c72ee407933f4087', 'i:1;', 1787053213),
+('laravel_cache_c65018817b2d1949c72ee407933f4087:timer', 'i:1787053213;', 1787053213),
+('laravel_cache_cbe1ff558460464ba3437c48bfc95632', 'i:31;', 1788030035),
+('laravel_cache_cbe1ff558460464ba3437c48bfc95632:timer', 'i:1788030035;', 1788030035),
+('laravel_cache_cc89186dd9184ad140697ca4ec06c4fa', 'i:1;', 1788815962),
+('laravel_cache_cc89186dd9184ad140697ca4ec06c4fa:timer', 'i:1788815962;', 1788815962),
+('laravel_cache_cd693e2352d7eba622f0bdb056955795', 'i:1;', 1788776064),
+('laravel_cache_cd693e2352d7eba622f0bdb056955795:timer', 'i:1788776064;', 1788776064),
+('laravel_cache_cdb3d09ef418f8bd9e071a3aba775123', 'i:6;', 1788781150),
+('laravel_cache_cdb3d09ef418f8bd9e071a3aba775123:timer', 'i:1788781150;', 1788781150),
+('laravel_cache_cdf3f8f7a2b63fb1f6d9c0d7bcac3c15', 'i:15;', 1788882613),
+('laravel_cache_cdf3f8f7a2b63fb1f6d9c0d7bcac3c15:timer', 'i:1788882613;', 1788882613),
+('laravel_cache_certifications:ar', 'O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:7:{i:0;a:6:{s:2:\"id\";i:7;s:4:\"icon\";s:4:\"🏆\";s:5:\"title\";s:45:\"شهادة تدريب وتأهيل رياضي\";s:12:\"organization\";s:25:\"جامعة البتراء\";s:11:\"is_verified\";b:1;s:5:\"order\";i:0;}i:1;a:6:{s:2:\"id\";i:8;s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:38:\"أخصائية تغذية معتمدة\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:1;}i:2;a:6:{s:2:\"id\";i:9;s:4:\"icon\";s:3:\"⚡\";s:5:\"title\";s:25:\"مدرّبة معتمدة\";s:12:\"organization\";s:60:\"دورة تصميم برامج المقاومة Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:2;}i:3;a:6:{s:2:\"id\";i:10;s:4:\"icon\";s:4:\"🥗\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:52:\"دورة وضع أنظمة غذائية Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:3;}i:4;a:6:{s:2:\"id\";i:11;s:4:\"icon\";s:4:\"💉\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:69:\"دورة أنظمة غذائية لمرضى السكري Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:4;}i:5;a:6:{s:2:\"id\";i:12;s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:38:\"دورة تغذية الرياضيين\";s:11:\"is_verified\";b:1;s:5:\"order\";i:5;}i:6;a:6:{s:2:\"id\";i:13;s:4:\"icon\";s:4:\"📱\";s:5:\"title\";s:30:\"دورة تسويق رياضي\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:6;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789086075),
+('laravel_cache_certifications:en', 'O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:7:{i:0;a:6:{s:2:\"id\";i:7;s:4:\"icon\";s:4:\"🏆\";s:5:\"title\";s:44:\"Sports Training & Rehabilitation Certificate\";s:12:\"organization\";s:19:\"University of Petra\";s:11:\"is_verified\";b:1;s:5:\"order\";i:0;}i:1;a:6:{s:2:\"id\";i:8;s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:33:\"Certified Nutritionist Specialist\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:1;}i:2;a:6:{s:2:\"id\";i:9;s:4:\"icon\";s:3:\"⚡\";s:5:\"title\";s:17:\"Certified Trainer\";s:12:\"organization\";s:54:\"Resistance Training Program Design Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:2;}i:3;a:6:{s:2:\"id\";i:10;s:4:\"icon\";s:4:\"🥗\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:47:\"Nutrition Plans Development Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:3;}i:4;a:6:{s:2:\"id\";i:11;s:4:\"icon\";s:4:\"💉\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:44:\"Diabetic Nutrition Plans Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:4;}i:5;a:6:{s:2:\"id\";i:12;s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:36:\"Sports Nutrition Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:5;}i:6;a:6:{s:2:\"id\";i:13;s:4:\"icon\";s:4:\"📱\";s:5:\"title\";s:23:\"Sports Marketing Course\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:6;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789035130),
+('laravel_cache_cf19d7a010176285722bad4bbc1b04bd', 'i:1;', 1788775824),
+('laravel_cache_cf19d7a010176285722bad4bbc1b04bd:timer', 'i:1788775824;', 1788775824),
+('laravel_cache_d011fbac6a094adf49de0f57241828f4', 'i:4;', 1786752627),
+('laravel_cache_d011fbac6a094adf49de0f57241828f4:timer', 'i:1786752627;', 1786752627),
+('laravel_cache_d07b50c024f37277484faa6e654abde0', 'i:6;', 1788902325),
+('laravel_cache_d07b50c024f37277484faa6e654abde0:timer', 'i:1788902325;', 1788902325),
+('laravel_cache_d07ebd9ff7fe5162d7db6d8e377cfead', 'i:1;', 1788963180),
+('laravel_cache_d07ebd9ff7fe5162d7db6d8e377cfead:timer', 'i:1788963180;', 1788963180),
+('laravel_cache_d146111cec31f483452011761323dff7', 'i:1;', 1786926365),
+('laravel_cache_d146111cec31f483452011761323dff7:timer', 'i:1786926365;', 1786926365),
+('laravel_cache_d2c16c018ff2a2534656fee41e433725', 'i:1;', 1786756301),
+('laravel_cache_d2c16c018ff2a2534656fee41e433725:timer', 'i:1786756301;', 1786756301),
+('laravel_cache_d3824a872ede6b5d507435613adfa46e', 'i:1;', 1788864496),
+('laravel_cache_d3824a872ede6b5d507435613adfa46e:timer', 'i:1788864496;', 1788864496),
+('laravel_cache_d48bcd4df9ead18ec101e7d4b84d7e06', 'i:1;', 1786926364),
+('laravel_cache_d48bcd4df9ead18ec101e7d4b84d7e06:timer', 'i:1786926364;', 1786926364),
+('laravel_cache_d73c8032684334a7b9bee1d320c439e2', 'i:3;', 1788934207),
+('laravel_cache_d73c8032684334a7b9bee1d320c439e2:timer', 'i:1788934207;', 1788934207),
+('laravel_cache_d7af8b90bbbe653859a63f7fad472006', 'i:7;', 1789025720),
+('laravel_cache_d7af8b90bbbe653859a63f7fad472006:timer', 'i:1789025720;', 1789025720),
+('laravel_cache_daf0170bd9466bff15ec5b67a7eaec5a', 'i:3;', 1786730083),
+('laravel_cache_daf0170bd9466bff15ec5b67a7eaec5a:timer', 'i:1786730083;', 1786730083),
+('laravel_cache_dashboard:alerts', 'a:4:{i:0;i:0;i:1;i:0;i:2;i:0;i:3;i:0;}', 1789033965),
+('laravel_cache_dashboard:funnel', 'a:4:{i:0;i:28;i:1;i:1;i:2;i:0;i:3;i:1;}', 1789033965),
+('laravel_cache_dashboard:growth:this_week', 'O:39:\"Illuminate\\Database\\Eloquent\\Collection\":2:{s:8:\"\0*\0items\";a:1:{i:0;O:23:\"App\\Models\\Subscription\":31:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:13:\"subscriptions\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:2:{s:4:\"date\";s:10:\"2026-09-07\";s:5:\"count\";i:1;}s:11:\"\0*\0original\";a:2:{s:4:\"date\";s:10:\"2026-09-07\";s:5:\"count\";i:1;}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:5:{s:6:\"amount\";s:9:\"decimal:2\";s:15:\"original_amount\";s:9:\"decimal:2\";s:9:\"starts_at\";s:8:\"datetime\";s:7:\"ends_at\";s:8:\"datetime\";s:10:\"deleted_at\";s:8:\"datetime\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:16:{i:0;s:7:\"user_id\";i:1;s:9:\"plan_type\";i:2;s:8:\"duration\";i:3;s:6:\"amount\";i:4;s:15:\"original_amount\";i:5;s:19:\"discount_percentage\";i:6;s:14:\"payment_method\";i:7;s:6:\"status\";i:8;s:15:\"paypal_order_id\";i:9;s:15:\"paypal_payer_id\";i:10;s:20:\"bank_transfer_number\";i:11;s:17:\"bank_receipt_path\";i:12;s:8:\"currency\";i:13;s:5:\"notes\";i:14;s:9:\"starts_at\";i:15;s:7:\"ends_at\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}s:16:\"\0*\0forceDeleting\";b:0;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789033965),
+('laravel_cache_dashboard:metrics', 'a:6:{s:18:\"totalSubscriptions\";i:1;s:16:\"newRegistrations\";i:1;s:12:\"totalRevenue\";d:185;s:23:\"avgSubscriptionDuration\";d:4.6;s:14:\"completionRate\";d:41;s:20:\"previousPeriodChange\";a:3:{s:13:\"subscriptions\";i:100;s:7:\"revenue\";i:100;s:13:\"registrations\";d:0;}}', 1789033965),
+('laravel_cache_dashboard:payment-status', 'a:4:{i:0;i:1;i:1;i:1;i:2;i:1;i:3;i:0;}', 1789033965),
+('laravel_cache_dashboard:program-types', 'a:4:{s:11:\"weight-loss\";i:3;s:6:\"toning\";i:0;s:11:\"muscle-gain\";i:2;s:7:\"fitness\";i:0;}', 1789033965),
+('laravel_cache_dashboard:revenue:this_week', 'O:39:\"Illuminate\\Database\\Eloquent\\Collection\":2:{s:8:\"\0*\0items\";a:1:{i:0;O:23:\"App\\Models\\Subscription\":31:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:13:\"subscriptions\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:2:{s:4:\"date\";s:10:\"2026-09-07\";s:5:\"total\";s:6:\"185.00\";}s:11:\"\0*\0original\";a:2:{s:4:\"date\";s:10:\"2026-09-07\";s:5:\"total\";s:6:\"185.00\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:5:{s:6:\"amount\";s:9:\"decimal:2\";s:15:\"original_amount\";s:9:\"decimal:2\";s:9:\"starts_at\";s:8:\"datetime\";s:7:\"ends_at\";s:8:\"datetime\";s:10:\"deleted_at\";s:8:\"datetime\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:16:{i:0;s:7:\"user_id\";i:1;s:9:\"plan_type\";i:2;s:8:\"duration\";i:3;s:6:\"amount\";i:4;s:15:\"original_amount\";i:5;s:19:\"discount_percentage\";i:6;s:14:\"payment_method\";i:7;s:6:\"status\";i:8;s:15:\"paypal_order_id\";i:9;s:15:\"paypal_payer_id\";i:10;s:20:\"bank_transfer_number\";i:11;s:17:\"bank_receipt_path\";i:12;s:8:\"currency\";i:13;s:5:\"notes\";i:14;s:9:\"starts_at\";i:15;s:7:\"ends_at\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}s:16:\"\0*\0forceDeleting\";b:0;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789033965),
+('laravel_cache_db5bd6c14b64bf9eccf277a4853e099c', 'i:7;', 1787765530),
+('laravel_cache_db5bd6c14b64bf9eccf277a4853e099c:timer', 'i:1787765530;', 1787765530),
+('laravel_cache_dc67ad9e5af500db4786530ab3c0b1c6', 'i:6;', 1788045834),
+('laravel_cache_dc67ad9e5af500db4786530ab3c0b1c6:timer', 'i:1788045834;', 1788045834),
+('laravel_cache_ddd1d1311a911a5d722185a99114cfa4', 'i:2;', 1788160592),
+('laravel_cache_ddd1d1311a911a5d722185a99114cfa4:timer', 'i:1788160592;', 1788160592),
+('laravel_cache_e3378f87859cd7c4fd0df7b366f6090d', 'i:1;', 1788776166),
+('laravel_cache_e3378f87859cd7c4fd0df7b366f6090d:timer', 'i:1788776166;', 1788776166),
+('laravel_cache_e76ee323ff528bdb072453ad332df316', 'i:6;', 1787962573),
+('laravel_cache_e76ee323ff528bdb072453ad332df316:timer', 'i:1787962573;', 1787962573),
+('laravel_cache_e771dc7f7d203cf1fbc39987901900c5', 'i:8;', 1788902390),
+('laravel_cache_e771dc7f7d203cf1fbc39987901900c5:timer', 'i:1788902390;', 1788902390),
+('laravel_cache_e92006b8cdab72d3b7d6b06d8c866294', 'i:1;', 1786926364),
+('laravel_cache_e92006b8cdab72d3b7d6b06d8c866294:timer', 'i:1786926364;', 1786926364),
+('laravel_cache_ea3c6ca3527144caa65da6e15221d209', 'i:1;', 1786924114),
+('laravel_cache_ea3c6ca3527144caa65da6e15221d209:timer', 'i:1786924114;', 1786924114),
+('laravel_cache_ea62e3f18f1579e0900551420f82b9f1', 'i:3;', 1786790358),
+('laravel_cache_ea62e3f18f1579e0900551420f82b9f1:timer', 'i:1786790358;', 1786790358),
+('laravel_cache_eb137d1d827547cac765a5fb075a9934', 'i:3;', 1788946984),
+('laravel_cache_eb137d1d827547cac765a5fb075a9934:timer', 'i:1788946984;', 1788946984),
+('laravel_cache_eb66044f2d4c46ad0e0b1e7619183d97', 'i:7;', 1788368886),
+('laravel_cache_eb66044f2d4c46ad0e0b1e7619183d97:timer', 'i:1788368886;', 1788368886),
+('laravel_cache_eb806fa9d559317391a008fe87a7ad7a', 'i:7;', 1788220263),
+('laravel_cache_eb806fa9d559317391a008fe87a7ad7a:timer', 'i:1788220263;', 1788220263),
+('laravel_cache_ecaf6e2cf916758905441ce28037b924', 'i:4;', 1786785987),
+('laravel_cache_ecaf6e2cf916758905441ce28037b924:timer', 'i:1786785987;', 1786785987),
+('laravel_cache_ecd2124fcb37d79a370315f9094700d1', 'i:7;', 1787402819),
+('laravel_cache_ecd2124fcb37d79a370315f9094700d1:timer', 'i:1787402819;', 1787402819),
+('laravel_cache_ed0d15f0b85f0ab29a8f8ffe4b6224ad', 'i:1;', 1786919614),
+('laravel_cache_ed0d15f0b85f0ab29a8f8ffe4b6224ad:timer', 'i:1786919614;', 1786919614),
+('laravel_cache_ed6bfc2ae624eea2e89ec7d4a37e939e', 'i:1;', 1788482151),
+('laravel_cache_ed6bfc2ae624eea2e89ec7d4a37e939e:timer', 'i:1788482151;', 1788482151),
+('laravel_cache_eeae9af94839e468bb2cbb4304b41a55', 'i:1;', 1788731465),
+('laravel_cache_eeae9af94839e468bb2cbb4304b41a55:timer', 'i:1788731465;', 1788731465),
+('laravel_cache_ef3a0eda5dd6089096eb29bde3268e01', 'i:6;', 1787962178),
+('laravel_cache_ef3a0eda5dd6089096eb29bde3268e01:timer', 'i:1787962178;', 1787962178),
+('laravel_cache_f01234b5ba37d70d1fddd773b6481085', 'i:12;', 1787388240),
+('laravel_cache_f01234b5ba37d70d1fddd773b6481085:timer', 'i:1787388240;', 1787388240),
+('laravel_cache_f0d21908565703443d180697f34d1dc2', 'i:7;', 1788884494),
+('laravel_cache_f0d21908565703443d180697f34d1dc2:timer', 'i:1788884494;', 1788884494),
+('laravel_cache_f13c9bc6105c8df686301d6a53c43857', 'i:1;', 1788777108),
+('laravel_cache_f13c9bc6105c8df686301d6a53c43857:timer', 'i:1788777108;', 1788777108),
+('laravel_cache_f1f70ec40aaa556905d4a030501c0ba4', 'i:13;', 1789033814),
+('laravel_cache_f1f70ec40aaa556905d4a030501c0ba4:timer', 'i:1789033814;', 1789033814),
+('laravel_cache_f4422ad1ec6a8562b3d522e20571fca7', 'i:8;', 1788864488),
+('laravel_cache_f4422ad1ec6a8562b3d522e20571fca7:timer', 'i:1788864488;', 1788864488),
+('laravel_cache_f501b0574c0b9d3be87f89484d561b54', 'i:9;', 1788815953),
+('laravel_cache_f501b0574c0b9d3be87f89484d561b54:timer', 'i:1788815953;', 1788815953),
+('laravel_cache_f5779c518188fbd6f75f571f0eaaffdd', 'i:1;', 1788379444),
+('laravel_cache_f5779c518188fbd6f75f571f0eaaffdd:timer', 'i:1788379444;', 1788379444),
+('laravel_cache_f5d5f42ad56365f0642cb9bdb13aa7fc', 'i:7;', 1787406107),
+('laravel_cache_f5d5f42ad56365f0642cb9bdb13aa7fc:timer', 'i:1787406107;', 1787406107),
+('laravel_cache_f71b5702ccb42f87bf799b0520cc0ea4', 'i:1;', 1787053212),
+('laravel_cache_f71b5702ccb42f87bf799b0520cc0ea4:timer', 'i:1787053212;', 1787053212),
+('laravel_cache_f98350d01d0bb2e204f9180f2893fee6', 'i:7;', 1787406063),
+('laravel_cache_f98350d01d0bb2e204f9180f2893fee6:timer', 'i:1787406063;', 1787406063),
+('laravel_cache_fa02c3ec6b8e242b6b84ba0a8f0d56ac', 'i:6;', 1788902761),
+('laravel_cache_fa02c3ec6b8e242b6b84ba0a8f0d56ac:timer', 'i:1788902761;', 1788902761),
+('laravel_cache_fa8bbe46cadcfabed6747843063009ce', 'i:1;', 1787334384),
+('laravel_cache_fa8bbe46cadcfabed6747843063009ce:timer', 'i:1787334384;', 1787334384),
+('laravel_cache_fab1824bdf9775cba86de11f6e7cb4a7', 'i:7;', 1787484025),
+('laravel_cache_fab1824bdf9775cba86de11f6e7cb4a7:timer', 'i:1787484025;', 1787484025),
+('laravel_cache_fbb8d4ac944867011782e0f419ff3923', 'i:7;', 1787428004),
+('laravel_cache_fbb8d4ac944867011782e0f419ff3923:timer', 'i:1787428004;', 1787428004),
+('laravel_cache_fbd2d41a38652fa5a43bf7a9b33f4e2e', 'i:1;', 1789033724),
+('laravel_cache_fbd2d41a38652fa5a43bf7a9b33f4e2e:timer', 'i:1789033724;', 1789033724),
+('laravel_cache_fe36b4d56bd63e8c57bbf395dc5a4d83', 'i:11;', 1789031715),
+('laravel_cache_fe36b4d56bd63e8c57bbf395dc5a4d83:timer', 'i:1789031715;', 1789031715),
+('laravel_cache_fx_rate_usd_AED', 'd:3.6725;', 1788422590),
+('laravel_cache_fx_rate_usd_EUR', 'd:0.86081177;', 1788818626),
+('laravel_cache_fx_rate_usd_JOD', 'd:0.709;', 1788836406),
+('laravel_cache_fx_rate_usd_QAR', 'd:3.64;', 1787412357),
+('laravel_cache_geo_ip_562129ac955ccce7012eb2a56db9627e', 's:2:\"JO\";', 1788879606),
+('laravel_cache_geo_ip_c1142a4e3760b8a1106f5deae43fd567', 's:2:\"DE\";', 1788862164),
+('laravel_cache_geo_ip_d071eace2a42ce6806e522bdc5b4e10c', 's:2:\"DE\";', 1788861825),
+('laravel_cache_geo_ip_d2e52efca6eb05d6a1f79ae828a40373', 's:2:\"DE\";', 1788902672),
+('laravel_cache_geo_ip_eea2e4c7544be11ece47434dd9f2e58a', 's:2:\"AE\";', 1788465789),
+('laravel_cache_geo_ip_efa656282809bdd3b497c03b508491e6', 's:2:\"JO\";', 1788298771),
+('laravel_cache_geo_ip_fb8b6acef7a28df26b4502dec35c4d63', 's:2:\"QA\";', 1787455557);
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('laravel_cache_hero_section', 'O:22:\"App\\Models\\HeroSection\":31:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:13:\"hero_sections\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:18:{s:2:\"id\";i:1;s:10:\"video_path\";s:45:\"videos/hero_video_20260413214054_Hq4WTHVf.mp4\";s:10:\"video_name\";s:40:\"cb3f6893-6d6f-42c1-86b6-245c22107d7b.mp4\";s:10:\"video_type\";s:9:\"video/mp4\";s:10:\"video_size\";i:3617571;s:8:\"badge_en\";s:29:\"Personalized Training Program\";s:8:\"badge_ar\";s:32:\"برنامج تدريب شخصي\";s:13:\"main_title_en\";s:59:\"Invest in yourself, and build the best version of you today\";s:13:\"main_title_ar\";s:94:\"*  استثمر في نفسك، واصنع النسخة الأفضل من ذاتك اليوم.\";s:12:\"sub_title_en\";s:72:\"Your journey toward a strong body and unshakable confidence starts here.\";s:12:\"sub_title_ar\";s:76:\"رحلتك نحو جسم قوي وثقة لا تهتز تبدأ من هنا.\";s:14:\"description_en\";s:92:\"Say goodbye to generic plans. Join a program scientifically tailored to your specific goals.\";s:14:\"description_ar\";s:139:\"وداعاً للبرامج العشوائية، انضم إلى برنامج صُمم علمياً ليناسب أهدافك الخاصة.\";s:9:\"is_active\";i:1;s:10:\"updated_by\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-04-13 21:40:54\";s:10:\"deleted_at\";N;}s:11:\"\0*\0original\";a:18:{s:2:\"id\";i:1;s:10:\"video_path\";s:45:\"videos/hero_video_20260413214054_Hq4WTHVf.mp4\";s:10:\"video_name\";s:40:\"cb3f6893-6d6f-42c1-86b6-245c22107d7b.mp4\";s:10:\"video_type\";s:9:\"video/mp4\";s:10:\"video_size\";i:3617571;s:8:\"badge_en\";s:29:\"Personalized Training Program\";s:8:\"badge_ar\";s:32:\"برنامج تدريب شخصي\";s:13:\"main_title_en\";s:59:\"Invest in yourself, and build the best version of you today\";s:13:\"main_title_ar\";s:94:\"*  استثمر في نفسك، واصنع النسخة الأفضل من ذاتك اليوم.\";s:12:\"sub_title_en\";s:72:\"Your journey toward a strong body and unshakable confidence starts here.\";s:12:\"sub_title_ar\";s:76:\"رحلتك نحو جسم قوي وثقة لا تهتز تبدأ من هنا.\";s:14:\"description_en\";s:92:\"Say goodbye to generic plans. Join a program scientifically tailored to your specific goals.\";s:14:\"description_ar\";s:139:\"وداعاً للبرامج العشوائية، انضم إلى برنامج صُمم علمياً ليناسب أهدافك الخاصة.\";s:9:\"is_active\";i:1;s:10:\"updated_by\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-04-13 21:40:54\";s:10:\"deleted_at\";N;}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:3:{s:9:\"is_active\";s:7:\"boolean\";s:10:\"video_size\";s:7:\"integer\";s:10:\"deleted_at\";s:8:\"datetime\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:1:{i:0;s:9:\"video_url\";}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:1:{s:11:\"activeStats\";O:39:\"Illuminate\\Database\\Eloquent\\Collection\":2:{s:8:\"\0*\0items\";a:3:{i:0;O:19:\"App\\Models\\HeroStat\":30:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:10:\"hero_stats\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:9:{s:2:\"id\";i:1;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:4:\"200+\";s:8:\"label_en\";s:14:\"Happy Trainees\";s:8:\"label_ar\";s:19:\"متدرب سعيد\";s:5:\"order\";i:0;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-02-25 17:50:08\";}s:11:\"\0*\0original\";a:9:{s:2:\"id\";i:1;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:4:\"200+\";s:8:\"label_en\";s:14:\"Happy Trainees\";s:8:\"label_ar\";s:19:\"متدرب سعيد\";s:5:\"order\";i:0;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-02-25 17:50:08\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:2:{s:9:\"is_active\";s:7:\"boolean\";s:5:\"order\";s:7:\"integer\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:6:{i:0;s:15:\"hero_section_id\";i:1;s:5:\"value\";i:2;s:8:\"label_en\";i:3;s:8:\"label_ar\";i:4;s:5:\"order\";i:5;s:9:\"is_active\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}}i:1;O:19:\"App\\Models\\HeroStat\":30:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:10:\"hero_stats\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:9:{s:2:\"id\";i:2;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:2:\"4+\";s:8:\"label_en\";s:19:\"Years of Experience\";s:8:\"label_ar\";s:19:\"سنوات خبرة\";s:5:\"order\";i:1;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-02-25 17:49:23\";}s:11:\"\0*\0original\";a:9:{s:2:\"id\";i:2;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:2:\"4+\";s:8:\"label_en\";s:19:\"Years of Experience\";s:8:\"label_ar\";s:19:\"سنوات خبرة\";s:5:\"order\";i:1;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-02-25 17:49:23\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:2:{s:9:\"is_active\";s:7:\"boolean\";s:5:\"order\";s:7:\"integer\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:6:{i:0;s:15:\"hero_section_id\";i:1;s:5:\"value\";i:2;s:8:\"label_en\";i:3;s:8:\"label_ar\";i:4;s:5:\"order\";i:5;s:9:\"is_active\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}}i:2;O:19:\"App\\Models\\HeroStat\":30:{s:13:\"\0*\0connection\";s:5:\"mysql\";s:8:\"\0*\0table\";s:10:\"hero_stats\";s:13:\"\0*\0primaryKey\";s:2:\"id\";s:10:\"\0*\0keyType\";s:3:\"int\";s:12:\"incrementing\";b:1;s:7:\"\0*\0with\";a:0:{}s:12:\"\0*\0withCount\";a:0:{}s:19:\"preventsLazyLoading\";b:0;s:10:\"\0*\0perPage\";i:15;s:6:\"exists\";b:1;s:18:\"wasRecentlyCreated\";b:0;s:28:\"\0*\0escapeWhenCastingToString\";b:0;s:13:\"\0*\0attributes\";a:9:{s:2:\"id\";i:3;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:3:\"98%\";s:8:\"label_en\";s:12:\"Success Rate\";s:8:\"label_ar\";s:21:\"نسبة النجاح\";s:5:\"order\";i:2;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-01-18 14:27:27\";}s:11:\"\0*\0original\";a:9:{s:2:\"id\";i:3;s:15:\"hero_section_id\";i:1;s:5:\"value\";s:3:\"98%\";s:8:\"label_en\";s:12:\"Success Rate\";s:8:\"label_ar\";s:21:\"نسبة النجاح\";s:5:\"order\";i:2;s:9:\"is_active\";i:1;s:10:\"created_at\";s:19:\"2026-01-18 14:27:27\";s:10:\"updated_at\";s:19:\"2026-01-18 14:27:27\";}s:10:\"\0*\0changes\";a:0:{}s:8:\"\0*\0casts\";a:2:{s:9:\"is_active\";s:7:\"boolean\";s:5:\"order\";s:7:\"integer\";}s:17:\"\0*\0classCastCache\";a:0:{}s:21:\"\0*\0attributeCastCache\";a:0:{}s:13:\"\0*\0dateFormat\";N;s:10:\"\0*\0appends\";a:0:{}s:19:\"\0*\0dispatchesEvents\";a:0:{}s:14:\"\0*\0observables\";a:0:{}s:12:\"\0*\0relations\";a:0:{}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:6:{i:0;s:15:\"hero_section_id\";i:1;s:5:\"value\";i:2;s:8:\"label_en\";i:3;s:8:\"label_ar\";i:4;s:5:\"order\";i:5;s:9:\"is_active\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}s:10:\"\0*\0touches\";a:0:{}s:10:\"timestamps\";b:1;s:13:\"usesUniqueIds\";b:0;s:9:\"\0*\0hidden\";a:0:{}s:10:\"\0*\0visible\";a:0:{}s:11:\"\0*\0fillable\";a:14:{i:0;s:10:\"video_path\";i:1;s:10:\"video_name\";i:2;s:10:\"video_type\";i:3;s:10:\"video_size\";i:4;s:8:\"badge_en\";i:5;s:8:\"badge_ar\";i:6;s:13:\"main_title_en\";i:7;s:13:\"main_title_ar\";i:8;s:12:\"sub_title_en\";i:9;s:12:\"sub_title_ar\";i:10;s:14:\"description_en\";i:11;s:14:\"description_ar\";i:12;s:9:\"is_active\";i:13;s:10:\"updated_by\";}s:10:\"\0*\0guarded\";a:1:{i:0;s:1:\"*\";}s:16:\"\0*\0forceDeleting\";b:0;}', 1789086075),
+('laravel_cache_public:about-coach:ar', 'a:6:{s:5:\"badge\";s:11:\"من نحن\";s:5:\"title\";s:186:\"فريق RanLogic  مدربون معتمدون وأخصائية تغذية، نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك.\";s:16:\"main_description\";s:341:\"في RanLogic، نوفر لك متابعة شاملة تجمع بين التدريب الرياضي والتغذية السليمة. برامجنا مصممة بعناية لتحقيق نتائج مستدامة، مع دعم مستمر من فريق متخصص يرافقك في كل خطوة من رحلتك نحو نسخة أفضل منك.\";s:14:\"highlight_text\";s:117:\"معنا ، لن تحصل على مجرد جدول تمارين، بل على رفيق يدعمك في كل خطوة.\";s:9:\"image_url\";s:72:\"https://api.ranlogic.com/images/coach/coach_20260730225407_hHvailQp.jpeg\";s:8:\"features\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:3:{s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:49:\"أنظمة غذائية وعلاجية مختصة\";s:11:\"description\";s:46:\"خطط تغذية مصممة خصيصاً لك\";}i:1;a:3:{s:4:\"icon\";s:11:\"👩‍🏫\";s:5:\"title\";s:34:\"تدريب شخصي أونلاين\";s:11:\"description\";s:60:\"جلسات تدريب متنوعة ومتابعة يومية\";}i:2;a:3:{s:4:\"icon\";s:4:\"📊\";s:5:\"title\";s:25:\"متابعة مستمرة\";s:11:\"description\";s:52:\"دعم ومتابعة على مدار الأسبوع\";}i:3;a:3:{s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:39:\"تنشيف، نحت، زيادة عضل\";s:11:\"description\";s:47:\"برامج شاملة لتحقيق أهدافك\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789086075),
+('laravel_cache_public:about-coach:en', 'a:6:{s:5:\"badge\";s:8:\"About Us\";s:5:\"title\";s:151:\"RanLogic Team - certified trainers and nutrition specialist designing personalized fitness and nutrition programs tailored to your goals and lifestyle.\";s:16:\"main_description\";s:295:\"At RanLogic, we provide comprehensive support that combines fitness training with proper nutrition. Our programs are carefully designed to achieve sustainable results, with continuous support from a specialized team that accompanies you every step of the way toward a better version of yourself.\";s:14:\"highlight_text\";s:101:\"With us, you don\'t just get a workout plan; you get a partner who supports you every step of the way.\";s:9:\"image_url\";s:72:\"https://api.ranlogic.com/images/coach/coach_20260730225407_hHvailQp.jpeg\";s:8:\"features\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:3:{s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:38:\"Specialized Medical Nutrition Programs\";s:11:\"description\";s:43:\"Nutrition plans designed especially for you\";}i:1;a:3:{s:4:\"icon\";s:11:\"👩‍🏫\";s:5:\"title\";s:24:\"Online Personal Training\";s:11:\"description\";s:45:\"Diverse daily training and follow-up sessions\";}i:2;a:3:{s:4:\"icon\";s:4:\"📊\";s:5:\"title\";s:20:\"Continuous Follow-up\";s:11:\"description\";s:41:\"Support and follow-up throughout the week\";}i:3;a:3:{s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:31:\"Cutting, Sculpting, Muscle Gain\";s:11:\"description\";s:44:\"Comprehensive programs to achieve your goals\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789035130),
+('laravel_cache_public:active-logo', 'a:9:{s:2:\"id\";i:34;s:9:\"file_name\";s:27:\"logoo1-removebg-preview.png\";s:8:\"file_url\";s:63:\"https://api.ranlogic.com/logos/logo_20260225021829_VZVg9yKl.png\";s:9:\"file_type\";s:9:\"image/png\";s:9:\"file_size\";i:161986;s:19:\"file_size_formatted\";s:9:\"158.19 KB\";s:5:\"width\";i:834;s:6:\"height\";i:264;s:11:\"uploaded_at\";s:19:\"2026-02-25 02:18:29\";}', 1789086083),
+('laravel_cache_public:certifications:ar', 'O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:7:{i:0;a:6:{s:2:\"id\";i:7;s:4:\"icon\";s:4:\"🏆\";s:5:\"title\";s:45:\"شهادة تدريب وتأهيل رياضي\";s:12:\"organization\";s:25:\"جامعة البتراء\";s:11:\"is_verified\";b:1;s:5:\"order\";i:0;}i:1;a:6:{s:2:\"id\";i:8;s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:38:\"أخصائية تغذية معتمدة\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:1;}i:2;a:6:{s:2:\"id\";i:9;s:4:\"icon\";s:3:\"⚡\";s:5:\"title\";s:25:\"مدرّبة معتمدة\";s:12:\"organization\";s:60:\"دورة تصميم برامج المقاومة Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:2;}i:3;a:6:{s:2:\"id\";i:10;s:4:\"icon\";s:4:\"🥗\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:52:\"دورة وضع أنظمة غذائية Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:3;}i:4;a:6:{s:2:\"id\";i:11;s:4:\"icon\";s:4:\"💉\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:69:\"دورة أنظمة غذائية لمرضى السكري Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:4;}i:5;a:6:{s:2:\"id\";i:12;s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:25:\"أخصائية تغذية\";s:12:\"organization\";s:38:\"دورة تغذية الرياضيين\";s:11:\"is_verified\";b:1;s:5:\"order\";i:5;}i:6;a:6:{s:2:\"id\";i:13;s:4:\"icon\";s:4:\"📱\";s:5:\"title\";s:30:\"دورة تسويق رياضي\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:6;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789086075),
+('laravel_cache_public:certifications:en', 'O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:7:{i:0;a:6:{s:2:\"id\";i:7;s:4:\"icon\";s:4:\"🏆\";s:5:\"title\";s:44:\"Sports Training & Rehabilitation Certificate\";s:12:\"organization\";s:19:\"University of Petra\";s:11:\"is_verified\";b:1;s:5:\"order\";i:0;}i:1;a:6:{s:2:\"id\";i:8;s:4:\"icon\";s:4:\"🍎\";s:5:\"title\";s:33:\"Certified Nutritionist Specialist\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:1;}i:2;a:6:{s:2:\"id\";i:9;s:4:\"icon\";s:3:\"⚡\";s:5:\"title\";s:17:\"Certified Trainer\";s:12:\"organization\";s:54:\"Resistance Training Program Design Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:2;}i:3;a:6:{s:2:\"id\";i:10;s:4:\"icon\";s:4:\"🥗\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:47:\"Nutrition Plans Development Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:3;}i:4;a:6:{s:2:\"id\";i:11;s:4:\"icon\";s:4:\"💉\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:44:\"Diabetic Nutrition Plans Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:4;}i:5;a:6:{s:2:\"id\";i:12;s:4:\"icon\";s:4:\"💪\";s:5:\"title\";s:20:\"Nutrition Specialist\";s:12:\"organization\";s:36:\"Sports Nutrition Course Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:5;}i:6;a:6:{s:2:\"id\";i:13;s:4:\"icon\";s:4:\"📱\";s:5:\"title\";s:23:\"Sports Marketing Course\";s:12:\"organization\";s:12:\"Jump Academy\";s:11:\"is_verified\";b:1;s:5:\"order\";i:6;}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}', 1789035130),
+('laravel_cache_public:faq:ar', 'a:2:{s:7:\"section\";a:2:{s:5:\"title\";s:29:\"الأسئلة الشائعة\";s:8:\"subtitle\";s:71:\"كل ما تحتاج معرفته عن رحلتك الرياضية 🤍\";}s:9:\"questions\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:8:{i:0;a:5:{s:2:\"id\";i:1;s:8:\"category\";s:14:\"البداية\";s:8:\"question\";s:22:\"من أين أبدأ؟\";s:6:\"answer\";s:55:\"البداية ليست قوتك، إنما قرارك.\";s:4:\"icon\";s:4:\"🚀\";}i:1;a:5:{s:2:\"id\";i:2;s:8:\"category\";s:14:\"التحفيز\";s:8:\"question\";s:34:\"أخاف أنني لن أكمل...\";s:6:\"answer\";s:59:\"أغلب المتدربات بدأن بنفس الشعور.\";s:4:\"icon\";s:4:\"💪\";}i:2;a:5:{s:2:\"id\";i:3;s:8:\"category\";s:31:\"الخصوصية والأمان\";s:8:\"question\";s:30:\"ماذا عن خصوصيتي؟\";s:6:\"answer\";s:29:\"خصوصيتك خط أحمر.\";s:4:\"icon\";s:4:\"🔒\";}i:3;a:5:{s:2:\"id\";i:4;s:8:\"category\";s:21:\"إدارة الوقت\";s:8:\"question\";s:24:\"لدي وقت محدود\";s:6:\"answer\";s:56:\"30 دقيقة كافية عندما تكون صحيحة.\";s:4:\"icon\";s:6:\"⏱️\";}i:4;a:5:{s:2:\"id\";i:5;s:8:\"category\";s:14:\"النتائج\";s:8:\"question\";s:32:\"متى سأرى النتائج؟\";s:6:\"answer\";s:41:\"الفرق يبدأ قبل أن يظهر.\";s:4:\"icon\";s:4:\"📈\";}i:5;a:5:{s:2:\"id\";i:6;s:8:\"category\";s:21:\"شكل التدريب\";s:8:\"question\";s:36:\"هل التدريب أونلاين؟\";s:6:\"answer\";s:38:\"نعم! من بيتك وفي وقتك.\";s:4:\"icon\";s:4:\"🌐\";}i:6;a:5:{s:2:\"id\";i:7;s:8:\"category\";s:14:\"المعدات\";s:8:\"question\";s:28:\"هل أحتاج معدات؟\";s:6:\"answer\";s:42:\"لا، جسمك وحافزك كافيان.\";s:4:\"icon\";s:7:\"🏋️\";}i:7;a:5:{s:2:\"id\";i:8;s:8:\"category\";s:14:\"التغذية\";s:8:\"question\";s:43:\"ماذا عن النظام الغذائي؟\";s:6:\"answer\";s:27:\"مرن بدون حرمان.\";s:4:\"icon\";s:4:\"🥗\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1788837149),
+('laravel_cache_public:footer', 'a:12:{s:4:\"logo\";a:2:{s:3:\"url\";s:63:\"https://api.ranlogic.com/logos/logo_20260225021829_VZVg9yKl.png\";s:3:\"alt\";s:4:\"Logo\";}s:14:\"description_ar\";s:124:\"خبراء في اللياقة والتغذية يقدمون لك خطة متكاملة نحو جسم صحي ومتوازن.\";s:14:\"description_en\";s:102:\"Experts in fitness and nutrition providing you with a comprehensive plan for a healthy, balanced body.\";s:12:\"copyright_ar\";s:53:\"© 2026 RanLogic. جميع الحقوق محفوظة.\";s:12:\"copyright_en\";s:38:\"© 2026 RanLogic. All rights reserved.\";s:20:\"quick_links_title_ar\";s:21:\"روابط سريعة\";s:20:\"quick_links_title_en\";s:11:\"Quick Links\";s:5:\"email\";s:20:\"ran.logic1@gmail.com\";s:5:\"phone\";s:0:\"\";s:10:\"address_ar\";s:0:\"\";s:10:\"address_en\";s:0:\"\";s:12:\"social_links\";a:4:{i:0;a:2:{s:8:\"platform\";s:7:\"twitter\";s:3:\"url\";s:27:\"https://x.com/ranlogic?s=21\";}i:1;a:2:{s:8:\"platform\";s:7:\"youtube\";s:3:\"url\";s:49:\"https://youtube.com/@ranlogic?si=DIAY0LgycrlK11gV\";}i:2;a:2:{s:8:\"platform\";s:9:\"instagram\";s:3:\"url\";s:56:\"https://www.instagram.com/ranlogic?igsh=bGZla204cDN5bTY1\";}i:3;a:2:{s:8:\"platform\";s:5:\"alfan\";s:3:\"url\";s:28:\"https://alfan.link/ran.logic\";}}}', 1789086075),
+('laravel_cache_public:hero-section:ar', 'a:2:{s:7:\"success\";b:1;s:4:\"data\";a:6:{s:9:\"video_url\";s:70:\"https://api.ranlogic.com/videos/hero_video_20260413214054_Hq4WTHVf.mp4\";s:5:\"badge\";s:32:\"برنامج تدريب شخصي\";s:10:\"main_title\";s:94:\"*  استثمر في نفسك، واصنع النسخة الأفضل من ذاتك اليوم.\";s:9:\"sub_title\";s:76:\"رحلتك نحو جسم قوي وثقة لا تهتز تبدأ من هنا.\";s:11:\"description\";s:139:\"وداعاً للبرامج العشوائية، انضم إلى برنامج صُمم علمياً ليناسب أهدافك الخاصة.\";s:5:\"stats\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:3:{i:0;a:2:{s:5:\"value\";s:4:\"200+\";s:5:\"label\";s:19:\"متدرب سعيد\";}i:1;a:2:{s:5:\"value\";s:2:\"4+\";s:5:\"label\";s:19:\"سنوات خبرة\";}i:2;a:2:{s:5:\"value\";s:3:\"98%\";s:5:\"label\";s:21:\"نسبة النجاح\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}}', 1789086075),
+('laravel_cache_public:hero-section:en', 'a:2:{s:7:\"success\";b:1;s:4:\"data\";a:6:{s:9:\"video_url\";s:70:\"https://api.ranlogic.com/videos/hero_video_20260413214054_Hq4WTHVf.mp4\";s:5:\"badge\";s:29:\"Personalized Training Program\";s:10:\"main_title\";s:59:\"Invest in yourself, and build the best version of you today\";s:9:\"sub_title\";s:72:\"Your journey toward a strong body and unshakable confidence starts here.\";s:11:\"description\";s:92:\"Say goodbye to generic plans. Join a program scientifically tailored to your specific goals.\";s:5:\"stats\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:3:{i:0;a:2:{s:5:\"value\";s:4:\"200+\";s:5:\"label\";s:14:\"Happy Trainees\";}i:1;a:2:{s:5:\"value\";s:2:\"4+\";s:5:\"label\";s:19:\"Years of Experience\";}i:2;a:2:{s:5:\"value\";s:3:\"98%\";s:5:\"label\";s:12:\"Success Rate\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}}', 1789035130),
+('laravel_cache_public:testimonials:ar', 'a:2:{s:7:\"section\";a:3:{s:5:\"badge\";s:27:\"آراء المتدربين\";s:5:\"title\";s:26:\"قصص نجاح ملهمة\";s:11:\"description\";s:40:\"استمع لتجارب متدربينا\";}s:12:\"testimonials\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:5:{s:4:\"name\";s:17:\"محمد جمعة\";s:5:\"title\";s:19:\"طالب جامعي\";s:4:\"text\";s:418:\"بصراحة تجربتي كانت ممتازة جداً، من أول ما اشتركت حسّيت بالاهتمام والمتابعة الحقيقية. الخطة كانت واضحة ومناسبة لهدفي، والنتائج بدأت تظهر بشكل ملحوظ خلال فترة قصيرة. أنصح أي شخص حاب يطور من نفسه ويشوف نتائج فعلية إنه يجرب بدون تردد.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1772063879_B9hULd17Sz.jpeg\";}i:1;a:5:{s:4:\"name\";s:17:\"ليلى حميد\";s:5:\"title\";s:17:\"ام لطفلين\";s:4:\"text\";s:386:\"بعد الولادة الثانية، حسيت إني ما رح أرجع لوزني الطبيعي أبداً. راند صممتلي خطة تناسب وقتي المحدود كأم، وبـ 4 شهور رجعت أحسن من قبل! المتابعة المستمرة والدعم النفسي كانوا أهم شي. أنصح كل أم بتعاني بعد الحمل تجرب RanLogic.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198748_JZs2x0AojV.jpeg\";}i:2;a:5:{s:4:\"name\";s:17:\"ليان ناصر\";s:5:\"title\";s:23:\"موظفة ادارية\";s:4:\"text\";s:455:\"بصراحة، الكوتش غيرت حياتي كلياً. كنت دايماً أبدأ دايت وأوقف بعد أسبوعين، بس مع المتابعة المستمرة والخطة المخصصة إلي، قدرت أخسر 12 كيلو بـ 3 شهور. الشي الأهم إني تعلمت أعيش حياة صحية مش بس دايت مؤقت. النتائج باقية معي لليوم والطاقة يلي صرت فيها ما بتنوصف!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198686_6aUFdcO3r2.jpeg\";}i:3;a:5:{s:4:\"name\";s:8:\"خالد\";s:5:\"title\";s:21:\"موظف مبيعات\";s:4:\"text\";s:382:\"كنت دايماً أقول “ما عندي وقت للرياضة”، لكن راند أثبتتلي إنه الموضوع مش بالوقت، بالتنظيم والإرادة. تمارين 30 دقيقة بس 4 مرات بالأسبوع، ونظام أكل بسيط وواقعي. النتيجة؟ خسرت 10 كيلو، زادت طاقتي، وصرت أنجز بشغلي ضعف!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777199023_t7uqNeNfrw.jpeg\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789086112),
+('laravel_cache_public:testimonials:en', 'a:2:{s:7:\"section\";a:3:{s:5:\"badge\";s:19:\"Client Testemonials\";s:5:\"title\";s:24:\"Inspiring Sucess Stories\";s:11:\"description\";s:31:\"Listen To Our Clients Experinse\";}s:12:\"testimonials\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:5:{s:4:\"name\";s:13:\"Mohammed Juma\";s:5:\"title\";s:7:\"Student\";s:4:\"text\";s:324:\"Honestly, my experience was excellent from start to finish. From the moment I subscribed, I felt real support and genuine follow-up. The plan was clear and perfectly tailored to my goals, and I started seeing noticeable results in a short time. I highly recommend it to anyone who wants real progress and meaningful results.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1772063879_B9hULd17Sz.jpeg\";}i:1;a:5:{s:4:\"name\";s:12:\"Layla Hameed\";s:5:\"title\";s:10:\"Mom of two\";s:4:\"text\";s:329:\"After my second pregnancy, I felt like I’d never get back to my normal weight. Rand designed a plan that fits my limited time as a mom, and in 4 months I came back better than before! The continuous follow-up and emotional support were the most important thing. I recommend every mom struggling after pregnancy to try RanLogic.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198748_JZs2x0AojV.jpeg\";}i:2;a:5:{s:4:\"name\";s:12:\"Layan Nasser\";s:5:\"title\";s:11:\"Admin Staff\";s:4:\"text\";s:372:\"Honestly, the coach completely changed my life. I used to always start a diet and stop after two weeks, but with the continuous follow-up and personalized plan, I was able to lose 12 kg in 3 months. The most important thing is that I learned to live a healthy life, not just a temporary diet. The results are still with me today and the energy I have now is indescribable!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198686_6aUFdcO3r2.jpeg\";}i:3;a:5:{s:4:\"name\";s:6:\"Khaled\";s:5:\"title\";s:14:\"Sales Employee\";s:4:\"text\";s:329:\"I always used to say “I don’t have time for exercise,” but Rand proved to me that it’s not about time, it’s about organization and willpower. Just 30-minute workouts 4 times a week, and a simple and realistic eating plan. The result? I lost 10 kg, my energy increased, and I’m now accomplishing twice as much at work!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777199023_t7uqNeNfrw.jpeg\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789035130),
+('laravel_cache_testimonials:ar', 'a:2:{s:7:\"section\";a:3:{s:5:\"badge\";s:27:\"آراء المتدربين\";s:5:\"title\";s:26:\"قصص نجاح ملهمة\";s:11:\"description\";s:40:\"استمع لتجارب متدربينا\";}s:12:\"testimonials\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:5:{s:4:\"name\";s:17:\"محمد جمعة\";s:5:\"title\";s:19:\"طالب جامعي\";s:4:\"text\";s:418:\"بصراحة تجربتي كانت ممتازة جداً، من أول ما اشتركت حسّيت بالاهتمام والمتابعة الحقيقية. الخطة كانت واضحة ومناسبة لهدفي، والنتائج بدأت تظهر بشكل ملحوظ خلال فترة قصيرة. أنصح أي شخص حاب يطور من نفسه ويشوف نتائج فعلية إنه يجرب بدون تردد.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1772063879_B9hULd17Sz.jpeg\";}i:1;a:5:{s:4:\"name\";s:17:\"ليلى حميد\";s:5:\"title\";s:17:\"ام لطفلين\";s:4:\"text\";s:386:\"بعد الولادة الثانية، حسيت إني ما رح أرجع لوزني الطبيعي أبداً. راند صممتلي خطة تناسب وقتي المحدود كأم، وبـ 4 شهور رجعت أحسن من قبل! المتابعة المستمرة والدعم النفسي كانوا أهم شي. أنصح كل أم بتعاني بعد الحمل تجرب RanLogic.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198748_JZs2x0AojV.jpeg\";}i:2;a:5:{s:4:\"name\";s:17:\"ليان ناصر\";s:5:\"title\";s:23:\"موظفة ادارية\";s:4:\"text\";s:455:\"بصراحة، الكوتش غيرت حياتي كلياً. كنت دايماً أبدأ دايت وأوقف بعد أسبوعين، بس مع المتابعة المستمرة والخطة المخصصة إلي، قدرت أخسر 12 كيلو بـ 3 شهور. الشي الأهم إني تعلمت أعيش حياة صحية مش بس دايت مؤقت. النتائج باقية معي لليوم والطاقة يلي صرت فيها ما بتنوصف!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198686_6aUFdcO3r2.jpeg\";}i:3;a:5:{s:4:\"name\";s:8:\"خالد\";s:5:\"title\";s:21:\"موظف مبيعات\";s:4:\"text\";s:382:\"كنت دايماً أقول “ما عندي وقت للرياضة”، لكن راند أثبتتلي إنه الموضوع مش بالوقت، بالتنظيم والإرادة. تمارين 30 دقيقة بس 4 مرات بالأسبوع، ونظام أكل بسيط وواقعي. النتيجة؟ خسرت 10 كيلو، زادت طاقتي، وصرت أنجز بشغلي ضعف!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777199023_t7uqNeNfrw.jpeg\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789086112),
+('laravel_cache_testimonials:en', 'a:2:{s:7:\"section\";a:3:{s:5:\"badge\";s:19:\"Client Testemonials\";s:5:\"title\";s:24:\"Inspiring Sucess Stories\";s:11:\"description\";s:31:\"Listen To Our Clients Experinse\";}s:12:\"testimonials\";O:29:\"Illuminate\\Support\\Collection\":2:{s:8:\"\0*\0items\";a:4:{i:0;a:5:{s:4:\"name\";s:13:\"Mohammed Juma\";s:5:\"title\";s:7:\"Student\";s:4:\"text\";s:324:\"Honestly, my experience was excellent from start to finish. From the moment I subscribed, I felt real support and genuine follow-up. The plan was clear and perfectly tailored to my goals, and I started seeing noticeable results in a short time. I highly recommend it to anyone who wants real progress and meaningful results.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1772063879_B9hULd17Sz.jpeg\";}i:1;a:5:{s:4:\"name\";s:12:\"Layla Hameed\";s:5:\"title\";s:10:\"Mom of two\";s:4:\"text\";s:329:\"After my second pregnancy, I felt like I’d never get back to my normal weight. Rand designed a plan that fits my limited time as a mom, and in 4 months I came back better than before! The continuous follow-up and emotional support were the most important thing. I recommend every mom struggling after pregnancy to try RanLogic.\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198748_JZs2x0AojV.jpeg\";}i:2;a:5:{s:4:\"name\";s:12:\"Layan Nasser\";s:5:\"title\";s:11:\"Admin Staff\";s:4:\"text\";s:372:\"Honestly, the coach completely changed my life. I used to always start a diet and stop after two weeks, but with the continuous follow-up and personalized plan, I was able to lose 12 kg in 3 months. The most important thing is that I learned to live a healthy life, not just a temporary diet. The results are still with me today and the energy I have now is indescribable!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777198686_6aUFdcO3r2.jpeg\";}i:3;a:5:{s:4:\"name\";s:6:\"Khaled\";s:5:\"title\";s:14:\"Sales Employee\";s:4:\"text\";s:329:\"I always used to say “I don’t have time for exercise,” but Rand proved to me that it’s not about time, it’s about organization and willpower. Just 30-minute workouts 4 times a week, and a simple and realistic eating plan. The result? I lost 10 kg, my energy increased, and I’m now accomplishing twice as much at work!\";s:6:\"rating\";i:5;s:9:\"image_url\";s:83:\"https://api.ranlogic.com/images/testimonials/testimonial_1777199023_t7uqNeNfrw.jpeg\";}}s:28:\"\0*\0escapeWhenCastingToString\";b:0;}}', 1789035130);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cache_locks`
+--
+
+CREATE TABLE `cache_locks` (
+  `key` varchar(191) NOT NULL,
+  `owner` varchar(191) NOT NULL,
+  `expiration` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache_locks`
+--
+
+INSERT INTO `cache_locks` (`key`, `owner`, `expiration`) VALUES
+('laravel_cache_framework/schedule-960f141c0890b4938edba2f67ab74d9c429f806a', 'pkc0gtqMc71uZK5I', 1789174262);
 
 -- --------------------------------------------------------
 
@@ -61,7 +623,6 @@ INSERT INTO `about_coach` (`id`, `image_path`, `image_name`, `badge_en`, `badge_
 -- Table structure for table `certifications`
 --
 
-DROP TABLE IF EXISTS `certifications`;
 CREATE TABLE `certifications` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `icon` varchar(10) NOT NULL DEFAULT '?️',
@@ -98,10 +659,65 @@ INSERT INTO `certifications` (`id`, `icon`, `title_en`, `title_ar`, `organizatio
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `challenges`
+--
+
+CREATE TABLE `challenges` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name_ar` varchar(191) NOT NULL,
+  `name_en` varchar(191) NOT NULL,
+  `icon` varchar(50) NOT NULL DEFAULT 'target',
+  `color` varchar(20) NOT NULL DEFAULT '#5DCAA5',
+  `duration_days` int(10) UNSIGNED NOT NULL DEFAULT 30,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `challenges`
+--
+
+INSERT INTO `challenges` (`id`, `name_ar`, `name_en`, `icon`, `color`, `duration_days`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, '30 يوم بدون سكر', '30 days no sugar', 'candy-off', '#ED93B1', 30, 1, '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(2, '10,000 خطوة يومياً', '10,000 steps daily', 'walk', '#5DCAA5', 31, 1, '2026-07-28 21:37:51', '2026-07-28 21:37:51'),
+(3, 'إطالة يومية 15 دقيقة', '15 min daily stretching', 'stretching', '#AFA9EC', 30, 1, '2026-07-28 21:37:51', '2026-07-28 21:37:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `challenge_user`
+--
+
+CREATE TABLE `challenge_user` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `challenge_id` bigint(20) UNSIGNED NOT NULL,
+  `started_at` date NOT NULL,
+  `completed_days` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  `is_completed` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `challenge_user`
+--
+
+INSERT INTO `challenge_user` (`id`, `user_id`, `challenge_id`, `started_at`, `completed_days`, `is_completed`, `created_at`, `updated_at`) VALUES
+(1, 59, 1, '2026-07-28', 1, 0, '2026-07-28 22:00:43', '2026-07-28 22:00:43'),
+(2, 59, 2, '2026-07-28', 1, 0, '2026-07-28 22:00:45', '2026-07-28 22:00:45'),
+(3, 59, 3, '2026-07-28', 1, 0, '2026-07-28 22:00:46', '2026-07-28 22:00:46'),
+(4, 100, 1, '2026-07-01', 25, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(5, 100, 2, '2026-07-01', 19, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(6, 100, 3, '2026-07-01', 28, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `chat_notifications`
 --
 
-DROP TABLE IF EXISTS `chat_notifications`;
 CREATE TABLE `chat_notifications` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -117,13 +733,30 @@ CREATE TABLE `chat_notifications` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `chat_notifications`
+--
+
+INSERT INTO `chat_notifications` (`id`, `user_id`, `conversation_id`, `message_id`, `type`, `title`, `body`, `data`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
+(242, 103, 42, 270, 'new_message', 'رسالة جديدة من Rand Jarrar', 'يسعد مساك سيد ليث', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 21:18:41', '2026-09-07 15:04:23', '2026-09-07 21:18:41'),
+(243, 103, 42, 271, 'new_message', 'رسالة جديدة من Rand Jarrar', 'معك أخصائية التغذية لميس', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 21:18:41', '2026-09-07 15:05:53', '2026-09-07 21:18:41'),
+(244, 103, 42, 272, 'new_message', 'رسالة جديدة من Rand Jarrar', 'نظامك الغذائية رح تكون جاهزة خلال 24 ساعة', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 21:18:41', '2026-09-07 15:06:33', '2026-09-07 21:18:41'),
+(245, 103, 42, 273, 'new_message', 'رسالة جديدة من Rand Jarrar', 'ادخل بياناتك لو تكرمت', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 21:18:41', '2026-09-07 20:51:15', '2026-09-07 21:18:41'),
+(246, 1, 42, 274, 'new_message', 'رسالة جديدة من Laith Jaber', 'اهلا لميس كيف حالك', '\"{\\\"sender_id\\\":103,\\\"sender_name\\\":\\\"Laith Jaber\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 22:28:09', '2026-09-07 21:19:06', '2026-09-07 22:28:09'),
+(247, 1, 42, 275, 'new_message', 'رسالة جديدة من Laith Jaber', 'ولا يهمك ثواني و بدخلهم', '\"{\\\"sender_id\\\":103,\\\"sender_name\\\":\\\"Laith Jaber\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-07 22:28:09', '2026-09-07 21:19:26', '2026-09-07 22:28:09'),
+(248, 103, 42, 276, 'new_message', 'رسالة جديدة من Rand Jarrar', 'مساء الخير', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-08 21:18:53', '2026-09-08 20:56:08', '2026-09-08 21:18:53'),
+(249, 103, 42, 277, 'new_message', 'رسالة جديدة من Rand Jarrar', 'تم تحضير النظام الغذائي', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-08 21:18:53', '2026-09-08 20:57:05', '2026-09-08 21:18:53'),
+(250, 103, 42, 278, 'new_message', 'رسالة جديدة من Rand Jarrar', 'الرجاء الاطلاع عليه وتسجيل الملاحظات', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 1, '2026-09-08 21:18:53', '2026-09-08 20:58:22', '2026-09-08 21:18:53'),
+(251, 103, 42, 279, 'new_message', 'رسالة جديدة من Rand Jarrar', 'مساء الخير سيد ليث', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 0, NULL, '2026-09-09 15:37:04', '2026-09-09 15:37:04'),
+(252, 103, 42, 280, 'new_message', 'رسالة جديدة من Rand Jarrar', 'بتمنى إذا عندك اي ملاحظة او استفسار', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 0, NULL, '2026-09-09 15:38:25', '2026-09-09 15:38:25'),
+(253, 103, 42, 281, 'new_message', 'رسالة جديدة من Rand Jarrar', 'تراسلنا', '\"{\\\"sender_id\\\":1,\\\"sender_name\\\":\\\"Rand Jarrar\\\",\\\"message_type\\\":\\\"text\\\",\\\"trainee_id\\\":103}\"', 0, NULL, '2026-09-09 15:38:31', '2026-09-09 15:38:31');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `coach_features`
 --
 
-DROP TABLE IF EXISTS `coach_features`;
 CREATE TABLE `coach_features` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `about_coach_id` bigint(20) UNSIGNED NOT NULL,
@@ -154,7 +787,6 @@ INSERT INTO `coach_features` (`id`, `about_coach_id`, `icon`, `title_en`, `title
 -- Table structure for table `conversations`
 --
 
-DROP TABLE IF EXISTS `conversations`;
 CREATE TABLE `conversations` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `admin_id` bigint(20) UNSIGNED NOT NULL,
@@ -177,8 +809,10 @@ CREATE TABLE `conversations` (
 
 INSERT INTO `conversations` (`id`, `admin_id`, `trainee_id`, `last_message`, `last_message_at`, `last_message_sender`, `admin_unread_count`, `trainee_unread_count`, `status`, `deleted_at`, `created_at`, `updated_at`, `is_archived`) VALUES
 (28, 1, 68, 'ان شاء الله', '2026-06-01 11:51:07', 'admin', 0, 1, 'active', '2026-06-27 21:56:58', '2026-05-18 19:49:04', '2026-06-27 21:56:58', 0),
-(36, 1, 59, 'وعليكم السلام والرحمه والاكرام', '2026-05-22 21:45:17', 'trainee', 0, 0, 'active', NULL, '2026-05-22 21:38:23', '2026-06-30 21:47:43', 0),
-(37, 1, 72, 'Good luck', '2026-06-22 15:06:25', 'admin', 0, 14, 'active', '2026-06-27 21:57:05', '2026-05-23 22:15:39', '2026-06-27 21:57:05', 0);
+(36, 1, 59, 'وعليكم السلام والرحمه والاكرام', '2026-05-22 21:45:17', 'trainee', 0, 0, 'active', '2026-09-07 15:03:23', '2026-05-22 21:38:23', '2026-09-07 15:03:23', 0),
+(37, 1, 72, 'Good luck', '2026-06-22 15:06:25', 'admin', 0, 14, 'active', '2026-06-27 21:57:05', '2026-05-23 22:15:39', '2026-06-27 21:57:05', 0),
+(41, 1, 100, NULL, NULL, NULL, 0, 0, 'active', '2026-09-07 15:03:30', '2026-07-28 22:03:42', '2026-09-07 15:03:30', 0),
+(42, 1, 103, 'تراسلنا', '2026-09-09 15:38:31', 'admin', 0, 3, 'active', NULL, '2026-09-07 10:14:11', '2026-09-09 15:38:31', 0);
 
 -- --------------------------------------------------------
 
@@ -186,7 +820,6 @@ INSERT INTO `conversations` (`id`, `admin_id`, `trainee_id`, `last_message`, `la
 -- Table structure for table `exercises`
 --
 
-DROP TABLE IF EXISTS `exercises`;
 CREATE TABLE `exercises` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `workout_day_id` bigint(20) UNSIGNED NOT NULL,
@@ -211,7 +844,6 @@ CREATE TABLE `exercises` (
 -- Table structure for table `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `uuid` varchar(191) NOT NULL,
@@ -228,7 +860,6 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `faq_questions_ar`
 --
 
-DROP TABLE IF EXISTS `faq_questions_ar`;
 CREATE TABLE `faq_questions_ar` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `category` varchar(191) NOT NULL,
@@ -264,7 +895,6 @@ INSERT INTO `faq_questions_ar` (`id`, `category`, `question`, `answer`, `icon`, 
 -- Table structure for table `faq_questions_en`
 --
 
-DROP TABLE IF EXISTS `faq_questions_en`;
 CREATE TABLE `faq_questions_en` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `category` varchar(191) NOT NULL,
@@ -299,7 +929,6 @@ INSERT INTO `faq_questions_en` (`id`, `category`, `question`, `answer`, `icon`, 
 -- Table structure for table `faq_section`
 --
 
-DROP TABLE IF EXISTS `faq_section`;
 CREATE TABLE `faq_section` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title_en` varchar(191) NOT NULL,
@@ -326,7 +955,6 @@ INSERT INTO `faq_section` (`id`, `title_en`, `title_ar`, `subtitle_en`, `subtitl
 -- Table structure for table `footers`
 --
 
-DROP TABLE IF EXISTS `footers`;
 CREATE TABLE `footers` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `logo_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -360,7 +988,6 @@ INSERT INTO `footers` (`id`, `logo_id`, `description_en`, `description_ar`, `cop
 -- Table structure for table `footer_links`
 --
 
-DROP TABLE IF EXISTS `footer_links`;
 CREATE TABLE `footer_links` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `footer_id` bigint(20) UNSIGNED NOT NULL,
@@ -379,7 +1006,6 @@ CREATE TABLE `footer_links` (
 -- Table structure for table `footer_social_links`
 --
 
-DROP TABLE IF EXISTS `footer_social_links`;
 CREATE TABLE `footer_social_links` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `footer_id` bigint(20) UNSIGNED NOT NULL,
@@ -397,7 +1023,6 @@ CREATE TABLE `footer_social_links` (
 -- Table structure for table `goals`
 --
 
-DROP TABLE IF EXISTS `goals`;
 CREATE TABLE `goals` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name_ar` varchar(191) NOT NULL,
@@ -416,7 +1041,6 @@ CREATE TABLE `goals` (
 -- Table structure for table `hero_sections`
 --
 
-DROP TABLE IF EXISTS `hero_sections`;
 CREATE TABLE `hero_sections` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `video_path` varchar(191) DEFAULT NULL,
@@ -451,7 +1075,6 @@ INSERT INTO `hero_sections` (`id`, `video_path`, `video_name`, `video_type`, `vi
 -- Table structure for table `hero_stats`
 --
 
-DROP TABLE IF EXISTS `hero_stats`;
 CREATE TABLE `hero_stats` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `hero_section_id` bigint(20) UNSIGNED NOT NULL,
@@ -476,10 +1099,25 @@ INSERT INTO `hero_stats` (`id`, `hero_section_id`, `value`, `label_en`, `label_a
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `queue` varchar(191) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` tinyint(3) UNSIGNED NOT NULL,
+  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
+  `available_at` int(10) UNSIGNED NOT NULL,
+  `created_at` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `link_analytics`
 --
 
-DROP TABLE IF EXISTS `link_analytics`;
 CREATE TABLE `link_analytics` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `link_id` bigint(20) UNSIGNED NOT NULL,
@@ -558,7 +1196,48 @@ INSERT INTO `link_analytics` (`id`, `link_id`, `clicked_at`, `ip_address`, `user
 (121, 11, '2026-07-18 14:12:32', '109.107.228.223', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/30.0 Chrome/143.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
 (122, 13, '2026-07-18 14:16:08', '196.128.141.213', 'Mozilla/5.0 (Linux; Android 16; V2529 Build/BP2A.250605.031.A3_V000L1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.118 Mobile Safari/537.36 Instagram 438.0.0.28.88 Android (36/16; 484dpi; 1080x2392; vivo; V2529; V2529; mt6878; en_US; 1017398371; IABMV/1)', 'https://links.ranlogic.com/'),
 (123, 12, '2026-07-18 14:17:20', '196.128.141.213', 'Mozilla/5.0 (Linux; Android 16; V2529 Build/BP2A.250605.031.A3_V000L1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.118 Mobile Safari/537.36 Instagram 438.0.0.28.88 Android (36/16; 484dpi; 1080x2392; vivo; V2529; V2529; mt6878; en_US; 1017398371; IABMV/1)', 'https://links.ranlogic.com/'),
-(124, 11, '2026-07-20 06:35:09', '188.236.180.101', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/30.0 Chrome/143.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/');
+(124, 11, '2026-07-20 06:35:09', '188.236.180.101', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/30.0 Chrome/143.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(125, 12, '2026-07-24 15:10:46', '2409:40c2:801a:7db6:8000::', 'Mozilla/5.0 (Linux; Android 13; 21091116AI Build/TP1A.220624.014; ) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.46 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(126, 11, '2026-07-26 17:25:13', '2401:4900:8600:e28b::9193:98e4', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(127, 13, '2026-07-26 22:35:30', '43.243.34.14', 'Mozilla/5.0 (Linux; Android 13; SM-N985F Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.175 Mobile Safari/537.36 Instagram 439.0.0.37.89 Android (33/13; 450dpi; 1080x2316; samsung; SM-N985F; c2s; exynos990; en_US; 1021815762; IABMV/1)', 'https://links.ranlogic.com/'),
+(128, 11, '2026-07-29 17:11:06', '2a01:9700:3d72:3200:291e:a895:1684:ce30', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/30.0 Chrome/143.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(129, 3, '2026-08-02 23:48:19', '103.27.146.236', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(130, 14, '2026-08-02 23:49:17', '103.27.146.236', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(131, 14, '2026-08-02 23:50:08', '103.27.146.236', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(132, 13, '2026-08-02 23:50:24', '103.27.146.236', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(133, 12, '2026-08-09 01:25:29', '31.223.127.92', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(134, 14, '2026-08-09 01:25:36', '31.223.127.92', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(135, 3, '2026-08-09 01:25:44', '31.223.127.92', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(136, 3, '2026-08-11 09:02:22', '2001:16a2:c3f0:a96:dcce:95e2:25c6:6f04', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_7_15 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6.2 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(137, 11, '2026-08-13 22:30:03', '158.140.112.51', 'Mozilla/5.0 (Linux; Android 10; M2006C3LG Build/QP1A.190711.020; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/150.0.7871.181 Mobile Safari/537.36 Instagram 442.0.0.46.79 Android (29/10; 320dpi; 720x1600; Xiaomi/Redmi; M2006C3LG; dandelion; mt6762; ar_EG; 1037527475; IABMV/1)', 'https://links.ranlogic.com/'),
+(138, 10, '2026-08-16 18:52:25', '102.41.242.78', 'Mozilla/5.0 (Linux; Android 15; 23129RAA4G Build/AQ3A.240829.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/151.0.7922.107 Mobile Safari/537.36 Instagram 442.0.0.46.79 Android (35/15; 440dpi; 1080x2400; Xiaomi/Redmi; 23129RAA4G; sapphire; qcom; en_GB; 1037527436; IABMV/1)', 'https://links.ranlogic.com/'),
+(139, 12, '2026-08-16 18:52:40', '102.41.242.78', 'Mozilla/5.0 (Linux; Android 15; 23129RAA4G Build/AQ3A.240829.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/151.0.7922.107 Mobile Safari/537.36 Instagram 442.0.0.46.79 Android (35/15; 440dpi; 1080x2400; Xiaomi/Redmi; 23129RAA4G; sapphire; qcom; en_GB; 1037527436; IABMV/1)', 'https://links.ranlogic.com/'),
+(140, 14, '2026-08-16 18:52:53', '102.41.242.78', 'Mozilla/5.0 (Linux; Android 15; 23129RAA4G Build/AQ3A.240829.003; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/151.0.7922.107 Mobile Safari/537.36 Instagram 442.0.0.46.79 Android (35/15; 440dpi; 1080x2400; Xiaomi/Redmi; 23129RAA4G; sapphire; qcom; en_GB; 1037527436; IABMV/1)', 'https://links.ranlogic.com/'),
+(141, 11, '2026-08-18 20:07:52', '82.212.116.195', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.16', 'https://links.ranlogic.com/'),
+(142, 11, '2026-08-19 20:15:11', '176.29.209.242', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.17', 'https://links.ranlogic.com/'),
+(143, 14, '2026-08-20 17:22:27', '2a01:9700:42b9:a00:258c:11d5:5135:d3ee', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(144, 14, '2026-08-22 08:02:20', '5.21.135.2', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23F84 Instagram 443.0.0.33.78 (iPhone14,3; iOS 26_5_2; en_US; en; scale=3.00; 1284x2778; IABMV/1; 1043399932) Safari/604.1', 'https://links.ranlogic.com/'),
+(145, 11, '2026-08-23 10:20:29', '2a01:9700:42b9:a00:8c2:d725:b49d:8a08', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.19.1', 'https://links.ranlogic.com/'),
+(146, 12, '2026-08-23 10:20:53', '2a01:9700:42b9:a00:8c2:d725:b49d:8a08', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.19.1', 'https://links.ranlogic.com/'),
+(147, 13, '2026-08-23 10:21:06', '2a01:9700:42b9:a00:8c2:d725:b49d:8a08', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.19.1', 'https://links.ranlogic.com/'),
+(148, 3, '2026-08-23 17:53:31', '2401:4900:d828:dd19::d44:95d7', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(149, 11, '2026-08-23 17:54:17', '2401:4900:d828:dd19::d44:95d7', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(150, 3, '2026-08-23 18:00:15', '176.29.222.27', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23G71 Twitter for iPhone/12.19.1', 'https://links.ranlogic.com/'),
+(151, 11, '2026-08-23 21:30:14', '197.32.44.151', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.4 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(152, 13, '2026-08-24 14:35:23', '2001:16a2:c010:f487:10bc:92bb:ee0f:68b4', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(153, 12, '2026-08-27 01:54:20', '2a02:e0:6b40:b900:78e5:c60:54c8:8572', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23F84 Twitter for iPhone/12.20', 'https://links.ranlogic.com/'),
+(154, 13, '2026-08-27 01:55:05', '2a02:e0:6b40:b900:78e5:c60:54c8:8572', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_5_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23F84 Twitter for iPhone/12.20', 'https://links.ranlogic.com/'),
+(155, 11, '2026-08-27 23:06:38', '194.147.159.251', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23A355 Twitter for iPhone/12.17', 'https://links.ranlogic.com/'),
+(156, 12, '2026-08-27 23:10:32', '194.147.159.251', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23A355 Twitter for iPhone/12.17', 'https://links.ranlogic.com/'),
+(157, 14, '2026-08-27 23:13:57', '2a02:e0:6b40:b900:d028:ebc4:6249:fb13', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(158, 3, '2026-08-27 23:18:13', '2a02:e0:6b40:b900:d028:ebc4:6249:fb13', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(159, 13, '2026-08-27 23:18:42', '2a02:e0:6b40:b900:d028:ebc4:6249:fb13', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5.2 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(160, 11, '2026-08-31 05:33:51', '2405:3800:990:a9d:e427:49ff:fefc:d846', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(161, 10, '2026-08-31 05:33:56', '2405:3800:990:a9d:e427:49ff:fefc:d846', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Mobile Safari/537.36', 'https://links.ranlogic.com/'),
+(162, 11, '2026-08-31 09:24:51', '83.173.191.230', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'https://links.ranlogic.com/'),
+(163, 3, '2026-09-01 07:22:23', '2a01:9700:4231:a900:bd2c:8233:2014:8484', 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.6 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(164, 3, '2026-09-02 23:06:16', '111.125.158.42', 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_8_8 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.8 Mobile/15E148 Safari/604.1', 'https://links.ranlogic.com/'),
+(165, 10, '2026-09-10 14:46:02', '158.140.85.245', 'Mozilla/5.0 (iPhone; CPU iPhone OS 26_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/23D127 Instagram 445.0.0.34.44 (iPhone12,1; iOS 26_3; en_US; en; scale=2.00; 828x1792; IABMV/1; 1053791553) Safari/604.1', 'https://links.ranlogic.com/');
 
 -- --------------------------------------------------------
 
@@ -566,7 +1245,6 @@ INSERT INTO `link_analytics` (`id`, `link_id`, `clicked_at`, `ip_address`, `user
 -- Table structure for table `link_links`
 --
 
-DROP TABLE IF EXISTS `link_links`;
 CREATE TABLE `link_links` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -585,12 +1263,12 @@ CREATE TABLE `link_links` (
 --
 
 INSERT INTO `link_links` (`id`, `title`, `url`, `icon`, `active`, `order`, `clicks`, `title_font`, `created_at`, `updated_at`) VALUES
-(3, 'RanLogic website', 'https://ranlogic.com/', 'globe', 1, 1, 38, 'DM Sans', '2026-04-10 23:51:57', '2026-07-11 18:22:54'),
-(10, 'X', 'https://x.com/ranlogic?s=11', 'globe', 1, 2, 3, 'DM Sans', '2026-06-29 16:00:00', '2026-07-10 18:48:31'),
-(11, 'Instagram', 'https://www.instagram.com/ranlogic?igsh=enV6ZXVpMTB2MzNl&utm_source=qr', 'globe', 1, 3, 9, 'DM Sans', '2026-06-29 16:01:00', '2026-07-20 06:35:09'),
-(12, 'YouTube', 'https://youtube.com/@ranlogic?si=ikD0B3UimTYOix3d', 'globe', 1, 4, 5, 'DM Sans', '2026-06-29 16:02:41', '2026-07-18 14:17:20'),
-(13, 'Linkedin', 'https://www.linkedin.com/in/rand-jarrar-294195407?utm_source=share_via&utm_content=profile&utm_medium=member_ios', 'globe', 1, 5, 6, 'DM Sans', '2026-06-29 16:04:19', '2026-07-18 14:16:08'),
-(14, 'alfan', 'https://alfan.link/ran.logic', 'globe', 1, 6, 4, 'DM Sans', '2026-06-29 16:05:06', '2026-07-09 11:34:46');
+(3, 'RanLogic website', 'https://ranlogic.com/', 'globe', 1, 1, 46, 'DM Sans', '2026-04-10 23:51:57', '2026-09-02 23:06:16'),
+(10, 'X', 'https://x.com/ranlogic?s=11', 'globe', 1, 2, 6, 'DM Sans', '2026-06-29 16:00:00', '2026-09-10 14:46:02'),
+(11, 'Instagram', 'https://www.instagram.com/ranlogic?igsh=enV6ZXVpMTB2MzNl&utm_source=qr', 'globe', 1, 3, 20, 'DM Sans', '2026-06-29 16:01:00', '2026-08-31 09:24:51'),
+(12, 'YouTube', 'https://youtube.com/@ranlogic?si=ikD0B3UimTYOix3d', 'globe', 1, 4, 11, 'DM Sans', '2026-06-29 16:02:41', '2026-08-27 23:10:32'),
+(13, 'Linkedin', 'https://www.linkedin.com/in/rand-jarrar-294195407?utm_source=share_via&utm_content=profile&utm_medium=member_ios', 'globe', 1, 5, 12, 'DM Sans', '2026-06-29 16:04:19', '2026-08-27 23:18:42'),
+(14, 'alfan', 'https://alfan.link/ran.logic', 'globe', 1, 6, 11, 'DM Sans', '2026-06-29 16:05:06', '2026-08-27 23:13:57');
 
 -- --------------------------------------------------------
 
@@ -598,7 +1276,6 @@ INSERT INTO `link_links` (`id`, `title`, `url`, `icon`, `active`, `order`, `clic
 -- Table structure for table `link_profiles`
 --
 
-DROP TABLE IF EXISTS `link_profiles`;
 CREATE TABLE `link_profiles` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(60) NOT NULL DEFAULT '',
@@ -639,7 +1316,6 @@ INSERT INTO `link_profiles` (`id`, `name`, `bio`, `avatar`, `name_font`, `bio_fo
 -- Table structure for table `link_social_analytics`
 --
 
-DROP TABLE IF EXISTS `link_social_analytics`;
 CREATE TABLE `link_social_analytics` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `platform` varchar(50) NOT NULL,
@@ -667,7 +1343,6 @@ INSERT INTO `link_social_analytics` (`id`, `platform`, `clicked_at`, `ip_address
 -- Table structure for table `logos`
 --
 
-DROP TABLE IF EXISTS `logos`;
 CREATE TABLE `logos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `file_name` varchar(191) DEFAULT NULL,
@@ -702,7 +1377,6 @@ INSERT INTO `logos` (`id`, `file_name`, `file_name_ar`, `file_name_en`, `file_pa
 -- Table structure for table `messages`
 --
 
-DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `conversation_id` bigint(20) UNSIGNED NOT NULL,
@@ -889,7 +1563,19 @@ INSERT INTO `messages` (`id`, `conversation_id`, `sender_id`, `sender_type`, `me
 (266, 37, 1, 'admin', 'text', 'بتعيدي الأسبوع الاول بهاد الشهر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', '2026-06-27 21:57:05', '2026-06-22 15:05:18', '2026-06-27 21:57:05'),
 (267, 37, 1, 'admin', 'text', 'ان شاء الله تستفيدي', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', '2026-06-27 21:57:05', '2026-06-22 15:05:31', '2026-06-27 21:57:05'),
 (268, 37, 1, 'admin', 'text', 'و ما نكون قصّرنا معك بشي', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', '2026-06-27 21:57:05', '2026-06-22 15:06:17', '2026-06-27 21:57:05'),
-(269, 37, 1, 'admin', 'text', 'Good luck', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', '2026-06-27 21:57:05', '2026-06-22 15:06:25', '2026-06-27 21:57:05');
+(269, 37, 1, 'admin', 'text', 'Good luck', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', '2026-06-27 21:57:05', '2026-06-22 15:06:25', '2026-06-27 21:57:05'),
+(270, 42, 1, 'admin', 'text', 'يسعد مساك سيد ليث', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 21:18:41', 'read', NULL, '2026-09-07 15:04:23', '2026-09-07 21:18:41'),
+(271, 42, 1, 'admin', 'text', 'معك أخصائية التغذية لميس', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 21:18:41', 'read', NULL, '2026-09-07 15:05:53', '2026-09-07 21:18:41'),
+(272, 42, 1, 'admin', 'text', 'نظامك الغذائية رح تكون جاهزة خلال 24 ساعة', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 21:18:41', 'read', NULL, '2026-09-07 15:06:33', '2026-09-07 21:18:41'),
+(273, 42, 1, 'admin', 'text', 'ادخل بياناتك لو تكرمت', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 21:18:41', 'read', NULL, '2026-09-07 20:51:15', '2026-09-07 21:18:41'),
+(274, 42, 103, 'trainee', 'text', 'اهلا لميس كيف حالك', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 22:28:09', 'read', NULL, '2026-09-07 21:19:06', '2026-09-07 22:28:09'),
+(275, 42, 103, 'trainee', 'text', 'ولا يهمك ثواني و بدخلهم', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-07 22:28:09', 'read', NULL, '2026-09-07 21:19:26', '2026-09-07 22:28:09'),
+(276, 42, 1, 'admin', 'text', 'مساء الخير', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-08 21:18:53', 'read', NULL, '2026-09-08 20:56:08', '2026-09-08 21:18:53'),
+(277, 42, 1, 'admin', 'text', 'تم تحضير النظام الغذائي', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-08 21:18:53', 'read', NULL, '2026-09-08 20:57:05', '2026-09-08 21:18:53'),
+(278, 42, 1, 'admin', 'text', 'الرجاء الاطلاع عليه وتسجيل الملاحظات', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2026-09-08 21:18:53', 'read', NULL, '2026-09-08 20:58:22', '2026-09-08 21:18:53'),
+(279, 42, 1, 'admin', 'text', 'مساء الخير سيد ليث', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', NULL, '2026-09-09 15:37:04', '2026-09-09 15:37:04'),
+(280, 42, 1, 'admin', 'text', 'بتمنى إذا عندك اي ملاحظة او استفسار', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', NULL, '2026-09-09 15:38:25', '2026-09-09 15:38:25'),
+(281, 42, 1, 'admin', 'text', 'تراسلنا', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'sent', NULL, '2026-09-09 15:38:31', '2026-09-09 15:38:31');
 
 -- --------------------------------------------------------
 
@@ -897,7 +1583,6 @@ INSERT INTO `messages` (`id`, `conversation_id`, `sender_id`, `sender_type`, `me
 -- Table structure for table `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
   `migration` varchar(191) NOT NULL,
@@ -938,7 +1623,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2026_01_24_153046_create_subscriptions_table', 17),
 (28, '2026_01_25_033754_create_subscriptions_table', 18),
 (29, '2026_01_25_033832_add_language_to_users_table', 18),
-(30, '2026_02_05_234405_add_read_at_to_messages_table', 19);
+(30, '2026_02_05_234405_add_read_at_to_messages_table', 19),
+(31, '2026_08_14_162018_create_cache_table', 20),
+(32, '2026_08_14_162833_create_jobs_table', 21);
 
 -- --------------------------------------------------------
 
@@ -946,7 +1633,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `nutrition_items`
 --
 
-DROP TABLE IF EXISTS `nutrition_items`;
 CREATE TABLE `nutrition_items` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nutrition_meal_id` bigint(20) UNSIGNED NOT NULL,
@@ -962,13 +1648,36 @@ CREATE TABLE `nutrition_items` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `nutrition_items`
+--
+
+INSERT INTO `nutrition_items` (`id`, `nutrition_meal_id`, `name`, `calories`, `protein`, `carbs`, `fats`, `completed`, `completed_at`, `order`, `created_at`, `updated_at`) VALUES
+(29, 15, 'شوفان بالحليب', 280, 12.00, 42.00, 6.00, 1, '2026-07-29 08:15:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(30, 15, 'موزة', 105, 1.30, 27.00, 0.40, 1, '2026-07-29 08:15:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(31, 15, 'ملعقة عسل', 60, 0.00, 17.00, 0.00, 1, '2026-07-29 08:15:00', 2, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(32, 16, 'لبن يوناني', 130, 15.00, 8.00, 4.00, 1, '2026-07-29 10:30:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(33, 16, 'حفنة لوز', 160, 6.00, 6.00, 14.00, 1, '2026-07-29 10:30:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(34, 17, 'صدر دجاج مشوي 200غ', 330, 62.00, 0.00, 7.00, 1, '2026-07-29 13:15:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(35, 17, 'رز بني 150غ', 170, 4.00, 36.00, 1.50, 1, '2026-07-29 13:15:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(36, 17, 'سلطة خضراء', 45, 2.00, 8.00, 0.50, 1, '2026-07-29 13:15:00', 2, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(37, 18, 'تفاحة', 95, 0.50, 25.00, 0.30, 0, NULL, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(38, 18, 'زبدة فول سوداني ملعقة', 95, 4.00, 3.00, 8.00, 0, NULL, 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(39, 19, 'سلطة تونا', 220, 30.00, 10.00, 8.00, 0, NULL, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(40, 19, 'خبز أسمر شريحة', 80, 3.00, 15.00, 1.00, 0, NULL, 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(41, 20, 'بيض مسلوق 3 حبات', 210, 18.00, 1.50, 15.00, 1, '2026-07-28 08:20:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(42, 20, 'خبز أسمر', 160, 6.00, 30.00, 2.00, 1, '2026-07-28 08:20:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(43, 21, 'لحم مفروم 200غ', 340, 40.00, 0.00, 20.00, 1, '2026-07-28 13:00:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(44, 21, 'بطاطا مشوية', 160, 4.00, 37.00, 0.20, 1, '2026-07-28 13:00:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(45, 22, 'شوربة عدس', 230, 18.00, 40.00, 1.00, 1, '2026-07-28 19:00:00', 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(46, 22, 'سلطة', 50, 2.00, 10.00, 0.50, 1, '2026-07-28 19:00:00', 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `nutrition_meals`
 --
 
-DROP TABLE IF EXISTS `nutrition_meals`;
 CREATE TABLE `nutrition_meals` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `nutrition_plan_id` bigint(20) UNSIGNED NOT NULL,
@@ -981,13 +1690,26 @@ CREATE TABLE `nutrition_meals` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `nutrition_meals`
+--
+
+INSERT INTO `nutrition_meals` (`id`, `nutrition_plan_id`, `meal_date`, `meal_type`, `meal_time`, `meal_image`, `order`, `created_at`, `updated_at`) VALUES
+(15, 18, '2026-07-29', 'فطور', '08:00:00', NULL, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(16, 18, '2026-07-29', 'سناك صباحي', '10:30:00', NULL, 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(17, 18, '2026-07-29', 'غداء', '13:00:00', NULL, 2, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(18, 18, '2026-07-29', 'سناك مسائي', '16:00:00', NULL, 3, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(19, 18, '2026-07-29', 'عشاء', '19:00:00', NULL, 4, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(20, 18, '2026-07-28', 'فطور', '08:00:00', NULL, 0, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(21, 18, '2026-07-28', 'غداء', '13:00:00', NULL, 1, '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(22, 18, '2026-07-28', 'عشاء', '19:00:00', NULL, 2, '2026-07-28 22:09:31', '2026-07-28 22:09:31');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `nutrition_plans`
 --
 
-DROP TABLE IF EXISTS `nutrition_plans`;
 CREATE TABLE `nutrition_plans` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -1010,7 +1732,10 @@ INSERT INTO `nutrition_plans` (`id`, `user_id`, `month_start_date`, `month_end_d
 (14, 59, '2026-04-01', '2026-04-30', 'workout_pdfs/S30enYtkHgJTwavGxBpY9ktolMPi1lfWWRAqFnlN.pdf', 1, 1, '2026-04-05 00:37:19', '2026-04-15 22:08:09', NULL),
 (15, 68, '2026-05-01', '2026-05-31', 'workout_pdfs/7CJJLnhdiEbyNAa6b4kfvatKywTL21Aa49OwuE29.pdf', 1, 1, '2026-05-20 16:26:33', '2026-05-20 16:26:33', NULL),
 (16, 72, '2026-05-01', '2026-05-31', 'workout_pdfs/vskxYxDAJ3fAwigcX7t4pSmPO9MAW5Db2JfSB9Oj.pdf', 1, 1, '2026-05-24 22:12:27', '2026-05-24 22:12:27', NULL),
-(17, 72, '2026-06-01', '2026-06-30', 'workout_pdfs/MnSSJKbpMzthlCtlA08Xuf6LY1baoXsXnHdsj6A3.pdf', 1, 1, '2026-06-04 20:14:14', '2026-06-22 14:56:26', NULL);
+(17, 72, '2026-06-01', '2026-06-30', 'workout_pdfs/MnSSJKbpMzthlCtlA08Xuf6LY1baoXsXnHdsj6A3.pdf', 1, 1, '2026-06-04 20:14:14', '2026-06-22 14:56:26', NULL),
+(18, 100, '2026-07-01', '2026-07-31', NULL, 1, NULL, '2026-07-28 22:09:31', '2026-07-28 22:09:31', NULL),
+(19, 103, '2026-09-01', '2026-09-30', 'workout_pdfs/TU9GryWJz4RjajKmbNQVQaPXrnhs6GvnroC7CYH6.pdf', 1, 1, '2026-09-08 20:54:20', '2026-09-08 20:54:20', NULL),
+(20, 100, '2026-09-01', '2026-09-30', NULL, 1, 1, '2026-09-08 21:31:56', '2026-09-08 21:31:56', NULL);
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1743,6 @@ INSERT INTO `nutrition_plans` (`id`, `user_id`, `month_start_date`, `month_end_d
 -- Table structure for table `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `email` varchar(191) NOT NULL,
   `token` varchar(191) NOT NULL,
@@ -1031,7 +1755,6 @@ CREATE TABLE `password_reset_tokens` (
 -- Table structure for table `personal_access_tokens`
 --
 
-DROP TABLE IF EXISTS `personal_access_tokens`;
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `tokenable_type` varchar(191) NOT NULL,
@@ -1162,7 +1885,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (279, 'App\\Models\\User', 1, 'auth_token', '27f6e28ea3bcca2abd0b562a5718a436316002409a321daceb1bf78290c533ea', '[\"*\"]', '2026-04-06 22:30:57', NULL, '2026-04-06 22:20:50', '2026-04-06 22:30:57'),
 (281, 'App\\Models\\User', 1, 'auth_token', '99c23d4a46eba10beabeb465d466dcdc506a67cedd7f7ccfbed1c7c4232efc9a', '[\"*\"]', '2026-04-06 22:48:20', NULL, '2026-04-06 22:40:48', '2026-04-06 22:48:20'),
 (286, 'App\\Models\\User', 1, 'auth_token', '2540ae7fed9f924cffabf54df2b0a865ef5e00b446fab98ddcfa8efe68b7c91e', '[\"*\"]', '2026-04-06 23:14:06', NULL, '2026-04-06 22:59:13', '2026-04-06 23:14:06'),
-(289, 'App\\Models\\User', 1, 'auth_token', '63971df95fa43860bc437dae2952b28288178b4b1b19a2a631bc189a87bb52fb', '[\"*\"]', '2026-07-22 05:09:49', NULL, '2026-04-07 09:17:46', '2026-07-22 05:09:49'),
+(289, 'App\\Models\\User', 1, 'auth_token', '63971df95fa43860bc437dae2952b28288178b4b1b19a2a631bc189a87bb52fb', '[\"*\"]', '2026-07-30 10:26:41', NULL, '2026-04-07 09:17:46', '2026-07-30 10:26:41'),
 (290, 'App\\Models\\User', 1, 'auth_token', '4127594f90fc9452955d875f01b8ae1f2e8b289b7740bc43a336e919ce2d7c90', '[\"*\"]', '2026-04-08 01:45:51', NULL, '2026-04-07 20:26:59', '2026-04-08 01:45:51'),
 (291, 'App\\Models\\User', 59, 'auth_token', '7d57c5bbb6ca045fe500500408372b5cd9e9bb68f246b2328e6aa95af7ec9e6c', '[\"*\"]', '2026-04-07 20:44:19', NULL, '2026-04-07 20:43:05', '2026-04-07 20:44:19'),
 (292, 'App\\Models\\User', 1, 'auth_token', '74c1793e4ae1bc57e084c8a99453532a4fb94bb3482617ccb53a3c28200f775d', '[\"*\"]', '2026-04-07 21:25:45', NULL, '2026-04-07 20:45:08', '2026-04-07 21:25:46'),
@@ -1171,7 +1894,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (301, 'App\\Models\\User', 63, 'auth_token', '665d73b6f218de290e7be26717bb6fe3d78547ed52dc7d48ead409ffe923d452', '[\"*\"]', '2026-04-08 20:27:53', NULL, '2026-04-08 20:27:47', '2026-04-08 20:27:53'),
 (302, 'App\\Models\\User', 59, 'auth_token', '12d41c207bd467037dfe212a598f0539a65745daf36cc14ffc3984c0e253b579', '[\"*\"]', '2026-04-08 23:20:53', NULL, '2026-04-08 21:57:59', '2026-04-08 23:20:53'),
 (304, 'App\\Models\\User', 1, 'auth_token', '44bbd87a8462cd60094605a8f7feeb8c8ce51d6d130746e3ea880be68a1cf014', '[\"*\"]', '2026-04-10 23:52:53', NULL, '2026-04-10 23:21:00', '2026-04-10 23:52:53'),
-(305, 'App\\Models\\User', 1, 'auth_token', 'fd0dedaf3a9d3888f30742c0274671f3936b1e666804bdff8424b6531cd87d99', '[\"*\"]', '2026-07-23 14:08:51', NULL, '2026-04-10 23:49:10', '2026-07-23 14:08:51'),
+(305, 'App\\Models\\User', 1, 'auth_token', 'fd0dedaf3a9d3888f30742c0274671f3936b1e666804bdff8424b6531cd87d99', '[\"*\"]', '2026-08-21 18:01:56', NULL, '2026-04-10 23:49:10', '2026-08-21 18:01:56'),
 (306, 'App\\Models\\User', 1, 'auth_token', '345c12334f8013f98445684f7cfdafb7643e47df00543f04ae3e7595eb4cc376', '[\"*\"]', '2026-04-11 00:17:14', NULL, '2026-04-11 00:05:16', '2026-04-11 00:17:14'),
 (307, 'App\\Models\\User', 1, 'auth_token', 'feafdeeb284948631dbce28764ae8f4e9ca51beb7c6fba28cd7d0950cc709576', '[\"*\"]', '2026-04-11 00:17:12', NULL, '2026-04-11 00:06:47', '2026-04-11 00:17:12'),
 (308, 'App\\Models\\User', 1, 'auth_token', 'a51c00b68d434b734ef177d5afa3cb7d05a5473b2fe954f073c5b6104613870b', '[\"*\"]', '2026-04-11 00:29:49', NULL, '2026-04-11 00:20:48', '2026-04-11 00:29:49'),
@@ -1187,7 +1910,7 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (319, 'App\\Models\\User', 59, 'auth_token', 'c5c602ee810001fa589850acf7537cb4138472a0db347279e357452bdc43eb78', '[\"*\"]', '2026-04-28 05:05:08', NULL, '2026-04-11 16:47:46', '2026-04-28 05:05:08'),
 (320, 'App\\Models\\User', 1, 'auth_token', 'e4e2c36521a1529c92a2bde82978e944bd603a0dbdd5fdc4536ecf88d7539e88', '[\"*\"]', '2026-05-30 21:25:27', NULL, '2026-04-13 20:46:26', '2026-05-30 21:25:27'),
 (321, 'App\\Models\\User', 1, 'auth_token', '31349016865c0561c6acac5c1ae2381d927c64d55fea7a41a67310aec20cdb0e', '[\"*\"]', '2026-04-13 21:42:02', NULL, '2026-04-13 20:53:58', '2026-04-13 21:42:02'),
-(322, 'App\\Models\\User', 1, 'auth_token', 'c1edcb925ec73007390de4bf1ad7501d7803d045aa6b0ed1ca2c8c052e85bba3', '[\"*\"]', '2026-05-26 15:14:46', NULL, '2026-04-19 15:51:29', '2026-05-26 15:14:46'),
+(322, 'App\\Models\\User', 1, 'auth_token', 'c1edcb925ec73007390de4bf1ad7501d7803d045aa6b0ed1ca2c8c052e85bba3', '[\"*\"]', '2026-08-31 21:04:40', NULL, '2026-04-19 15:51:29', '2026-08-31 21:04:40'),
 (323, 'App\\Models\\User', 59, 'auth_token', '7c903e383fd8e6dbab54b3ac6273f0a789ff40e2afc5fe027c66ee2756085a33', '[\"*\"]', NULL, NULL, '2026-04-28 08:13:47', '2026-04-28 08:13:47'),
 (324, 'App\\Models\\User', 59, 'auth_token', '3dd058bfdda04efaaf73b4d23551a5714d06c788136f291115725c3e90584edf', '[\"*\"]', '2026-04-28 08:22:22', NULL, '2026-04-28 08:13:48', '2026-04-28 08:22:22'),
 (325, 'App\\Models\\User', 59, 'auth_token', '652d450758fc0fbf1236c0f6476ae6ba54936b25421199d6e826f4707bc9b296', '[\"*\"]', '2026-05-05 00:15:59', NULL, '2026-05-03 00:39:34', '2026-05-05 00:15:59'),
@@ -1197,7 +1920,6 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (337, 'App\\Models\\User', 59, 'auth_token', 'c9180455210c32a9390ba6c3fd24e9b3dbc4c9426b1037ab4348d72682f1a56b', '[\"*\"]', '2026-05-14 01:24:25', NULL, '2026-05-14 01:24:18', '2026-05-14 01:24:25'),
 (339, 'App\\Models\\User', 65, 'auth_token', '4a4911a9ec01685ca4b909f2aec530b99e2bdd674287c661e7a54b5750a577a5', '[\"*\"]', '2026-05-17 17:25:34', NULL, '2026-05-17 17:25:25', '2026-05-17 17:25:34'),
 (340, 'App\\Models\\User', 66, 'auth_token', 'ac275ceb517d46af457c540a8be8114f1bd4b38759d25ad691a6c801f3b15c78', '[\"*\"]', '2026-05-17 17:28:30', NULL, '2026-05-17 17:26:57', '2026-05-17 17:28:30'),
-(341, 'App\\Models\\User', 67, 'auth_token', 'beb206c062320056930811699bf932868981d9d4636db74f517408cbe5dd3664', '[\"*\"]', '2026-06-16 15:08:43', NULL, '2026-05-17 22:31:29', '2026-06-16 15:08:43'),
 (342, 'App\\Models\\User', 68, 'auth_token', '94a94bdd31b163277dcc841fc2b3a3c271e2a1db12b40ceace63cf88d59fd8ed', '[\"*\"]', '2026-05-18 15:49:53', NULL, '2026-05-18 15:46:20', '2026-05-18 15:49:53'),
 (344, 'App\\Models\\User', 68, 'auth_token', 'f4f27e73d440d7d9ca169710bd7f00cfb7f6ec9284ad9aec38792f1259ead333', '[\"*\"]', '2026-05-18 19:49:08', NULL, '2026-05-18 19:47:23', '2026-05-18 19:49:08'),
 (345, 'App\\Models\\User', 69, 'auth_token', '28f5cb5b671ce630da0286330621d4787a342d0c69d2f6aeb50056b30816cf80', '[\"*\"]', '2026-05-18 21:54:41', NULL, '2026-05-18 21:54:38', '2026-05-18 21:54:41'),
@@ -1304,9 +2026,9 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (496, 'App\\Models\\User', 89, 'auth_token', 'e14a32b40dda9157ca8f3c28c434c302c4e06cf322e400b5bbbd77b3d2b90a19', '[\"*\"]', '2026-05-29 02:15:21', NULL, '2026-05-29 02:14:52', '2026-05-29 02:15:21'),
 (497, 'App\\Models\\User', 89, 'auth_token', 'dcfa735337a1d9884ec6e1437b8a77d1efa7ff93a5a0142be5246952e6b028ed', '[\"*\"]', '2026-05-29 02:16:45', NULL, '2026-05-29 02:16:40', '2026-05-29 02:16:45'),
 (498, 'App\\Models\\User', 89, 'auth_token', '64d67bd88bc5a96b6874c2fbfeb322a16b5edfdc02232bb62e25b02eafebf240', '[\"*\"]', '2026-05-29 02:20:01', NULL, '2026-05-29 02:19:02', '2026-05-29 02:20:01'),
-(499, 'App\\Models\\User', 59, 'auth_token', '11b6af94fa8220546c33ed4534b4c68178d886cededf538d1ae9e47d78f2b4bb', '[\"*\"]', '2026-05-29 02:55:02', NULL, '2026-05-29 02:54:55', '2026-05-29 02:55:02');
+(499, 'App\\Models\\User', 59, 'auth_token', '11b6af94fa8220546c33ed4534b4c68178d886cededf538d1ae9e47d78f2b4bb', '[\"*\"]', '2026-05-29 02:55:02', NULL, '2026-05-29 02:54:55', '2026-05-29 02:55:02'),
+(503, 'App\\Models\\User', 59, 'auth_token', 'ff456e3c9dd8044a71357d7e86fbd695adcb5840559168643a0a8feacbb6e7f3', '[\"*\"]', '2026-06-08 12:23:34', NULL, '2026-05-29 16:53:46', '2026-06-08 12:23:34');
 INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
-(503, 'App\\Models\\User', 59, 'auth_token', 'ff456e3c9dd8044a71357d7e86fbd695adcb5840559168643a0a8feacbb6e7f3', '[\"*\"]', '2026-06-08 12:23:34', NULL, '2026-05-29 16:53:46', '2026-06-08 12:23:34'),
 (504, 'App\\Models\\User', 72, 'auth_token', '262e1ce28fbcb738e11f8a6797b7c0f91df3e53362009610e9336ce9c44929d2', '[\"*\"]', '2026-05-30 18:19:30', NULL, '2026-05-30 18:15:02', '2026-05-30 18:19:30'),
 (505, 'App\\Models\\User', 72, 'auth_token', '522796c5a75722030f6beb560ab35013c4d5bb8ee65f84f6106e9d3680f708c0', '[\"*\"]', '2026-05-30 18:21:37', NULL, '2026-05-30 18:20:00', '2026-05-30 18:21:37'),
 (507, 'App\\Models\\User', 90, 'auth_token', 'a797d799494d8fac14f11a42b47b203036d6f65b94e331321b4e130f6d2ec332', '[\"*\"]', '2026-05-30 21:31:38', NULL, '2026-05-30 21:26:46', '2026-05-30 21:31:38'),
@@ -1333,8 +2055,51 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (544, 'App\\Models\\User', 98, 'auth_token', 'dbb4d52c1b5298da0a2ce1909750958c6ac8a37e32d4f3467eb659f6b7c2ffdd', '[\"*\"]', '2026-06-16 17:36:40', NULL, '2026-06-16 17:36:35', '2026-06-16 17:36:40'),
 (547, 'App\\Models\\User', 72, 'auth_token', '8359248ee7e58ec6acea6f8665763655d3722223f4ee955bfde942ad053bee0c', '[\"*\"]', '2026-06-21 06:27:04', NULL, '2026-06-21 06:25:17', '2026-06-21 06:27:04'),
 (551, 'App\\Models\\User', 72, 'auth_token', 'c108f613e3c99e8e2399169e03bab4e907b87ba4044557c31c2d26a5fadb7ba0', '[\"*\"]', '2026-06-28 13:57:43', NULL, '2026-06-28 13:57:30', '2026-06-28 13:57:43'),
-(555, 'App\\Models\\User', 1, 'auth_token', '96b894a58b0530beb04a9845c0078e5f1f0e576860beedf5668e0ce3576518d6', '[\"*\"]', '2026-06-29 16:13:36', NULL, '2026-06-29 15:58:00', '2026-06-29 16:13:36'),
-(560, 'App\\Models\\User', 59, 'auth_token', 'd5be4fa7487775a15dcb3beee2be2098f4777e8a3590a46f0e162972efef2d6e', '[\"*\"]', '2026-07-23 16:17:28', NULL, '2026-07-23 16:17:23', '2026-07-23 16:17:28');
+(555, 'App\\Models\\User', 1, 'auth_token', '96b894a58b0530beb04a9845c0078e5f1f0e576860beedf5668e0ce3576518d6', '[\"*\"]', '2026-09-07 10:15:10', NULL, '2026-06-29 15:58:00', '2026-09-07 10:15:10'),
+(562, 'App\\Models\\User', 59, 'auth_token', '03150e12562cbe6565d27e52ff7c056db43dd75624f1fdd63f325873111801b2', '[\"*\"]', '2026-07-28 21:55:20', NULL, '2026-07-28 21:55:11', '2026-07-28 21:55:20'),
+(564, 'App\\Models\\User', 59, 'auth_token', 'db5849ab7400ffc42c87c5ca9f04aa678281d39971c7527d40b5a2ac3772523a', '[\"*\"]', '2026-07-28 22:00:57', NULL, '2026-07-28 22:00:18', '2026-07-28 22:00:57'),
+(565, 'App\\Models\\User', 100, 'auth_token', '154026b88d22fa5c7c54b5bc91c3f71e6efefe66dc563d16e42cb737f70a49cf', '[\"*\"]', '2026-07-28 22:11:13', NULL, '2026-07-28 22:02:56', '2026-07-28 22:11:13'),
+(567, 'App\\Models\\User', 100, 'auth_token', 'd70d509ae4c7af848a2f2cd5a4e0ddcbe4098f4930c1e9362275ad446bc4bf26', '[\"*\"]', '2026-07-28 22:17:03', NULL, '2026-07-28 22:12:45', '2026-07-28 22:17:03'),
+(568, 'App\\Models\\User', 100, 'auth_token', 'd5728a90da3385a116166b27870add0a0c29315ab290cba8217e810ce24924b2', '[\"*\"]', '2026-07-28 22:32:19', NULL, '2026-07-28 22:19:27', '2026-07-28 22:32:19'),
+(569, 'App\\Models\\User', 100, 'auth_token', '755ccbb75e6e438674f1a5733b93cd3f159649c469d423c1b7fdd1daad68bdcb', '[\"*\"]', '2026-07-28 22:30:15', NULL, '2026-07-28 22:22:52', '2026-07-28 22:30:15'),
+(570, 'App\\Models\\User', 100, 'auth_token', '517dc356a9022325969112f8f7d5063f7c202f305437fd1d36391f091b0dd5c8', '[\"*\"]', '2026-07-28 22:39:52', NULL, '2026-07-28 22:39:50', '2026-07-28 22:39:52'),
+(571, 'App\\Models\\User', 100, 'auth_token', '4ba66650376a9c51f1e5b373b7f3a55e696573986a5d54b67a15b986554ae97c', '[\"*\"]', '2026-07-28 22:40:17', NULL, '2026-07-28 22:40:10', '2026-07-28 22:40:17'),
+(573, 'App\\Models\\User', 100, 'auth_token', 'cabb68de55197bfa542052110d585c4a74b24ea5d4cf77e78dd0ee6d22918742', '[\"*\"]', '2026-07-28 22:47:20', NULL, '2026-07-28 22:46:50', '2026-07-28 22:47:20'),
+(574, 'App\\Models\\User', 100, 'auth_token', '405b5e8f9b89099b9799860e838bbea04cb2ef0b3e15e97336005e04bc6493a3', '[\"*\"]', '2026-07-28 22:52:16', NULL, '2026-07-28 22:52:13', '2026-07-28 22:52:16'),
+(576, 'App\\Models\\User', 100, 'auth_token', 'e4bed8914e4dc82ad7b413abdf0473fbea23d6d1278d12ad68aa103c38de21d9', '[\"*\"]', '2026-08-05 12:49:01', NULL, '2026-07-29 10:07:56', '2026-08-05 12:49:01'),
+(580, 'App\\Models\\User', 1, 'auth_token', '407950317a13b1f98fda016686ad0ab3fe35f9992dc4d29d28f3d4e4f22374db', '[\"*\"]', '2026-07-30 10:27:22', NULL, '2026-07-30 10:24:23', '2026-07-30 10:27:22'),
+(581, 'App\\Models\\User', 1, 'auth_token', 'd0883179595f38eb115874b40c7733bf7e0c3ceaf1ff7acc5661faf10b2463e4', '[\"*\"]', '2026-09-10 09:49:43', NULL, '2026-07-30 10:27:27', '2026-09-10 09:49:43'),
+(583, 'App\\Models\\User', 100, 'auth_token', '4d0eb61ac589b43115b1ae47fa4e494a08eb7633a562b9088cea41255995e679', '[\"*\"]', '2026-08-07 00:16:55', NULL, '2026-07-30 12:50:00', '2026-08-07 00:16:55'),
+(586, 'App\\Models\\User', 100, 'auth_token', '4af363cc79052a9226adfd4f5d94abb643a3e85c0bde36d0082f5d94f2c2fe58', '[\"*\"]', '2026-08-09 17:39:30', NULL, '2026-08-09 17:39:24', '2026-08-09 17:39:30'),
+(587, 'App\\Models\\User', 100, 'auth_token', 'a2180007b4f65ea361a0e7274adc4dbf1d3e757db2d341e9e0c3912db05dbda6', '[\"*\"]', '2026-08-09 17:43:52', NULL, '2026-08-09 17:43:46', '2026-08-09 17:43:52'),
+(588, 'App\\Models\\User', 100, 'auth_token', '347a5bdaf09208e73414943e7bdb26320291dc5f9dd9a9b7095e8cbcc4dea2c4', '[\"*\"]', '2026-08-09 18:01:33', NULL, '2026-08-09 18:00:58', '2026-08-09 18:01:33'),
+(589, 'App\\Models\\User', 100, 'auth_token', 'e4aa8f410f58a23543754081892e89bf7a74ede538f3e76a492ac15f15682e6e', '[\"*\"]', '2026-08-09 18:05:53', NULL, '2026-08-09 18:05:47', '2026-08-09 18:05:53'),
+(592, 'App\\Models\\User', 100, 'auth_token', '84a214c7a00029c106d3fe23134b14cbcd7c636c9506cf8a3df6ad968f4518e6', '[\"*\"]', '2026-08-09 18:34:45', NULL, '2026-08-09 18:34:23', '2026-08-09 18:34:45'),
+(593, 'App\\Models\\User', 100, 'auth_token', 'ab058d0a46f10a7e1e9898e46c9e9f47175c3de81701d1244f9d9427c1b24a6a', '[\"*\"]', '2026-08-09 18:40:37', NULL, '2026-08-09 18:40:14', '2026-08-09 18:40:37'),
+(594, 'App\\Models\\User', 100, 'auth_token', 'ffa5128b367df5f15422ab9f60031521a2aa06e170da3784798fe8fdf4457afa', '[\"*\"]', '2026-08-09 18:48:37', NULL, '2026-08-09 18:48:21', '2026-08-09 18:48:37'),
+(598, 'App\\Models\\User', 100, 'auth_token', '4cc9bc01c4a00e140193a319e19ed46df486bbdfe3ef55e7e92c8da9d00d41b4', '[\"*\"]', '2026-08-09 23:35:58', NULL, '2026-08-09 23:35:51', '2026-08-09 23:35:58'),
+(599, 'App\\Models\\User', 59, 'auth_token', '6ecad4a9b6c4d809e38d051798e6c592ba55f5e6ceb2a97c9989bb09168fe462', '[\"*\"]', '2026-08-09 23:40:59', NULL, '2026-08-09 23:40:52', '2026-08-09 23:40:59'),
+(604, 'App\\Models\\User', 59, 'auth_token', '162b933e708d55ffe90a280ab3e4ce29d5f4a10ab2873715f9573715cf40fe16', '[\"*\"]', '2026-08-10 11:59:36', NULL, '2026-08-10 11:59:31', '2026-08-10 11:59:36'),
+(605, 'App\\Models\\User', 100, 'auth_token', '06149687815fe8cc9d4ec1a5ad1f7cdf75dcd15dd4c967b5b791f4c467b69834', '[\"*\"]', '2026-08-10 14:26:04', NULL, '2026-08-10 14:25:47', '2026-08-10 14:26:04'),
+(609, 'App\\Models\\User', 100, 'auth_token', '0e83404cee66d6f62475d38339da404c262196dcc81607586a9729df2eaecc6e', '[\"*\"]', '2026-08-10 16:08:56', NULL, '2026-08-10 16:08:53', '2026-08-10 16:08:56'),
+(610, 'App\\Models\\User', 100, 'auth_token', 'f96cec40e051d470dfdebfa3fdae09b0908fe9d065ac30811995981de6f621d6', '[\"*\"]', '2026-08-10 16:09:27', NULL, '2026-08-10 16:09:18', '2026-08-10 16:09:27'),
+(611, 'App\\Models\\User', 100, 'auth_token', '46f348dda59a864e64d5fc11360b67d5d33781fe4640e18b704e2d67057a522c', '[\"*\"]', '2026-08-10 16:15:36', NULL, '2026-08-10 16:15:29', '2026-08-10 16:15:36'),
+(612, 'App\\Models\\User', 100, 'auth_token', '0c2cda4528828ae2eee871dc50a2e9e5028a9c54f9b6caa934aa63812cfbc3d4', '[\"*\"]', '2026-08-10 16:18:37', NULL, '2026-08-10 16:18:30', '2026-08-10 16:18:37'),
+(613, 'App\\Models\\User', 100, 'auth_token', 'e7c2d9d79f442460ad6c5d7e327ee095915fefb85d4e0ae346d7f973afea6040', '[\"*\"]', '2026-08-10 16:29:21', NULL, '2026-08-10 16:28:58', '2026-08-10 16:29:21'),
+(618, 'App\\Models\\User', 59, 'auth_token', '9af963d6b157b2239a08caf46dff4f9faab1dd7a233404d10309c19e2c4028de', '[\"*\"]', NULL, NULL, '2026-08-13 23:13:45', '2026-08-13 23:13:45'),
+(621, 'App\\Models\\User', 59, 'auth_token', '3bb7db90367b46bd60ee861fab74b844dd28451e617566acaf9a85f2885ea2dd', '[\"*\"]', NULL, NULL, '2026-08-14 00:13:48', '2026-08-14 00:13:48'),
+(622, 'App\\Models\\User', 59, 'auth_token', 'd09efa622b6195585bd989a7313b2a172a101850edbdec1c46a6158c5b0d6005', '[\"*\"]', NULL, NULL, '2026-08-14 00:13:52', '2026-08-14 00:13:52'),
+(634, 'App\\Models\\User', 59, 'auth_token', 'f66890063873f7798e6a17a96134fc99ce99c9c239c0ba1029069d962df8573f', '[\"*\"]', '2026-08-14 17:10:28', NULL, '2026-08-14 17:10:26', '2026-08-14 17:10:28'),
+(640, 'App\\Models\\User', 59, 'auth_token', '0b769f6f8d05d9619f6ed24fe40aebf8c00fdafbaa5ca8dab65f2e918ed63177', '[\"*\"]', NULL, NULL, '2026-08-18 10:49:11', '2026-08-18 10:49:11'),
+(641, 'App\\Models\\User', 59, 'auth_token', 'b319849e4d41565e7bf9dc87ae1a988c5904caaf2da4fcb539f020de63a025e3', '[\"*\"]', NULL, NULL, '2026-08-18 10:49:16', '2026-08-18 10:49:16'),
+(642, 'App\\Models\\User', 59, 'auth_token', '1663dbf9fc13f7a17cff96e5c0658617c2fa5fbcb041a6a8913ac3e8cbcd0e1f', '[\"*\"]', NULL, NULL, '2026-08-18 10:49:19', '2026-08-18 10:49:19'),
+(643, 'App\\Models\\User', 59, 'auth_token', '971240a04eb2c181a2d124861b6330a81f126a20c67cccf49d3e06dd5cc0a4c5', '[\"*\"]', NULL, NULL, '2026-08-18 10:49:36', '2026-08-18 10:49:36'),
+(644, 'App\\Models\\User', 59, 'auth_token', '2f7f7e80315999f061b0f2eed64b8be8d39fafa3605715638ffe2d8455817a5d', '[\"*\"]', NULL, NULL, '2026-08-18 10:49:45', '2026-08-18 10:49:45'),
+(645, 'App\\Models\\User', 59, 'auth_token', 'bb639de804e71926c6eac8908c9248603bc8ea7f71fa85ecbf310c06527738ed', '[\"*\"]', NULL, NULL, '2026-08-18 11:00:30', '2026-08-18 11:00:30'),
+(649, 'App\\Models\\User', 101, 'auth_token', '0d0fb5e758fd68f055e492d97efb0a7ae90a6dd8f7051847d8f7d1364d9c28a2', '[\"*\"]', '2026-08-22 03:25:57', NULL, '2026-08-22 03:25:53', '2026-08-22 03:25:57'),
+(653, 'App\\Models\\User', 102, 'auth_token', '037571df8c3e8aaf337f6cee2029d66e9f8164b79021c4c233d73ac1caefa9b5', '[\"*\"]', '2026-09-02 20:03:09', NULL, '2026-09-02 20:03:04', '2026-09-02 20:03:09'),
+(658, 'App\\Models\\User', 103, 'auth_token', 'f4040f42b348502d7c9c9850e5513b1bf2fa8ecffcf7fab43bb5943a05bc71dc', '[\"*\"]', '2026-09-09 07:41:33', NULL, '2026-09-08 10:47:16', '2026-09-09 07:41:33'),
+(660, 'App\\Models\\User', 59, 'auth_token', '20371185843cd34529b60aa2b9645cc66568e5a079532207436954e6cf4e9bcc', '[\"*\"]', '2026-09-10 09:48:46', NULL, '2026-09-10 09:47:44', '2026-09-10 09:48:46');
 
 -- --------------------------------------------------------
 
@@ -1342,7 +2107,6 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 -- Table structure for table `plans`
 --
 
-DROP TABLE IF EXISTS `plans`;
 CREATE TABLE `plans` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `plan_key` varchar(20) NOT NULL COMMENT 'basic | nutrition | elite | vip',
@@ -1385,10 +2149,36 @@ INSERT INTO `plans` (`id`, `plan_key`, `name_ar`, `name_en`, `subtitle_ar`, `sub
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `progress_photos`
+--
+
+CREATE TABLE `progress_photos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `photo_path` varchar(191) NOT NULL,
+  `weight_at_photo` decimal(5,2) DEFAULT NULL,
+  `note` text DEFAULT NULL,
+  `marketing_consent` tinyint(1) NOT NULL DEFAULT 0,
+  `taken_at` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `progress_photos`
+--
+
+INSERT INTO `progress_photos` (`id`, `user_id`, `photo_path`, `weight_at_photo`, `note`, `marketing_consent`, `taken_at`, `created_at`, `updated_at`) VALUES
+(9, 100, 'progress-photos/sAQJBYBobSHJH8LyInhr3br63y2mqaQCXw9kobOy.jpg', 72.00, NULL, 1, '2026-07-28', '2026-07-28 22:29:29', '2026-07-28 22:29:29'),
+(10, 100, 'progress-photos/0Ep0PFCyIQT0FLPxiLRWkoMewLCB7ziSKGbGNcCg.jpg', 70.00, NULL, 1, '2026-07-28', '2026-07-28 22:29:50', '2026-07-28 22:29:50'),
+(11, 100, 'progress-photos/y1YYJ2ftvfGw2mhaMMQtuSjGU3EIoZ5CTUTaZdLj.jpg', 65.00, NULL, 1, '2026-07-28', '2026-07-28 22:30:15', '2026-07-28 22:30:15');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `site_settings`
 --
 
-DROP TABLE IF EXISTS `site_settings`;
 CREATE TABLE `site_settings` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `key` varchar(100) NOT NULL,
@@ -1410,7 +2200,6 @@ INSERT INTO `site_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) V
 -- Table structure for table `subscriptions`
 --
 
-DROP TABLE IF EXISTS `subscriptions`;
 CREATE TABLE `subscriptions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -1446,7 +2235,10 @@ INSERT INTO `subscriptions` (`id`, `user_id`, `plan_type`, `duration`, `amount`,
 (202, 60, 'basic', '1month', 39.00, 39.00, 0, 'paypal', 'pending', '1Y0651951F562221E', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-06-13 17:26:31', '2026-06-30 19:40:42', '2026-06-30 19:40:42'),
 (203, 67, 'basic', '1month', 39.00, 39.00, 0, 'paypal', 'pending', '5SN42654PC7078304', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-06-16 14:46:26', '2026-06-16 23:43:04', '2026-06-16 23:43:04'),
 (204, 67, 'basic', '1month', 39.00, 39.00, 0, 'paypal', 'pending', '53S805487P6157836', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-06-16 15:04:51', '2026-06-16 23:43:18', '2026-06-16 23:43:18'),
-(205, 67, 'basic', '1month', 39.00, 39.00, 0, 'paypal', 'pending', '9YT63813SL686681E', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-06-16 15:08:43', '2026-06-16 23:43:11', '2026-06-16 23:43:11');
+(205, 67, 'basic', '1month', 39.00, 39.00, 0, 'paypal', 'pending', '9YT63813SL686681E', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-06-16 15:08:43', '2026-06-16 23:43:11', '2026-06-16 23:43:11'),
+(206, 100, 'elite', '3months', 225.00, 237.00, 5, 'paypal', 'approved', NULL, NULL, NULL, NULL, 'USD', NULL, '2026-06-01 00:00:00', '2026-09-01 00:00:00', '2026-07-28 22:09:31', '2026-07-28 22:09:31', NULL),
+(208, 103, 'nutrition', '6months', 264.00, 294.00, 10, 'paypal', 'pending', '9LU66974WY506213L', NULL, NULL, NULL, 'USD', NULL, NULL, NULL, '2026-09-07 10:09:03', '2026-09-07 10:09:04', NULL),
+(209, 103, 'nutrition', '6months', 185.00, 210.00, 10, 'paypal', 'approved', '4284832722652181P', 'LSYC4ELNBYS6W', NULL, NULL, 'USD', NULL, '2026-09-07 00:00:00', '2027-03-07 00:00:00', '2026-09-07 10:12:26', '2026-09-07 15:00:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -1454,7 +2246,6 @@ INSERT INTO `subscriptions` (`id`, `user_id`, `plan_type`, `duration`, `amount`,
 -- Table structure for table `testimonials`
 --
 
-DROP TABLE IF EXISTS `testimonials`;
 CREATE TABLE `testimonials` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `image_path` varchar(191) DEFAULT NULL,
@@ -1490,7 +2281,6 @@ INSERT INTO `testimonials` (`id`, `image_path`, `image_name`, `name_en`, `name_a
 -- Table structure for table `testimonials_section`
 --
 
-DROP TABLE IF EXISTS `testimonials_section`;
 CREATE TABLE `testimonials_section` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `badge_en` varchar(191) DEFAULT NULL,
@@ -1519,7 +2309,6 @@ INSERT INTO `testimonials_section` (`id`, `badge_en`, `badge_ar`, `title_en`, `t
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(191) NOT NULL,
@@ -1535,6 +2324,7 @@ CREATE TABLE `users` (
   `weight` decimal(5,2) DEFAULT NULL COMMENT 'Current weight in kg',
   `waist` decimal(5,2) DEFAULT NULL COMMENT 'Waist measurement in cm',
   `hips` decimal(5,2) DEFAULT NULL COMMENT 'Hips measurement in cm (for females)',
+  `marketing_consent` tinyint(1) NOT NULL DEFAULT 0,
   `age` int(11) DEFAULT NULL,
   `gender` enum('male','female') DEFAULT NULL,
   `goal` enum('weight-loss','muscle-gain','toning','fitness') DEFAULT NULL,
@@ -1556,33 +2346,37 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `language`, `email_verified_at`, `password`, `role`, `is_active`, `avatar`, `phone`, `height`, `weight`, `waist`, `hips`, `age`, `gender`, `goal`, `workout_place`, `program`, `health_notes`, `has_active_subscription`, `subscription_start_date`, `subscription_end_date`, `remember_token`, `fcm_token`, `onesignal_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Rand Jarrar', 'admin@ranlogic.com', 'ar', '2026-01-17 23:12:26', '$2y$12$YLFRqcmiS8diGbkh7lqIvOKstcl0E9eKHuGUkwZlFxo8asZp1g7yW', 'admin', 1, 'avatars/avatar_1_1772134322.jpeg', NULL, NULL, NULL, NULL, NULL, 28, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-01-17 23:12:26', '2026-04-19 15:45:47', NULL),
-(59, 'Mohammed', 'mohammed.n.jumaa@gmail.com', 'ar', NULL, '$2y$12$wXEm0Au6a.k/pRsaGszZnODXp1lBTx4q530D5604YTVWTSdWuwFP.', 'user', 1, 'avatars/avatar_59_1774392011.jpeg', NULL, 180.00, 99.00, 100.00, NULL, 26, 'male', 'weight-loss', 'gym', 'خسارة وزن', 'مقاومة انسولين', 0, '2026-03-28', '2026-06-28', NULL, '{\"endpoint\":\"https://web.push.apple.com/QMfmnQRhnEWSH_z-pYIzWGdOlp1kA0cWPxOqoUN2W2MjgCIK3AuJnpxXnl1HU7UpFJVR1t1YDC3lgDV6dXjxnhUdKt-r8jLYLnGW53otIOp80pcsfyl_YnhtbGDAawiymd45HC6t2J6L951ZW9btbAmPLwrvxd0tzjQU1qKHSGw\",\"keys\":{\"p256dh\":\"BE3kNnWp8ZpDPPjVqQg8FB9Asix-RRnVFrul4Jz9QpMJwIXzidsk309xCBBlRu83jPthxFdCke7QyE-0niufuik\",\"auth\":\"LiPSzHY1-HnA8ZCdfHjwxA\"}}', '4dcba3eb-16fe-474a-96be-d7435ff50df6', '2026-03-16 20:59:08', '2026-07-23 16:17:28', NULL),
-(60, 'سيف سعد', 'alhrbyahmd846@gmail.com', 'ar', NULL, '$2y$12$XhtBA7CrOGyuyu8PpyELo.MNeM8V26U/Sm9EXYcBPkpF/2IrchkSC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-03-24 05:10:39', '2026-04-05 18:40:28', NULL),
-(61, 'محمد عارف', 'm7mdaref00@gmail.com', 'ar', NULL, '$2y$12$1KSYqcveFGy2iW1fHegqO.zdEfgMr/j0XNKJ5dN936LF4bKbD.LnW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-03-24 12:50:15', '2026-04-05 18:40:21', NULL),
-(66, 'omar', 'mujahedomar14@gmail.com', 'ar', NULL, '$2y$12$LheqeqOgsjQk1BSc9H99mugdIUiJ2Jg2rJc4LhOVU/Jv/L2YIjVoG', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-17 17:26:57', '2026-05-17 17:26:57', NULL),
-(67, 'سوان', 'swan.mysong@gimal.com', 'ar', NULL, '$2y$12$cFkxstwrzx7Xjj8UGqo2EepQwdSOWQ5e6WllwnFb9aIq.ivlSFd7y', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-17 22:31:29', '2026-05-17 22:31:29', NULL),
-(68, 'Basel Wazani', 'basel.wazani@hotmail.com', 'ar', NULL, '$2y$12$KauuMaULOBdHTkrsLTGrS.Z/aYBqzNzjG4pk2.1fkqfoW.MAuyZOS', 'user', 1, NULL, NULL, 175.00, 75.00, 50.00, NULL, 30, 'male', 'muscle-gain', 'gym', 'بناء عضلات', 'ديسك L5-S1', 0, '2026-05-18', '2026-05-18', NULL, NULL, NULL, '2026-05-18 15:46:20', '2026-06-18 01:00:06', NULL),
-(69, 'Dana Ahmad', 'majdydana@gmail.com', 'ar', NULL, '$2y$12$rkiqUbdYQb1Uha.7NwUdfePObFDA/tOj5RqZ.nKdQ7W.y/uNHqH0a', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-18 21:54:38', '2026-05-18 21:54:38', NULL),
-(71, 'Farah Al Theeb', 'farah.fareed2000@gmail.com', 'ar', NULL, '$2y$12$9Qivq0rNvmVqZmxj8Qp5OOyfpvUT0B5aWt50CHwIbNTQvFsofbsFq', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-18 23:23:41', '2026-05-18 23:23:41', NULL),
-(72, 'Marah Azzam', 'marahazzam83@gmail.com', 'ar', NULL, '$2y$12$Ck25fHl1RmhjtudL/wk6C.jxv62f.73ZUhwuteVLS5WGjbIa8HCNm', 'user', 1, NULL, NULL, 163.00, 74.00, 94.00, 67.00, 28, 'female', 'weight-loss', 'gym', NULL, 'انخفاض شديد في فيتامين دال والحديد', 0, '2026-05-24', '2026-06-24', NULL, NULL, NULL, '2026-05-19 09:18:05', '2026-06-24 01:00:06', NULL),
-(77, 'Anas ayman', 'anasqasrawi565@gmail.com', 'ar', NULL, '$2y$12$Lwd5mx.0C0hhV9wLPpdohui2GZydmWaMjtO3bvQQ3bHRqw2ug6v12', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-20 16:36:22', '2026-05-20 16:36:22', NULL),
-(79, 'Adham', 'adhamrefat010@gmail.com', 'ar', NULL, '$2y$12$nwM7XJVtlUWv9KYsdCNQyepFfFQNavV0u.zzANjf21Pd3XOBjyTz2', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-21 19:32:43', '2026-05-21 19:32:43', NULL),
-(84, 'Shaheen Abuashour', 'shaheenabuashoor@gmail.com', 'ar', NULL, '$2y$12$vNGD1lEazYWNJB3PU4/ShuIR2/c7n1fvXn.qwh4FPP.1cCVlIZDJC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-24 17:49:11', '2026-05-24 17:49:11', NULL),
-(85, 'Ammar Masmoum', 'ammarmasmoum@yahoo.com', 'ar', NULL, '$2y$12$F2f1TTcFt8n0nJQG/xbEmucI8StShMEOpk4agaiwAvLL4Td4Q0Gpq', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 14:59:06', '2026-05-25 14:59:06', NULL),
-(86, 'Adham Al Asad', 'adhamalasad2021@gmail.com', 'ar', NULL, '$2y$12$mOTSpRsE.VGuapoNyG7KIu9BwJMSPAM19TpPPEc/R5TbjbFeyXh8i', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 15:47:47', '2026-05-25 15:47:47', NULL),
-(87, 'ليث ابو صلاح', 'alarabylayth3@gmail.com', 'ar', NULL, '$2y$12$sXogWdaTCFIuIYFy3o1LWuQN58LTnTFBBz304C8Gz132krq0ogEUW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 21:12:21', '2026-05-25 21:12:21', NULL),
-(88, 'Yousef Jaber', 'yousefjaber1999@gmail.com', 'ar', NULL, '$2y$12$FpcaV9bJ3.mncDCpdSxhguXGg8nRC51Ru1xhgnPSNY6DpEX8DuXdy', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-28 16:47:02', '2026-05-28 16:47:02', NULL),
-(91, 'يوسف صافي', 'jos799608@gmail.com', 'ar', NULL, '$2y$12$qxlbEORECr4UGotmqQQ25OVIWBDERMwAJZ6hgqOFyhpZFXLEcXlwW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-31 10:01:14', '2026-05-31 10:01:14', NULL),
-(92, 'Yousif', 'yousifucj@gmail.com', 'ar', NULL, '$2y$12$ckjlngs7.AVD2h35Nq26BOWOeQgUAKIw/WNH405odW0.vCPI70yrG', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-31 10:54:31', '2026-05-31 10:54:31', NULL),
-(93, 'عبد الرحمن', 'vartolu00000@gmail.com', 'ar', NULL, '$2y$12$Jbn6GD74HmKsu06HZlztaeMZ722ZPhtSuUO2MzTuEm44zw2vJ3292', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-06 20:53:08', '2026-06-06 20:53:08', NULL),
-(94, 'Ammar Tello', 'ammartello97@gmail.com', 'ar', NULL, '$2y$12$4yEPGGeO6pSw9WFmug7Ws./p60GMyaRm27wUCbWWDuVb9BwapYe5G', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-11 08:40:10', '2026-06-11 08:40:10', NULL),
-(95, 'Omar Altali', 'oaltali.e@gmail.com', 'ar', NULL, '$2y$12$3AW4pvpaE4bulvMFEmLSvuRw/zWLnxpubQE1LrXc6cYpg0H/zU2Jy', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-13 15:49:35', '2026-06-13 15:49:35', NULL),
-(96, 'مريم حمدي غيث', 'maryamhamdyghaith@outlook.com', 'ar', NULL, '$2y$12$LRRVQmH0e//erXeRWZQcBeXWSkyVwMSOVla7cDG0NlWdfUMONLtOK', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-15 17:34:58', '2026-06-15 17:34:58', NULL),
-(97, 'Dana Mohammad Falah Obeidat', 'dana.obaidat@yahoo.com', 'ar', NULL, '$2y$12$WnptQl9jq6Bc6pr/MMQy5eVALscEzegk1i/j/WNnCvop2IDKddWpS', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-15 20:17:39', '2026-06-15 20:17:39', NULL),
-(98, 'مصعب نجمات', 'mnjmat16@gmail.com', 'ar', NULL, '$2y$12$rBUlYyOl96rj5LNzNJGWm.qYoVj1BrXc97Agjh1mMQ5mpS2GKyTH2', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-16 17:36:35', '2026-06-16 17:36:35', NULL),
-(99, 'نوف ابو رجيع', 'noufaburjai25@gmail.com', 'ar', NULL, '$2y$12$GC0nEg/2kXJ5N5HanWe/f.zKFcJmelmeZtHcInbCYHHs93vVopdXC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-17 04:48:24', '2026-06-17 04:48:24', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `language`, `email_verified_at`, `password`, `role`, `is_active`, `avatar`, `phone`, `height`, `weight`, `waist`, `hips`, `marketing_consent`, `age`, `gender`, `goal`, `workout_place`, `program`, `health_notes`, `has_active_subscription`, `subscription_start_date`, `subscription_end_date`, `remember_token`, `fcm_token`, `onesignal_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Rand Jarrar', 'admin@ranlogic.com', 'ar', '2026-01-17 23:12:26', '$2y$12$YLFRqcmiS8diGbkh7lqIvOKstcl0E9eKHuGUkwZlFxo8asZp1g7yW', 'admin', 1, 'avatars/avatar_1_1772134322.jpeg', NULL, NULL, NULL, NULL, NULL, 0, 28, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-01-17 23:12:26', '2026-04-19 15:45:47', NULL),
+(59, 'Mohammed', 'mohammed.n.jumaa@gmail.com', 'ar', NULL, '$2y$12$wXEm0Au6a.k/pRsaGszZnODXp1lBTx4q530D5604YTVWTSdWuwFP.', 'user', 1, 'avatars/avatar_59_1786728985.jpeg', NULL, 180.00, 99.00, 100.00, NULL, 1, 26, 'male', 'weight-loss', 'gym', 'خسارة وزن', 'مقاومة انسولين', 0, '2026-03-28', '2026-06-28', NULL, '{\"endpoint\":\"https://web.push.apple.com/QMfmnQRhnEWSH_z-pYIzWGdOlp1kA0cWPxOqoUN2W2MjgCIK3AuJnpxXnl1HU7UpFJVR1t1YDC3lgDV6dXjxnhUdKt-r8jLYLnGW53otIOp80pcsfyl_YnhtbGDAawiymd45HC6t2J6L951ZW9btbAmPLwrvxd0tzjQU1qKHSGw\",\"keys\":{\"p256dh\":\"BE3kNnWp8ZpDPPjVqQg8FB9Asix-RRnVFrul4Jz9QpMJwIXzidsk309xCBBlRu83jPthxFdCke7QyE-0niufuik\",\"auth\":\"LiPSzHY1-HnA8ZCdfHjwxA\"}}', '366f3734-aa9a-41a0-bdea-46b05804b2d2', '2026-03-16 20:59:08', '2026-08-14 17:36:25', NULL),
+(60, 'سيف سعد', 'alhrbyahmd846@gmail.com', 'ar', NULL, '$2y$12$XhtBA7CrOGyuyu8PpyELo.MNeM8V26U/Sm9EXYcBPkpF/2IrchkSC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-03-24 05:10:39', '2026-04-05 18:40:28', NULL),
+(61, 'محمد عارف', 'm7mdaref00@gmail.com', 'ar', NULL, '$2y$12$1KSYqcveFGy2iW1fHegqO.zdEfgMr/j0XNKJ5dN936LF4bKbD.LnW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-03-24 12:50:15', '2026-04-05 18:40:21', NULL),
+(66, 'omar', 'mujahedomar14@gmail.com', 'ar', NULL, '$2y$12$LheqeqOgsjQk1BSc9H99mugdIUiJ2Jg2rJc4LhOVU/Jv/L2YIjVoG', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-17 17:26:57', '2026-05-17 17:26:57', NULL),
+(67, 'سوان', 'swan.mysong@gimal.com', 'ar', NULL, '$2y$12$cFkxstwrzx7Xjj8UGqo2EepQwdSOWQ5e6WllwnFb9aIq.ivlSFd7y', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-17 22:31:29', '2026-05-17 22:31:29', NULL),
+(68, 'Basel Wazani', 'basel.wazani@hotmail.com', 'ar', NULL, '$2y$12$KauuMaULOBdHTkrsLTGrS.Z/aYBqzNzjG4pk2.1fkqfoW.MAuyZOS', 'user', 1, NULL, NULL, 175.00, 75.00, 50.00, NULL, 0, 30, 'male', 'muscle-gain', 'gym', 'بناء عضلات', 'ديسك L5-S1', 0, '2026-05-18', '2026-05-18', NULL, NULL, NULL, '2026-05-18 15:46:20', '2026-06-18 01:00:06', NULL),
+(69, 'Dana Ahmad', 'majdydana@gmail.com', 'ar', NULL, '$2y$12$rkiqUbdYQb1Uha.7NwUdfePObFDA/tOj5RqZ.nKdQ7W.y/uNHqH0a', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-18 21:54:38', '2026-05-18 21:54:38', NULL),
+(71, 'Farah Al Theeb', 'farah.fareed2000@gmail.com', 'ar', NULL, '$2y$12$9Qivq0rNvmVqZmxj8Qp5OOyfpvUT0B5aWt50CHwIbNTQvFsofbsFq', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-18 23:23:41', '2026-05-18 23:23:41', NULL),
+(72, 'Marah Azzam', 'marahazzam83@gmail.com', 'ar', NULL, '$2y$12$Ck25fHl1RmhjtudL/wk6C.jxv62f.73ZUhwuteVLS5WGjbIa8HCNm', 'user', 1, NULL, NULL, 163.00, 74.00, 94.00, 67.00, 0, 28, 'female', 'weight-loss', 'gym', NULL, 'انخفاض شديد في فيتامين دال والحديد', 0, '2026-05-24', '2026-06-24', NULL, NULL, NULL, '2026-05-19 09:18:05', '2026-06-24 01:00:06', NULL),
+(77, 'Anas ayman', 'anasqasrawi565@gmail.com', 'ar', NULL, '$2y$12$Lwd5mx.0C0hhV9wLPpdohui2GZydmWaMjtO3bvQQ3bHRqw2ug6v12', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-20 16:36:22', '2026-05-20 16:36:22', NULL),
+(79, 'Adham', 'adhamrefat010@gmail.com', 'ar', NULL, '$2y$12$nwM7XJVtlUWv9KYsdCNQyepFfFQNavV0u.zzANjf21Pd3XOBjyTz2', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-21 19:32:43', '2026-05-21 19:32:43', NULL),
+(84, 'Shaheen Abuashour', 'shaheenabuashoor@gmail.com', 'ar', NULL, '$2y$12$vNGD1lEazYWNJB3PU4/ShuIR2/c7n1fvXn.qwh4FPP.1cCVlIZDJC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-24 17:49:11', '2026-05-24 17:49:11', NULL),
+(85, 'Ammar Masmoum', 'ammarmasmoum@yahoo.com', 'ar', NULL, '$2y$12$F2f1TTcFt8n0nJQG/xbEmucI8StShMEOpk4agaiwAvLL4Td4Q0Gpq', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 14:59:06', '2026-05-25 14:59:06', NULL),
+(86, 'Adham Al Asad', 'adhamalasad2021@gmail.com', 'ar', NULL, '$2y$12$mOTSpRsE.VGuapoNyG7KIu9BwJMSPAM19TpPPEc/R5TbjbFeyXh8i', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 15:47:47', '2026-05-25 15:47:47', NULL),
+(87, 'ليث ابو صلاح', 'alarabylayth3@gmail.com', 'ar', NULL, '$2y$12$sXogWdaTCFIuIYFy3o1LWuQN58LTnTFBBz304C8Gz132krq0ogEUW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-25 21:12:21', '2026-05-25 21:12:21', NULL),
+(88, 'Yousef Jaber', 'yousefjaber1999@gmail.com', 'ar', NULL, '$2y$12$FpcaV9bJ3.mncDCpdSxhguXGg8nRC51Ru1xhgnPSNY6DpEX8DuXdy', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-28 16:47:02', '2026-05-28 16:47:02', NULL),
+(91, 'يوسف صافي', 'jos799608@gmail.com', 'ar', NULL, '$2y$12$qxlbEORECr4UGotmqQQ25OVIWBDERMwAJZ6hgqOFyhpZFXLEcXlwW', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-31 10:01:14', '2026-05-31 10:01:14', NULL),
+(92, 'Yousif', 'yousifucj@gmail.com', 'ar', NULL, '$2y$12$ckjlngs7.AVD2h35Nq26BOWOeQgUAKIw/WNH405odW0.vCPI70yrG', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-05-31 10:54:31', '2026-05-31 10:54:31', NULL),
+(93, 'عبد الرحمن', 'vartolu00000@gmail.com', 'ar', NULL, '$2y$12$Jbn6GD74HmKsu06HZlztaeMZ722ZPhtSuUO2MzTuEm44zw2vJ3292', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-06 20:53:08', '2026-06-06 20:53:08', NULL),
+(94, 'Ammar Tello', 'ammartello97@gmail.com', 'ar', NULL, '$2y$12$4yEPGGeO6pSw9WFmug7Ws./p60GMyaRm27wUCbWWDuVb9BwapYe5G', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-11 08:40:10', '2026-06-11 08:40:10', NULL),
+(95, 'Omar Altali', 'oaltali.e@gmail.com', 'ar', NULL, '$2y$12$3AW4pvpaE4bulvMFEmLSvuRw/zWLnxpubQE1LrXc6cYpg0H/zU2Jy', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-13 15:49:35', '2026-06-13 15:49:35', NULL),
+(96, 'مريم حمدي غيث', 'maryamhamdyghaith@outlook.com', 'ar', NULL, '$2y$12$LRRVQmH0e//erXeRWZQcBeXWSkyVwMSOVla7cDG0NlWdfUMONLtOK', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-15 17:34:58', '2026-06-15 17:34:58', NULL),
+(97, 'Dana Mohammad Falah Obeidat', 'dana.obaidat@yahoo.com', 'ar', NULL, '$2y$12$WnptQl9jq6Bc6pr/MMQy5eVALscEzegk1i/j/WNnCvop2IDKddWpS', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-15 20:17:39', '2026-06-15 20:17:39', NULL),
+(98, 'مصعب نجمات', 'mnjmat16@gmail.com', 'ar', NULL, '$2y$12$rBUlYyOl96rj5LNzNJGWm.qYoVj1BrXc97Agjh1mMQ5mpS2GKyTH2', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-16 17:36:35', '2026-06-16 17:36:35', NULL),
+(99, 'نوف ابو رجيع', 'noufaburjai25@gmail.com', 'ar', NULL, '$2y$12$GC0nEg/2kXJ5N5HanWe/f.zKFcJmelmeZtHcInbCYHHs93vVopdXC', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'female', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-06-17 04:48:24', '2026-06-17 04:48:24', NULL),
+(100, 'سارة أحمد', 'test@ranlogic.com', 'ar', NULL, '$2y$12$1rWv6qzTaSSAVqrFextesO2jW7cPv4DYcK9mnbLqBxNfxG662JeaW', 'user', 1, NULL, NULL, 165.00, 65.00, 78.00, 98.00, 1, 24, 'female', 'weight-loss', 'gym', 'خسارة وزن', NULL, 0, NULL, NULL, NULL, NULL, '48d7fd5f-13c0-4b1e-a00c-65d54b1b323a', '2026-07-28 22:02:56', '2026-09-01 01:00:03', NULL),
+(101, 'رجب سعيد', 'rajab.qasem03@gmail.com', 'ar', NULL, '$2y$12$r9D0w79EhW2PCbUBZ.KfZeM7wYcLpSXLKTGVi3ElylHHL6/i1m7o.', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-08-22 03:25:53', '2026-08-22 03:25:53', NULL),
+(102, 'Amjad Hashim', 'amjad.a.h02@hotmail.com', 'ar', NULL, '$2y$12$BIOr71RwPSejRIfDQa3vuuDeujHSVWvhZNLDFahfL30IZwlapTrUy', 'user', 1, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 'male', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, '2026-09-02 20:03:04', '2026-09-02 20:03:04', NULL),
+(103, 'Laith Jaber', 'Laithjaber079@yahoo.com', 'ar', NULL, '$2y$12$d0rWi/ZblrXLwTgFg3peM.N3aiQtu3ajT5pVXIMXicNSPq2P.u0lO', 'user', 1, NULL, NULL, 176.00, 72.40, 75.00, NULL, 0, 25, 'male', 'muscle-gain', 'gym', NULL, 'لا يوجد اي إصابات او حساسية غذائية', 1, '2026-09-07', '2027-03-07', NULL, NULL, NULL, '2026-09-07 10:03:42', '2026-09-07 21:24:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -1590,7 +2384,6 @@ INSERT INTO `users` (`id`, `name`, `email`, `language`, `email_verified_at`, `pa
 -- Table structure for table `user_goals`
 --
 
-DROP TABLE IF EXISTS `user_goals`;
 CREATE TABLE `user_goals` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -1605,7 +2398,6 @@ CREATE TABLE `user_goals` (
 -- Table structure for table `user_questions`
 --
 
-DROP TABLE IF EXISTS `user_questions`;
 CREATE TABLE `user_questions` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(191) NOT NULL,
@@ -1622,10 +2414,99 @@ CREATE TABLE `user_questions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `water_logs`
+--
+
+CREATE TABLE `water_logs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `cups` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
+  `goal` tinyint(3) UNSIGNED NOT NULL DEFAULT 8,
+  `logged_at` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `water_logs`
+--
+
+INSERT INTO `water_logs` (`id`, `user_id`, `cups`, `goal`, `logged_at`, `created_at`, `updated_at`) VALUES
+(3, 100, 8, 8, '2026-07-08', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(4, 100, 6, 8, '2026-07-09', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(5, 100, 8, 8, '2026-07-10', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(6, 100, 7, 8, '2026-07-11', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(7, 100, 8, 8, '2026-07-12', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(8, 100, 5, 8, '2026-07-13', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(9, 100, 8, 8, '2026-07-14', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(10, 100, 7, 8, '2026-07-15', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(11, 100, 8, 8, '2026-07-16', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(12, 100, 6, 8, '2026-07-17', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(13, 100, 8, 8, '2026-07-18', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(14, 100, 8, 8, '2026-07-19', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(15, 100, 7, 8, '2026-07-20', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(16, 100, 8, 8, '2026-07-21', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(17, 100, 6, 8, '2026-07-22', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(18, 100, 8, 8, '2026-07-23', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(19, 100, 7, 8, '2026-07-24', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(20, 100, 8, 8, '2026-07-25', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(21, 100, 8, 8, '2026-07-26', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(22, 100, 5, 8, '2026-07-27', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(23, 100, 0, 8, '2026-07-29', '2026-07-28 22:09:31', '2026-07-29 08:59:27'),
+(24, 100, 0, 8, '2026-07-28', '2026-07-28 22:09:37', '2026-07-28 22:47:17'),
+(25, 100, 0, 8, '2026-07-30', '2026-07-30 10:38:28', '2026-07-30 10:38:28'),
+(26, 100, 0, 8, '2026-08-01', '2026-08-01 18:24:54', '2026-08-01 18:24:54'),
+(27, 100, 0, 8, '2026-08-05', '2026-08-05 12:47:14', '2026-08-05 12:47:14'),
+(28, 100, 0, 8, '2026-08-07', '2026-08-07 00:15:14', '2026-08-07 00:15:14'),
+(29, 100, 0, 8, '2026-08-09', '2026-08-09 17:36:43', '2026-08-09 17:36:43'),
+(30, 100, 1, 8, '2026-08-10', '2026-08-10 00:02:05', '2026-08-10 17:38:15'),
+(31, 100, 0, 8, '2026-08-11', '2026-08-11 11:57:28', '2026-08-11 11:57:28'),
+(32, 100, 1, 8, '2026-08-14', '2026-08-14 00:46:54', '2026-08-14 16:11:22'),
+(33, 59, 0, 8, '2026-08-14', '2026-08-14 17:10:28', '2026-08-14 17:10:28'),
+(34, 103, 0, 8, '2026-09-07', '2026-09-07 10:14:11', '2026-09-07 10:14:11'),
+(35, 103, 0, 8, '2026-09-08', '2026-09-08 10:47:19', '2026-09-08 10:47:19'),
+(36, 103, 0, 8, '2026-09-09', '2026-09-09 07:41:33', '2026-09-09 07:41:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `weight_logs`
+--
+
+CREATE TABLE `weight_logs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `weight` decimal(5,2) NOT NULL,
+  `logged_at` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `weight_logs`
+--
+
+INSERT INTO `weight_logs` (`id`, `user_id`, `weight`, `logged_at`, `created_at`, `updated_at`) VALUES
+(1, 100, 82.00, '2026-05-25', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(2, 100, 81.20, '2026-06-01', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(3, 100, 80.50, '2026-06-08', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(4, 100, 79.80, '2026-06-15', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(5, 100, 78.50, '2026-06-22', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(6, 100, 77.80, '2026-06-29', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(7, 100, 76.50, '2026-07-06', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(8, 100, 75.30, '2026-07-13', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(9, 100, 74.00, '2026-07-20', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(10, 100, 72.00, '2026-07-27', '2026-07-28 22:09:31', '2026-07-28 22:09:31'),
+(11, 100, 65.00, '2026-07-28', '2026-07-28 22:29:38', '2026-07-28 22:30:05'),
+(12, 59, 99.00, '2026-08-14', '2026-08-14 17:31:12', '2026-08-14 17:31:12'),
+(13, 103, 72.40, '2026-09-07', '2026-09-07 21:24:25', '2026-09-07 21:24:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `workout_exercises`
 --
 
-DROP TABLE IF EXISTS `workout_exercises`;
 CREATE TABLE `workout_exercises` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `workout_plan_id` bigint(20) UNSIGNED NOT NULL,
@@ -1988,7 +2869,6 @@ INSERT INTO `workout_exercises` (`id`, `workout_plan_id`, `exercise_date`, `name
 -- Table structure for table `workout_plans`
 --
 
-DROP TABLE IF EXISTS `workout_plans`;
 CREATE TABLE `workout_plans` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
@@ -2015,7 +2895,11 @@ INSERT INTO `workout_plans` (`id`, `user_id`, `month_start_date`, `month_end_dat
 (25, 72, '2026-05-01', '2026-05-31', 1, 1, NULL, '2026-05-24 18:17:15', '2026-05-24 18:17:15', NULL),
 (28, 72, '2026-06-01', '2026-06-30', 1, 1, NULL, '2026-06-04 19:38:22', '2026-06-04 19:38:22', NULL),
 (29, 59, '2026-06-01', '2026-06-30', 1, 1, NULL, '2026-06-04 19:41:38', '2026-06-04 19:41:38', NULL),
-(30, 59, '2026-07-01', '2026-07-31', 1, 1, NULL, '2026-07-08 16:55:38', '2026-07-08 16:55:38', NULL);
+(30, 59, '2026-07-01', '2026-07-31', 1, 1, NULL, '2026-07-08 16:55:38', '2026-07-08 16:55:38', NULL),
+(31, 100, '2026-07-01', '2026-07-31', 1, NULL, NULL, '2026-07-28 22:09:31', '2026-07-28 22:09:31', NULL),
+(32, 100, '2026-08-01', '2026-08-31', 1, 1, NULL, '2026-08-06 05:57:04', '2026-08-06 05:57:04', NULL),
+(33, 103, '2026-09-01', '2026-09-30', 1, 1, NULL, '2026-09-07 15:09:09', '2026-09-07 15:09:09', NULL),
+(34, 100, '2026-09-01', '2026-09-30', 1, 1, NULL, '2026-09-08 15:42:15', '2026-09-08 15:42:15', NULL);
 
 --
 -- Indexes for dumped tables
@@ -2029,6 +2913,40 @@ ALTER TABLE `about_coach`
   ADD KEY `about_coach_updated_by_foreign` (`updated_by`);
 
 --
+-- Indexes for table `badges`
+--
+ALTER TABLE `badges`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `badges_key_unique` (`key`);
+
+--
+-- Indexes for table `badge_user`
+--
+ALTER TABLE `badge_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `badge_user_unique` (`user_id`,`badge_id`),
+  ADD KEY `badge_user_badge_id_foreign` (`badge_id`);
+
+--
+-- Indexes for table `body_measurements`
+--
+ALTER TABLE `body_measurements`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `body_measurements_user_date_unique` (`user_id`,`measured_at`);
+
+--
+-- Indexes for table `cache`
+--
+ALTER TABLE `cache`
+  ADD PRIMARY KEY (`key`);
+
+--
+-- Indexes for table `cache_locks`
+--
+ALTER TABLE `cache_locks`
+  ADD PRIMARY KEY (`key`);
+
+--
 -- Indexes for table `certifications`
 --
 ALTER TABLE `certifications`
@@ -2037,6 +2955,20 @@ ALTER TABLE `certifications`
   ADD KEY `certifications_order_index` (`order`),
   ADD KEY `certifications_is_active_index` (`is_active`),
   ADD KEY `certifications_is_verified_index` (`is_verified`);
+
+--
+-- Indexes for table `challenges`
+--
+ALTER TABLE `challenges`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `challenge_user`
+--
+ALTER TABLE `challenge_user`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `challenge_user_unique` (`user_id`,`challenge_id`,`started_at`),
+  ADD KEY `challenge_user_challenge_id_foreign` (`challenge_id`);
 
 --
 -- Indexes for table `chat_notifications`
@@ -2155,6 +3087,13 @@ ALTER TABLE `hero_stats`
   ADD KEY `hero_stats_is_active_index` (`is_active`);
 
 --
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `jobs_queue_index` (`queue`);
+
+--
 -- Indexes for table `link_analytics`
 --
 ALTER TABLE `link_analytics`
@@ -2198,7 +3137,9 @@ ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `messages_conversation_id_created_at_index` (`conversation_id`,`created_at`),
   ADD KEY `messages_sender_id_sender_type_index` (`sender_id`,`sender_type`),
-  ADD KEY `messages_is_read_conversation_id_index` (`is_read`,`conversation_id`);
+  ADD KEY `messages_is_read_conversation_id_index` (`is_read`,`conversation_id`),
+  ADD KEY `idx_msg_conv_created` (`conversation_id`,`created_at`),
+  ADD KEY `idx_msg_conv_read` (`conversation_id`,`is_read`);
 
 --
 -- Indexes for table `migrations`
@@ -2254,6 +3195,13 @@ ALTER TABLE `plans`
   ADD KEY `idx_sort_order` (`sort_order`);
 
 --
+-- Indexes for table `progress_photos`
+--
+ALTER TABLE `progress_photos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `progress_photos_user_id_taken_at_index` (`user_id`,`taken_at`);
+
+--
 -- Indexes for table `site_settings`
 --
 ALTER TABLE `site_settings`
@@ -2266,7 +3214,8 @@ ALTER TABLE `site_settings`
 ALTER TABLE `subscriptions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `subscriptions_user_id_status_index` (`user_id`,`status`),
-  ADD KEY `subscriptions_plan_type_duration_index` (`plan_type`,`duration`);
+  ADD KEY `subscriptions_plan_type_duration_index` (`plan_type`,`duration`),
+  ADD KEY `idx_sub_status_ends` (`status`,`ends_at`);
 
 --
 -- Indexes for table `testimonials`
@@ -2296,7 +3245,8 @@ ALTER TABLE `users`
   ADD KEY `users_gender_index` (`gender`),
   ADD KEY `users_goal_index` (`goal`),
   ADD KEY `users_has_active_subscription_index` (`has_active_subscription`),
-  ADD KEY `users_email_index` (`email`);
+  ADD KEY `users_email_index` (`email`),
+  ADD KEY `idx_users_role` (`role`);
 
 --
 -- Indexes for table `user_goals`
@@ -2316,6 +3266,21 @@ ALTER TABLE `user_questions`
   ADD KEY `user_questions_is_read_index` (`is_read`),
   ADD KEY `user_questions_email_index` (`email`),
   ADD KEY `user_questions_created_at_index` (`created_at`);
+
+--
+-- Indexes for table `water_logs`
+--
+ALTER TABLE `water_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `water_logs_user_date_unique` (`user_id`,`logged_at`);
+
+--
+-- Indexes for table `weight_logs`
+--
+ALTER TABLE `weight_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `weight_logs_user_date_unique` (`user_id`,`logged_at`),
+  ADD KEY `weight_logs_user_id_logged_at_index` (`user_id`,`logged_at`);
 
 --
 -- Indexes for table `workout_exercises`
@@ -2344,16 +3309,46 @@ ALTER TABLE `about_coach`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `badges`
+--
+ALTER TABLE `badges`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `badge_user`
+--
+ALTER TABLE `badge_user`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `body_measurements`
+--
+ALTER TABLE `body_measurements`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `certifications`
 --
 ALTER TABLE `certifications`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `challenges`
+--
+ALTER TABLE `challenges`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `challenge_user`
+--
+ALTER TABLE `challenge_user`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `chat_notifications`
 --
 ALTER TABLE `chat_notifications`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=242;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `coach_features`
@@ -2365,7 +3360,7 @@ ALTER TABLE `coach_features`
 -- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `exercises`
@@ -2434,10 +3429,16 @@ ALTER TABLE `hero_stats`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT for table `link_analytics`
 --
 ALTER TABLE `link_analytics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 
 --
 -- AUTO_INCREMENT for table `link_links`
@@ -2467,43 +3468,49 @@ ALTER TABLE `logos`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=270;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `nutrition_items`
 --
 ALTER TABLE `nutrition_items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `nutrition_meals`
 --
 ALTER TABLE `nutrition_meals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `nutrition_plans`
 --
 ALTER TABLE `nutrition_plans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=561;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=661;
 
 --
 -- AUTO_INCREMENT for table `plans`
 --
 ALTER TABLE `plans`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `progress_photos`
+--
+ALTER TABLE `progress_photos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `site_settings`
@@ -2515,7 +3522,7 @@ ALTER TABLE `site_settings`
 -- AUTO_INCREMENT for table `subscriptions`
 --
 ALTER TABLE `subscriptions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=210;
 
 --
 -- AUTO_INCREMENT for table `testimonials`
@@ -2533,7 +3540,7 @@ ALTER TABLE `testimonials_section`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `user_goals`
@@ -2548,26 +3555,76 @@ ALTER TABLE `user_questions`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `water_logs`
+--
+ALTER TABLE `water_logs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
+-- AUTO_INCREMENT for table `weight_logs`
+--
+ALTER TABLE `weight_logs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
 -- AUTO_INCREMENT for table `workout_exercises`
 --
 ALTER TABLE `workout_exercises`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=735;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=776;
 
 --
 -- AUTO_INCREMENT for table `workout_plans`
 --
 ALTER TABLE `workout_plans`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `badge_user`
+--
+ALTER TABLE `badge_user`
+  ADD CONSTRAINT `badge_user_badge_id_foreign` FOREIGN KEY (`badge_id`) REFERENCES `badges` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `badge_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `body_measurements`
+--
+ALTER TABLE `body_measurements`
+  ADD CONSTRAINT `body_measurements_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `challenge_user`
+--
+ALTER TABLE `challenge_user`
+  ADD CONSTRAINT `challenge_user_challenge_id_foreign` FOREIGN KEY (`challenge_id`) REFERENCES `challenges` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `challenge_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `link_analytics`
 --
 ALTER TABLE `link_analytics`
   ADD CONSTRAINT `fk_link_analytics_link_id` FOREIGN KEY (`link_id`) REFERENCES `link_links` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `progress_photos`
+--
+ALTER TABLE `progress_photos`
+  ADD CONSTRAINT `progress_photos_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `water_logs`
+--
+ALTER TABLE `water_logs`
+  ADD CONSTRAINT `water_logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `weight_logs`
+--
+ALTER TABLE `weight_logs`
+  ADD CONSTRAINT `weight_logs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

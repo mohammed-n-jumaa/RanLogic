@@ -11,6 +11,7 @@ use App\Models\WorkoutExercise;
 use App\Models\NutritionPlan;
 use App\Models\NutritionItem;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -20,6 +21,29 @@ class DashboardController extends Controller
     public function getMetrics(Request $request)
     {
         try {
+            $data = Cache::remember('dashboard:metrics', 300, function () {
+                return $this->buildMetrics();
+            });
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Dashboard metrics error: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to fetch metrics',
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
+            ], 500);
+        }
+    }
+
+    private function buildMetrics(): array
+    {
             // Total active subscriptions
             $totalSubscriptions = Subscription::where('status', 'approved')
                 ->whereDate('ends_at', '>=', Carbon::now())
@@ -85,32 +109,18 @@ class DashboardController extends Controller
                 ? round((($totalRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100) 
                 : ($totalRevenue > 0 ? 100 : 0);
 
-            return response()->json([
-                'success' => true,
-                'data' => [
-                    'totalSubscriptions' => $totalSubscriptions,
-                    'newRegistrations' => $newRegistrations,
-                    'totalRevenue' => (float) $totalRevenue,
-                    'avgSubscriptionDuration' => round($avgSubscriptionDuration, 1),
-                    'completionRate' => $completionRate,
-                    'previousPeriodChange' => [
-                        'subscriptions' => $subscriptionsChange,
-                        'revenue' => $revenueChange,
-                        'registrations' => $registrationsChange
-                    ]
+            return [
+                'totalSubscriptions' => $totalSubscriptions,
+                'newRegistrations' => $newRegistrations,
+                'totalRevenue' => (float) $totalRevenue,
+                'avgSubscriptionDuration' => round($avgSubscriptionDuration, 1),
+                'completionRate' => $completionRate,
+                'previousPeriodChange' => [
+                    'subscriptions' => $subscriptionsChange,
+                    'revenue' => $revenueChange,
+                    'registrations' => $registrationsChange
                 ]
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Dashboard metrics error: ' . $e->getMessage(), [
-                'trace' => $e->getTraceAsString()
-            ]);
-            
-            return response()->json([
-                'success' => false,
-                'error' => 'Failed to fetch metrics',
-                'message' => $e->getMessage()
-            ], 500);
-        }
+            ];
     }
 
     /**
@@ -142,13 +152,15 @@ class DashboardController extends Controller
                     break;
             }
 
-            // جلب بيانات الاشتراكات حسب الفترة
-            $subscriptions = Subscription::where('status', 'approved')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get();
+            // جلب بيانات الاشتراكات حسب الفترة (مع كاش)
+            $subscriptions = Cache::remember("dashboard:growth:{$period}", 300, function () use ($startDate, $endDate) {
+                return Subscription::where('status', 'approved')
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                    ->groupBy('date')
+                    ->orderBy('date')
+                    ->get();
+            });
 
             // تحويل البيانات للصيغة المطلوبة
             $data = [];
@@ -183,7 +195,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch growth data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -217,13 +229,15 @@ class DashboardController extends Controller
                     break;
             }
 
-            // جلب بيانات الدخل
-            $revenues = Subscription::where('status', 'approved')
-                ->whereBetween('created_at', [$startDate, $endDate])
-                ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
-                ->groupBy('date')
-                ->orderBy('date')
-                ->get();
+            // جلب بيانات الدخل (مع كاش)
+            $revenues = Cache::remember("dashboard:revenue:{$period}", 300, function () use ($startDate, $endDate) {
+                return Subscription::where('status', 'approved')
+                    ->whereBetween('created_at', [$startDate, $endDate])
+                    ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
+                    ->groupBy('date')
+                    ->orderBy('date')
+                    ->get();
+            });
 
             // تحويل البيانات للصيغة المطلوبة
             $data = [];
@@ -257,7 +271,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch revenue data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -275,18 +289,15 @@ class DashboardController extends Controller
                 ['name' => 'ملغي', 'value' => 0, 'color' => '#9e9e9e'],
             ];
 
-            // جلب إحصائيات حالات الاشتراكات
-            $paidCount = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '>=', Carbon::now())
-                ->count();
-
-            $pendingCount = Subscription::where('status', 'pending')->count();
-            
-            $expiredCount = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '<', Carbon::now())
-                ->count();
-
-            $cancelledCount = Subscription::where('status', 'cancelled')->count();
+            // جلب إحصائيات حالات الاشتراكات (مع كاش)
+            [$paidCount, $pendingCount, $expiredCount, $cancelledCount] = Cache::remember('dashboard:payment-status', 300, function () {
+                return [
+                    Subscription::where('status', 'approved')->whereDate('ends_at', '>=', Carbon::now())->count(),
+                    Subscription::where('status', 'pending')->count(),
+                    Subscription::where('status', 'approved')->whereDate('ends_at', '<', Carbon::now())->count(),
+                    Subscription::where('status', 'cancelled')->count(),
+                ];
+            });
 
             $statuses[0]['value'] = $paidCount;
             $statuses[1]['value'] = $pendingCount;
@@ -303,7 +314,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch payment status data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -329,12 +340,18 @@ class DashboardController extends Controller
                 'fitness' => 'لياقة عامة',
             ];
 
+            $goalCounts = Cache::remember('dashboard:program-types', 300, function () use ($goals) {
+                $counts = [];
+                foreach ($goals as $goalKey => $goalName) {
+                    $counts[$goalKey] = User::where('goal', $goalKey)->count();
+                }
+                return $counts;
+            });
+
             foreach ($goals as $goalKey => $goalName) {
-                $count = User::where('goal', $goalKey)->count();
-                
                 $index = array_search($goalName, array_column($programs, 'name'));
                 if ($index !== false) {
-                    $programs[$index]['value'] = $count;
+                    $programs[$index]['value'] = $goalCounts[$goalKey] ?? 0;
                 }
             }
 
@@ -348,7 +365,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch program type data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -400,7 +417,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch completion data',
-                'message' => $e->getMessage(),
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع',
                 'data' => []
             ], 500);
         }
@@ -468,7 +485,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch engagement data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -479,29 +496,29 @@ class DashboardController extends Controller
     public function getFunnelData()
     {
         try {
-            // عدد التسجيلات الكلي
-            $totalRegistrations = User::where('role', 'user')->count();
+            [$totalRegistrations, $activeSubscriptions, $renewals, $expired] = Cache::remember('dashboard:funnel', 300, function () {
+                $totalRegistrations = User::where('role', 'user')->count();
 
-            // عدد الاشتراكات النشطة
-            $activeSubscriptions = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '>=', Carbon::now())
-                ->count();
+                $activeSubscriptions = Subscription::where('status', 'approved')
+                    ->whereDate('ends_at', '>=', Carbon::now())
+                    ->count();
 
-            // عدد التجديدات (اشتراكات سابقة تم تجديدها)
-            $renewals = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '>=', Carbon::now())
-                ->whereHas('user', function($query) {
-                    $query->whereHas('subscriptions', function($q) {
-                        $q->where('status', 'approved')
-                            ->whereDate('ends_at', '<', Carbon::now());
-                    });
-                })
-                ->count();
+                $renewals = Subscription::where('status', 'approved')
+                    ->whereDate('ends_at', '>=', Carbon::now())
+                    ->whereHas('user', function($query) {
+                        $query->whereHas('subscriptions', function($q) {
+                            $q->where('status', 'approved')
+                                ->whereDate('ends_at', '<', Carbon::now());
+                        });
+                    })
+                    ->count();
 
-            // عدد المنتهية
-            $expired = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '<', Carbon::now())
-                ->count();
+                $expired = Subscription::where('status', 'approved')
+                    ->whereDate('ends_at', '<', Carbon::now())
+                    ->count();
+
+                return [$totalRegistrations, $activeSubscriptions, $renewals, $expired];
+            });
 
             $funnelData = [
                 ['stage' => 'التسجيلات', 'value' => $totalRegistrations, 'fill' => '#e91e63'],
@@ -520,7 +537,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch funnel data',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }
@@ -531,35 +548,35 @@ class DashboardController extends Controller
     public function getAlerts()
     {
         try {
-            // اشتراكات تنتهي خلال 3 أيام
-            $expiring3Days = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '>=', Carbon::now())
-                ->whereDate('ends_at', '<=', Carbon::now()->addDays(3))
-                ->count();
+            [$expiring3Days, $expiring7Days, $pendingPayments, $renewalsThisMonth] = Cache::remember('dashboard:alerts', 300, function () {
+                $expiring3Days = Subscription::where('status', 'approved')
+                    ->whereDate('ends_at', '>=', Carbon::now())
+                    ->whereDate('ends_at', '<=', Carbon::now()->addDays(3))
+                    ->count();
 
-            // اشتراكات تنتهي خلال 7 أيام
-            $expiring7Days = Subscription::where('status', 'approved')
-                ->whereDate('ends_at', '>=', Carbon::now())
-                ->whereDate('ends_at', '<=', Carbon::now()->addDays(7))
-                ->whereDate('ends_at', '>', Carbon::now()->addDays(3))
-                ->count();
+                $expiring7Days = Subscription::where('status', 'approved')
+                    ->whereDate('ends_at', '>=', Carbon::now())
+                    ->whereDate('ends_at', '<=', Carbon::now()->addDays(7))
+                    ->whereDate('ends_at', '>', Carbon::now()->addDays(3))
+                    ->count();
 
-            // مدفوعات متأخرة (اشتراكات pending لأكثر من 3 أيام)
-            $pendingPayments = Subscription::where('status', 'pending')
-                ->where('created_at', '<=', Carbon::now()->subDays(3))
-                ->count();
+                $pendingPayments = Subscription::where('status', 'pending')
+                    ->where('created_at', '<=', Carbon::now()->subDays(3))
+                    ->count();
 
-            // تجديدات هذا الشهر
-            $renewalsThisMonth = Subscription::where('status', 'approved')
-                ->whereMonth('created_at', Carbon::now()->month)
-                ->whereYear('created_at', Carbon::now()->year)
-                ->whereHas('user', function($query) {
-                    $query->whereHas('subscriptions', function($q) {
-                        $q->where('status', 'approved')
-                            ->whereDate('ends_at', '<', Carbon::now());
-                    });
-                })
-                ->count();
+                $renewalsThisMonth = Subscription::where('status', 'approved')
+                    ->whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->whereHas('user', function($query) {
+                        $query->whereHas('subscriptions', function($q) {
+                            $q->where('status', 'approved')
+                                ->whereDate('ends_at', '<', Carbon::now());
+                        });
+                    })
+                    ->count();
+
+                return [$expiring3Days, $expiring7Days, $pendingPayments, $renewalsThisMonth];
+            });
 
             $alerts = [
                 [
@@ -606,7 +623,7 @@ class DashboardController extends Controller
             return response()->json([
                 'success' => false,
                 'error' => 'Failed to fetch alerts',
-                'message' => $e->getMessage()
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ غير متوقع'
             ], 500);
         }
     }

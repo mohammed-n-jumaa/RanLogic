@@ -48,10 +48,12 @@ Route::prefix('auth')->group(function () {
 
     // Login
     Route::post('/login', [AuthController::class, 'login'])
+        ->middleware('throttle:login')
         ->name('api.auth.login');
         
     // Register
     Route::post('/register', [AuthController::class, 'register'])
+        ->middleware('throttle:register')
         ->name('api.auth.register');
 
 });
@@ -87,8 +89,8 @@ Route::middleware(['auth:sanctum'])->prefix('auth')->group(function () {
 Route::get('/logo/active', [LogoController::class, 'getActiveLogo'])
     ->name('api.logo.active');
 
-// Protected logo routes
-Route::middleware(['auth:sanctum'])->group(function () {
+// Protected logo routes (admin only)
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Get all logos (paginated)
     Route::get('/logos', [LogoController::class, 'index'])
@@ -119,7 +121,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/hero-section/public', [HeroSectionController::class, 'show']);
 
 // Protected routes - admin only
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Get hero section (admin)
     Route::get('/admin/hero-section', [HeroSectionController::class, 'index']);
@@ -145,7 +147,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/certifications/public', [CertificationController::class, 'index']);
 
 // Protected routes - admin only
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Get all certifications (admin)
     Route::get('/admin/certifications', [CertificationController::class, 'adminIndex']);
@@ -178,7 +180,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/about-coach/public', [AboutCoachController::class, 'show']);
 
 // Protected Routes - Admin only
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Get about coach data for admin
     Route::get('/admin/about-coach', [AboutCoachController::class, 'index']);
     
@@ -202,7 +204,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get('/testimonials/public', [TestimonialController::class, 'show']);
 
 // Protected Routes - Admin only
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Get all testimonials and section for admin
     Route::get('/admin/testimonials', [TestimonialController::class, 'index']);
     
@@ -230,7 +232,7 @@ Route::get('/faq/public', [FaqController::class, 'show']);
 Route::post('/faq/user-question', [FaqController::class, 'storeUserQuestion']);
 
 // Protected Routes - Admin only
-Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     // Get all FAQ data for admin
     Route::get('/faq', [FaqController::class, 'index']);
     
@@ -253,7 +255,7 @@ Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
 |
 */
 
-Route::middleware(['auth:sanctum'])->prefix('admin/training')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/training')->group(function () {
     
     // Trainees Management
     Route::get('/trainees', [TrainingController::class, 'index']);
@@ -296,7 +298,7 @@ Route::middleware(['auth:sanctum'])->prefix('admin/training')->group(function ()
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum'])->prefix('admin/chat')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/chat')->group(function () {
     Route::get('/conversations',                          [ChatController::class, 'getConversations']);
     Route::get('/conversations/{traineeId}',              [ChatController::class, 'getConversation']);
     Route::delete('/conversations/{conversationId}',      [ChatController::class, 'deleteConversation']);
@@ -359,7 +361,7 @@ Route::middleware(['auth:sanctum'])->prefix('profile')->group(function () {
 Route::get('/footer/public', [FooterController::class, 'getPublicFooter']);
 
 // Protected routes - admin only
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/admin/footer', [FooterController::class, 'getFooterForAdmin']);
     Route::put('/admin/footer', [FooterController::class, 'update']);
 });
@@ -450,7 +452,7 @@ Route::middleware(['auth:sanctum'])->prefix('trainee')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     
     // PayPal Subscriptions Management
     Route::get('/subscriptions/paypal', [AdminSubscriptionController::class, 'getPayPalSubscriptions']);
@@ -479,7 +481,7 @@ Route::post('/plans/bulk-update', [AdminPlansController::class, 'bulkUpdate']);
 | Dashboard Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth:sanctum'])->prefix('dashboard')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/metrics', [DashboardController::class, 'getMetrics']);
     Route::get('/charts/growth', [DashboardController::class, 'getGrowthData']);
     Route::get('/charts/revenue', [DashboardController::class, 'getRevenueData']);
@@ -536,7 +538,7 @@ Route::prefix('public')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum'])->prefix('admin/training')->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin/training')->group(function () {
   
     Route::get('/exercise-library/stats',  [ExerciseLibraryController::class, 'stats']);
     Route::get('/exercise-library',        [ExerciseLibraryController::class, 'index']);
@@ -548,7 +550,6 @@ Route::middleware(['auth:sanctum'])->prefix('admin/training')->group(function ()
  
 });
 
-Route::middleware(['auth:sanctum'])->prefix('admin')->group(function () {
-Route::get('/users/all', [\App\Http\Controllers\Api\UsersController::class, 'index']);
+Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/users/all', [\App\Http\Controllers\Api\UsersController::class, 'index']);
 });
-

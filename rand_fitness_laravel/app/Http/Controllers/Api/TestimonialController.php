@@ -10,6 +10,7 @@ use App\Models\Testimonial;
 use App\Services\TestimonialService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class TestimonialController extends Controller
@@ -28,11 +29,15 @@ class TestimonialController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
+        $locale = $request->get('locale', 'ar');
+
+        $data = Cache::remember("public:testimonials:{$locale}", 3600, function () use ($locale) {
+            return $this->testimonialService->getTestimonialsForApi($locale);
+        });
+
         return response()->json([
             'success' => true,
-            'data'    => $this->testimonialService->getTestimonialsForApi(
-                $request->get('locale', 'ar')
-            ),
+            'data'    => $data,
         ]);
     }
 
@@ -72,6 +77,7 @@ class TestimonialController extends Controller
         );
 
         Log::info('Testimonials section updated', ['user_id' => auth()->id(), 'section_id' => $section->id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -101,6 +107,7 @@ class TestimonialController extends Controller
             'user_id' => $userId,
             'count'   => $testimonials->count(),
         ]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -127,6 +134,7 @@ class TestimonialController extends Controller
             'testimonial_id' => $id,
             'image_name'     => $testimonial->image_name,
         ]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -156,6 +164,7 @@ class TestimonialController extends Controller
         }
 
         Log::info('Testimonial image deleted', ['user_id' => auth()->id(), 'testimonial_id' => $id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -194,5 +203,11 @@ class TestimonialController extends Controller
             'rating'   => $t->rating,
             'order'    => $t->order,
         ];
+    }
+
+    private function clearPublicCache(): void
+    {
+        Cache::forget('public:testimonials:ar');
+        Cache::forget('public:testimonials:en');
     }
 }

@@ -6,6 +6,7 @@ use App\Events\AdminChatListUpdated;
 use App\Events\ChatMessageSent;
 use App\Events\ChatMessagesRead;
 use App\Events\ChatTyping;
+use App\Jobs\SendChatPushNotification;
 use App\Models\ChatNotification;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -49,8 +50,10 @@ class ChatService
         $conversation->refresh();
 
         $messages = Message::where('conversation_id', $conversation->id)
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->limit(100)
             ->get()
+            ->reverse()
             ->map(fn ($message) => $this->mapMessage($message))
             ->values();
 
@@ -118,7 +121,7 @@ class ChatService
 
             $this->broadcastNewMessage($conversation, $message);
             $this->broadcastAdminListUpdate($conversation);
-            $this->sendPushNotificationIfOffline($conversation, $message, $senderType);
+            SendChatPushNotification::dispatch($conversation->id, $message->id, $senderType);
 
              return $message->refresh();
         });
@@ -173,7 +176,7 @@ class ChatService
 
             $this->broadcastNewMessage($conversation, $message);
             $this->broadcastAdminListUpdate($conversation);
-            $this->sendPushNotificationIfOffline($conversation, $message, $senderType);
+            SendChatPushNotification::dispatch($conversation->id, $message->id, $senderType);
             
             return $message->refresh();
         });
@@ -645,7 +648,7 @@ class ChatService
     ];
 }
 
-private function sendPushNotificationIfOffline(
+public function dispatchPushNotification(
     Conversation $conversation,
     Message $message,
     string $senderType

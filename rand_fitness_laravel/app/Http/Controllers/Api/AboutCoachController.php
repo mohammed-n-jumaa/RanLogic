@@ -8,6 +8,7 @@ use App\Http\Requests\UploadCoachImageRequest;
 use App\Services\AboutCoachService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class AboutCoachController extends Controller
@@ -17,18 +18,18 @@ class AboutCoachController extends Controller
         $this->middleware('auth:sanctum')->except(['show']);
     }
 
-    // -------------------------------------------------------------------------
-    // PUBLIC
-    // -------------------------------------------------------------------------
+
 
     /**
      * GET /api/about  (public)
      */
     public function show(Request $request): JsonResponse
     {
-        $about = $this->aboutCoachService->getAboutCoachForApi(
-            $request->get('locale', 'ar')
-        );
+        $locale = $request->get('locale', 'ar');
+
+        $about = Cache::remember("public:about-coach:{$locale}", 3600, function () use ($locale) {
+            return $this->aboutCoachService->getAboutCoachForApi($locale);
+        });
 
         if (!$about) {
             return $this->notFound('لا توجد بيانات');
@@ -37,9 +38,7 @@ class AboutCoachController extends Controller
         return response()->json(['success' => true, 'data' => $about]);
     }
 
-    // -------------------------------------------------------------------------
-    // ADMIN — READ
-    // -------------------------------------------------------------------------
+
 
     /**
      * GET /api/admin/about  (admin)
@@ -62,10 +61,6 @@ class AboutCoachController extends Controller
         ]);
     }
 
-    // -------------------------------------------------------------------------
-    // ADMIN — WRITE
-    // -------------------------------------------------------------------------
-
     /**
      * PUT /api/admin/about  (admin)
      */
@@ -77,6 +72,7 @@ class AboutCoachController extends Controller
         );
 
         Log::info('About coach updated', ['user_id' => auth()->id(), 'about_id' => $about->id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -100,6 +96,7 @@ class AboutCoachController extends Controller
             'about_id'   => $about->id,
             'image_name' => $about->image_name,
         ]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -123,6 +120,7 @@ class AboutCoachController extends Controller
         }
 
         Log::info('Coach image deleted', ['user_id' => auth()->id()]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -130,9 +128,6 @@ class AboutCoachController extends Controller
         ]);
     }
 
-    // -------------------------------------------------------------------------
-    // PRIVATE HELPERS
-    // -------------------------------------------------------------------------
 
     private function formatAdminData($about): array
     {
@@ -162,5 +157,11 @@ class AboutCoachController extends Controller
     private function notFound(string $message): JsonResponse
     {
         return response()->json(['success' => false, 'message' => $message], 404);
+    }
+
+    private function clearPublicCache(): void
+    {
+        Cache::forget('public:about-coach:ar');
+        Cache::forget('public:about-coach:en');
     }
 }

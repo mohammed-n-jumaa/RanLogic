@@ -181,7 +181,7 @@ class SubscriptionController extends Controller
                 'line'  => $e->getLine(),
             ]);
 
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء إنشاء الدفع', 'error' => config('app.debug') ? $e->getMessage() : null], 500);
         }
     }
 
@@ -272,7 +272,7 @@ class SubscriptionController extends Controller
 
         } catch (\Throwable $e) {
             Log::error('Capture error (controller)', [
-                'message'         => $e->getMessage(),
+                'message' => config('app.debug') ? $e->getMessage() : 'حدث خطأ أثناء المعالجة',
                 'token'           => $orderIdFromPayPal,
                 'user_id'         => $user->id,
                 'subscription_id' => (int) $request->subscription_id,
@@ -281,7 +281,7 @@ class SubscriptionController extends Controller
             return response()->json([
                 'success'      => false,
                 'message'      => 'فشل تأكيد الدفع من PayPal',
-                'paypal_error' => $e->getMessage(),
+                'paypal_error' => config('app.debug') ? $e->getMessage() : null,
             ], 422);
         }
     }

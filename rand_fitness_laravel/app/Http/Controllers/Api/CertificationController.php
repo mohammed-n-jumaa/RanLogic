@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateCertificationRequest;
 use App\Services\CertificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class CertificationController extends Controller
@@ -27,11 +28,15 @@ class CertificationController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+        $locale = $request->get('locale', 'ar');
+
+        $data = Cache::remember("public:certifications:{$locale}", 3600, function () use ($locale) {
+            return $this->certService->getActiveCertifications($locale);
+        });
+
         return response()->json([
             'success' => true,
-            'data'    => $this->certService->getActiveCertifications(
-                $request->get('locale', 'ar')
-            ),
+            'data'    => $data,
         ]);
     }
 
@@ -66,6 +71,7 @@ class CertificationController extends Controller
         );
 
         Log::info('Certification created', ['user_id' => auth()->id(), 'id' => $cert->id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -82,6 +88,7 @@ class CertificationController extends Controller
         $cert = $this->certService->updateCertification($id, $request->validated(), auth()->id());
 
         Log::info('Certification updated', ['user_id' => auth()->id(), 'id' => $cert->id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -98,6 +105,7 @@ class CertificationController extends Controller
         $this->certService->deleteCertification($id);
 
         Log::info('Certification deleted', ['user_id' => auth()->id(), 'id' => $id]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -118,6 +126,7 @@ class CertificationController extends Controller
         $this->certService->reorderCertifications($request->input('order'), auth()->id());
 
         Log::info('Certifications reordered', ['user_id' => auth()->id()]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -136,6 +145,7 @@ class CertificationController extends Controller
         );
 
         Log::info('Certifications bulk updated', ['user_id' => auth()->id(), 'count' => $certs->count()]);
+        $this->clearPublicCache();
 
         return response()->json([
             'success' => true,
@@ -161,5 +171,11 @@ class CertificationController extends Controller
             'order'           => $cert->order,
             'is_active'       => $cert->is_active,
         ];
+    }
+
+    private function clearPublicCache(): void
+    {
+        Cache::forget('public:certifications:ar');
+        Cache::forget('public:certifications:en');
     }
 }

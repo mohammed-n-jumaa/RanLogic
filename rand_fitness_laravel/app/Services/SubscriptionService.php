@@ -28,7 +28,6 @@ class SubscriptionService
                 'amount' => $data['amount'] ?? null,
             ]);
 
-            // إنشاء طلب PayPal
             $paypalData = [
                 'amount' => $data['amount'] ?? 29.99,
                 'currency' => $data['currency'] ?? 'USD',
@@ -52,7 +51,6 @@ class SubscriptionService
                 ];
             }
 
-            // حفظ معلومات الاشتراك في قاعدة البيانات
             $subscription = Subscription::create([
                 'user_id' => $user->id,
                 'paypal_order_id' => $paypalResult['order_id'] ?? null,
@@ -127,7 +125,6 @@ class SubscriptionService
                 ];
             }
 
-            // تحديث حالة الاشتراك في قاعدة البيانات
             $subscription = Subscription::where('paypal_order_id', $orderId)->first();
 
             if ($subscription) {
@@ -138,7 +135,6 @@ class SubscriptionService
                     'expires_at' => now()->addMonth(),
                 ]);
 
-                // تحديث حالة المستخدم
                 $user = $subscription->user;
                 $user->update([
                     'has_active_subscription' => true,

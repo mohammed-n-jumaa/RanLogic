@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\Subscription;
+use App\Services\ImageOptimizationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ProfileController extends Controller
 {
+    protected ImageOptimizationService $imageOptimizer;
+
+    public function __construct(ImageOptimizationService $imageOptimizer)
+    {
+        $this->imageOptimizer = $imageOptimizer;
+    }
+
     /**
      * Display the authenticated user's profile
      * GET /api/profile
@@ -22,45 +31,11 @@ class ProfileController extends Controller
         try {
             $user = $request->user();
             
-            // Get active subscription details
-            $activeSubscription = Subscription::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('ends_at', '>=', now())
-                ->latest()
-                ->first();
-            
-            // Prepare user data
-            $userData = [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'role' => $user->role,
-                'gender' => $user->gender,
-                'age' => $user->age,
-                'height' => $user->height,
-                'weight' => $user->weight,
-                'waist' => $user->waist,
-                'hips' => $user->hips,
-                'goal' => $user->goal,
-                'workout_place' => $user->workout_place,
-                'health_notes' => $user->health_notes,
-                'program' => $user->program,
-                'avatar_url' => $user->avatar_url,
-                'language' => $user->language ?? 'ar',
-                'is_active' => $user->is_active,
-                
-                // Subscription information
-                'has_active_subscription' => $user->has_active_subscription,
-                'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-                'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-                'subscription_plan_type' => $activeSubscription ? $activeSubscription->plan_type : null,
-                'subscription_status' => $activeSubscription ? $activeSubscription->status : null,
-            ];
+            $user->load('activeSubscription');
             
             return response()->json([
                 'success' => true,
-                'data' => $userData,
+                'data' => new UserResource($user),
             ], 200);
             
         } catch (\Exception $e) {
@@ -170,43 +145,12 @@ public function updateProfile(Request $request): JsonResponse
             $user->save();
         }
         
-        // Get updated subscription info
-        $activeSubscription = Subscription::where('user_id', $user->id)
-            ->where('status', 'approved')
-            ->where('ends_at', '>=', now())
-            ->latest()
-            ->first();
-        
-        $userData = [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'role' => $user->role,
-            'gender' => $user->gender,
-            'age' => $user->age,
-            'height' => $user->height,
-            'weight' => $user->weight,
-            'waist' => $user->waist,
-            'hips' => $user->hips,
-            'goal' => $user->goal,
-            'workout_place' => $user->workout_place,
-            'health_notes' => $user->health_notes,
-            'program' => $user->program,
-            'avatar_url' => $user->avatar_url,
-            'language' => $user->language ?? 'ar',
-            'is_active' => $user->is_active,
-            'has_active_subscription' => $user->has_active_subscription,
-            'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-            'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-            'subscription_plan_type' => $activeSubscription ? $activeSubscription->plan_type : null,
-            'subscription_status' => $activeSubscription ? $activeSubscription->status : null,
-        ];
+        $user->load('activeSubscription');
         
         return response()->json([
             'success' => true,
             'message' => 'تم تحديث الملف الشخصي بنجاح',
-            'data' => $userData,
+            'data' => new UserResource($user),
         ], 200);
         
     } catch (\Exception $e) {
@@ -354,7 +298,9 @@ public function updatePassword(Request $request): JsonResponse
                     Storage::disk('public')->delete($user->avatar);
                 }
                 
-                $filePath = $request->file('avatar')->store('avatars', 'public');
+                $avatarFile = $request->file('avatar');
+                $filePath = $avatarFile->store('avatars', 'public');
+                $this->imageOptimizer->optimize($avatarFile, $filePath, 'public', maxWidth: 600, maxHeight: 600);
                 $user->update(['avatar' => $filePath]);
             } else {
                 return response()->json([
@@ -363,27 +309,12 @@ public function updatePassword(Request $request): JsonResponse
                 ], 422);
             }
             
-            // Get updated subscription info
-            $activeSubscription = Subscription::where('user_id', $user->id)
-                ->where('status', 'approved')
-                ->where('ends_at', '>=', now())
-                ->latest()
-                ->first();
-            
-            $userData = [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'avatar_url' => $user->avatar_url,
-                'has_active_subscription' => $user->has_active_subscription,
-                'subscription_start_date' => $activeSubscription ? $activeSubscription->starts_at : null,
-                'subscription_end_date' => $activeSubscription ? $activeSubscription->ends_at : null,
-            ];
+            $user->load('activeSubscription');
             
             return response()->json([
                 'success' => true,
                 'message' => 'تم رفع الصورة بنجاح',
-                'data' => $userData,
+                'data' => (new UserResource($user))->onlyAvatar(),
             ], 200);
             
         } catch (\Exception $e) {

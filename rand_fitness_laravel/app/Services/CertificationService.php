@@ -12,9 +12,6 @@ class CertificationService
     const CACHE_KEY = 'certifications';
     const CACHE_TTL = 3600; // 1 hour
 
-    // -------------------------------------------------------------------------
-    // READ
-    // -------------------------------------------------------------------------
 
     /**
      * Get all certifications for admin (no cache — admin needs fresh data).
@@ -36,10 +33,6 @@ class CertificationService
                 ->map(fn($cert) => $cert->toApiArray($locale));
         });
     }
-
-    // -------------------------------------------------------------------------
-    // WRITE
-    // -------------------------------------------------------------------------
 
     /**
      * Create a new certification.
@@ -166,10 +159,6 @@ class CertificationService
             throw $e;
         }
     }
-
-    // -------------------------------------------------------------------------
-    // PRIVATE HELPERS
-    // -------------------------------------------------------------------------
 
     private function nextOrder(): int
     {

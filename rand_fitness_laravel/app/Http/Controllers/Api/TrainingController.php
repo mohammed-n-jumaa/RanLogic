@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User; 
 use App\Models\Subscription; 
+use App\Services\ImageOptimizationService;
 use App\Services\TrainingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,35 +17,25 @@ use Illuminate\Support\Facades\Validator;
 class TrainingController extends Controller
 {
     protected $trainingService;
+    protected ImageOptimizationService $imageOptimizer;
 
-    public function __construct(TrainingService $trainingService)
+    public function __construct(TrainingService $trainingService, ImageOptimizationService $imageOptimizer)
     {
         $this->trainingService = $trainingService;
+        $this->imageOptimizer = $imageOptimizer;
     }
 
     public function index()
 {
     try {
-        Log::info('=== TrainingController index() started ===');
-        
         $trainees = User::where('role', 'user')
+            ->with('activeSubscription')
             ->orderBy('created_at', 'desc')
             ->get();
         
-        Log::info('Found ' . $trainees->count() . ' trainees');
-        
         $result = $trainees->map(function($user) {
-            Log::info('Processing user: ' . $user->id);
-            
             try {
-
-                $activeSubscription = Subscription::where('user_id', $user->id)
-                    ->where('status', 'approved')
-                    ->where('ends_at', '>=', now())
-                    ->latest()
-                    ->first();
-                
-                Log::info('Active subscription for user ' . $user->id . ': ' . ($activeSubscription ? 'Found' : 'Not found'));
+                $activeSubscription = $user->activeSubscription;
                 
                 return [
                     'id' => $user->id,
@@ -76,18 +67,13 @@ class TrainingController extends Controller
             }
         });
 
-        Log::info('Successfully processed all trainees');
-
         return response()->json([
             'success' => true,
             'data' => $result
         ], 200);
 
     } catch (\Exception $e) {
-        Log::error('=== TrainingController index() ERROR ===');
-        Log::error('Message: ' . $e->getMessage());
-        Log::error('File: ' . $e->getFile() . ':' . $e->getLine());
-        Log::error('Trace: ' . $e->getTraceAsString());
+        Log::error('TrainingController@index: ' . $e->getMessage());
 
         return response()->json([
             'success' => false,
@@ -126,7 +112,7 @@ class TrainingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'حدث خطأ أثناء جلب البيانات',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -193,20 +179,13 @@ class TrainingController extends Controller
             // Handle avatar upload
             if ($request->hasFile('avatar')) {
                 $avatar = $request->file('avatar');
-                
-                Log::info('Avatar file details', [
-                    'original_name' => $avatar->getClientOriginalName(),
-                    'mime_type' => $avatar->getMimeType(),
-                    'size' => $avatar->getSize(),
-                    'is_valid' => $avatar->isValid()
-                ]);
-                
+
                 if ($avatar->isValid()) {
                     $avatarPath = $avatar->store('avatars', 'public');
+                    $this->imageOptimizer->optimize($avatar, $avatarPath, 'public', maxWidth: 600, maxHeight: 600);
                     $data['avatar'] = $avatarPath;
-                    Log::info("Avatar uploaded successfully: {$avatarPath}");
                 } else {
-                    Log::error('Avatar file is not valid');
+                    Log::error('Avatar upload failed validation for trainee creation');
                 }
             }
             
@@ -230,7 +209,7 @@ class TrainingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'حدث خطأ أثناء إضافة المتدرب',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -292,26 +271,18 @@ class TrainingController extends Controller
                 $trainee = $this->trainingService->getTraineeById($id);
                 
                 $avatar = $request->file('avatar');
-                
-                Log::info('Avatar file details', [
-                    'original_name' => $avatar->getClientOriginalName(),
-                    'mime_type' => $avatar->getMimeType(),
-                    'size' => $avatar->getSize(),
-                    'is_valid' => $avatar->isValid()
-                ]);
-                
+
                 if ($avatar->isValid()) {
                     // Delete old avatar if exists
                     if ($trainee->avatar && Storage::disk('public')->exists($trainee->avatar)) {
                         Storage::disk('public')->delete($trainee->avatar);
-                        Log::info("Old avatar deleted: {$trainee->avatar}");
                     }
                     
                     $avatarPath = $avatar->store('avatars', 'public');
+                    $this->imageOptimizer->optimize($avatar, $avatarPath, 'public', maxWidth: 600, maxHeight: 600);
                     $data['avatar'] = $avatarPath;
-                    Log::info("Avatar updated successfully: {$avatarPath}");
                 } else {
-                    Log::error('Avatar file is not valid');
+                    Log::error('Avatar upload failed validation for trainee update');
                 }
             }
             
@@ -338,7 +309,7 @@ class TrainingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'حدث خطأ أثناء تحديث البيانات',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -379,7 +350,7 @@ class TrainingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'حدث خطأ أثناء حذف المتدرب',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -457,7 +428,7 @@ class TrainingController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'حدث خطأ أثناء حفظ النظام الغذائي',
-                'error' => $e->getMessage(),
+                'error' => config('app.debug') ? $e->getMessage() : null,
             ], 500);
         }
     }
@@ -585,7 +556,8 @@ public function saveWorkoutPlan(int $userId, Request $request): JsonResponse
 
         return response()->json([
             'success' => false,
-            'message' => 'حدث خطأ أثناء حفظ البرنامج التدريبي: ' . $e->getMessage(),
+            'message' => 'حدث خطأ أثناء حفظ البرنامج التدريبي',
+            'error' => config('app.debug') ? $e->getMessage() : null,
             'error'   => config('app.debug') ? $e->getMessage() : null,
         ], 500);
     }
@@ -807,7 +779,8 @@ public function importWorkoutExcel(int $userId, Request $request): JsonResponse
 
         return response()->json([
             'success' => false,
-            'message' => 'حدث خطأ أثناء استيراد الملف: ' . $e->getMessage(),
+            'message' => 'حدث خطأ أثناء استيراد الملف',
+            'error' => config('app.debug') ? $e->getMessage() : null,
             'trace' => config('app.debug') ? $e->getTraceAsString() : null,
         ], 500);
     }

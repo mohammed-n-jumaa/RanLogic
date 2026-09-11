@@ -8,6 +8,7 @@ use App\Http\Requests\UploadHeroVideoRequest;
 use App\Services\HeroSectionService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class HeroSectionController extends Controller
@@ -17,9 +18,7 @@ class HeroSectionController extends Controller
         $this->middleware('auth:sanctum')->except(['show']);
     }
 
-    // -------------------------------------------------------------------------
-    // PUBLIC
-    // -------------------------------------------------------------------------
+
 
     /**
      * GET /api/hero  (public)
@@ -27,16 +26,15 @@ class HeroSectionController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
-        $result = $this->heroService->getHeroSectionForApi(
-            $request->get('locale', 'ar')
-        );
+        $locale = $request->get('locale', 'ar');
+
+        $result = Cache::remember("public:hero-section:{$locale}", 3600, function () use ($locale) {
+            return $this->heroService->getHeroSectionForApi($locale);
+        });
 
         return response()->json($result, $result['success'] ? 200 : 404);
     }
 
-    // -------------------------------------------------------------------------
-    // ADMIN — READ
-    // -------------------------------------------------------------------------
 
     /**
      * GET /api/admin/hero  (admin)
@@ -56,9 +54,6 @@ class HeroSectionController extends Controller
         ]);
     }
 
-    // -------------------------------------------------------------------------
-    // ADMIN — WRITE
-    // -------------------------------------------------------------------------
 
     /**
      * PUT /api/admin/hero  (admin)
@@ -69,6 +64,9 @@ class HeroSectionController extends Controller
             $request->validated(),
             auth()->id()
         );
+
+        Cache::forget('public:hero-section:ar');
+        Cache::forget('public:hero-section:en');
 
         Log::info('Hero section updated', ['user_id' => auth()->id(), 'id' => $hero->id]);
 
@@ -85,6 +83,9 @@ class HeroSectionController extends Controller
     public function uploadVideo(UploadHeroVideoRequest $request): JsonResponse
     {
         $hero = $this->heroService->uploadVideo($request->file('video'), auth()->id());
+
+        Cache::forget('public:hero-section:ar');
+        Cache::forget('public:hero-section:en');
 
         Log::info('Hero video uploaded', [
             'user_id'    => auth()->id(),
@@ -125,6 +126,9 @@ class HeroSectionController extends Controller
             'updated_by' => auth()->id(),
         ])->save();
 
+        Cache::forget('public:hero-section:ar');
+        Cache::forget('public:hero-section:en');
+
         Log::info('Hero video deleted', ['user_id' => auth()->id(), 'hero_id' => $hero->id]);
 
         return response()->json([
@@ -133,10 +137,7 @@ class HeroSectionController extends Controller
         ]);
     }
 
-    // -------------------------------------------------------------------------
-    // PRIVATE HELPERS
-    // -------------------------------------------------------------------------
-
+   
     /**
      * Build the admin response payload for a hero section.
      */

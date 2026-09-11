@@ -31,6 +31,20 @@ const subscriptionApi = {
     }
   },
 
+  validateCoupon: async (couponCode, planType, duration) => {
+    try {
+      const response = await api.post('/subscriptions/validate-coupon', {
+        coupon_code: couponCode,
+        plan_type: planType,
+        duration: duration,
+      });
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message || 'كود الخصم غير صالح';
+      return { success: false, message };
+    }
+  },
+
   capturePayPalPayment: async (token, subscriptionId) => {
     try {
       const response = await api.post('/subscriptions/paypal/capture', {

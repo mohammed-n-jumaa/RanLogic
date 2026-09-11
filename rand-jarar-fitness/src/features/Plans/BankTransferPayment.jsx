@@ -11,6 +11,7 @@ const BankTransferPayment = ({
   planName,
   displayAmount,
   displayCurrency,
+  couponCode,
   onSuccess,
   onCancel,
   currentLang,
@@ -102,6 +103,7 @@ const BankTransferPayment = ({
         duration: duration,
         payment_method: 'bank_transfer',  
         notes: currentLang === 'ar' ? 'تحويل بنكي' : 'Bank transfer',
+        coupon_code: couponCode || undefined,
       });
 
       if (!subscriptionResponse.success) {

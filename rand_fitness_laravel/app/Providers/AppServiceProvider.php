@@ -22,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+          // Disable SSL verify for local dev only
+    if ($this->app->environment('local')) {
+        \Illuminate\Support\Facades\Http::globalOptions([
+            'verify' => false,
+        ]);
+    }
      Schema::defaultStringLength(191);
 
     }

@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\LinkPublicController;
 use App\Http\Controllers\Api\ExerciseLibraryController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\AdminPlansController;
+use App\Http\Controllers\Api\AdminCouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -386,6 +387,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/subscriptions/paypal/create', [SubscriptionController::class, 'createPayPalPayment']);
     Route::post('/subscriptions/paypal/capture', [SubscriptionController::class, 'capturePayPalPayment']);
     
+    // Coupon validation
+    Route::post('/subscriptions/validate-coupon', [SubscriptionController::class, 'validateCoupon']);
+    
     // Bank transfer
     Route::post('/subscriptions/bank-transfer', [SubscriptionController::class, 'createBankTransferSubscription']);
     Route::post('/subscriptions/{subscription}/upload-receipt', [SubscriptionController::class, 'uploadBankReceipt']);
@@ -472,6 +476,13 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 Route::get('/plans',              [AdminPlansController::class, 'index']);
 Route::put('/plans/{id}',         [AdminPlansController::class, 'update']);
 Route::post('/plans/bulk-update', [AdminPlansController::class, 'bulkUpdate']);
+
+    // Coupons
+    Route::get('/coupons',                [AdminCouponController::class, 'index']);
+    Route::post('/coupons',               [AdminCouponController::class, 'store']);
+    Route::put('/coupons/{coupon}',       [AdminCouponController::class, 'update']);
+    Route::delete('/coupons/{coupon}',    [AdminCouponController::class, 'destroy']);
+    Route::patch('/coupons/{coupon}/toggle', [AdminCouponController::class, 'toggle']);
 });
 
 

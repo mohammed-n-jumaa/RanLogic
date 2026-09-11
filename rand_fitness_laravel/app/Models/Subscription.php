@@ -25,6 +25,8 @@ class Subscription extends Model
         'bank_receipt_path',
         'currency',
         'notes',
+        'coupon_id',
+        'coupon_discount',
         'starts_at',
         'ends_at',
     ];
@@ -39,6 +41,11 @@ class Subscription extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function coupon()
+    {
+        return $this->belongsTo(Coupon::class);
     }
 
     public function scopePending($query)

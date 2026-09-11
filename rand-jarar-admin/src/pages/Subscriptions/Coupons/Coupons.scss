@@ -1,0 +1,421 @@
+@import '../../../assets/styles/variables';
+@import '../../../assets/styles/mixins';
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+// ── Page ─────────────────────────────────────────────────────────────────────
+.coupons-page {
+    padding: $spacing-md $spacing-lg;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+
+    @include tablet  { padding: $spacing-md; }
+    @include mobile  { padding: $spacing-sm; }
+
+    // ── Header ───────────────────────────────────────────────────────────────
+    &__header {
+        @include flex-between;
+        margin-bottom: $spacing-md;
+        gap: $spacing-sm;
+        flex-wrap: wrap;
+
+        @include mobile {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+    }
+
+    &__header-left {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+    }
+
+    &__header-icon {
+        width: 44px; height: 44px;
+        border-radius: $radius-md;
+        background: rgba($primary-pink, 0.12);
+        color: $primary-pink;
+        @include flex-center;
+        flex-shrink: 0;
+    }
+
+    &__title {
+        font-size: 1.3rem; font-weight: 700;
+        color: var(--text-primary); margin: 0 0 2px;
+    }
+
+    &__subtitle {
+        font-size: 0.78rem;
+        color: var(--text-muted); margin: 0;
+    }
+
+    &__header-actions {
+        display: flex; gap: 8px; align-items: center;
+
+        @include mobile { width: 100%; }
+    }
+
+    // ── Buttons ──────────────────────────────────────────────────────────────
+    &__btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        border: none; border-radius: $radius-sm;
+        font-weight: 600; cursor: pointer;
+        font-size: 0.82rem; padding: 8px 14px;
+        transition: all $transition-fast;
+
+        &--refresh {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            &:hover { border-color: $primary-pink; color: $primary-pink; }
+        }
+
+        &--add {
+            background: $primary-pink; color: #fff;
+            &:hover { background: $primary-pink-dark; }
+
+            @include mobile { flex: 1; justify-content: center; }
+        }
+    }
+
+    // ── Loading / Empty ──────────────────────────────────────────────────────
+    &__loading, &__empty {
+        @include flex-center;
+        flex-direction: column; gap: $spacing-sm;
+        padding: 60px 0;
+        color: var(--text-muted);
+    }
+
+    // ── Shared elements ─────────────────────────────────────────────────────
+    &__code {
+        background: rgba($primary-pink, 0.1);
+        color: $primary-pink;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    &__discount-badge {
+        display: inline-flex; align-items: center; gap: 3px;
+        background: rgba($success, 0.12); color: $success;
+        padding: 3px 8px; border-radius: 4px;
+        font-weight: 600; font-size: 0.78rem;
+    }
+
+    &__all {
+        color: var(--text-muted); font-size: 0.76rem;
+    }
+
+    &__usage {
+        display: inline-flex; align-items: center; gap: 4px;
+        color: var(--text-secondary); font-size: 0.78rem;
+    }
+
+    &__date {
+        display: inline-flex; align-items: center; gap: 4px;
+        color: var(--text-secondary); font-size: 0.76rem;
+    }
+
+    &__status {
+        padding: 3px 10px; border-radius: 12px;
+        font-size: 0.72rem; font-weight: 600;
+
+        &--active    { background: rgba($success, 0.15); color: $success; }
+        &--inactive  { background: rgba(#607d8b, 0.15); color: #607d8b; }
+        &--expired   { background: rgba($warning, 0.15); color: $warning; }
+        &--exhausted { background: rgba($danger, 0.15);  color: $danger; }
+    }
+
+    &__actions {
+        display: flex; align-items: center; gap: 4px;
+
+        button {
+            background: none; border: none;
+            color: var(--text-muted); cursor: pointer;
+            padding: 6px; border-radius: 6px;
+            transition: all $transition-fast;
+
+            &:hover { color: $primary-pink; background: rgba($primary-pink, 0.08); }
+            &.danger:hover { color: $danger; background: rgba($danger, 0.08); }
+            .text-success { color: $success; }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ── DESKTOP: Table ───────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    &__table-wrap {
+        @include card;
+        overflow-x: auto;
+
+        @include mobile { display: none; }
+    }
+
+    &__table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+
+        th, td {
+            padding: 12px 14px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        thead th {
+            background: var(--bg-hover, rgba(255,255,255,0.04));
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--border-color);
+            transition: background $transition-fast;
+            &:hover { background: var(--bg-hover, rgba(255,255,255,0.02)); }
+            &:last-child { border-bottom: none; }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════════════════
+    // ── MOBILE: Cards ────────────────────────────────────────────────────────
+    // ══════════════════════════════════════════════════════════════════════════
+    &__cards {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+
+        @include mobile { display: flex; }
+    }
+
+    &__card {
+        @include card;
+        overflow: hidden;
+    }
+
+    &__card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border-color);
+        gap: 8px;
+    }
+
+    &__card-code-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+    }
+
+    &__card-body {
+        padding: 10px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    &__card-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+    }
+
+    &__card-label {
+        font-weight: 600;
+        color: var(--text-muted);
+        font-size: 0.75rem;
+    }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ── Modal (unchanged) ────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════════
+.coupon-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    @include flex-center;
+    padding: $spacing-md;
+
+    @include mobile { padding: $spacing-sm; align-items: flex-end; }
+}
+
+.coupon-modal {
+    background: var(--bg-card);
+    border-radius: $radius-lg;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+
+    @include mobile {
+        max-height: 85vh;
+        border-radius: $radius-lg $radius-lg 0 0;
+    }
+
+    &__header {
+        @include flex-between;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border-color);
+
+        &-left {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 700; font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+    }
+
+    &__close {
+        background: none; border: none;
+        color: var(--text-muted); cursor: pointer;
+        padding: 4px; border-radius: 4px;
+        &:hover { color: $primary-pink; }
+    }
+
+    &__body {
+        padding: 20px;
+        overflow-y: auto;
+        display: flex; flex-direction: column; gap: 16px;
+
+        @include mobile { padding: 16px; }
+    }
+
+    &__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+
+        @include mobile { grid-template-columns: 1fr; }
+    }
+
+    &__field {
+        display: flex; flex-direction: column; gap: 6px;
+
+        label {
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        input, select {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: $radius-sm;
+            padding: 9px 12px;
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            outline: none;
+            transition: border-color $transition-fast;
+
+            &:focus { border-color: $primary-pink; }
+            &::placeholder { color: var(--text-muted); }
+        }
+    }
+
+    &__hint {
+        font-weight: 400; color: var(--text-muted); font-size: 0.72rem;
+    }
+
+    &__type-toggle {
+        display: flex; gap: 6px;
+
+        button {
+            flex: 1;
+            display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: $radius-sm;
+            padding: 8px; cursor: pointer;
+            font-size: 0.78rem; font-weight: 600;
+            color: var(--text-secondary);
+            transition: all $transition-fast;
+
+            &.active {
+                background: rgba($primary-pink, 0.12);
+                border-color: $primary-pink;
+                color: $primary-pink;
+            }
+        }
+    }
+
+    &__chips {
+        display: flex; flex-wrap: wrap; gap: 6px;
+    }
+
+    &__chip {
+        background: var(--bg-primary);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: 0.76rem; font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all $transition-fast;
+
+        &.active {
+            background: rgba($primary-pink, 0.12);
+            border-color: $primary-pink;
+            color: $primary-pink;
+        }
+    }
+
+    &__toggle-row {
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__status-btn {
+        border: none; border-radius: 20px;
+        padding: 5px 18px;
+        font-size: 0.78rem; font-weight: 700;
+        cursor: pointer; transition: all $transition-fast;
+
+        &.active   { background: rgba($success, 0.15); color: $success; }
+        &.inactive { background: rgba(#607d8b, 0.15); color: #607d8b; }
+    }
+
+    &__footer {
+        @include flex-between;
+        padding: 14px 20px;
+        border-top: 1px solid var(--border-color);
+        gap: 8px;
+    }
+
+    &__btn {
+        border: none; border-radius: $radius-sm;
+        padding: 9px 22px; font-weight: 600;
+        font-size: 0.82rem; cursor: pointer;
+        transition: all $transition-fast;
+
+        &--cancel {
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            &:hover { border-color: $primary-pink; }
+        }
+
+        &--save {
+            background: $primary-pink; color: #fff;
+            &:hover { background: $primary-pink-dark; }
+            &:disabled { opacity: 0.6; cursor: not-allowed; }
+        }
+    }
+}

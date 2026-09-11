@@ -15,7 +15,8 @@ import {
   MessageCircleMore,
   Globe,
   BookOpen,
-  LayoutGrid
+  LayoutGrid,
+  Ticket
 } from 'lucide-react';
 
 export const sidebarSections = [
@@ -78,7 +79,8 @@ export const sidebarSections = [
     items: [
       { id: 'bank-transfer', label: 'التحويلات البنكية', icon: UserCheck, path: '/BankTransferSubscriptions' },
       { id: 'paypal', label: 'باي بال', icon: UserCheck, path: '/PayPalSubscriptions' },
-      { id: 'plans', label: 'إدارة الخطط', icon: LayoutGrid, path: '/plans' }
+      { id: 'plans', label: 'إدارة الخطط', icon: LayoutGrid, path: '/plans' },
+      { id: 'coupons', label: 'أكواد الخصم', icon: Ticket, path: '/coupons' }
     ]
   },
 

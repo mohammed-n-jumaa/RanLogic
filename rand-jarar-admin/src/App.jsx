@@ -25,6 +25,7 @@ import './App.scss';
 import ExerciseLibrary from './pages/Training/ExerciseLibrary/ExerciseLibrary';
 import AllUsersList from './pages/Training/AllUsersList/AllUsersList';
 import AdminPlans from './pages/Subscriptions/AdminPlans';
+import Coupons from './pages/Subscriptions/Coupons/Coupons';
 
 function App() {
 
@@ -90,6 +91,7 @@ function App() {
               <Route path="BankTransferSubscriptions" element={<BankTransferSubscriptions />} />
               <Route path="PayPalSubscriptions" element={<PayPalSubscriptions />} />
               <Route path="plans" element={<AdminPlans />} />
+              <Route path="coupons" element={<Coupons />} />
 
               <Route path="settings">
                 <Route index element={<Navigate to="profile" replace />} />

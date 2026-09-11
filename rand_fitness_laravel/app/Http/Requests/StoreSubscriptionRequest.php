@@ -19,6 +19,7 @@ class StoreSubscriptionRequest extends FormRequest
             'payment_method' => 'required|in:paypal,bank_transfer',
             'notes' => 'nullable|string|max:500',
             'bank_transfer_number' => 'nullable|string|max:100',
+            'coupon_code' => 'nullable|string|max:50',
 
         ];
     }

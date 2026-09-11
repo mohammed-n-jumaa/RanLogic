@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UploadBankReceiptRequest;
 use App\Models\Plan;
 use App\Models\Subscription;
+use App\Services\CouponService;
 use App\Services\PaymentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,10 +18,12 @@ use Illuminate\Support\Facades\Storage;
 class SubscriptionController extends Controller
 {
     protected PaymentService $paymentService;
+    protected CouponService $couponService;
 
-    public function __construct(PaymentService $paymentService)
+    public function __construct(PaymentService $paymentService, CouponService $couponService)
     {
         $this->paymentService = $paymentService;
+        $this->couponService  = $couponService;
         $this->middleware('auth:sanctum');
     }
 
@@ -133,20 +136,38 @@ class SubscriptionController extends Controller
                     $validated['duration']
                 );
 
+                $coupon         = null;
+                $couponDiscount = null;
+                $finalAmount    = $pricing['amount'];
+
+                if (!empty($validated['coupon_code'])) {
+                    $coupon = $this->couponService->validate(
+                        $validated['coupon_code'],
+                        $validated['plan_type'],
+                        $validated['duration'],
+                        $pricing['amount']
+                    );
+                    [$finalAmount, $couponDiscount] = $this->couponService->apply($coupon, $pricing['amount']);
+                }
+
                 $subscription = Subscription::create([
                     'user_id'             => $user->id,
                     'plan_type'           => $validated['plan_type'],
                     'duration'            => $validated['duration'],
-                    'amount'              => $pricing['amount'],
+                    'amount'              => $finalAmount,
                     'original_amount'     => $pricing['original_amount'],
                     'discount_percentage' => $pricing['discount_percentage'],
                     'payment_method'      => 'paypal',
                     'status'              => 'pending',
                     'currency'            => 'USD',
+                    'coupon_id'           => $coupon?->id,
+                    'coupon_discount'     => $couponDiscount,
                 ]);
 
+                $coupon?->incrementUsage();
+
                 $paypalOrder = $this->paymentService->createPayPalOrder([
-                    'amount'          => number_format((float) $pricing['amount'], 2, '.', ''),
+                    'amount'          => number_format((float) $finalAmount, 2, '.', ''),
                     'currency'        => 'USD',
                     'description'     => $validated['plan_type'] . ' - ' . $validated['duration'],
                     'subscription_id' => $subscription->id,
@@ -299,18 +320,36 @@ class SubscriptionController extends Controller
                 $validated['duration']
             );
 
+            $coupon         = null;
+            $couponDiscount = null;
+            $finalAmount    = $pricing['amount'];
+
+            if (!empty($validated['coupon_code'])) {
+                $coupon = $this->couponService->validate(
+                    $validated['coupon_code'],
+                    $validated['plan_type'],
+                    $validated['duration'],
+                    $pricing['amount']
+                );
+                [$finalAmount, $couponDiscount] = $this->couponService->apply($coupon, $pricing['amount']);
+            }
+
             $subscription = Subscription::create([
                 'user_id'             => $user->id,
                 'plan_type'           => $validated['plan_type'],
                 'duration'            => $validated['duration'],
-                'amount'              => $pricing['amount'],
+                'amount'              => $finalAmount,
                 'original_amount'     => $pricing['original_amount'],
                 'discount_percentage' => $pricing['discount_percentage'],
                 'payment_method'      => 'bank_transfer',
                 'status'              => 'pending',
                 'currency'            => 'USD',
                 'notes'               => $validated['notes'] ?? null,
+                'coupon_id'           => $coupon?->id,
+                'coupon_discount'     => $couponDiscount,
             ]);
+
+            $coupon?->incrementUsage();
 
             Log::info('Bank transfer subscription created', [
                 'user_id'         => $user->id,
@@ -470,6 +509,54 @@ class SubscriptionController extends Controller
             Log::error('Error fetching active subscription: ' . $e->getMessage());
 
             return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء جلب الاشتراك النشط'], 500);
+        }
+    }
+
+    // ─── POST /subscriptions/validate-coupon ────────────────────────────────
+
+    public function validateCoupon(Request $request): JsonResponse
+    {
+        $request->validate([
+            'coupon_code' => 'required|string|max:50',
+            'plan_type'   => 'required|in:basic,nutrition,elite,vip',
+            'duration'    => 'required|in:1month,3months,6months',
+        ]);
+
+        try {
+            $pricing = $this->resolvePlanPricing(
+                $request->plan_type,
+                $request->duration
+            );
+
+            $coupon = $this->couponService->validate(
+                $request->coupon_code,
+                $request->plan_type,
+                $request->duration,
+                $pricing['amount']
+            );
+
+            [$finalAmount, $discountAmount] = $this->couponService->apply($coupon, $pricing['amount']);
+
+            return response()->json([
+                'success' => true,
+                'data'    => [
+                    'code'            => $coupon->code,
+                    'discount_type'   => $coupon->discount_type,
+                    'discount_value'  => (float) $coupon->discount_value,
+                    'discount_amount' => $discountAmount,
+                    'original_price'  => $pricing['amount'],
+                    'final_price'     => $finalAmount,
+                ],
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => collect($e->errors())->flatten()->first(),
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('validateCoupon error', ['error' => $e->getMessage()]);
+
+            return response()->json(['success' => false, 'message' => 'حدث خطأ أثناء التحقق من الكود'], 500);
         }
     }
 

@@ -152,7 +152,7 @@ const WorkoutTab = () => {
           reps: exercise.reps,
           notes: exercise.notes,
           videoUrl: exercise.video_file
-            ? `${import.meta.env.VITE_API_URL || 'https://api.ranlogic.com'}/storage/${exercise.video_file}`
+            ? `${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/storage/${exercise.video_file}`
             : null,
           youtubeUrl: exercise.youtube_url,
           checked: exercise.completed

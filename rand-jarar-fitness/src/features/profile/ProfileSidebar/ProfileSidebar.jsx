@@ -23,8 +23,8 @@ const ProfileSidebar = () => {
     
     const defaultAvatarUrls = [
       'https://i.postimg.cc/WpqHf2CH/download.png',
-      'http://127.0.0.1:8000/images/default-avatar-female.png',
-      'http://127.0.0.1:8000/images/default-avatar-male.png',
+      'https://api.ranlogic.com/images/default-avatar-female.png',
+      'https://api.ranlogic.com/images/default-avatar-male.png',
       '/images/default-avatar-female.png',
       '/images/default-avatar-male.png',
       '',

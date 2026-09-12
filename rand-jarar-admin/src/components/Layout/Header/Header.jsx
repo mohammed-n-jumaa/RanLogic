@@ -1,204 +1,172 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Save, Eye, Moon, Sun, Bell, MessageSquare, X, Check } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Sun, Moon, Bell, ExternalLink, MessageSquare, Check } from 'lucide-react';
 import { useTheme } from '../../../contexts';
 import { useNotifications } from '../../../contexts/NotificationContext';
 import Badge from '../../common/Badge';
+import { sidebarSections } from '../../../data/sidebarData';
 import './Header.scss';
 
-const Header = ({ currentSection = 'لوحة التحكم' }) => {
-  const navigate = useNavigate();
-  const { isDarkMode, toggleTheme } = useTheme();
-  const { 
-    notifications, 
-    unreadCount, 
-    fetchNotifications, 
-    markAllAsRead 
-  } = useNotifications();
-  
-  const [showNotifications, setShowNotifications] = useState(false);
-  const notificationRef = useRef(null);
+// Map routes to page names
+const getPageName = (pathname) => {
+  for (const section of sidebarSections) {
+    if (!section.items) continue;
+    for (const item of section.items) {
+      if (pathname === item.path || pathname.startsWith(item.path + '/')) {
+        return item.label;
+      }
+    }
+  }
+  return 'لوحة التحكم';
+};
 
-  // إغلاق القائمة عند النقر خارجها
+const Header = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { isDarkMode, toggleTheme } = useTheme();
+  const {
+    notifications,
+    unreadCount,
+    fetchNotifications,
+    markAllAsRead,
+  } = useNotifications();
+
+  const [showNotifs, setShowNotifs] = useState(false);
+  const notifRef = useRef(null);
+
+  const pageName = getPageName(location.pathname);
+
+  // Close dropdown on outside click
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
-        setShowNotifications(false);
+    const handler = (e) => {
+      if (notifRef.current && !notifRef.current.contains(e.target)) {
+        setShowNotifs(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // جلب الإشعارات عند فتح القائمة
+  // Fetch notifications when opened
   useEffect(() => {
-    if (showNotifications) {
-      fetchNotifications();
-    }
-  }, [showNotifications, fetchNotifications]);
+    if (showNotifs) fetchNotifications();
+  }, [showNotifs, fetchNotifications]);
 
-  // الانتقال لمحادثة المتدرب - المسار الصحيح
-  const handleNotificationClick = (notification) => {
-    if (notification.trainee_id) {
-      navigate(`/chat/${notification.trainee_id}`);
-      setShowNotifications(false);
+  const handleNotifClick = (n) => {
+    if (n.trainee_id) {
+      navigate(`/chat/${n.trainee_id}`);
+      setShowNotifs(false);
     }
-  };
-
-  const handleMarkAllAsRead = async () => {
-    await markAllAsRead();
   };
 
   const handlePreview = () => {
-    window.open('https://rj-website-murex.vercel.app/', '_blank');
+    window.open('https://ranlogic.com/', '_blank');
   };
 
   return (
-    <header className="header">
-      <div className="header__container">
-        <div className="header__right">
-          <motion.div
-            className="header__logo"
-            whileHover={{ scale: 1.05 }}
+    <header className="hdr">
+      <div className="hdr__bar">
+        {/* Page name */}
+        <button className="hdr__page">
+          <span className="hdr__page-dot" />
+          <span className="hdr__page-name">{pageName}</span>
+        </button>
+
+        <div className="hdr__sep" />
+
+        {/* Notifications */}
+        <div className="hdr__notif-wrap" ref={notifRef}>
+          <button
+            className={`hdr__btn ${showNotifs ? 'hdr__btn--active' : ''}`}
+            onClick={() => setShowNotifs(!showNotifs)}
+            aria-label="الإشعارات"
           >
-            <span className="header__logo-emoji">💪</span>
-          </motion.div>
+            <Bell size={16} />
+            {unreadCount > 0 && <span className="hdr__btn-dot" />}
+          </button>
 
-          <div className="header__section">
-            <span className="header__section-label">القسم الحالي</span>
-            <h1 className="header__section-title">{currentSection}</h1>
-          </div>
-        </div>
-
-        <div className="header__center">
-          <div className="header__mode-capsule">
-            <div className="header__mode-indicator"></div>
-            <span className="header__mode-text">وضع المحتوى</span>
-          </div>
-        </div>
-
-        <div className="header__left">
-          {/* Theme Toggle Button */}
-          <motion.button
-            className="header__action-btn header__theme-toggle"
-            onClick={toggleTheme}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            title={isDarkMode ? 'التبديل إلى الوضع الفاتح' : 'التبديل إلى الوضع الداكن'}
-          >
-            <motion.div
-              initial={false}
-              animate={{ rotate: isDarkMode ? 0 : 180 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-            </motion.div>
-          </motion.button>
-
-          {/* Chat Notifications */}
-          <div className="header__notifications-wrapper" ref={notificationRef}>
-            <motion.button
-              className={`header__action-btn header__notifications ${showNotifications ? 'active' : ''}`}
-              onClick={() => setShowNotifications(!showNotifications)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="الإشعارات"
-            >
-              <Bell size={20} />
-              {unreadCount > 0 && <Badge count={unreadCount} pulse />}
-            </motion.button>
-
-            {/* Notifications Dropdown */}
-            <AnimatePresence>
-              {showNotifications && (
-                <motion.div
-                  className="notifications-dropdown"
-                  initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="notifications-dropdown__header">
-                    <h3>
-                      <MessageSquare size={18} />
-                      إشعارات الرسائل
-                    </h3>
-                    {unreadCount > 0 && (
-                      <button 
-                        className="notifications-dropdown__mark-read"
-                        onClick={handleMarkAllAsRead}
-                      >
-                        <Check size={14} />
-                        تحديد الكل كمقروء
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="notifications-dropdown__list">
-                    {notifications.length === 0 ? (
-                      <div className="notifications-dropdown__empty">
-                        <Bell size={32} />
-                        <p>لا توجد إشعارات جديدة</p>
-                      </div>
-                    ) : (
-                      notifications.map((notification) => (
-                        <motion.div
-                          key={notification.id}
-                          className={`notification-item ${!notification.is_read ? 'notification-item--unread' : ''}`}
-                          onClick={() => handleNotificationClick(notification)}
-                          whileHover={{ backgroundColor: 'var(--bg-hover)' }}
-                        >
-                          <div className="notification-item__avatar">
-                            {notification.trainee_avatar ? (
-                              <img src={notification.trainee_avatar} alt="" />
-                            ) : (
-                              <div className="notification-item__avatar-placeholder">
-                                {notification.trainee_name?.charAt(0) || '?'}
-                              </div>
-                            )}
-                            {!notification.is_read && (
-                              <div className="notification-item__unread-dot" />
-                            )}
-                          </div>
-                          
-                          <div className="notification-item__content">
-                            <p className="notification-item__title">{notification.title}</p>
-                            <p className="notification-item__body">{notification.body}</p>
-                            <span className="notification-item__time">{notification.time_ago}</span>
-                          </div>
-                        </motion.div>
-                      ))
-                    )}
-                  </div>
-
-                  <div className="notifications-dropdown__footer">
-                    <button 
-                      className="notifications-dropdown__view-all"
-                      onClick={() => {
-                        navigate('/chat');
-                        setShowNotifications(false);
-                      }}
-                    >
-                      عرض جميع المحادثات
+          {/* Notifications dropdown */}
+          <AnimatePresence>
+            {showNotifs && (
+              <motion.div
+                className="hdr__dropdown"
+                initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="hdr__dropdown-head">
+                  <h3>
+                    <MessageSquare size={16} />
+                    الإشعارات
+                  </h3>
+                  {unreadCount > 0 && (
+                    <button className="hdr__dropdown-mark" onClick={markAllAsRead}>
+                      <Check size={13} /> تحديد الكل كمقروء
                     </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                  )}
+                </div>
 
-          <motion.button
-            className="header__btn header__btn--secondary"
-            onClick={handlePreview}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Eye size={18} />
-            <span>معاينة الموقع</span>
-          </motion.button>
+                <div className="hdr__dropdown-list">
+                  {notifications.length === 0 ? (
+                    <div className="hdr__dropdown-empty">
+                      <Bell size={28} />
+                      <p>لا توجد إشعارات</p>
+                    </div>
+                  ) : (
+                    notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        className={`hdr__notif-item ${!n.is_read ? 'hdr__notif-item--unread' : ''}`}
+                        onClick={() => handleNotifClick(n)}
+                      >
+                        <div className="hdr__notif-av">
+                          {n.trainee_avatar ? (
+                            <img src={n.trainee_avatar} alt="" />
+                          ) : (
+                            <span>{n.trainee_name?.charAt(0) || '?'}</span>
+                          )}
+                        </div>
+                        <div className="hdr__notif-body">
+                          <p className="hdr__notif-title">{n.title}</p>
+                          <p className="hdr__notif-text">{n.body}</p>
+                          <span className="hdr__notif-time">{n.time_ago}</span>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="hdr__dropdown-foot">
+                  <button onClick={() => { navigate('/chat'); setShowNotifs(false); }}>
+                    عرض جميع المحادثات
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Theme toggle */}
+        <button className="hdr__btn" onClick={toggleTheme} aria-label="تبديل الثيم">
+          <motion.div
+            initial={false}
+            animate={{ rotate: isDarkMode ? 0 : 180 }}
+            transition={{ duration: 0.3 }}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            {isDarkMode ? <Sun size={16} className="hdr__sun" /> : <Moon size={16} />}
+          </motion.div>
+        </button>
+
+        <div className="hdr__sep" />
+
+        {/* Preview */}
+        <button className="hdr__preview" onClick={handlePreview}>
+          <ExternalLink size={14} />
+          <span>معاينة</span>
+        </button>
       </div>
     </header>
   );

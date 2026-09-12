@@ -11,7 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SITE_URL   = 'http://127.0.0.1:8000';
+const SITE_URL   = 'https://api.ranlogic.com';
 const PUBLIC_DIR = path.join(__dirname, '../../public');
 
 const today = new Date().toISOString().split('T')[0];

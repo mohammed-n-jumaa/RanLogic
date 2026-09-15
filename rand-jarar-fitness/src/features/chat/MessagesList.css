@@ -19,7 +19,7 @@
 }
 
 .message-avatar.trainer-avatar {
-  background: linear-gradient(135deg, #FDB813 0%, #FF9800 100%);
+  background: linear-gradient(135deg, var(--site-primary) 0%, var(--site-primary) 100%);
   margin-right: 12px;
   margin-left: 0;
 }
@@ -122,7 +122,7 @@
 }
 
 .user-bubble {
-  background: linear-gradient(135deg, #FDB813 0%, #FF9800 100%);
+  background: linear-gradient(135deg, var(--site-primary) 0%, var(--site-primary) 100%);
   color: white;
   border-bottom-right-radius: 4px;
 }
@@ -148,7 +148,7 @@
 
 .sender-icon {
   font-size: 12px;
-  color: #FDB813;
+  color: var(--site-primary);
 }
 
 /* ======================================

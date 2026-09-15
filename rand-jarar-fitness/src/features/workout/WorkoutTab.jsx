@@ -52,7 +52,7 @@ const WorkoutTab = () => {
         text: t('فشل في تحديث حالة التمرين', 'Failed to update exercise status'),
         icon: 'error',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };
@@ -68,7 +68,7 @@ const WorkoutTab = () => {
         text: t('لا يوجد ملف PDF مرفق لهذا الشهر', 'No PDF file attached for this month'),
         icon: 'info',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };

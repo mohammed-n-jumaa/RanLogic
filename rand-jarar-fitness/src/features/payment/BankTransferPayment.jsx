@@ -29,7 +29,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
           text: t('يرجى رفع صورة فقط', 'Please upload images only'),
           icon: 'error',
           confirmButtonText: t('حسناً', 'OK'),
-          confirmButtonColor: '#FDB813'
+          confirmButtonColor: 'var(--site-primary)'
         });
         return;
       }
@@ -40,7 +40,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
           text: t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'Image size must be less than 5 MB'),
           icon: 'error',
           confirmButtonText: t('حسناً', 'OK'),
-          confirmButtonColor: '#FDB813'
+          confirmButtonColor: 'var(--site-primary)'
         });
         return;
       }
@@ -67,7 +67,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         text: t('يرجى إدخال رقم التحويل', 'Please enter the transfer number'),
         icon: 'warning',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
       return;
     }
@@ -78,7 +78,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         text: t('يرجى رفع صورة الإيصال', 'Please upload receipt image'),
         icon: 'warning',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
       return;
     }
@@ -122,7 +122,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
             ),
             icon: 'success',
             confirmButtonText: t('ممتاز', 'Great'),
-            confirmButtonColor: '#FDB813'
+            confirmButtonColor: 'var(--site-primary)'
           }).then(() => {
             onSuccess();
           });
@@ -143,7 +143,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         text: errorMessage,
         icon: 'error',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   }, 3000);
@@ -156,7 +156,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
       icon: 'success',
       timer: 1500,
       showConfirmButton: false,
-      iconColor: '#FDB813'
+      iconColor: 'var(--site-primary)'
     });
   };
 

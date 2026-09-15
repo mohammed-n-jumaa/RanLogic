@@ -16,8 +16,8 @@
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(253, 184, 19, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(253, 184, 19, 0.03) 1px, transparent 1px);
+      linear-gradient(rgba(var(--site-primary-rgb), 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--site-primary-rgb), 0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 100%);
   }
@@ -37,7 +37,7 @@
     top: var(--y);
     width: var(--size);
     height: var(--size);
-    background: #FDB813;
+    background: var(--site-primary);
     border-radius: 50%;
     opacity: 0;
     animation: nf-particle var(--duration) var(--delay) ease-in-out infinite;
@@ -54,7 +54,7 @@
     &--1 {
       width: 400px;
       height: 400px;
-      background: rgba(253, 184, 19, 0.08);
+      background: rgba(var(--site-primary-rgb), 0.08);
       top: -10%;
       right: -5%;
       animation: nf-orbit1 12s ease-in-out infinite;
@@ -63,7 +63,7 @@
     &--2 {
       width: 300px;
       height: 300px;
-      background: rgba(253, 184, 19, 0.05);
+      background: rgba(var(--site-primary-rgb), 0.05);
       bottom: -5%;
       left: -5%;
       animation: nf-orbit2 15s ease-in-out infinite;
@@ -72,7 +72,7 @@
     &--3 {
       width: 200px;
       height: 200px;
-      background: rgba(253, 184, 19, 0.04);
+      background: rgba(var(--site-primary-rgb), 0.04);
       top: 40%;
       left: 30%;
       animation: nf-orbit3 10s ease-in-out infinite;
@@ -114,12 +114,12 @@
     font-size: 8rem;
     font-weight: 900;
     line-height: 1;
-    background: linear-gradient(180deg, #FDB813 0%, #c48a00 100%);
+    background: linear-gradient(180deg, var(--site-primary) 0%, #c48a00 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0 0 60px rgba(253, 184, 19, 0.2);
-    filter: drop-shadow(0 0 30px rgba(253, 184, 19, 0.15));
+    text-shadow: 0 0 60px rgba(var(--site-primary-rgb), 0.2);
+    filter: drop-shadow(0 0 30px rgba(var(--site-primary-rgb), 0.15));
   }
 
   &__kettlebell {
@@ -157,7 +157,7 @@
     stroke-dasharray: 800;
     stroke-dashoffset: 800;
     animation: nf-draw 2s ease forwards 0.8s, nf-pulse-line 3s ease-in-out infinite 3s;
-    filter: drop-shadow(0 0 6px rgba(253, 184, 19, 0.4));
+    filter: drop-shadow(0 0 6px rgba(var(--site-primary-rgb), 0.4));
   }
 
   // ═══════════════════════════════
@@ -175,10 +175,10 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.45rem 1.2rem;
-    background: rgba(253, 184, 19, 0.08);
-    border: 1px solid rgba(253, 184, 19, 0.2);
+    background: rgba(var(--site-primary-rgb), 0.08);
+    border: 1px solid rgba(var(--site-primary-rgb), 0.2);
     border-radius: 50px;
-    color: #FDB813;
+    color: var(--site-primary);
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.03em;
@@ -187,7 +187,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #FDB813;
+      background: var(--site-primary);
       animation: nf-blink 2s ease-in-out infinite;
     }
   }
@@ -231,7 +231,7 @@
     &-number {
       font-size: 1.3rem;
       font-weight: 800;
-      color: #FDB813;
+      color: var(--site-primary);
     }
 
     &-label {
@@ -271,11 +271,11 @@
     overflow: hidden;
 
     &--primary {
-      background: linear-gradient(135deg, #FDB813 0%, #d49a00 100%);
+      background: linear-gradient(135deg, var(--site-primary) 0%, #d49a00 100%);
       color: #0a0a0a;
       box-shadow:
-        0 4px 15px rgba(253, 184, 19, 0.3),
-        0 0 40px rgba(253, 184, 19, 0.1);
+        0 4px 15px rgba(var(--site-primary-rgb), 0.3),
+        0 0 40px rgba(var(--site-primary-rgb), 0.1);
 
       &::before {
         content: '';
@@ -289,8 +289,8 @@
       &:hover {
         transform: translateY(-3px);
         box-shadow:
-          0 8px 30px rgba(253, 184, 19, 0.45),
-          0 0 60px rgba(253, 184, 19, 0.15);
+          0 8px 30px rgba(var(--site-primary-rgb), 0.45),
+          0 0 60px rgba(var(--site-primary-rgb), 0.15);
 
         &::before {
           transform: translateX(100%);
@@ -309,8 +309,8 @@
 
       &:hover {
         background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(253, 184, 19, 0.3);
-        color: #FDB813;
+        border-color: rgba(var(--site-primary-rgb), 0.3);
+        color: var(--site-primary);
         transform: translateY(-3px);
       }
 
@@ -376,8 +376,8 @@
   }
 
   @keyframes nf-glow {
-    0%, 100% { stroke: #FDB813; }
-    50% { stroke: #ffe082; }
+    0%, 100% { stroke: var(--site-primary); }
+    50% { stroke: var(--site-primary); }
   }
 
   @keyframes nf-draw {

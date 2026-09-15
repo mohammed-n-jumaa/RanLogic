@@ -209,7 +209,7 @@ const EditProfileModal = ({ isOpen, onClose, userData, onSave }) => {
       text: t('تم تحديث الملف الشخصي بنجاح', 'Profile updated successfully'),
       icon: 'success',
       confirmButtonText: t('حسناً', 'OK'),
-      confirmButtonColor: '#FDB813',
+      confirmButtonColor: 'var(--site-primary)',
       timer: 3000,
       timerProgressBar: true,
       didClose: () => {

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
+import { SiteColorsProvider } from './contexts/SiteColorsContext';
 import { InactivityProvider } from './contexts/InactivityContext';
 import Home from './pages/Home';
 const FAQPage = lazy(() => import('./pages/FAQPage'));
@@ -88,7 +89,8 @@ function App() {
     <>
       <ErrorBoundary>
       <div className={`app-shell ${appVisible ? 'app-shell--visible' : ''}`}>
-        <LanguageProvider>
+        <SiteColorsProvider>
+          <LanguageProvider>
           <InactivityProvider timeoutMinutes={30} warningMinutes={5}>
             <Router>
               <RouteTracker />
@@ -131,7 +133,8 @@ function App() {
           </AnimatePresence>
             </Router>
           </InactivityProvider>
-        </LanguageProvider>
+       </LanguageProvider>
+       </SiteColorsProvider>
       </div>
       </ErrorBoundary>
       {!isOnline && <OfflineBanner />}

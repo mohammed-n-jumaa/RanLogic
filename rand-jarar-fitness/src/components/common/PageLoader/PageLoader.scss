@@ -12,7 +12,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: rgba(253, 184, 19, 0.1);
+    background: rgba(var(--site-primary-rgb), 0.1);
     z-index: 9999;
     overflow: hidden;
   }
@@ -20,7 +20,7 @@
   &__progress {
     height: 100%;
     width: 40%;
-    background: linear-gradient(90deg, transparent, #FDB813, transparent);
+    background: linear-gradient(90deg, transparent, var(--site-primary), transparent);
     border-radius: 3px;
     animation: pl-slide 1.2s ease-in-out infinite;
   }

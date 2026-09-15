@@ -18,7 +18,7 @@
 // ===================================
 .certifications {
   padding: 0.5rem 0;
-  background: $background-color;
+  background: var(--site-background);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -48,13 +48,13 @@
   .spinner {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: $primary-color;
+    color: var(--site-primary);
     animation: spin 1.5s linear infinite;
   }
 
   p {
     font-size: 1.1rem;
-    color: $text-light;
+    color: var(--site-text-light);
     margin-bottom: 1rem;
     @include font-family-dynamic;
   }
@@ -63,8 +63,8 @@
 .certifications-error {
   .retry-btn {
     padding: 0.7rem 1.5rem;
-    background: $primary-color;
-    color: $secondary-color;
+    background: var(--site-primary);
+    color: var(--site-secondary);
     border: none;
     border-radius: $radius-lg;
     font-size: 0.95rem;
@@ -106,12 +106,12 @@
 
   &::before {
     left: 0;
-    background: linear-gradient(to right, $bg-light 0%, transparent 100%);
+    background: linear-gradient(to right, var(--site-accent) 0%, transparent 100%);
   }
 
   &::after {
     right: 0;
-    background: linear-gradient(to left, $bg-light 0%, transparent 100%);
+    background: linear-gradient(to left, var(--site-accent) 0%, transparent 100%);
   }
 }
 
@@ -183,8 +183,8 @@
   align-items: center;
   gap: 0.65rem;
   padding: 0.65rem 0.9rem 0.65rem 0.85rem;
-  background: $background-color;
-  border: 1px solid $border-color;
+  background: var(--site-background);
+  border: 1px solid var(--site-primary);
   border-radius: $radius-sm;
   min-width: 210px;
   flex-shrink: 0;
@@ -201,11 +201,11 @@
     bottom: 14%;
     width: 3px;
     border-radius: 2px;
-    background: $primary-color;
+    background: var(--site-primary);
   }
 
   &:hover {
-    border-color: $primary-color;
+    border-color: var(--site-primary);
     box-shadow: $shadow-pink;
   }
 
@@ -235,7 +235,7 @@
 .cert-icon {
   width: 36px;
   height: 36px;
-  background: $accent-color;
+  background: var(--site-accent);
   border-radius: $radius-sm;
   display: flex;
   align-items: center;
@@ -249,7 +249,7 @@
   }
 
   .cert-card:hover & {
-    background: $border-color;
+    background: var(--site-primary);
   }
 
   @media (max-width: $breakpoint-tablet) {
@@ -287,7 +287,7 @@
   .cert-label {
     font-size: 0.65rem;
     font-weight: 500;
-    color: $text-light;
+    color: var(--site-text-light);
     margin-bottom: 0.1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -301,7 +301,7 @@
   h4 {
     font-size: 0.85rem;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--site-text);
     line-height: 1.3;
     margin: 0 0 0.1rem 0;
     white-space: nowrap;
@@ -321,7 +321,7 @@
   .cert-title {
     font-size: 0.75rem;
     font-weight: 400;
-    color: $text-light;
+    color: var(--site-text-light);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -341,7 +341,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: $accent-color;
+  background: var(--site-accent);
   display: flex;
   align-items: center;
   justify-content: center;

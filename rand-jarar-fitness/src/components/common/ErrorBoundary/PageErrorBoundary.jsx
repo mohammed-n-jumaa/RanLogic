@@ -29,7 +29,7 @@ class PageErrorBoundary extends Component {
           direction: 'rtl',
         }}>
           <div style={{ fontSize: '3rem' }}>⚡</div>
-          <h2 style={{ margin: 0, color: '#FDB813', fontSize: '1.4rem' }}>
+          <h2 style={{ margin: 0, color: 'var(--site-primary)', fontSize: '1.4rem' }}>
             حدث خطأ في تحميل هذه الصفحة
           </h2>
           <p style={{ margin: 0, color: '#888', fontSize: '0.95rem' }}>
@@ -40,7 +40,7 @@ class PageErrorBoundary extends Component {
               onClick={this.handleRetry}
               style={{
                 padding: '0.7rem 1.5rem',
-                background: '#FDB813',
+                background: 'var(--site-primary)',
                 color: '#0a0a0a',
                 border: 'none',
                 borderRadius: '10px',

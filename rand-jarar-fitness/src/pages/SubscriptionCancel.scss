@@ -63,7 +63,7 @@
     h2 {
       font-size: 2rem;
       font-weight: 900;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 1rem;
       font-family: 'Poppins', sans-serif;
 
@@ -74,7 +74,7 @@
 
     .cancel-message {
       font-size: 1.1rem;
-      color: $text-light;
+      color: var(--site-text-light);
       line-height: 1.8;
       margin-bottom: 2rem;
       font-family: 'Poppins', sans-serif;
@@ -92,7 +92,7 @@
       margin-bottom: 2rem;
 
       p {
-        color: $text-dark;
+        color: var(--site-text);
         font-size: 0.95rem;
         margin: 0;
         line-height: 1.6;
@@ -136,25 +136,25 @@
         }
 
         &.btn-primary {
-          background: linear-gradient(135deg, $primary-color, #F9A825);
-          color: $secondary-color;
-          box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+          background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
+          color: var(--site-secondary);
+          box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.3);
 
           &:hover {
-            background: linear-gradient(135deg, #F9A825, #F57F17);
+            background: linear-gradient(135deg, var(--site-primary), #F57F17);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(253, 184, 19, 0.4);
+            box-shadow: 0 6px 20px rgba(var(--site-primary-rgb), 0.4);
           }
         }
 
         &.btn-outline {
           background: transparent;
-          color: $text-dark;
+          color: var(--site-text);
           border: 2px solid rgba(0, 0, 0, 0.2);
 
           &:hover {
-            border-color: $primary-color;
-            color: $primary-color;
+            border-color: var(--site-primary);
+            color: var(--site-primary);
             transform: translateY(-2px);
           }
         }
@@ -167,7 +167,7 @@
 
       p {
         font-size: 0.95rem;
-        color: $text-light;
+        color: var(--site-text-light);
         margin-bottom: 0.75rem;
         font-family: 'Poppins', sans-serif;
       }
@@ -175,7 +175,7 @@
       .contact-link {
         background: none;
         border: none;
-        color: $primary-color;
+        color: var(--site-primary);
         font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
@@ -184,7 +184,7 @@
         font-family: 'Poppins', sans-serif;
 
         &:hover {
-          color: #F9A825;
+          color: var(--site-primary);
         }
       }
     }

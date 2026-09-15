@@ -103,7 +103,7 @@
   .badge-dot {
     width: 6px;
     height: 6px;
-    background: $primary-color;
+    background: var(--site-primary);
     border-radius: 50%;
     animation: pulse 2s infinite;
   }
@@ -135,7 +135,7 @@
   }
   
   .highlight {
-    color: $primary-color;
+    color: var(--site-primary);
     display: block;
     margin-top: 0.4rem;
     font-weight: 700;
@@ -448,7 +448,7 @@
   .spinner {
     font-size: 2.8rem;
     margin-bottom: 1.2rem;
-    color: $primary-color;
+    color: var(--site-primary);
     animation: spin 1.5s linear infinite;
   }
   

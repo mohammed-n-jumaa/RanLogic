@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\ExerciseLibraryController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\AdminPlansController;
 use App\Http\Controllers\Api\AdminCouponController;
+use App\Http\Controllers\Api\SiteColorsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -379,6 +380,7 @@ Route::get('/paypal/cancel', [SubscriptionController::class, 'paypalCancel'])
     ->name('paypal.cancel');
 
 // Public routes
+Route::get('/site-colors', [SiteColorsController::class, 'index']);
 Route::get('/subscriptions/plans', [SubscriptionController::class, 'getPlans']);
 
 // Protected routes
@@ -483,8 +485,11 @@ Route::post('/plans/bulk-update', [AdminPlansController::class, 'bulkUpdate']);
     Route::put('/coupons/{coupon}',       [AdminCouponController::class, 'update']);
     Route::delete('/coupons/{coupon}',    [AdminCouponController::class, 'destroy']);
     Route::patch('/coupons/{coupon}/toggle', [AdminCouponController::class, 'toggle']);
-});
 
+    // Site Colors
+    Route::put('/site-colors', [SiteColorsController::class, 'update']);
+    Route::post('/site-colors/reset', [SiteColorsController::class, 'reset']);
+});
 
 
 /*

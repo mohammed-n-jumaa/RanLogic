@@ -6,7 +6,7 @@ import { Loader2 } from 'lucide-react';
 
 // ── أيقونات SVG ───────────────────────────────────────────────────────────────
 const getIconSVG = (icon) => {
-  const c = '#1C1C1C';
+  const c = 'var(--site-secondary)';
   switch (icon) {
 
     case '🎖️':
@@ -245,7 +245,7 @@ const getIconSVG = (icon) => {
 // ── CheckIcon ─────────────────────────────────────────────────────────────────
 const CheckIcon = () => (
   <svg viewBox="0 0 9 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M1.5 4.5l2 2 4-4" stroke="#FDB813" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M1.5 4.5l2 2 4-4" stroke="var(--site-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 

@@ -87,7 +87,7 @@ const ChatContainer = ({
           <button
             onClick={handleEnableNotifications}
             style={{
-              background: '#FDB813',
+              background: 'var(--site-primary)',
               border: 'none',
               borderRadius: '8px',
               padding: '8px 12px',

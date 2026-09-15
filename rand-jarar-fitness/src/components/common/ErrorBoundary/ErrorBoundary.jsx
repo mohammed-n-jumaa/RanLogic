@@ -38,11 +38,11 @@ class ErrorBoundary extends Component {
           <div className="error-boundary__content">
             <div className="error-boundary__icon">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="60" cy="60" r="56" stroke="#FDB813" strokeWidth="3" strokeDasharray="8 6" />
-                <path d="M60 20C60 20 85 45 85 65C85 78.8 74.8 90 60 90C45.2 90 35 78.8 35 65C35 45 60 20 60 20Z" fill="#FDB813" opacity="0.15"/>
-                <path d="M60 30C60 30 80 50 80 65C80 76 71 85 60 85C49 85 40 76 40 65C40 50 60 30 60 30Z" stroke="#FDB813" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M55 58L65 68M65 58L55 68" stroke="#FDB813" strokeWidth="3" strokeLinecap="round"/>
-                <path d="M48 78C52 82 56 84 60 84C64 84 68 82 72 78" stroke="#FDB813" strokeWidth="2" strokeLinecap="round" opacity="0.6"/>
+                <circle cx="60" cy="60" r="56" stroke="var(--site-primary)" strokeWidth="3" strokeDasharray="8 6" />
+                <path d="M60 20C60 20 85 45 85 65C85 78.8 74.8 90 60 90C45.2 90 35 78.8 35 65C35 45 60 20 60 20Z" fill="var(--site-primary)" opacity="0.15"/>
+                <path d="M60 30C60 30 80 50 80 65C80 76 71 85 60 85C49 85 40 76 40 65C40 50 60 30 60 30Z" stroke="var(--site-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M55 58L65 68M65 58L55 68" stroke="var(--site-primary)" strokeWidth="3" strokeLinecap="round"/>
+                <path d="M48 78C52 82 56 84 60 84C64 84 68 82 72 78" stroke="var(--site-primary)" strokeWidth="2" strokeLinecap="round" opacity="0.6"/>
               </svg>
             </div>
 

@@ -39,7 +39,7 @@ const BankTransferPayment = ({
         title: currentLang === 'ar' ? 'خطأ' : 'Error',
         text: currentLang === 'ar' ? 'يرجى رفع صورة فقط' : 'Please upload an image only',
         icon: 'error',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
       return;
     }
@@ -51,7 +51,7 @@ const BankTransferPayment = ({
           ? 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت'
           : 'Image size must be less than 5MB',
         icon: 'error',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
       return;
     }
@@ -75,7 +75,7 @@ const BankTransferPayment = ({
       icon: 'success',
       timer: 1500,
       showConfirmButton: false,
-      iconColor: '#FDB813',
+      iconColor: 'var(--site-primary)',
     });
   };
 
@@ -89,7 +89,7 @@ const BankTransferPayment = ({
           ? 'يرجى رفع صورة الإيصال'
           : 'Please upload the receipt image',
         icon: 'warning',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
       return;
     }
@@ -131,7 +131,7 @@ const BankTransferPayment = ({
           ? 'حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى'
           : 'An error occurred while sending data. Please try again',
         icon: 'error',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
     }
   };

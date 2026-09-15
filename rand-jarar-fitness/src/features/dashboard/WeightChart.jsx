@@ -77,7 +77,7 @@ const WeightChart = ({ data }) => {
           <path d={areaPath} fill="url(#weightGrad)" opacity="0.3" />
 
           {/* Line */}
-          <path d={linePath} fill="none" stroke="#FDB813" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d={linePath} fill="none" stroke="var(--site-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
 
           {/* Dots */}
           {points.map((p, i) => (
@@ -91,7 +91,7 @@ const WeightChart = ({ data }) => {
                 cx={p.x} cy={p.y}
                 r={tooltip === i ? 5 : 3.5}
                 fill="#fff"
-                stroke="#FDB813"
+                stroke="var(--site-primary)"
                 strokeWidth="2"
               />
             </g>
@@ -100,8 +100,8 @@ const WeightChart = ({ data }) => {
           {/* Gradient def */}
           <defs>
             <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FDB813" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#FDB813" stopOpacity="0.02" />
+              <stop offset="0%" stopColor="var(--site-primary)" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="var(--site-primary)" stopOpacity="0.02" />
             </linearGradient>
           </defs>
         </svg>

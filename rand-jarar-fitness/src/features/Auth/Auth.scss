@@ -1,12 +1,12 @@
 @use '../../styles/variables.scss' as *;
 
 // ─── Variables ───────────────────────────────────────────
-$gold:         #FDB813;
-$gold-dark:    #F9A825;
-$gold-light:   #FFF8E1;
-$gold-pale:    #FFFBF0;
-$gold-border:  #FFE082;
-$dark:         #1C1C1C;
+$gold:         var(--site-primary);
+$gold-dark:    var(--site-primary);
+$gold-light:   var(--site-accent);
+$gold-pale:    var(--site-accent);
+$gold-border:  var(--site-primary);
+$dark:         var(--site-secondary);
 $muted:        #757575;
 $muted2:       #718096;
 $success:      #22C55E;
@@ -57,7 +57,7 @@ $error:        #FF3860;
   grid-template-columns: 42% 58%;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(253, 184, 19, 0.15);
+  border: 1px solid rgba(var(--site-primary-rgb), 0.15);
   min-height: 640px;
 
   @media (max-width: $breakpoint-tablet) {
@@ -217,8 +217,8 @@ $error:        #FF3860;
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: rgba(253, 184, 19, 0.12);
-    border: 1px solid rgba(253, 184, 19, 0.25);
+    background: rgba(var(--site-primary-rgb), 0.12);
+    border: 1px solid rgba(var(--site-primary-rgb), 0.25);
     border-radius: 20px;
     padding: 4px 13px;
     font-size: 11px;
@@ -324,7 +324,7 @@ $error:        #FF3860;
 
   &__footer {
     padding-top: 16px;
-    border-top: 1px solid rgba(253, 184, 19, 0.1);
+    border-top: 1px solid rgba(var(--site-primary-rgb), 0.1);
   }
 
   &__footer-logo-img {
@@ -346,8 +346,8 @@ $error:        #FF3860;
 // ─── Mini stat (mobile hero) ─────────────────────────────
 .mini-stat {
   flex: 1;
-  background: rgba(253, 184, 19, 0.08);
-  border: 1px solid rgba(253, 184, 19, 0.15);
+  background: rgba(var(--site-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--site-primary-rgb), 0.15);
   border-radius: 10px;
   padding: 10px 8px;
   text-align: center;
@@ -386,9 +386,9 @@ $error:        #FF3860;
 
   &:first-child { margin-left: 0; }
 
-  &--g { background: linear-gradient(135deg, #FDB813, #e67e00); }
-  &--b { background: linear-gradient(135deg, #FFF8E1, #FFE082); color: $dark; }
-  &--c { background: linear-gradient(135deg, #F9A825, #FDB813); }
+  &--g { background: linear-gradient(135deg, var(--site-primary), var(--site-primary)); }
+  &--b { background: linear-gradient(135deg, var(--site-accent), var(--site-primary)); color: $dark; }
+  &--c { background: linear-gradient(135deg, var(--site-primary), var(--site-primary)); }
   &--more {
     background: rgba(255, 255, 255, 0.08);
     font-size: 10px;
@@ -436,8 +436,8 @@ $error:        #FF3860;
 
 // ─── Stat card (desktop) ─────────────────────────────────
 .stat-card {
-  background: rgba(253, 184, 19, 0.07);
-  border: 1px solid rgba(253, 184, 19, 0.14);
+  background: rgba(var(--site-primary-rgb), 0.07);
+  border: 1px solid rgba(var(--site-primary-rgb), 0.14);
   border-radius: 12px;
   padding: 12px 16px;
   display: flex;
@@ -448,8 +448,8 @@ $error:        #FF3860;
     width: 38px;
     height: 38px;
     border-radius: 9px;
-    background: rgba(253, 184, 19, 0.12);
-    border: 1px solid rgba(253, 184, 19, 0.2);
+    background: rgba(var(--site-primary-rgb), 0.12);
+    border: 1px solid rgba(var(--site-primary-rgb), 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -539,12 +539,12 @@ $error:        #FF3860;
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(253, 184, 19, 0.12);
+  background: rgba(var(--site-primary-rgb), 0.12);
   border: 1px solid $gold-border;
   border-radius: 20px;
   padding: 3px 10px;
   font-size: 11px;
-  color: #8B6000;
+  color: var(--site-secondary);
   font-weight: 600;
   margin-bottom: 8px;
   font-family: 'Poppins', 'Tajawal', sans-serif;
@@ -576,7 +576,7 @@ $error:        #FF3860;
 // Tabs
 .auth-right__tabs {
   display: flex;
-  background: rgba(28, 28, 28, 0.06);
+  background: rgba(var(--site-secondary-rgb), 0.06);
   border-radius: 10px;
   padding: 3px;
   gap: 2px;
@@ -610,7 +610,7 @@ $error:        #FF3860;
   &--active {
     background: $gold;
     color: $dark;
-    box-shadow: 0 2px 8px rgba(253, 184, 19, 0.3);
+    box-shadow: 0 2px 8px rgba(var(--site-primary-rgb), 0.3);
   }
 
   &:not(.auth-tab--active):hover { color: $dark; }
@@ -683,7 +683,7 @@ $error:        #FF3860;
 
       &:focus {
         border-color: $gold;
-        box-shadow: 0 0 0 3px rgba(253, 184, 19, 0.12);
+        box-shadow: 0 0 0 3px rgba(var(--site-primary-rgb), 0.12);
       }
 
       &::placeholder { color: #BDBDBD; }
@@ -912,14 +912,14 @@ $error:        #FF3860;
   justify-content: center;
   gap: 8px;
   margin-top: 4px;
-  box-shadow: 0 4px 20px rgba(253, 184, 19, 0.35);
+  box-shadow: 0 4px 20px rgba(var(--site-primary-rgb), 0.35);
   font-family: 'Poppins', 'Tajawal', sans-serif;
   transition: transform 0.15s, box-shadow 0.15s;
 
   @media (max-width: $breakpoint-mobile) {
     height: 46px;
     font-size: 14px;
-    box-shadow: 0 4px 16px rgba(253, 184, 19, 0.3);
+    box-shadow: 0 4px 16px rgba(var(--site-primary-rgb), 0.3);
   }
 
   &:disabled { opacity: 0.7; cursor: not-allowed; }

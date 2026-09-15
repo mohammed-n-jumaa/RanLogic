@@ -1,26 +1,35 @@
 // ===================================
-// نظام الألوان
+// Dynamic Site Colors (CSS Variables)
 // ===================================
+// These are set dynamically via JavaScript from the API.
+// SCSS $variables below are fallbacks for compilation only.
 
-// Main Colors
+:root {
+  --site-primary:    #FDB813;
+  --site-secondary:  #1C1C1C;
+  --site-accent:     #FFF8E1;
+  --site-background: #FFFFFF;
+  --site-text:       #1C1C1C;
+  --site-text-light: #757575;
+  --site-primary-rgb: 253, 184, 19;
+  --site-secondary-rgb: 28, 28, 28;
+}
+
+// SCSS fallback variables (used where var() can't work, e.g. inside color functions)
 $primary-color: #FDB813;
 $secondary-color: #1C1C1C;
 $background-color: #FFFFFF;
 $accent-color: #FFF8E1;
-
-// Text Colors
 $text-dark: #1C1C1C;
 $text-light: #757575;
 $text-white: #FFFFFF;
 $text-muted: #718096;
-
-// Additional Colors
 $bg-light: #FFFBF0;
 $border-color: #FFE082;
 
-// Gradients
-$gradient-primary: linear-gradient(135deg, #FDB813 0%, #F9A825 100%);
-$gradient-overlay: linear-gradient(135deg, rgba(28, 28, 28, 0.6) 0%, rgba(253, 184, 19, 0.4) 100%);
+// Gradients (use CSS variables)
+$gradient-primary: linear-gradient(135deg, var(--site-primary) 0%, var(--site-primary) 100%);
+$gradient-overlay: linear-gradient(135deg, rgba(var(--site-secondary-rgb), 0.6) 0%, rgba(var(--site-primary-rgb), 0.4) 100%);
 
 // ===================================
 // Spacing
@@ -53,7 +62,7 @@ $transition-slow: 0.5s ease;
 $shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
 $shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
 $shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
-$shadow-pink: 0 4px 20px rgba(253, 184, 19, 0.25);
+$shadow-pink: 0 4px 20px rgba(var(--site-primary-rgb), 0.25);
 
 // ===================================
 // Breakpoints

@@ -10,7 +10,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(28, 28, 28, 0.8);
+  background: rgba(var(--site-secondary-rgb), 0.8);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
 // MODAL CONTAINER
 // ===================================
 .edit-profile-modal {
-  background: $background-color;
+  background: var(--site-background);
   border-radius: $radius-lg;
   width: 100%;
   max-width: 800px;
@@ -124,10 +124,10 @@
 // FORM SECTIONS
 // ===================================
 .form-section {
-  background: $accent-color;
+  background: var(--site-accent);
   border-radius: $radius-md;
   padding: $spacing-md;
-  border: 2px solid $border-color;
+  border: 2px solid var(--site-primary);
   text-align: left; // Ensure text alignment is left
 
   @media (max-width: $breakpoint-mobile) {
@@ -135,12 +135,12 @@
   }
 
   h3 {
-    color: $secondary-color;
+    color: var(--site-secondary);
     font-size: 1.2rem;
     font-weight: 700;
     margin: 0 0 $spacing-md 0;
     padding-bottom: $spacing-sm;
-    border-bottom: 2px solid rgba($primary-color, 0.3);
+    border-bottom: 2px solid rgba(var(--site-primary-rgb), 0.3);
     text-align: left; // Ensure heading alignment is left
 
     @media (max-width: $breakpoint-mobile) {
@@ -183,10 +183,10 @@
     gap: 0.5rem;
     font-size: 0.95rem;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--site-text);
 
     svg {
-      color: $primary-color;
+      color: var(--site-primary);
       font-size: 1.1rem;
     }
 
@@ -197,19 +197,19 @@
 
   input, select, textarea {
     padding: 0.85rem 1rem;
-    border: 2px solid $border-color;
+    border: 2px solid var(--site-primary);
     border-radius: $radius-md;
     font-size: 1rem;
     font-family: 'Inter', sans-serif;
-    background: $background-color;
-    color: $text-dark;
+    background: var(--site-background);
+    color: var(--site-text);
     transition: all $transition-normal;
     text-align: left; // Ensure input text aligns left
 
     &:focus {
       outline: none;
-      border-color: $primary-color;
-      box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      border-color: var(--site-primary);
+      box-shadow: 0 0 0 3px rgba(var(--site-primary-rgb), 0.1);
     }
 
     &.error {
@@ -218,7 +218,7 @@
     }
 
     &::placeholder {
-      color: $text-light;
+      color: var(--site-text-light);
       text-align: left; // Ensure placeholder aligns left
     }
 
@@ -264,24 +264,24 @@
     gap: 0.5rem;
     cursor: pointer;
     font-weight: 500;
-    color: $text-dark;
+    color: var(--site-text);
     padding: 0.5rem 1rem;
-    border: 2px solid $border-color;
+    border: 2px solid var(--site-primary);
     border-radius: $radius-md;
     transition: all $transition-normal;
     text-align: left; // Ensure radio labels align left
 
     &:hover {
-      border-color: $primary-color;
-      background: rgba($primary-color, 0.05);
+      border-color: var(--site-primary);
+      background: rgba(var(--site-primary-rgb), 0.05);
     }
 
     input[type="radio"] {
       display: none;
 
       &:checked + .radio-custom {
-        background: $primary-color;
-        border-color: $primary-color;
+        background: var(--site-primary);
+        border-color: var(--site-primary);
 
         &::after {
           opacity: 1;
@@ -292,7 +292,7 @@
     .radio-custom {
       width: 20px;
       height: 20px;
-      border: 2px solid $border-color;
+      border: 2px solid var(--site-primary);
       border-radius: 50%;
       position: relative;
       transition: all $transition-normal;
@@ -306,7 +306,7 @@
         transform: translate(-50%, -50%);
         width: 10px;
         height: 10px;
-        background: $background-color;
+        background: var(--site-background);
         border-radius: 50%;
         opacity: 0;
         transition: opacity $transition-normal;
@@ -332,7 +332,7 @@
       height: 120px;
       border-radius: 50%;
       overflow: hidden;
-      border: 4px solid $primary-color;
+      border: 4px solid var(--site-primary);
       position: relative;
       box-shadow: $shadow-md;
 
@@ -348,7 +348,7 @@
         right: 0; // Position in bottom-right corner
         width: 40px;
         height: 40px;
-        background: $primary-color;
+        background: var(--site-primary);
         color: $text-white;
         border-radius: 50%;
         display: flex;
@@ -358,7 +358,7 @@
         transition: all $transition-normal;
 
         &:hover {
-          background: color.adjust($primary-color, $lightness: -10%);
+          background: var(--site-primary);
           transform: scale(1.1);
         }
 
@@ -485,7 +485,7 @@
 .char-count {
   text-align: left; // Align character count to left
   font-size: 0.8rem;
-  color: $text-light;
+  color: var(--site-text-light);
   margin-top: 0.5rem;
   font-weight: 500;
 
@@ -501,7 +501,7 @@
   display: flex;
   gap: $spacing-md;
   padding-top: $spacing-md;
-  border-top: 2px solid $border-color;
+  border-top: 2px solid var(--site-primary);
   direction: ltr; // Ensure buttons are LTR
 
   @media (max-width: $breakpoint-mobile) {
@@ -537,12 +537,12 @@
 
   .cancel-btn {
     background: transparent;
-    color: $text-dark;
-    border: 2px solid $border-color;
+    color: var(--site-text);
+    border: 2px solid var(--site-primary);
 
     &:hover:not(:disabled) {
-      background: rgba($text-dark, 0.05);
-      border-color: $text-dark;
+      background: rgba(var(--site-text), 0.05);
+      border-color: var(--site-text);
     }
   }
 
@@ -557,7 +557,7 @@
 
     &:hover:not(:disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba($primary-color, 0.4);
+      box-shadow: 0 6px 20px rgba(var(--site-primary-rgb), 0.4);
     }
 
     .spinner {
@@ -646,7 +646,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba($primary-color, 0.8);
+      background: rgba(var(--site-primary-rgb), 0.8);
       border-radius: $radius-md;
       animation: pulse 1.5s infinite;
     }
@@ -662,17 +662,17 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: $accent-color;
+    background: var(--site-accent);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $primary-color;
+    background: var(--site-primary);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: color.adjust($primary-color, $lightness: -10%);
+    background: var(--site-primary);
   }
 }
 
@@ -733,9 +733,9 @@
     gap: 0.75rem;
     cursor: pointer;
     font-weight: 600;
-    color: $text-dark;
+    color: var(--site-text);
     padding: 1rem 1.25rem;
-    border: 2px solid $border-color;
+    border: 2px solid var(--site-primary);
     border-radius: $radius-md;
     transition: all $transition-normal;
     flex: 1;
@@ -747,8 +747,8 @@
     }
 
     &:hover {
-      border-color: $primary-color;
-      background: rgba($primary-color, 0.05);
+      border-color: var(--site-primary);
+      background: rgba(var(--site-primary-rgb), 0.05);
       transform: translateY(-2px);
       box-shadow: $shadow-sm;
     }
@@ -758,7 +758,7 @@
 
       &:checked + .gender-radio-custom {
         background: $gradient-primary;
-        border-color: $primary-color;
+        border-color: var(--site-primary);
         transform: scale(1.1);
         box-shadow: $shadow-pink;
 
@@ -771,13 +771,13 @@
     .gender-radio-custom {
       width: 50px;
       height: 50px;
-      border: 2px solid $border-color;
+      border: 2px solid var(--site-primary);
       border-radius: $radius-md;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      color: $text-light;
+      color: var(--site-text-light);
       transition: all $transition-normal;
       background: white;
 
@@ -801,7 +801,7 @@
     .gender-label {
       font-size: 1rem;
       font-weight: 700;
-      color: $text-dark;
+      color: var(--site-text);
 
       @media (max-width: $breakpoint-mobile) {
         font-size: 0.95rem;
@@ -835,7 +835,7 @@
 .field-note {
   display: block;
   font-size: 0.8rem;
-  color: $text-light;
+  color: var(--site-text-light);
   margin-top: 0.25rem;
   font-style: italic;
 

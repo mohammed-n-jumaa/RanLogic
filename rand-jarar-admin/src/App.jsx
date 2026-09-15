@@ -26,6 +26,7 @@ import ExerciseLibrary from './pages/Training/ExerciseLibrary/ExerciseLibrary';
 import AllUsersList from './pages/Training/AllUsersList/AllUsersList';
 import AdminPlans from './pages/Subscriptions/AdminPlans';
 import Coupons from './pages/Subscriptions/Coupons/Coupons';
+import SiteColors from './pages/Content/SiteColors/SiteColors';
 
 function App() {
 
@@ -92,7 +93,7 @@ function App() {
               <Route path="PayPalSubscriptions" element={<PayPalSubscriptions />} />
               <Route path="plans" element={<AdminPlans />} />
               <Route path="coupons" element={<Coupons />} />
-
+              <Route path="site-colors" element={<SiteColors />} />
               <Route path="settings">
                 <Route index element={<Navigate to="profile" replace />} />
                 <Route path="profile" element={<Profile />} />

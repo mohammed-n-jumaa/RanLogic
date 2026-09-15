@@ -13,7 +13,7 @@ const PageLoader = () => {
             <circle
               cx="25" cy="25" r="20"
               fill="none"
-              stroke="#FDB813"
+              stroke="var(--site-primary)"
               strokeWidth="3"
               strokeLinecap="round"
               strokeDasharray="80 40"

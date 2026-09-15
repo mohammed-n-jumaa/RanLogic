@@ -225,7 +225,7 @@ const handleSendMessage = throttle(async (messageText, imageFile = null) => {
         text: t('فشل في إرسال الرسالة', 'Failed to send message'),
         icon: 'error',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
    } finally {
       setSending(false);

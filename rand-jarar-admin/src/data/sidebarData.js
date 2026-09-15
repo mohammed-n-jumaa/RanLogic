@@ -16,7 +16,8 @@ import {
   Globe,
   BookOpen,
   LayoutGrid,
-  Ticket
+  Ticket,
+  Palette 
 } from 'lucide-react';
 
 export const sidebarSections = [
@@ -43,6 +44,7 @@ export const sidebarSections = [
     icon: LayoutDashboard,
     color: '#9c27b0',
     items: [
+      { id: 'site-colors', label: 'ألوان الموقع', icon: Palette, path: '/site-colors' },
       { id: 'logo', label: 'الشعار والعلامة', icon: Image, path: '/content/logo' },
       { id: 'hero', label: 'واجهة الموقع', icon: Video, path: '/content/hero' },
       { id: 'AboutCoach', label: 'عن المدربة', icon: Star, path: '/content/AboutCoach' },

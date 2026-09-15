@@ -22,14 +22,14 @@
       
       .amount-label {
         font-size: 1rem;
-        color: $text-light;
+        color: var(--site-text-light);
         font-weight: 600;
       }
       
       .amount-value {
         font-size: 2rem;
         font-weight: 900;
-        color: $primary-color;
+        color: var(--site-primary);
         
         @media (max-width: $breakpoint-mobile) {
           font-size: 1.7rem;
@@ -54,7 +54,7 @@
       
       p {
         font-size: 0.9rem;
-        color: rgba(28, 28, 28, 0.8);
+        color: rgba(var(--site-secondary-rgb), 0.8);
         margin: 0;
         line-height: 1.5;
       }
@@ -123,7 +123,7 @@
     justify-content: center;
     gap: 0.5rem;
     margin-top: 1rem;
-    color: rgba(28, 28, 28, 0.6);
+    color: rgba(var(--site-secondary-rgb), 0.6);
     font-size: 0.85rem;
     
     svg {
@@ -165,7 +165,7 @@
       .days-left {
         font-size: 1.5rem;
         font-weight: 800;
-        color: $primary-color;
+        color: var(--site-primary);
         padding: inherit;
         &.warning {
           color: #dc2626;
@@ -243,7 +243,7 @@
       
       p {
         font-size: 0.95rem;
-        color: $text-dark;
+        color: var(--site-text);
         margin: 0 0 0.75rem 0;
         line-height: 1.6;
         
@@ -252,7 +252,7 @@
         }
         
         strong {
-          color: $primary-color;
+          color: var(--site-primary);
           
           &.warning {
             color: #dc2626;
@@ -272,7 +272,7 @@
       .reminder {
         padding: 1rem;
         background: rgba(233, 30, 99, 0.1);
-        border-right: 4px solid $primary-color;
+        border-right: 4px solid var(--site-primary);
         border-radius: $radius-md;
         font-size: 0.9rem;
       }
@@ -296,7 +296,7 @@
         }
         
         &.total {
-          border-top: 2px solid rgba(28, 28, 28, 0.1);
+          border-top: 2px solid rgba(var(--site-secondary-rgb), 0.1);
           margin-top: 0.5rem;
           padding-top: 1rem;
           font-size: 1.1rem;
@@ -304,13 +304,13 @@
           
           .total-price {
             font-size: 1.5rem;
-            color: $primary-color;
+            color: var(--site-primary);
           }
         }
         
         .original-price {
           text-decoration: line-through;
-          color: $text-light;
+          color: var(--site-text-light);
         }
       }
     }
@@ -322,7 +322,7 @@
       h4 {
         font-size: 1rem;
         font-weight: 700;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 1rem;
       }
       
@@ -365,13 +365,13 @@
             .method-name {
               font-size: 1rem;
               font-weight: 700;
-              color: $text-dark;
+              color: var(--site-text);
               margin-bottom: 0.25rem;
             }
             
             .method-desc {
               font-size: 0.85rem;
-              color: $text-light;
+              color: var(--site-text-light);
             }
           }
           
@@ -442,7 +442,7 @@
   .auto-renewal-note {
     text-align: center;
     font-size: 0.85rem;
-    color: $text-light;
+    color: var(--site-text-light);
     margin-top: 1rem;
     font-style: italic;
   }
@@ -451,8 +451,8 @@
     width: 100%;
     padding: 0.9rem;
     background: transparent;
-    color: $text-dark;
-    border: 2px solid $border-color;
+    color: var(--site-text);
+    border: 2px solid var(--site-primary);
     border-radius: $radius-md;
     font-weight: 600;
     cursor: pointer;
@@ -461,8 +461,8 @@
     font-family: 'Tajawal', sans-serif;
     
     &:hover {
-      border-color: $primary-color;
-      color: $primary-color;
+      border-color: var(--site-primary);
+      color: var(--site-primary);
       background: rgba(233, 30, 99, 0.05);
     }
   }
@@ -501,7 +501,7 @@
       h3 {
         font-size: 1.3rem;
         font-weight: 800;
-        color: $text-dark;
+        color: var(--site-text);
         margin: 0;
       }
     }
@@ -534,25 +534,25 @@
         
         .label {
           font-weight: 600;
-          color: $text-light;
+          color: var(--site-text-light);
           font-size: 0.9rem;
         }
         
         .value {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 0.95rem;
           text-align: left;
           
           &.copy-value {
             position: relative;
-            color: $primary-color;
+            color: var(--site-primary);
             
             .copy-hint {
               position: absolute;
               top: -25px;
               left: 0;
-              background: $text-dark;
+              background: var(--site-text);
               color: white;
               padding: 0.3rem 0.6rem;
               border-radius: $radius-sm;
@@ -580,14 +580,14 @@
         
         .label {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 1rem;
         }
         
         .amount {
           font-size: 1.8rem;
           font-weight: 900;
-          color: $primary-color;
+          color: var(--site-primary);
         }
       }
     }
@@ -612,7 +612,7 @@
       p {
         margin: 0;
         font-size: 0.9rem;
-        color: $text-dark;
+        color: var(--site-text);
         line-height: 1.6;
       }
     }
@@ -624,7 +624,7 @@
     h4 {
       font-size: 1.1rem;
       font-weight: 800;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 1.5rem;
     }
     
@@ -634,7 +634,7 @@
       label {
         display: block;
         font-weight: 700;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 0.75rem;
         font-size: 0.95rem;
       }
@@ -650,7 +650,7 @@
         
         &:focus {
           outline: none;
-          border-color: $primary-color;
+          border-color: var(--site-primary);
           box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.1);
         }
         
@@ -673,26 +673,26 @@
         background: rgba(0, 0, 0, 0.02);
         
         &:hover {
-          border-color: $primary-color;
+          border-color: var(--site-primary);
           background: rgba(233, 30, 99, 0.05);
         }
         
         .upload-icon {
           font-size: 3rem;
-          color: $primary-color;
+          color: var(--site-primary);
           margin-bottom: 1rem;
         }
         
         .upload-text {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           margin-bottom: 0.5rem;
           font-size: 1rem;
         }
         
         .upload-hint {
           font-size: 0.85rem;
-          color: $text-light;
+          color: var(--site-text-light);
         }
       }
       
@@ -748,13 +748,13 @@
           border-radius: $radius-sm;
           
           svg {
-            color: $primary-color;
+            color: var(--site-primary);
             font-size: 1.2rem;
           }
           
           span {
             font-size: 0.9rem;
-            color: $text-dark;
+            color: var(--site-text);
             font-weight: 600;
             word-break: break-all;
           }
@@ -788,7 +788,7 @@
       
       &.cancel-button {
         background: transparent;
-        color: $text-dark;
+        color: var(--site-text);
         border: 2px solid rgba(0, 0, 0, 0.1);
         
         &:hover:not(:disabled) {
@@ -856,7 +856,7 @@
     }
     
     &::-webkit-scrollbar-thumb {
-      background: $primary-color;
+      background: var(--site-primary);
       border-radius: 10px;
     }
     
@@ -905,7 +905,7 @@
         h5 {
           font-size: 1rem;
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           margin: 0 0 0.5rem 0;
           
           @media (max-width: $breakpoint-mobile) {
@@ -918,7 +918,7 @@
           flex-direction: column;
           gap: 0.3rem;
           font-size: 0.85rem;
-          color: $text-light;
+          color: var(--site-text-light);
           
           span {
             display: flex;
@@ -944,7 +944,7 @@
         .amount {
           font-size: 1.3rem;
           font-weight: 800;
-          color: $primary-color;
+          color: var(--site-primary);
           
           @media (max-width: $breakpoint-mobile) {
             font-size: 1.2rem;
@@ -971,7 +971,7 @@
     .no-history {
       text-align: center;
       padding: 3rem 1rem;
-      color: $text-light;
+      color: var(--site-text-light);
       
       svg {
         font-size: 3rem;
@@ -990,8 +990,8 @@
     width: 100%;
     padding: 0.9rem;
     background: transparent;
-    color: $primary-color;
-    border: 2px solid $primary-color;
+    color: var(--site-primary);
+    border: 2px solid var(--site-primary);
     border-radius: $radius-md;
     font-weight: 600;
     cursor: pointer;
@@ -1000,7 +1000,7 @@
     font-family: 'Tajawal', sans-serif;
     
     &:hover {
-      background: $primary-color;
+      background: var(--site-primary);
       color: white;
     }
   }

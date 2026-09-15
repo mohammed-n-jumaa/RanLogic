@@ -74,8 +74,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                 : 'This portal is for clients only. Trainers have a separate login portal.',
               icon: 'info',
               confirmButtonText: isArabic ? 'حسناً' : 'OK',
-              confirmButtonColor: '#FDB813',
-              iconColor: '#FDB813',
+              confirmButtonColor: 'var(--site-primary)',
+              iconColor: 'var(--site-primary)',
             });
             onClose();
             return;
@@ -202,8 +202,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
             text: isArabic ? 'هذه البوابة مخصصة للعملاء فقط. المدربون لديهم بوابة دخول منفصلة.' : 'This portal is for clients only. Trainers have a separate login portal.',
             icon: 'warning',
             confirmButtonText: isArabic ? 'حسناً' : 'OK',
-            confirmButtonColor: '#FDB813',
-            iconColor: '#FDB813',
+            confirmButtonColor: 'var(--site-primary)',
+            iconColor: 'var(--site-primary)',
           });
           onClose();
           setIsSubmitting(false);
@@ -216,8 +216,8 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
             text: isArabic ? (mode === 'login' ? 'تم تسجيل الدخول بنجاح' : 'تم إنشاء حسابك بنجاح! ابدأ رحلة التحول الآن') : (mode === 'login' ? 'Successfully logged in' : 'Your account is ready! Start your transformation journey'),
             icon: 'success',
             confirmButtonText: isArabic ? 'متابعة' : 'Continue',
-            confirmButtonColor: '#FDB813',
-            iconColor: '#FDB813',
+            confirmButtonColor: 'var(--site-primary)',
+            iconColor: 'var(--site-primary)',
             timer: 2000,
             timerProgressBar: true,
             showConfirmButton: true,
@@ -674,7 +674,7 @@ const Auth = ({ isOpen, onClose, initialMode = 'login' }) => {
                           onClick={() => setAgreeTerms(!agreeTerms)}
                           style={{ marginTop: '2px', flexShrink: 0 }}
                         >
-                          {agreeTerms && <CheckCircle style={{ fontSize: '9px', color: '#1C1C1C' }} />}
+                          {agreeTerms && <CheckCircle style={{ fontSize: '9px', color: 'var(--site-secondary)' }} />}
                         </div>
                         <span>{t.terms}</span>
                       </div>

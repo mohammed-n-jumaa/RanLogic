@@ -55,14 +55,14 @@ const NotFound = () => {
                 <svg viewBox="0 0 80 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M40 8C30 8 22 14 20 22H60C58 14 50 8 40 8Z"
-                    stroke="#FDB813"
+                    stroke="var(--site-primary)"
                     strokeWidth="3"
                     fill="none"
                     className="nf__kb-handle"
                   />
-                  <circle cx="40" cy="62" r="32" fill="url(#kbGrad)" stroke="#FDB813" strokeWidth="2.5" />
+                  <circle cx="40" cy="62" r="32" fill="url(#kbGrad)" stroke="var(--site-primary)" strokeWidth="2.5" />
                   <circle cx="40" cy="62" r="22" fill="rgba(10,10,10,0.4)" stroke="rgba(253,184,19,0.3)" strokeWidth="1" />
-                  <text x="40" y="68" textAnchor="middle" fill="#FDB813" fontSize="18" fontWeight="800">0</text>
+                  <text x="40" y="68" textAnchor="middle" fill="var(--site-primary)" fontSize="18" fontWeight="800">0</text>
                   <defs>
                     <radialGradient id="kbGrad" cx="35%" cy="35%">
                       <stop offset="0%" stopColor="rgba(253,184,19,0.2)" />
@@ -87,7 +87,7 @@ const NotFound = () => {
               <path
                 d="M0 30 L80 30 L100 30 L120 10 L140 50 L160 5 L180 55 L200 30 L220 30 L400 30"
                 fill="none"
-                stroke="#FDB813"
+                stroke="var(--site-primary)"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"

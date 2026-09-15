@@ -109,7 +109,7 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
           : 'An error occurred while processing payment. Please try again',
         icon: 'error',
         confirmButtonText: currentLang === 'ar' ? 'حسناً' : 'OK',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       });
     }
   }, 3000);
@@ -132,7 +132,7 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
              </p>`,
         icon: 'success',
         confirmButtonText: currentLang === 'ar' ? 'ممتاز' : 'Great',
-        confirmButtonColor: '#FDB813',
+        confirmButtonColor: 'var(--site-primary)',
       }).then(() => onSuccess());
     }, 800);
   };

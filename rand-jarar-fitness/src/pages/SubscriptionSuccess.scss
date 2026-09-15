@@ -45,8 +45,8 @@
       .spinner-large {
         width: 80px;
         height: 80px;
-        border: 6px solid rgba(253, 184, 19, 0.2);
-        border-top-color: $primary-color;
+        border: 6px solid rgba(var(--site-primary-rgb), 0.2);
+        border-top-color: var(--site-primary);
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin: 0 auto 2rem;
@@ -54,7 +54,7 @@
 
       h2 {
         font-size: 1.8rem;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 1rem;
         font-family: 'Poppins', sans-serif;
 
@@ -64,7 +64,7 @@
       }
 
       p {
-        color: $text-light;
+        color: var(--site-text-light);
         font-size: 1rem;
         font-family: 'Poppins', sans-serif;
       }
@@ -84,7 +84,7 @@
       h2 {
         font-size: 2.2rem;
         font-weight: 900;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 1rem;
         font-family: 'Poppins', sans-serif;
 
@@ -95,7 +95,7 @@
 
       .success-message {
         font-size: 1.1rem;
-        color: $text-light;
+        color: var(--site-text-light);
         line-height: 1.8;
         margin-bottom: 2.5rem;
         font-family: 'Poppins', sans-serif;
@@ -142,24 +142,24 @@
 
             .label {
               font-weight: 600;
-              color: $text-light;
+              color: var(--site-text-light);
               font-size: 0.95rem;
               font-family: 'Poppins', sans-serif;
             }
 
             .value {
               font-weight: 700;
-              color: $text-dark;
+              color: var(--site-text);
               font-size: 1rem;
               font-family: 'Poppins', sans-serif;
 
               &.plan-name {
-                color: $primary-color;
+                color: var(--site-primary);
                 font-size: 1.1rem;
               }
 
               &.amount {
-                color: $primary-color;
+                color: var(--site-primary);
                 font-size: 1.3rem;
               }
 
@@ -180,14 +180,14 @@
       }
 
       .info-box {
-        background: linear-gradient(135deg, rgba(253, 184, 19, 0.1), rgba(253, 184, 19, 0.05));
-        border: 2px solid rgba(253, 184, 19, 0.3);
+        background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.1), rgba(var(--site-primary-rgb), 0.05));
+        border: 2px solid rgba(var(--site-primary-rgb), 0.3);
         border-radius: $radius-md;
         padding: 1rem 1.5rem;
         margin-bottom: 2rem;
 
         p {
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 0.95rem;
           margin: 0;
           line-height: 1.6;
@@ -231,7 +231,7 @@
 
       .error-message {
         font-size: 1rem;
-        color: $text-light;
+        color: var(--site-text-light);
         line-height: 1.8;
         margin-bottom: 2.5rem;
         font-family: 'Poppins', sans-serif;
@@ -273,25 +273,25 @@
         }
 
         &.btn-primary {
-          background: linear-gradient(135deg, $primary-color, #F9A825);
-          color: $secondary-color;
-          box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+          background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
+          color: var(--site-secondary);
+          box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.3);
 
           &:hover {
-            background: linear-gradient(135deg, #F9A825, #F57F17);
+            background: linear-gradient(135deg, var(--site-primary), #F57F17);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(253, 184, 19, 0.4);
+            box-shadow: 0 6px 20px rgba(var(--site-primary-rgb), 0.4);
           }
         }
 
         &.btn-outline {
           background: transparent;
-          color: $text-dark;
+          color: var(--site-text);
           border: 2px solid rgba(0, 0, 0, 0.2);
 
           &:hover {
-            border-color: $primary-color;
-            color: $primary-color;
+            border-color: var(--site-primary);
+            color: var(--site-primary);
             transform: translateY(-2px);
           }
         }

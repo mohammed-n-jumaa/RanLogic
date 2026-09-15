@@ -51,7 +51,7 @@ const FAQ = () => {
           title: isArabic ? 'يرجى تعبئة جميع الحقول' : 'Please fill all fields',
           icon: 'warning',
           confirmButtonText: 'OK',
-          confirmButtonColor: '#FDB813'
+          confirmButtonColor: 'var(--site-primary)'
         });
         return;
       }
@@ -62,7 +62,7 @@ const FAQ = () => {
           title: isArabic ? 'البريد الإلكتروني غير صالح' : 'Invalid email address',
           icon: 'warning',
           confirmButtonText: 'OK',
-          confirmButtonColor: '#FDB813'
+          confirmButtonColor: 'var(--site-primary)'
         });
         return;
       }
@@ -81,8 +81,8 @@ const FAQ = () => {
             : 'Your question has been sent successfully and will be answered soon',
           icon: 'success',
           confirmButtonText: 'OK',
-          confirmButtonColor: '#FDB813',
-          iconColor: '#FDB813',
+          confirmButtonColor: 'var(--site-primary)',
+          iconColor: 'var(--site-primary)',
           background: '#fff',
           customClass: {
             popup: 'faq-swal-popup',
@@ -105,7 +105,7 @@ const FAQ = () => {
           : "We couldn't send your question. Please try again.",
         icon: 'error',
         confirmButtonText: 'OK',
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };

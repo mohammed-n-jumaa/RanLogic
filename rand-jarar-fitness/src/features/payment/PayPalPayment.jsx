@@ -39,7 +39,7 @@ const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPer
         text: error.response?.data?.message || t('حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى', 'An error occurred while processing payment. Please try again'),
         icon: 'error',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };

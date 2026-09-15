@@ -59,7 +59,7 @@ const NutritionTab = () => {
         text: t('فشل في تحديث حالة الوجبة', 'Failed to update meal status'),
         icon: 'error',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };
@@ -74,7 +74,7 @@ const NutritionTab = () => {
         text: t('لا يوجد ملف PDF متاح حالياً', 'No PDF file available at the moment'),
         icon: 'info',
         confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     }
   };

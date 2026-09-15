@@ -8,7 +8,7 @@
   height: 50px;
   border-radius: 50%;
   background: white;
-  border: 3px solid rgba(253, 184, 19, 0.4);
+  border: 3px solid rgba(var(--site-primary-rgb), 0.4);
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@
 
   .globe-icon {
     font-size: 1.3rem;
-    color: $primary-color;
+    color: var(--site-primary);
 
     @media (max-width: $breakpoint-tablet) {
       font-size: 1.1rem;
@@ -38,7 +38,7 @@
   .lang-text {
     font-size: 0.65rem;
     font-weight: 700;
-    color: $secondary-color;
+    color: var(--site-secondary);
     letter-spacing: 0.5px;
 
     @media (max-width: $breakpoint-tablet) {
@@ -47,13 +47,13 @@
   }
 
   &:hover {
-    border-color: $primary-color;
+    border-color: var(--site-primary);
     transform: scale(1.1);
-    box-shadow: 0 12px 30px rgba(253, 184, 19, 0.3);
+    box-shadow: 0 12px 30px rgba(var(--site-primary-rgb), 0.3);
   }
 
   &:focus-visible {
-    outline: 3px solid $primary-color;
+    outline: 3px solid var(--site-primary);
     outline-offset: 2px;
   }
 }

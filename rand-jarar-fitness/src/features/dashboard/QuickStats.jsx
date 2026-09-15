@@ -30,7 +30,7 @@ const QuickStats = ({ data }) => {
       unit: t('يوم', 'days'),
       label: t('التزام متتالي', 'Streak'),
       color: '#f59e0b',
-      bg: '#FAEEDA',
+      bg: 'var(--site-accent)',
     },
     {
       icon: <Dumbbell fill="currentColor" />,
@@ -51,7 +51,7 @@ const QuickStats = ({ data }) => {
       value: `${earnedBadges}/${totalBadges}`,
       label: t('الشارات', 'Badges'),
       color: '#854F0B',
-      bg: '#FAEEDA',
+      bg: 'var(--site-accent)',
     },
   ];
 

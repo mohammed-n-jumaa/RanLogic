@@ -87,7 +87,7 @@ const ProfileContent = () => {
         text: 'فشل في تحميل بيانات الملف الشخصي',
         icon: 'error',
         confirmButtonText: 'حسناً',
-        confirmButtonColor: '#FDB813'
+        confirmButtonColor: 'var(--site-primary)'
       });
     } finally {
       setLoading(false);

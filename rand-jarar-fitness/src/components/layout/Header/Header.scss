@@ -28,7 +28,7 @@
     
     .header-container {
             max-width: 1210px;
-      background: $background-color;
+      background: var(--site-background);
       border-radius: $radius-xl;
       padding: 0.9rem 2rem;
       box-shadow: $shadow-md;
@@ -51,37 +51,37 @@
     }
     
     .nav-link {
-      color: $text-dark;
+      color: var(--site-text);
     }
     
     .menu-toggle span {
-      background: $secondary-color;
+      background: var(--site-secondary);
     }
     
     // Button colors after scroll
     .login-button,
     .language-button {
-      color: $text-dark;
-      border-color: rgba($text-dark, 0.2);
+      color: var(--site-text);
+      border-color: rgba(var(--site-text), 0.2);
       
       &:hover {
-        border-color: $primary-color;
-        color: $primary-color;
-        background: rgba($primary-color, 0.05);
+        border-color: var(--site-primary);
+        color: var(--site-primary);
+        background: rgba(var(--site-primary-rgb), 0.05);
       }
       
       .login-icon,
       .language-icon {
-        color: $primary-color;
+        color: var(--site-primary);
       }
     }
     
     .language-button-mobile {
-      background: rgba($primary-color, 0.12);
-      border-color: rgba($primary-color, 0.3);
+      background: rgba(var(--site-primary-rgb), 0.12);
+      border-color: rgba(var(--site-primary-rgb), 0.3);
       
       .language-icon {
-        color: $primary-color;
+        color: var(--site-primary);
       }
     }
   }
@@ -213,7 +213,7 @@
     width: 320px;
     max-width: 85%;
     height: 100vh;
-    background: linear-gradient(135deg, #1C1C1C 0%, #2a2a2a 50%, #1C1C1C 100%); /* تغيير من البنفسجي للأسود/الرمادي */
+    background: linear-gradient(135deg, var(--site-secondary) 0%, var(--site-secondary) 50%, var(--site-secondary) 100%); /* تغيير من البنفسجي للأسود/الرمادي */
     flex-direction: column;
     justify-content: center;
     gap: 0.3rem;
@@ -233,7 +233,7 @@
       left: 0;
       right: 0;
       height: 120px;
-      background: linear-gradient(180deg, rgba(253, 184, 19, 0.12) 0%, transparent 100%); /* تغيير للأصفر الشفاف */
+      background: linear-gradient(180deg, rgba(var(--site-primary-rgb), 0.12) 0%, transparent 100%); /* تغيير للأصفر الشفاف */
       pointer-events: none;
     }
   }
@@ -260,12 +260,12 @@
     left: 0;
     width: 0;
     height: 2px;
-    background: $primary-color;
+    background: var(--site-primary);
     transition: width $transition-normal;
   }
   
   &:hover {
-    color: $primary-color;
+    color: var(--site-primary);
     
     &::after {
       width: 100%;
@@ -283,7 +283,7 @@
     border-radius: $radius-lg;
     
     &:hover {
-      background: rgba(253, 184, 19, 0.12); /* تغيير للأصفر الشفاف */
+      background: rgba(var(--site-primary-rgb), 0.12); /* تغيير للأصفر الشفاف */
       color: $text-white;
     }
     
@@ -303,7 +303,7 @@
     height: 1px;
     background: linear-gradient(90deg, 
       transparent 0%, 
-      rgba(253, 184, 19, 0.3) 50%, /* تغيير للأصفر الشفاف */
+      rgba(var(--site-primary-rgb), 0.3) 50%, /* تغيير للأصفر الشفاف */
       transparent 100%
     );
     margin: 1rem 0;
@@ -347,7 +347,7 @@
   &.open {
     span:nth-child(1) {
       transform: rotate(45deg) translateY(8px);
-      background: $primary-color;
+      background: var(--site-primary);
     }
     
     span:nth-child(2) {
@@ -356,7 +356,7 @@
     
     span:nth-child(3) {
       transform: rotate(-45deg) translateY(-8px);
-      background: $primary-color;
+      background: var(--site-primary);
     }
   }
   
@@ -398,24 +398,24 @@
   height: 44px;
   min-width: 44px;
   padding: 0;
-  background: rgba(253, 184, 19, 0.15); /* تغيير للأصفر الشفاف */
+  background: rgba(var(--site-primary-rgb), 0.15); /* تغيير للأصفر الشفاف */
   backdrop-filter: blur(10px);
-  border: 2px solid rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+  border: 2px solid rgba(var(--site-primary-rgb), 0.35); /* تغيير للأصفر الشفاف */
   border-radius: 50%;
   cursor: pointer;
   transition: all $transition-normal;
   
   .language-icon {
     font-size: 1.2rem;
-    color: $primary-color;
+    color: var(--site-primary);
     transition: all $transition-normal;
   }
   
   &:hover {
-    background: rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
-    border-color: $primary-color;
+    background: rgba(var(--site-primary-rgb), 0.25); /* تغيير للأصفر الشفاف */
+    border-color: var(--site-primary);
     transform: scale(1.08);
-    box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3); /* تغيير للأصفر الشفاف */
+    box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.3); /* تغيير للأصفر الشفاف */
   }
   
   &:active {
@@ -488,12 +488,12 @@
   }
   
   &:hover {
-    border-color: $primary-color;
-    color: $primary-color;
+    border-color: var(--site-primary);
+    color: var(--site-primary);
     background: rgba(255, 255, 255, 0.1);
     
     .language-icon {
-      color: $primary-color;
+      color: var(--site-primary);
       transform: rotate(180deg);
     }
   }
@@ -525,12 +525,12 @@
   }
   
   &:hover {
-    border-color: $primary-color;
-    color: $primary-color;
+    border-color: var(--site-primary);
+    color: var(--site-primary);
     background: rgba(255, 255, 255, 0.1);
     
     .login-icon {
-      color: $primary-color;
+      color: var(--site-primary);
     }
   }
 }
@@ -546,8 +546,8 @@
     width: 100%;
     padding: 1rem 2.5rem;
     font-size: 1.05rem;
-    background: rgba(253, 184, 19, 0.12); /* تغيير للأصفر الشفاف */
-    border: 2px solid rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+    background: rgba(var(--site-primary-rgb), 0.12); /* تغيير للأصفر الشفاف */
+    border: 2px solid rgba(var(--site-primary-rgb), 0.35); /* تغيير للأصفر الشفاف */
     border-radius: $radius-xl;
     color: rgba(255, 255, 255, 0.95);
     font-family: 'Poppins', 'Tajawal', sans-serif;
@@ -558,15 +558,15 @@
     
     .login-icon {
       font-size: 1.1rem;
-      color: $primary-color;
+      color: var(--site-primary);
     }
     
     &:hover {
-      background: rgba(253, 184, 19, 0.2); /* تغيير للأصفر الشفاف */
-      border-color: $primary-color;
+      background: rgba(var(--site-primary-rgb), 0.2); /* تغيير للأصفر الشفاف */
+      border-color: var(--site-primary);
       color: $text-white;
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
+      box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.25); /* تغيير للأصفر الشفاف */
     }
     
     &:active {
@@ -581,20 +581,20 @@
 .cta-button {
   padding: 0.9rem 2rem;
   background: $gradient-primary;
-  color: $secondary-color; /* تغيير للون الأسود ليكون مقروءاً */
+  color: var(--site-secondary); /* تغيير للون الأسود ليكون مقروءاً */
   border: none;
   border-radius: $radius-xl;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all $transition-normal;
-  box-shadow: 0 4px 20px rgba(253, 184, 19, 0.25); /* تغيير للأصفر الشفاف */
+  box-shadow: 0 4px 20px rgba(var(--site-primary-rgb), 0.25); /* تغيير للأصفر الشفاف */
   font-family: 'Poppins', 'Tajawal', sans-serif;
   white-space: nowrap;
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 28px rgba(253, 184, 19, 0.35); /* تغيير للأصفر الشفاف */
+    box-shadow: 0 6px 28px rgba(var(--site-primary-rgb), 0.35); /* تغيير للأصفر الشفاف */
   }
   
   @media (max-width: $breakpoint-tablet) {
@@ -653,7 +653,7 @@
   
   .spinner {
     font-size: 1.5rem;
-    color: $primary-color;
+    color: var(--site-primary);
     animation: spin 1s linear infinite;
   }
 }
@@ -665,7 +665,7 @@
   justify-content: center;
   height: 60px;
   width: 150px;
-  background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba($secondary-color, 0.05));
+  background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.1), rgba(var(--site-secondary-rgb), 0.05));
   border-radius: $radius-md;
   
   @media (max-width: 1024px) {
@@ -687,7 +687,7 @@
   .placeholder-text {
     font-size: 1.8rem;
     font-weight: 700;
-    color: $primary-color;
+    color: var(--site-primary);
     text-transform: uppercase;
     letter-spacing: 1px;
     
@@ -707,11 +707,11 @@
   justify-content: center;
   height: 60px;
   width: 150px;
-  background: linear-gradient(135deg, rgba($primary-color, 0.1), rgba($secondary-color, 0.05));
+  background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.1), rgba(var(--site-secondary-rgb), 0.05));
   border-radius: $radius-md;
   font-size: 1.8rem;
   font-weight: 700;
-  color: $primary-color;
+  color: var(--site-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
   
@@ -743,7 +743,7 @@
 .language-button .spinner,
 .language-button-mobile .spinner {
   animation: spin 1s linear infinite;
-  color: $primary-color;
+  color: var(--site-primary);
 }
 
 // ===================================
@@ -791,7 +791,7 @@
 .login-button,
 .cta-button {
   &:focus-visible {
-    outline: 3px solid $primary-color;
+    outline: 3px solid var(--site-primary);
     outline-offset: 2px;
   }
   
@@ -803,7 +803,7 @@
 
 .nav-link {
   &:focus-visible {
-    outline: 2px solid $primary-color;
+    outline: 2px solid var(--site-primary);
     outline-offset: 4px;
     border-radius: $radius-sm;
   }
@@ -846,7 +846,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 2px solid rgba(253, 184, 19, 0.3);
+    border: 2px solid rgba(var(--site-primary-rgb), 0.3);
     background: white;
     display: flex;
     align-items: center;
@@ -865,14 +865,14 @@
     
     .avatar-icon {
       font-size: 1.8rem;
-      color: $primary-color;
+      color: var(--site-primary);
     }
     
     .premium-badge {
       position: absolute;
       bottom: -4px;
       right: -4px;
-      background: linear-gradient(135deg, #FFD700, #FFA500);
+      background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
       border: 2px solid white;
       border-radius: 50%;
       width: 20px;
@@ -881,11 +881,11 @@
       align-items: center;
       justify-content: center;
       font-size: 0.7rem;
-      color: $secondary-color;
+      color: var(--site-secondary);
     }
     
     &:hover {
-      border-color: $primary-color;
+      border-color: var(--site-primary);
       transform: scale(1.05);
     }
   }
@@ -912,14 +912,14 @@
       
       .user-name {
         font-weight: 700;
-        color: $secondary-color;
+        color: var(--site-secondary);
         margin-bottom: 0.2rem;
         font-size: 1.05rem;
       }
       
       .user-email {
         font-size: 0.85rem;
-        color: $text-light;
+        color: var(--site-text-light);
         margin-bottom: 0.8rem;
       }
       
@@ -956,19 +956,19 @@
       text-align: left;
       cursor: pointer;
       transition: all $transition-fast;
-      color: $text-dark;
+      color: var(--site-text);
       font-size: 0.95rem;
       font-weight: 500;
       
       svg {
-        color: $primary-color;
+        color: var(--site-primary);
         font-size: 1.1rem;
         opacity: 0.8;
       }
       
       &:hover {
-        background: rgba(253, 184, 19, 0.08);
-        color: $primary-color;
+        background: rgba(var(--site-primary-rgb), 0.08);
+        color: var(--site-primary);
         
         svg {
           opacity: 1;
@@ -976,7 +976,7 @@
       }
       
       &:active {
-        background: rgba(253, 184, 19, 0.15);
+        background: rgba(var(--site-primary-rgb), 0.15);
       }
     }
   }
@@ -990,7 +990,7 @@
   justify-content: center;
   
   .spinner {
-    color: $primary-color;
+    color: var(--site-primary);
     animation: spin 1s linear infinite;
   }
 }
@@ -1011,7 +1011,7 @@
   min-width: 50px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(253, 184, 19, 0.4);
+  border: 2px solid rgba(var(--site-primary-rgb), 0.4);
   
   .avatar-image {
     width: 50px !important;
@@ -1025,7 +1025,7 @@
     .avatar-icon {
       width: 100%;
       height: 100%;
-      color: $primary-color;
+      color: var(--site-primary);
       font-size: 2.2rem;
     }
   }
@@ -1098,7 +1098,7 @@
   }
   
   .logo-first {
-    color: $primary-color;
+    color: var(--site-primary);
   }
   
   .logo-separator {
@@ -1112,7 +1112,7 @@
 
 .header.scrolled .logo-text {
   .logo-first {
-    color: $primary-color;
+    color: var(--site-primary);
   }
   
   .logo-separator {
@@ -1120,7 +1120,7 @@
   }
   
   .logo-second {
-    color: $text-dark;
+    color: var(--site-text);
   }
 }
 

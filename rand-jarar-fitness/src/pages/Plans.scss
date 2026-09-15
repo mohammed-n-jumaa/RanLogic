@@ -4,7 +4,7 @@
 // Plans Page - Complete Styles
 // ===================================
 .plans-page {
-  background: $background-color;
+  background: var(--site-background);
   min-height: 100vh;
   direction: ltr;
   
@@ -58,7 +58,7 @@
       &.orb-1 {
         width: 500px;
         height: 500px;
-        background: radial-gradient(circle, rgba(253, 184, 19, 0.25) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.25) 0%, transparent 70%);
         top: -150px;
         left: -150px;
         animation-delay: 0s;
@@ -67,7 +67,7 @@
       &.orb-2 {
         width: 400px;
         height: 400px;
-        background: radial-gradient(circle, rgba(253, 184, 19, 0.2) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.2) 0%, transparent 70%);
         bottom: -150px;
         right: -150px;
         animation-delay: 7s;
@@ -76,7 +76,7 @@
       &.orb-3 {
         width: 350px;
         height: 350px;
-        background: radial-gradient(circle, rgba(253, 184, 19, 0.15) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.15) 0%, transparent 70%);
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -93,10 +93,10 @@
     .hero-label {
       display: inline-block;
       padding: 0.5rem 1.5rem;
-      background: rgba(253, 184, 19, 0.2);
-      border: 2px solid rgba(253, 184, 19, 0.3);
+      background: rgba(var(--site-primary-rgb), 0.2);
+      border: 2px solid rgba(var(--site-primary-rgb), 0.3);
       border-radius: $radius-xl;
-      color: $primary-color;
+      color: var(--site-primary);
       font-weight: 700;
       font-size: 0.9rem;
       margin-bottom: 1.5rem;
@@ -126,7 +126,7 @@
       }
       
       .gradient-text {
-        background: linear-gradient(135deg, #FFD700, #FFA500);
+        background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -152,11 +152,11 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem 2rem;
-      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
-      border: 2px solid rgba(255, 215, 0, 0.4);
+      background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.2), rgba(var(--site-primary-rgb), 0.2));
+      border: 2px solid rgba(var(--site-primary-rgb), 0.4);
       border-radius: $radius-xl;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+      box-shadow: 0 8px 32px rgba(var(--site-primary-rgb), 0.3);
       
       @media (max-width: $breakpoint-mobile) {
         padding: 0.8rem 1.5rem;
@@ -184,7 +184,7 @@
         }
 
         strong {
-          color: $primary-color;
+          color: var(--site-primary);
           font-size: 1.1rem;
           font-weight: 800;
           margin-bottom: 0.25rem;
@@ -335,7 +335,7 @@
   backdrop-filter: blur(10px);
   border-radius: $radius-xl;
   padding: 1.5rem;
-  box-shadow: 0 8px 32px rgba(253, 184, 19, 0.15);
+  box-shadow: 0 8px 32px rgba(var(--site-primary-rgb), 0.15);
   transition: all $transition-normal;
   border: 2px solid transparent;
   overflow: visible;
@@ -345,14 +345,14 @@
   }
   
   &:hover {
-    box-shadow: 0 12px 40px rgba(253, 184, 19, 0.25);
+    box-shadow: 0 12px 40px rgba(var(--site-primary-rgb), 0.25);
     transform: translateY(-5px);
-    border-color: rgba(253, 184, 19, 0.2);
+    border-color: rgba(var(--site-primary-rgb), 0.2);
   }
   
   &.popular {
-    border-color: $primary-color;
-    box-shadow: 0 12px 40px rgba(253, 184, 19, 0.3);
+    border-color: var(--site-primary);
+    box-shadow: 0 12px 40px rgba(var(--site-primary-rgb), 0.3);
     
     @media (min-width: 1200px) {
       transform: scale(1.05);
@@ -363,7 +363,7 @@
     }
     
     &:hover {
-      box-shadow: 0 15px 50px rgba(253, 184, 19, 0.35);
+      box-shadow: 0 15px 50px rgba(var(--site-primary-rgb), 0.35);
       
       @media (min-width: 1200px) {
         transform: scale(1.05) translateY(-5px);
@@ -397,42 +397,42 @@
   
   &.pink {
     .plan-icon {
-      background: linear-gradient(135deg, #FDB813, #F9A825);
+      background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
     }
     .check-icon {
-      color: #FDB813;
+      color: var(--site-primary);
     }
     .duration-btn.active {
-      border-color: #FDB813;
-      background: rgba(253, 184, 19, 0.1);
-      color: #FDB813;
+      border-color: var(--site-primary);
+      background: rgba(var(--site-primary-rgb), 0.1);
+      color: var(--site-primary);
     }
     .plan-button {
-      background: linear-gradient(135deg, #FDB813, #F9A825);
+      background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
       
       &:hover {
-        background: linear-gradient(135deg, #F9A825, #F57F17);
+        background: linear-gradient(135deg, var(--site-primary), #F57F17);
       }
     }
   }
   
   &.gold {
     .plan-icon {
-      background: linear-gradient(135deg, #FFD700, #FFA500);
+      background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
     }
     .check-icon {
-      color: #FFA500;
+      color: var(--site-primary);
     }
     .duration-btn.active {
-      border-color: #FFA500;
-      background: rgba(255, 165, 0, 0.1);
-      color: #FFA500;
+      border-color: var(--site-primary);
+      background: rgba(var(--site-primary-rgb), 0.1);
+      color: var(--site-primary);
     }
     .plan-button {
-      background: linear-gradient(135deg, #FFD700, #FFA500);
+      background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
       
       &:hover {
-        background: linear-gradient(135deg, #FFA500, #FF8C00);
+        background: linear-gradient(135deg, var(--site-primary), #FF8C00);
       }
     }
   }
@@ -466,7 +466,7 @@
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, #FDB813, #F9A825);
+    background: linear-gradient(135deg, var(--site-primary), var(--site-primary));
     color: white;
     padding: 0.4rem 1.2rem;
     border-radius: 20px;
@@ -476,7 +476,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    box-shadow: 0 4px 15px rgba(253, 184, 19, 0.5);
+    box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.5);
     white-space: nowrap;
     font-family: 'Poppins', sans-serif;
     z-index: 10;
@@ -555,7 +555,7 @@
     .plan-name {
       font-size: 1.4rem;
       font-weight: 900;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 0.3rem;
       font-family: 'Poppins', sans-serif;
       
@@ -565,7 +565,7 @@
     }
     
     .plan-subtitle {
-      color: $text-light;
+      color: var(--site-text-light);
       font-size: 0.85rem;
       font-family: 'Poppins', sans-serif;
       
@@ -603,14 +603,14 @@
 
       svg {
         font-size: 1rem;
-        color: $text-light;
+        color: var(--site-text-light);
         transition: color $transition-fast;
       }
 
       span {
         font-size: 0.7rem;
         font-weight: 700;
-        color: $text-dark;
+        color: var(--site-text);
         white-space: nowrap;
         
         @media (max-width: $breakpoint-mobile) {
@@ -699,7 +699,7 @@
       .currency {
         font-size: 1.1rem;
         font-weight: 800;
-        color: $primary-color;
+        color: var(--site-primary);
         margin-top: 0.35rem;
         font-family: 'Poppins', sans-serif;
       }
@@ -707,7 +707,7 @@
       .price {
         font-size: 2.8rem;
         font-weight: 900;
-        color: $primary-color;
+        color: var(--site-primary);
         line-height: 1;
         font-family: 'Poppins', sans-serif;
         
@@ -718,7 +718,7 @@
     }
     
     .duration {
-      color: $text-light;
+      color: var(--site-text-light);
       font-size: 0.85rem;
       margin-top: 0.4rem;
       display: block;
@@ -764,7 +764,7 @@
       }
       
       &::-webkit-scrollbar-thumb {
-        background: $primary-color;
+        background: var(--site-primary);
         border-radius: 10px;
       }
       
@@ -786,7 +786,7 @@
         }
         
         span {
-          color: $text-dark;
+          color: var(--site-text);
           line-height: 1.5;
           font-size: 0.82rem;
           font-family: 'Poppins', sans-serif;
@@ -874,14 +874,14 @@
     
     &:hover {
       background: rgba(255, 255, 255, 0.25);
-      border-color: rgba(253, 184, 19, 0.5);
+      border-color: rgba(var(--site-primary-rgb), 0.5);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(253, 184, 19, 0.3);
+      box-shadow: 0 6px 20px rgba(var(--site-primary-rgb), 0.3);
     }
     
     .badge-icon {
       font-size: 1.2rem;
-      color: $primary-color;
+      color: var(--site-primary);
     }
   }
 }
@@ -912,7 +912,7 @@
     h2 {
       font-size: 2.5rem;
       font-weight: 900;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 1rem;
       font-family: 'Poppins', sans-serif;
       
@@ -927,7 +927,7 @@
     
     p {
       font-size: 1.1rem;
-      color: $text-light;
+      color: var(--site-text-light);
       font-family: 'Poppins', sans-serif;
       
       @media (max-width: $breakpoint-mobile) {
@@ -959,7 +959,7 @@
       }
       
       &::-webkit-scrollbar-thumb {
-        background: $primary-color;
+        background: var(--site-primary);
         border-radius: 10px;
       }
     }
@@ -1001,7 +1001,7 @@
             
             &.feature-column {
               text-align: left;
-              color: $text-dark;
+              color: var(--site-text);
               min-width: 200px;
               max-width: 250px;
               position: sticky;
@@ -1028,11 +1028,11 @@
               }
               
               &.elite {
-                color: #FDB813;
+                color: var(--site-primary);
               }
               
               &.vip {
-                color: #FFA500;
+                color: var(--site-primary);
               }
               
               &.nutrition {
@@ -1048,7 +1048,7 @@
           transition: background $transition-fast;
           
           &:hover {
-            background: rgba(253, 184, 19, 0.03);
+            background: rgba(var(--site-primary-rgb), 0.03);
           }
           
           td {
@@ -1067,7 +1067,7 @@
             &.feature-name {
               text-align: left;
               font-weight: 600;
-              color: $text-dark;
+              color: var(--site-text);
               position: sticky;
               left: 0;
               background: white;
@@ -1103,7 +1103,7 @@
             
             .feature-value {
               font-weight: 600;
-              color: $primary-color;
+              color: var(--site-primary);
               font-size: 0.9rem;
               display: block;
               font-family: 'Poppins', sans-serif;
@@ -1124,7 +1124,7 @@
       display: block;
       text-align: center;
       padding: 1rem;
-      color: $text-light;
+      color: var(--site-text-light);
       font-size: 0.85rem;
       background: white;
       border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -1170,7 +1170,7 @@
   }
   
   &::-webkit-scrollbar-thumb {
-    background: $primary-color;
+    background: var(--site-primary);
     border-radius: 10px;
   }
   
@@ -1191,7 +1191,7 @@
     h2 {
       font-size: 1.8rem;
       font-weight: 900;
-      color: $text-dark;
+      color: var(--site-text);
       margin: 0;
       font-family: 'Poppins', sans-serif;
       
@@ -1206,7 +1206,7 @@
       border-radius: 50%;
       border: none;
       background: rgba(0, 0, 0, 0.05);
-      color: $text-dark;
+      color: var(--site-text);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1215,8 +1215,8 @@
       flex-shrink: 0;
       
       &:hover {
-        background: rgba(253, 184, 19, 0.1);
-        color: $primary-color;
+        background: rgba(var(--site-primary-rgb), 0.1);
+        color: var(--site-primary);
       }
     }
   }
@@ -1233,7 +1233,7 @@
       border-radius: 50%;
       border: none;
       background: rgba(0, 0, 0, 0.05);
-      color: $text-dark;
+      color: var(--site-text);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1242,8 +1242,8 @@
       flex-shrink: 0;
       
       &:hover {
-        background: rgba(253, 184, 19, 0.1);
-        color: $primary-color;
+        background: rgba(var(--site-primary-rgb), 0.1);
+        color: var(--site-primary);
       }
       
       svg {
@@ -1297,13 +1297,13 @@
         h3 {
           font-size: 1.5rem;
           font-weight: 900;
-          color: $text-dark;
+          color: var(--site-text);
           margin: 0 0 0.25rem 0;
           font-family: 'Poppins', sans-serif;
         }
         
         p {
-          color: $text-light;
+          color: var(--site-text-light);
           margin: 0;
           font-size: 0.9rem;
           font-family: 'Poppins', sans-serif;
@@ -1317,19 +1317,19 @@
           justify-content: center;
           gap: 0.75rem;
           padding: 1rem;
-          background: linear-gradient(135deg, rgba(253, 184, 19, 0.1), rgba(253, 184, 19, 0.05));
+          background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.1), rgba(var(--site-primary-rgb), 0.05));
           border-radius: $radius-md;
           margin-bottom: 1rem;
-          border: 2px solid rgba(253, 184, 19, 0.2);
+          border: 2px solid rgba(var(--site-primary-rgb), 0.2);
 
           svg {
-            color: $primary-color;
+            color: var(--site-primary);
             font-size: 1.2rem;
           }
 
           span {
             font-weight: 800;
-            color: $text-dark;
+            color: var(--site-text);
             font-size: 1rem;
             font-family: 'Poppins', sans-serif;
           }
@@ -1367,7 +1367,7 @@
           font-family: 'Poppins', sans-serif;
           
           span:first-child {
-            color: $text-light;
+            color: var(--site-text-light);
           }
           
           .tag-icon {
@@ -1378,13 +1378,13 @@
           
           .original-price {
             text-decoration: line-through;
-            color: $text-light;
+            color: var(--site-text-light);
             font-weight: 500;
           }
           
           .price {
             font-weight: 700;
-            color: $text-dark;
+            color: var(--site-text);
           }
           
           &.discount-row {
@@ -1407,7 +1407,7 @@
             
             .final-price {
               font-size: 1.8rem;
-              color: $primary-color;
+              color: var(--site-primary);
             }
           }
         }
@@ -1428,7 +1428,7 @@
           
           span {
             font-weight: 600;
-            color: $text-dark;
+            color: var(--site-text);
             font-family: 'Poppins', sans-serif;
           }
         }
@@ -1510,7 +1510,7 @@
         }
 
         &:focus {
-          border-color: #FDB813;
+          border-color: var(--site-primary);
         }
       }
 
@@ -1518,7 +1518,7 @@
         padding: 0.6rem 1.2rem;
         border: none;
         border-radius: $radius-sm;
-        background: #FDB813;
+        background: var(--site-primary);
         color: #1a1a2e;
         font-weight: 700;
         font-size: 0.82rem;
@@ -1595,7 +1595,7 @@
         align-items: center;
         gap: 1rem;
         padding: 1rem;
-        background: rgba(253, 184, 19, 0.05);
+        background: rgba(var(--site-primary-rgb), 0.05);
         border-radius: $radius-sm;
         margin-bottom: 1rem;
         
@@ -1604,14 +1604,14 @@
         }
         
         svg {
-          color: $primary-color;
+          color: var(--site-primary);
           font-size: 1.2rem;
           flex-shrink: 0;
         }
         
         p {
           margin: 0;
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 0.9rem;
           line-height: 1.5;
           font-family: 'Poppins', sans-serif;
@@ -1625,7 +1625,7 @@
       h3 {
         font-size: 1.2rem;
         font-weight: 800;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 1.5rem;
         text-align: center;
         font-family: 'Poppins', sans-serif;
@@ -1671,7 +1671,7 @@
           h4 {
             font-size: 1.3rem;
             font-weight: 800;
-            color: $text-dark;
+            color: var(--site-text);
             margin: 0;
             
             @media (max-width: $breakpoint-mobile) {
@@ -1681,7 +1681,7 @@
           
           p {
             font-size: 0.95rem;
-            color: $text-light;
+            color: var(--site-text-light);
             margin: 0;
             line-height: 1.5;
           }
@@ -1763,7 +1763,7 @@
       
       &.cancel-button {
         background: transparent;
-        color: $text-dark;
+        color: var(--site-text);
         border: 2px solid rgba(0, 0, 0, 0.1);
         
         &:hover {
@@ -1810,8 +1810,8 @@
     .spinner-large {
       width: 60px;
       height: 60px;
-      border: 5px solid rgba(253, 184, 19, 0.2);
-      border-top-color: $primary-color;
+      border: 5px solid rgba(var(--site-primary-rgb), 0.2);
+      border-top-color: var(--site-primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 2rem;
@@ -1830,7 +1830,7 @@
     h3 {
       font-size: 1.8rem;
       font-weight: 900;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 1rem;
       font-family: 'Poppins', sans-serif;
       
@@ -1840,7 +1840,7 @@
     }
     
     p {
-      color: $text-light;
+      color: var(--site-text-light);
       font-size: 1rem;
       font-family: 'Poppins', sans-serif;
     }
@@ -1873,7 +1873,7 @@
       h3 {
         font-size: 1.2rem;
         font-weight: 800;
-        color: $text-dark;
+        color: var(--site-text);
         margin: 0;
         font-family: 'Poppins', sans-serif;
       }
@@ -1896,7 +1896,7 @@
           transition: all $transition-fast;
           
           &:hover {
-            background: rgba(253, 184, 19, 0.05);
+            background: rgba(var(--site-primary-rgb), 0.05);
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             margin-left: -0.5rem;
@@ -1907,27 +1907,27 @@
         
         .label {
           font-weight: 600;
-          color: $text-light;
+          color: var(--site-text-light);
           font-size: 0.9rem;
           font-family: 'Poppins', sans-serif;
         }
         
         .value {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 0.95rem;
           text-align: right;
           font-family: 'Poppins', sans-serif;
           
           &.copy-value {
             position: relative;
-            color: $primary-color;
+            color: var(--site-primary);
             
             .copy-hint {
               position: absolute;
               top: -25px;
               right: 0;
-              background: $text-dark;
+              background: var(--site-text);
               color: white;
               padding: 0.3rem 0.6rem;
               border-radius: $radius-sm;
@@ -1955,7 +1955,7 @@
         
         .label {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           font-size: 1rem;
           font-family: 'Poppins', sans-serif;
         }
@@ -1963,7 +1963,7 @@
         .amount {
           font-size: 1.8rem;
           font-weight: 900;
-          color: $primary-color;
+          color: var(--site-primary);
           font-family: 'Poppins', sans-serif;
         }
       }
@@ -1977,14 +1977,14 @@
         
         .label {
           font-weight: 600;
-          color: $text-light;
+          color: var(--site-text-light);
           font-size: 0.9rem;
           font-family: 'Poppins', sans-serif;
         }
         
         .value {
           font-weight: 700;
-          color: $primary-color;
+          color: var(--site-primary);
           font-size: 0.95rem;
           font-family: 'Poppins', sans-serif;
         }
@@ -2011,7 +2011,7 @@
       p {
         margin: 0;
         font-size: 0.9rem;
-        color: $text-dark;
+        color: var(--site-text);
         line-height: 1.6;
         font-family: 'Poppins', sans-serif;
       }
@@ -2024,7 +2024,7 @@
     h4 {
       font-size: 1.1rem;
       font-weight: 800;
-      color: $text-dark;
+      color: var(--site-text);
       margin-bottom: 1.5rem;
       font-family: 'Poppins', sans-serif;
     }
@@ -2035,7 +2035,7 @@
       label {
         display: block;
         font-weight: 700;
-        color: $text-dark;
+        color: var(--site-text);
         margin-bottom: 0.75rem;
         font-size: 0.95rem;
         font-family: 'Poppins', sans-serif;
@@ -2052,8 +2052,8 @@
         
         &:focus {
           outline: none;
-          border-color: $primary-color;
-          box-shadow: 0 0 0 3px rgba(253, 184, 19, 0.1);
+          border-color: var(--site-primary);
+          box-shadow: 0 0 0 3px rgba(var(--site-primary-rgb), 0.1);
         }
         
         &:disabled {
@@ -2075,19 +2075,19 @@
         background: rgba(0, 0, 0, 0.02);
         
         &:hover {
-          border-color: $primary-color;
-          background: rgba(253, 184, 19, 0.05);
+          border-color: var(--site-primary);
+          background: rgba(var(--site-primary-rgb), 0.05);
         }
         
         .upload-icon {
           font-size: 3rem;
-          color: $primary-color;
+          color: var(--site-primary);
           margin-bottom: 1rem;
         }
         
         .upload-text {
           font-weight: 700;
-          color: $text-dark;
+          color: var(--site-text);
           margin-bottom: 0.5rem;
           font-size: 1rem;
           font-family: 'Poppins', sans-serif;
@@ -2095,7 +2095,7 @@
         
         .upload-hint {
           font-size: 0.85rem;
-          color: $text-light;
+          color: var(--site-text-light);
           font-family: 'Poppins', sans-serif;
         }
       }
@@ -2152,13 +2152,13 @@
           border-radius: $radius-sm;
           
           svg {
-            color: $primary-color;
+            color: var(--site-primary);
             font-size: 1.2rem;
           }
           
           span {
             font-size: 0.9rem;
-            color: $text-dark;
+            color: var(--site-text);
             font-weight: 600;
             word-break: break-all;
             font-family: 'Poppins', sans-serif;
@@ -2194,7 +2194,7 @@
       
       &.cancel-button {
         background: transparent;
-        color: $text-dark;
+        color: var(--site-text);
         border: 2px solid rgba(0, 0, 0, 0.1);
         
         &:hover:not(:disabled) {
@@ -2243,14 +2243,14 @@
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  background: linear-gradient(135deg, #FDB813, #F9A825) !important;
+  background: linear-gradient(135deg, var(--site-primary), var(--site-primary)) !important;
   color: white !important;
   padding: 0.4rem 1.2rem !important;
   border-radius: 20px !important;
   font-weight: 700 !important;
   font-size: 0.75rem !important;
   gap: 0.4rem !important;
-  box-shadow: 0 4px 15px rgba(253, 184, 19, 0.5) !important;
+  box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.5) !important;
   z-index: 10 !important;
   white-space: nowrap !important;
   min-width: fit-content !important;
@@ -2292,8 +2292,8 @@
   .spinner {
     width: 60px;
     height: 60px;
-    border: 5px solid rgba(253, 184, 19, 0.2);
-    border-top-color: #FDB813;
+    border: 5px solid rgba(var(--site-primary-rgb), 0.2);
+    border-top-color: var(--site-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 1.5rem;
@@ -2301,7 +2301,7 @@
 
   p {
     font-size: 1.2rem;
-    color: $text-dark;
+    color: var(--site-text);
     margin-bottom: 1.5rem;
     font-family: 'Poppins', sans-serif; // default
   }
@@ -2320,8 +2320,8 @@
 .plans-error {
   .retry-btn {
     padding: 0.8rem 2rem;
-    background: $primary-color;
-    color: $secondary-color;
+    background: var(--site-primary);
+    color: var(--site-secondary);
     border: none;
     border-radius: $radius-lg;
     font-size: 1rem;
@@ -2332,7 +2332,7 @@
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(253, 184, 19, 0.3);
+      box-shadow: 0 4px 15px rgba(var(--site-primary-rgb), 0.3);
     }
   }
 }
@@ -2407,7 +2407,7 @@
     }
 
     &:focus {
-      border-color: #FDB813;
+      border-color: var(--site-primary);
     }
   }
 
@@ -2415,7 +2415,7 @@
     padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 8px;
-    background: #FDB813;
+    background: var(--site-primary);
     color: #1a1a2e;
     font-weight: 700;
     font-size: 0.82rem;

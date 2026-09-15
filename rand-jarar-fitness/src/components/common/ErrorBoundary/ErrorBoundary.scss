@@ -26,7 +26,7 @@
     &--1 {
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, #FDB813 0%, transparent 70%);
+      background: radial-gradient(circle, var(--site-primary) 0%, transparent 70%);
       top: -200px;
       right: -150px;
       animation: float1 8s ease-in-out infinite;
@@ -35,7 +35,7 @@
     &--2 {
       width: 400px;
       height: 400px;
-      background: radial-gradient(circle, #FDB813 0%, transparent 70%);
+      background: radial-gradient(circle, var(--site-primary) 0%, transparent 70%);
       bottom: -100px;
       left: -100px;
       animation: float2 10s ease-in-out infinite;
@@ -81,9 +81,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    background: rgba(253, 184, 19, 0.1);
-    border: 1px solid rgba(253, 184, 19, 0.25);
-    color: #FDB813;
+    background: rgba(var(--site-primary-rgb), 0.1);
+    border: 1px solid rgba(var(--site-primary-rgb), 0.25);
+    color: var(--site-primary);
     font-size: 0.85rem;
     font-weight: 600;
     padding: 0.4rem 1rem;
@@ -98,7 +98,7 @@
     font-weight: 700;
     margin: 0;
     line-height: 1.3;
-    background: linear-gradient(135deg, #fff 0%, #FDB813 100%);
+    background: linear-gradient(135deg, #fff 0%, var(--site-primary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -169,13 +169,13 @@
     font-family: inherit;
 
     &--primary {
-      background: linear-gradient(135deg, #FDB813 0%, #e5a50f 100%);
+      background: linear-gradient(135deg, var(--site-primary) 0%, #e5a50f 100%);
       color: #0a0a0a;
-      box-shadow: 0 4px 20px rgba(253, 184, 19, 0.3);
+      box-shadow: 0 4px 20px rgba(var(--site-primary-rgb), 0.3);
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 30px rgba(253, 184, 19, 0.45);
+        box-shadow: 0 6px 30px rgba(var(--site-primary-rgb), 0.45);
       }
 
       &:active {

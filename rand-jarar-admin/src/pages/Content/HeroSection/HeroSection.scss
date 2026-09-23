@@ -1,664 +1,569 @@
 @import '../../../assets/styles/variables';
 @import '../../../assets/styles/mixins';
 
-.hero-section {
-  &__loading {
+.hs {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-bottom: $spacing-xl;
+
+  // ── Loader ──
+  &__loader {
     @include flex-center;
     flex-direction: column;
     gap: $spacing-md;
-    min-height: 400px;
+    min-height: 50vh;
     color: var(--text-muted);
-    
-    .spinner-large {
-      width: 50px;
-      height: 50px;
-      border: 4px solid rgba($primary-pink, 0.2);
-      border-top-color: $primary-pink;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    font-size: 0.9rem;
   }
-  
-  &__header {
-    margin-bottom: $spacing-xl;
+  &__loader-spin {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border-color);
+    border-top-color: $primary-pink;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
   }
-  
-  &__header-content {
-    @include flex-between;
+
+  // ── Top Bar ──
+  &__topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: $spacing-md;
-    
+    margin-bottom: $spacing-lg;
+
     @include mobile {
       flex-direction: column;
-      align-items: flex-start;
     }
   }
-  
-  &__title-section {
-    flex: 1;
-  }
-  
+
   &__title {
-    @include flex-center;
-    gap: $spacing-sm;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 800;
     color: var(--text-primary);
-    margin-bottom: $spacing-xs;
-    
-    @include mobile {
-      font-size: 1.5rem;
-    }
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em;
   }
-  
-  &__subtitle {
-    font-size: 1rem;
-    color: var(--text-secondary);
+
+  &__desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
     margin: 0;
   }
-  
-  &__save-btn {
-    @include flex-center;
-    gap: $spacing-xs;
-    padding: 0.8rem 1.5rem;
-    background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
-    color: #ffffff;
-    border: none;
-    border-radius: $radius-md;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all $transition-normal;
-    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
-    
-    &:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba($primary-pink, 0.5);
-    }
-    
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-    
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-top-color: #ffffff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    
-    @include mobile {
-      width: 100%;
-    }
-  }
-  
-  // Alert Messages
-  &__alert {
-    @include flex-center;
-    gap: $spacing-sm;
-    padding: $spacing-md;
-    border-radius: $radius-md;
-    margin-bottom: $spacing-md;
-    font-weight: 600;
-    
-    &--success {
-      background: rgba($success, 0.1);
-      border: 1px solid $success;
-      color: $success;
-    }
-    
-    &--error {
-      background: rgba($danger, 0.1);
-      border: 1px solid $danger;
-      color: $danger;
-    }
-  }
-  
-  // Content Layout
-  &__content {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: $spacing-xl;
-    
-    @include tablet {
-      grid-template-columns: 1fr;
-    }
-    
-    @include mobile {
-      grid-template-columns: 1fr;
-    }
-  }
-}
 
-// Video Upload Card
-.video-upload-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
-  height: fit-content;
-  
-  &__title {
-    @include flex-center;
-    gap: $spacing-sm;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: $spacing-md;
-  }
-}
-
-// Video Dropzone
-.video-dropzone {
-  border: 2px dashed var(--border-color);
-  border-radius: $radius-lg;
-  padding: $spacing-xl;
-  text-align: center;
-  cursor: pointer;
-  transition: all $transition-normal;
-  background: var(--bg-hover);
-  min-height: 300px;
-  @include flex-center;
-  
-  &:hover {
-    border-color: $primary-pink;
-    background: rgba($primary-pink, 0.05);
-  }
-  
-  &__input {
-    display: none;
-  }
-  
-  &__content {
-    width: 100%;
-  }
-  
-  &__icon {
-    @include flex-center;
-    margin: 0 auto $spacing-md;
-    width: 80px;
-    height: 80px;
-    background: rgba($primary-pink, 0.1);
-    border-radius: 50%;
-    color: $primary-pink;
-  }
-  
-  &__title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: $spacing-xs;
-  }
-  
-  &__subtitle {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: $spacing-md;
-  }
-  
-  &__button {
-    padding: 0.7rem 1.5rem;
+  &__save {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.2rem;
     background: $primary-pink;
-    color: #ffffff;
+    color: #fff;
     border: none;
     border-radius: $radius-sm;
+    font-size: 0.84rem;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: all $transition-normal;
-    
-    &:hover {
-      background: $primary-pink-light;
-      transform: translateY(-2px);
-    }
-  }
-  
-  &__info {
-    margin-top: $spacing-md;
-    padding-top: $spacing-md;
-    border-top: 1px solid var(--border-color);
-    
-    p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: $spacing-xs;
-      
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-  }
-}
 
-// Video Preview
-.video-preview {
-  &__container {
-    position: relative;
-    border-radius: $radius-md;
-    overflow: hidden;
-    margin-bottom: $spacing-md;
-    background: #000;
-
+    &:hover:not(:disabled) { background: $primary-pink-dark; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 
-  &__video {
-    width: 100%;
-    height: 100%;         
-    object-fit: contain;  
-    display: block;
-    background: #000;     
-  }
-
-
-  
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    @include flex-center;
-    background: rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    transition: opacity $transition-normal;
-    
-    .video-preview__container:hover & {
-      opacity: 1;
-    }
-  }
-  
-  &__play-btn {
-    @include flex-center;
-    width: 64px;
-    height: 64px;
-    background: rgba($primary-pink, 0.9);
-    border: none;
+  &__spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(#fff, 0.3);
+    border-top-color: #fff;
     border-radius: 50%;
-    color: #ffffff;
-    cursor: pointer;
-    transition: all $transition-normal;
-    
-    &:hover {
-      background: $primary-pink;
-      transform: scale(1.1);
-    }
+    animation: spin 0.8s linear infinite;
   }
-  
+
+  // ── Progress ──
   &__progress {
-    margin-bottom: $spacing-sm;
-  }
-  
-  &__progress-bar {
-    width: 100%;
-    height: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: $spacing-md;
+    height: 4px;
     background: var(--bg-hover);
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: $spacing-xs;
+    position: relative;
   }
-  
   &__progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, $primary-pink 0%, $primary-pink-light 100%);
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, $primary-pink, $primary-purple);
+    border-radius: 4px;
+    transition: width 0.35s ease;
   }
-  
-  &__progress-text {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
+  &__progress-pct {
+    position: absolute;
+    right: -40px;
+    font-size: 0.72rem;
     font-weight: 600;
+    color: var(--text-muted);
   }
-  
-  &__actions {
+
+  // ── Main Grid ──
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: $spacing-lg;
+    align-items: start;
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__col {
     display: flex;
-    gap: $spacing-sm;
+    flex-direction: column;
+    gap: $spacing-md;
   }
-  
-  &__action-btn {
-    @include flex-center;
+
+  // ═══════════════════════════════════
+  //  Language Tabs
+  // ═══════════════════════════════════
+  &__lang {
+    display: flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-md;
+    overflow: hidden;
+  }
+
+  &__lang-tab {
     flex: 1;
-    gap: $spacing-xs;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
     padding: 0.7rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    &:hover { color: var(--text-secondary); background: var(--bg-hover); }
+
+    &--on {
+      color: $primary-pink;
+      border-bottom-color: $primary-pink;
+      background: rgba($primary-pink, 0.04);
+    }
+  }
+
+  // ═══════════════════════════════════
+  //  Form
+  // ═══════════════════════════════════
+  &__form {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-lg;
+    padding: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
     background: var(--bg-hover);
     border: 1px solid var(--border-color);
     border-radius: $radius-sm;
     color: var(--text-primary);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all $transition-normal;
-    
-    &:hover {
-      background: var(--bg-primary);
-      border-color: $primary-pink;
-      color: $primary-pink;
-    }
-    
-    &--danger:hover {
-      border-color: $danger;
-      color: $danger;
-    }
-  }
-}
+    font-size: 0.92rem;
+    font-family: inherit;
+    transition: border-color $transition-normal;
 
-// Language Tabs
-.language-tabs {
-  display: flex;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-lg;
-}
-
-.language-tab {
-  @include flex-center;
-  gap: $spacing-xs;
-  flex: 1;
-  padding: 0.8rem 1rem;
-  background: var(--bg-card);
-  border: 2px solid var(--border-color);
-  border-radius: $radius-md;
-  color: var(--text-secondary);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all $transition-normal;
-  
-  &:hover {
-    border-color: $primary-pink;
-    color: var(--text-primary);
-  }
-  
-  &.active {
-    background: rgba($primary-pink, 0.1);
-    border-color: $primary-pink;
-    color: $primary-pink;
-  }
-}
-
-// Content Editor Card
-.content-editor-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
-  margin-bottom: $spacing-lg;
-  
-  &__title {
-    @include flex-center;
-    gap: $spacing-sm;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: $spacing-lg;
-  }
-}
-
-// Form Elements
-.form-group {
-  margin-bottom: $spacing-lg;
-}
-
-.form-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: $spacing-xs;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  background: var(--bg-hover);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-sm;
-  color: var(--text-primary);
-  font-size: 1rem;
-  transition: all $transition-normal;
-  
-  &:focus {
-    outline: none;
-    border-color: $primary-pink;
-    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
-  }
-  
-  &--highlight {
-    font-weight: 600;
-    color: $primary-pink;
-  }
-  
-  &::placeholder {
-    color: var(--text-muted);
-  }
-}
-
-.form-textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  background: var(--bg-hover);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-sm;
-  color: var(--text-primary);
-  font-size: 1rem;
-  font-family: inherit;
-  resize: vertical;
-  transition: all $transition-normal;
-  
-  &:focus {
-    outline: none;
-    border-color: $primary-pink;
-    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
-  }
-  
-  &::placeholder {
-    color: var(--text-muted);
-  }
-}
-
-.form-hint {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  margin-top: $spacing-xs;
-}
-
-// Stats Editor Card
-.stats-editor-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-lg;
-  padding: $spacing-lg;
-  
-  &__header {
-    @include flex-between;
-    margin-bottom: $spacing-md;
-  }
-  
-  &__title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-  
-  &__add-btn {
-    @include flex-center;
-    gap: $spacing-xs;
-    padding: 0.6rem 1rem;
-    background: rgba($primary-pink, 0.1);
-    border: 1px solid $primary-pink;
-    border-radius: $radius-sm;
-    color: $primary-pink;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all $transition-normal;
-    
-    &:hover {
-      background: rgba($primary-pink, 0.2);
-      transform: translateY(-2px);
-    }
-  }
-}
-
-// Stats List
-.stats-list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-sm;
-  
-  &__empty {
-    @include flex-center;
-    flex-direction: column;
-    gap: $spacing-xs;
-    padding: $spacing-xl;
-    text-align: center;
-    color: var(--text-muted);
-    border: 2px dashed var(--border-color);
-    border-radius: $radius-md;
-    
-    &-en {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-  }
-}
-
-// Stat Item
-.stat-item {
-  background: var(--bg-hover);
-  border: 1px solid var(--border-color);
-  border-radius: $radius-md;
-  padding: $spacing-md;
-  transition: all $transition-normal;
-  
-  &--editing {
-    border-color: $primary-pink;
-    box-shadow: 0 0 0 3px rgba($primary-pink, 0.1);
-  }
-  
-  &__display {
-    @include flex-between;
-    gap: $spacing-md;
-  }
-  
-  &__content {
-    flex: 1;
-  }
-  
-  &__value {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: $spacing-xs;
-  }
-  
-  &__labels {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xs / 2;
-  }
-  
-  &__label {
-    font-size: 0.9rem;
-    
-    &--ar {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-    
-    &--en {
-      color: var(--text-secondary);
-      font-size: 0.85rem;
-    }
-  }
-  
-  &__actions {
-    display: flex;
-    gap: $spacing-xs;
-  }
-  
-  &__action-btn {
-    @include flex-center;
-    width: 32px;
-    height: 32px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: $radius-sm;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all $transition-normal;
-    
-    &:hover {
-      background: var(--bg-primary);
-      border-color: $primary-pink;
-      color: $primary-pink;
-    }
-    
-    &--danger:hover {
-      border-color: $danger;
-      color: $danger;
-    }
-  }
-  
-  &__form {
-    display: flex;
-    gap: $spacing-sm;
-  }
-  
-  &__inputs {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xs;
-  }
-  
-  &__lang-inputs {
-    display: flex;
-    flex-direction: column;
-    gap: $spacing-xs;
-  }
-  
-  &__input {
-    width: 100%;
-    padding: 0.6rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: $radius-sm;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    transition: all $transition-normal;
-    
     &:focus {
       outline: none;
       border-color: $primary-pink;
+      box-shadow: 0 0 0 2px rgba($primary-pink, 0.08);
     }
-    
-    &--value {
-      font-weight: 700;
-      font-size: 1.2rem;
+
+    &--accent {
       color: $primary-pink;
+      font-weight: 600;
+    }
+
+    &::placeholder { color: var(--text-muted); opacity: 0.6; }
+  }
+
+  &__textarea {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-sm;
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color $transition-normal;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-pink;
+      box-shadow: 0 0 0 2px rgba($primary-pink, 0.08);
+    }
+
+    &::placeholder { color: var(--text-muted); opacity: 0.6; }
+  }
+
+  &__hint {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+  // ═══════════════════════════════════
+  //  Stats
+  // ═══════════════════════════════════
+  &__stats {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-lg;
+    overflow: hidden;
+  }
+
+  &__stats-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem $spacing-md;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &__stats-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  &__stats-add {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.8rem;
+    background: rgba($primary-pink, 0.08);
+    border: none;
+    border-radius: 50px;
+    color: $primary-pink;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background $transition-normal;
+
+    &:hover { background: rgba($primary-pink, 0.15); }
+  }
+
+  &__stats-list {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__stats-empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: $spacing-lg;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+
+    p:last-child { font-size: 0.75rem; opacity: 0.7; }
+  }
+
+  // ── Single Stat ──
+  &__stat {
+    background: var(--bg-hover);
+    border: 1px solid transparent;
+    border-radius: $radius-md;
+    padding: 0.65rem 0.8rem;
+    transition: all $transition-normal;
+
+    &--edit {
+      border-color: $primary-pink;
+      background: rgba($primary-pink, 0.03);
     }
   }
-  
-  &__save-btn {
+
+  &__stat-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  &__stat-num {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: $primary-pink;
+    min-width: 60px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  &__stat-labels {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__stat-ar {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__stat-en {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__stat-acts {
+    display: flex;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  &__stat-btn {
     @include flex-center;
-    width: 36px;
-    align-self: flex-start;
-    height: 36px;
-    background: $primary-pink;
-    border: none;
-    border-radius: $radius-sm;
-    color: #ffffff;
+    width: 30px; height: 30px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-muted);
     cursor: pointer;
     transition: all $transition-normal;
-    
+
+    &:hover { background: var(--bg-card); color: $primary-pink; border-color: $primary-pink; }
+    &--del:hover { color: $danger; border-color: $danger; }
+  }
+
+  &__stat-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: start;
+  }
+
+  &__stat-val-input {
+    width: 80px;
+    padding: 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: $primary-pink;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    font-family: inherit;
+
+    &:focus { outline: none; border-color: $primary-pink; }
+  }
+
+  &__stat-lbl-input {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.5rem 0.6rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.82rem;
+    font-family: inherit;
+
+    &:focus { outline: none; border-color: $primary-pink; }
+    &::placeholder { color: var(--text-muted); opacity: 0.5; }
+  }
+
+  &__stat-ok {
+    @include flex-center;
+    width: 34px; height: 34px;
+    background: $primary-pink;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    transition: background $transition-normal;
+
+    &:hover { background: $primary-pink-dark; }
+  }
+
+  // ═══════════════════════════════════
+  //  Video Column
+  // ═══════════════════════════════════
+  &__vid-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+
+    svg { opacity: 0.6; }
+  }
+
+  // ── Drop Zone ──
+  &__dropzone {
+    background: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: $radius-lg;
+    padding: $spacing-xl $spacing-md;
+    text-align: center;
+    cursor: pointer;
+    transition: all $transition-normal;
+    min-height: 260px;
+    @include flex-center;
+    flex-direction: column;
+
     &:hover {
-      background: $primary-pink-light;
-      transform: scale(1.05);
+      border-color: $primary-pink;
+      background: rgba($primary-pink, 0.03);
     }
+  }
+
+  &__dropzone-icon {
+    @include flex-center;
+    width: 56px; height: 56px;
+    background: rgba($primary-pink, 0.08);
+    border-radius: $radius-md;
+    color: $primary-pink;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__dropzone-txt {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: $spacing-xs;
+
+    span { color: $primary-pink; text-decoration: underline; text-underline-offset: 3px; }
+  }
+
+  &__dropzone-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  &__dot {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.4;
+  }
+
+  // ── Player ──
+  &__player {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: $radius-lg;
+    overflow: hidden;
+  }
+
+  &__player-wrap {
+    position: relative;
+    background: #000;
+    aspect-ratio: 16/9;
+  }
+
+  &__player-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__player-overlay {
+    position: absolute;
+    inset: 0;
+    @include flex-center;
+    background: rgba(0,0,0,0.25);
+    opacity: 0;
+    transition: opacity $transition-normal;
+    cursor: pointer;
+
+    .hs__player-wrap:hover & { opacity: 1; }
+  }
+
+  &__play-btn {
+    @include flex-center;
+    width: 52px; height: 52px;
+    background: rgba($primary-pink, 0.85);
+    backdrop-filter: blur(6px);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    &:hover { background: $primary-pink; transform: scale(1.08); }
+  }
+
+  &__player-bar {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+  }
+
+  &__player-act {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.65rem;
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-normal;
+
+    &:first-child { border-left: none; }
+    &:hover { background: var(--bg-hover); color: $primary-pink; }
+    &--del:hover { color: $danger; }
   }
 }
 
-// Animations
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

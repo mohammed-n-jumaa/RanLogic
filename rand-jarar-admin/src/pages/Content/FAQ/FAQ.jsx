@@ -24,22 +24,17 @@ import faqApi from '../../../api/faqApi';
 import './FAQ.scss';
 
 const FAQ = () => {
-  // Section Settings
   const [sectionSettings, setSectionSettings] = useState({
     titleAr: '',
     titleEn: '',
     subtitleAr: '',
-    subtitleEn: ''
+    subtitleEn: '',
   });
-  
-  // Separate Arabic and English Questions
+
   const [arabicQuestions, setArabicQuestions] = useState([]);
   const [englishQuestions, setEnglishQuestions] = useState([]);
-  
-  // User Questions from Form
   const [userQuestions, setUserQuestions] = useState([]);
-  
-  // UI State
+
   const [editingArabic, setEditingArabic] = useState(null);
   const [editingEnglish, setEditingEnglish] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
@@ -49,32 +44,25 @@ const FAQ = () => {
   const [activeUserTab, setActiveUserTab] = useState('faq');
   const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [unreadCount, setUnreadCount] = useState(0);
-  
-  // Load data on mount
+
   useEffect(() => {
     fetchFaqData();
   }, []);
-  
-  // Fetch FAQ data
+
   const fetchFaqData = async () => {
     setIsLoading(true);
     try {
       const response = await faqApi.getAll();
-      
       if (response.success && response.data) {
         const { section, arabic_questions, english_questions, user_questions, unread_count } = response.data;
-        
-        // Set section
         if (section) {
           setSectionSettings({
             titleEn: section.title_en || '',
             titleAr: section.title_ar || '',
             subtitleEn: section.subtitle_en || '',
-            subtitleAr: section.subtitle_ar || ''
+            subtitleAr: section.subtitle_ar || '',
           });
         }
-        
-        // Set questions
         setArabicQuestions(arabic_questions || []);
         setEnglishQuestions(english_questions || []);
         setUserQuestions(user_questions || []);
@@ -82,36 +70,23 @@ const FAQ = () => {
       }
     } catch (error) {
       console.error('Error fetching FAQ data:', error);
-      Swal.fire({
-        title: 'خطأ',
-        text: 'فشل تحميل البيانات',
-        icon: 'error',
-        confirmButtonColor: '#e91e63'
-      });
+      Swal.fire({ title: 'خطأ', text: 'فشل تحميل البيانات', icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsLoading(false);
     }
   };
-  
-  // Arabic Questions Management
+
   const handleAddArabicQuestion = () => {
-    const newQuestion = {
-      id: null,
-      category: '',
-      question: '',
-      answer: '',
-      icon: '❓'
-    };
-    setArabicQuestions([...arabicQuestions, newQuestion]);
+    setArabicQuestions([...arabicQuestions, { id: null, category: '', question: '', answer: '', icon: '❓' }]);
     setEditingArabic(arabicQuestions.length);
   };
-  
+
   const handleUpdateArabicQuestion = (index, field, value) => {
     const updated = [...arabicQuestions];
     updated[index] = { ...updated[index], [field]: value };
     setArabicQuestions(updated);
   };
-  
+
   const handleDeleteArabicQuestion = async (index) => {
     const result = await Swal.fire({
       title: 'هل أنت متأكد؟',
@@ -121,34 +96,24 @@ const FAQ = () => {
       confirmButtonColor: '#E91E63',
       cancelButtonColor: '#757575',
       confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء'
+      cancelButtonText: 'إلغاء',
     });
-    
     if (!result.isConfirmed) return;
-    
     setArabicQuestions(arabicQuestions.filter((_, i) => i !== index));
     if (editingArabic === index) setEditingArabic(null);
   };
-  
-  // English Questions Management
+
   const handleAddEnglishQuestion = () => {
-    const newQuestion = {
-      id: null,
-      category: '',
-      question: '',
-      answer: '',
-      icon: '❓'
-    };
-    setEnglishQuestions([...englishQuestions, newQuestion]);
+    setEnglishQuestions([...englishQuestions, { id: null, category: '', question: '', answer: '', icon: '❓' }]);
     setEditingEnglish(englishQuestions.length);
   };
-  
+
   const handleUpdateEnglishQuestion = (index, field, value) => {
     const updated = [...englishQuestions];
     updated[index] = { ...updated[index], [field]: value };
     setEnglishQuestions(updated);
   };
-  
+
   const handleDeleteEnglishQuestion = async (index) => {
     const result = await Swal.fire({
       title: 'Are you sure?',
@@ -158,60 +123,33 @@ const FAQ = () => {
       confirmButtonColor: '#E91E63',
       cancelButtonColor: '#757575',
       confirmButtonText: 'Yes, delete',
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Cancel',
     });
-    
     if (!result.isConfirmed) return;
-    
     setEnglishQuestions(englishQuestions.filter((_, i) => i !== index));
     if (editingEnglish === index) setEditingEnglish(null);
   };
-  
-  // User Questions Management
+
   const handleMarkAsRead = async (id) => {
     try {
       await faqApi.markAsRead(id);
-      
-      setUserQuestions(userQuestions.map(q => 
-        q.id === id ? { ...q, is_read: true } : q
-      ));
-      
-      setUnreadCount(prev => Math.max(0, prev - 1));
-      
-      Swal.fire({
-        icon: 'success',
-        title: 'تم',
-        text: 'تم تحديد السؤال كمقروء',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      setUserQuestions(userQuestions.map((q) => (q.id === id ? { ...q, is_read: true } : q)));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error) {
       console.error('Error marking as read:', error);
     }
   };
-  
+
   const handleMarkAsUnread = async (id) => {
     try {
       await faqApi.markAsUnread(id);
-      
-      setUserQuestions(userQuestions.map(q => 
-        q.id === id ? { ...q, is_read: false } : q
-      ));
-      
-      setUnreadCount(prev => prev + 1);
-      
-      Swal.fire({
-        icon: 'success',
-        title: 'تم',
-        text: 'تم تحديد السؤال كغير مقروء',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      setUserQuestions(userQuestions.map((q) => (q.id === id ? { ...q, is_read: false } : q)));
+      setUnreadCount((prev) => prev + 1);
     } catch (error) {
       console.error('Error marking as unread:', error);
     }
   };
-  
+
   const handleDeleteUserQuestion = async (id) => {
     const result = await Swal.fire({
       title: 'هل أنت متأكد؟',
@@ -221,90 +159,41 @@ const FAQ = () => {
       confirmButtonColor: '#E91E63',
       cancelButtonColor: '#757575',
       confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء'
+      cancelButtonText: 'إلغاء',
     });
-    
     if (!result.isConfirmed) return;
-    
     try {
       await faqApi.deleteUserQuestion(id);
-      
-      setUserQuestions(userQuestions.filter(q => q.id !== id));
-      
-      Swal.fire({
-        icon: 'success',
-        title: 'تم الحذف',
-        text: 'تم حذف السؤال بنجاح',
-        timer: 1500,
-        showConfirmButton: false
-      });
+      setUserQuestions(userQuestions.filter((q) => q.id !== id));
+      Swal.fire({ icon: 'success', title: 'تم الحذف', text: 'تم حذف السؤال بنجاح', timer: 1500, showConfirmButton: false });
     } catch (error) {
       console.error('Error deleting question:', error);
-      Swal.fire({
-        title: 'خطأ',
-        text: 'فشل حذف السؤال',
-        icon: 'error',
-        confirmButtonColor: '#e91e63'
-      });
+      Swal.fire({ title: 'خطأ', text: 'فشل حذف السؤال', icon: 'error', confirmButtonColor: '#e91e63' });
     }
   };
-  
-  // Save all changes
+
   const handleSaveChanges = async () => {
-    // Validate
     if (!sectionSettings.titleAr || !sectionSettings.titleEn) {
-      Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى ملء عنوان القسم بالعربية والإنجليزية',
-        icon: 'warning',
-        confirmButtonColor: '#e91e63'
-      });
+      Swal.fire({ title: 'تنبيه', text: 'يرجى ملء عنوان القسم بالعربية والإنجليزية', icon: 'warning', confirmButtonColor: '#e91e63' });
       return;
     }
-    
     setIsSaving(true);
-    
     try {
       const data = {
         section: {
           title_en: sectionSettings.titleEn,
           title_ar: sectionSettings.titleAr,
           subtitle_en: sectionSettings.subtitleEn,
-          subtitle_ar: sectionSettings.subtitleAr
+          subtitle_ar: sectionSettings.subtitleAr,
         },
-        arabic_questions: arabicQuestions.map((q, index) => ({
-          id: q.id,
-          category: q.category,
-          question: q.question,
-          answer: q.answer,
-          icon: q.icon,
-          order: index
-        })),
-        english_questions: englishQuestions.map((q, index) => ({
-          id: q.id,
-          category: q.category,
-          question: q.question,
-          answer: q.answer,
-          icon: q.icon,
-          order: index
-        }))
+        arabic_questions: arabicQuestions.map((q, i) => ({ id: q.id, category: q.category, question: q.question, answer: q.answer, icon: q.icon, order: i })),
+        english_questions: englishQuestions.map((q, i) => ({ id: q.id, category: q.category, question: q.question, answer: q.answer, icon: q.icon, order: i })),
       };
-      
       const response = await faqApi.updateAll(data);
-      
       if (response.success) {
         setUploadStatus('success');
         setTimeout(() => setUploadStatus(null), 3000);
-        
-        Swal.fire({
-          icon: 'success',
-          title: 'تم الحفظ بنجاح!',
-          text: 'تم حفظ جميع التغييرات',
-          confirmButtonColor: '#E91E63',
-          timer: 2000
-        });
-        
-        // Refresh data
+        Swal.fire({ icon: 'success', title: 'تم الحفظ بنجاح!', text: 'تم حفظ جميع التغييرات', timer: 2000, confirmButtonColor: '#E91E63' });
         await fetchFaqData();
         setEditingArabic(null);
         setEditingEnglish(null);
@@ -313,434 +202,358 @@ const FAQ = () => {
       console.error('Error saving changes:', error);
       setUploadStatus('error');
       setTimeout(() => setUploadStatus(null), 3000);
-      
-      Swal.fire({
-        title: 'خطأ',
-        text: error.response?.data?.message || 'فشل حفظ التغييرات',
-        icon: 'error',
-        confirmButtonColor: '#e91e63'
-      });
+      Swal.fire({ title: 'خطأ', text: error.response?.data?.message || 'فشل حفظ التغييرات', icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsSaving(false);
     }
   };
-  
+
+  const questions = activeTab === 'arabic' ? arabicQuestions : englishQuestions;
+  const editing = activeTab === 'arabic' ? editingArabic : editingEnglish;
+  const setEditing = activeTab === 'arabic' ? setEditingArabic : setEditingEnglish;
+  const handleAdd = activeTab === 'arabic' ? handleAddArabicQuestion : handleAddEnglishQuestion;
+  const handleUpdate = activeTab === 'arabic' ? handleUpdateArabicQuestion : handleUpdateEnglishQuestion;
+  const handleDeleteQ = activeTab === 'arabic' ? handleDeleteArabicQuestion : handleDeleteEnglishQuestion;
+  const isAr = activeTab === 'arabic';
+
   if (isLoading) {
     return (
-      <div className="faq-admin">
-        <div className="faq-admin__loading">
-          <div className="spinner-large"></div>
-          <p>جاري تحميل البيانات...</p>
+      <div className="fq">
+        <div className="fq__loader">
+          <div className="fq__loader-spin" />
+          <span>جاري تحميل البيانات...</span>
         </div>
       </div>
     );
   }
-  
+
   return (
-    <div className="faq-admin">
-      {/* Page Header */}
-      <motion.div
-        className="faq-admin__header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="faq-admin__header-content">
-          <div className="faq-admin__title-section">
-            <h1 className="faq-admin__title">
-              <HelpCircle size={32} />
-              إدارة الأسئلة الشائعة
-            </h1>
-            <p className="faq-admin__subtitle">
-              قم بإدارة الأسئلة الشائعة وأسئلة المستخدمين
-            </p>
-          </div>
-          
-          <motion.button
-            className="faq-admin__save-btn"
-            onClick={handleSaveChanges}
-            disabled={isSaving}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isSaving ? (
-              <>
-                <div className="spinner"></div>
-                <span>جاري الحفظ...</span>
-              </>
-            ) : (
-              <>
-                <Save size={18} />
-                <span>حفظ التغييرات</span>
-              </>
-            )}
-          </motion.button>
+    <div className="fq">
+      {/* ── Top Bar ── */}
+      <div className="fq__topbar">
+        <div>
+          <h1 className="fq__title">إدارة الأسئلة الشائعة</h1>
+          <p className="fq__desc">إدارة الأسئلة الشائعة وأسئلة المستخدمين</p>
         </div>
-      </motion.div>
-      
-      {/* Main Tabs */}
-      <div className="faq-admin__main-tabs">
+        <motion.button
+          className="fq__save"
+          onClick={handleSaveChanges}
+          disabled={isSaving}
+          whileTap={{ scale: 0.97 }}
+        >
+          {isSaving ? (
+            <>
+              <div className="fq__spinner" />
+              <span>جاري الحفظ...</span>
+            </>
+          ) : (
+            <>
+              <Save size={16} />
+              <span>حفظ التغييرات</span>
+            </>
+          )}
+        </motion.button>
+      </div>
+
+      {/* ── Main Tabs (FAQ / User Questions) ── */}
+      <div className="fq__main-tabs">
         <button
-          className={`faq-admin__main-tab ${activeUserTab === 'faq' ? 'faq-admin__main-tab--active' : ''}`}
+          className={`fq__main-tab ${activeUserTab === 'faq' ? 'fq__main-tab--on' : ''}`}
           onClick={() => setActiveUserTab('faq')}
         >
-          <HelpCircle size={20} />
+          <HelpCircle size={16} />
           الأسئلة الشائعة
         </button>
         <button
-          className={`faq-admin__main-tab ${activeUserTab === 'user-questions' ? 'faq-admin__main-tab--active' : ''}`}
+          className={`fq__main-tab ${activeUserTab === 'user-questions' ? 'fq__main-tab--on' : ''}`}
           onClick={() => setActiveUserTab('user-questions')}
         >
-          <MessageSquare size={20} />
+          <MessageSquare size={16} />
           أسئلة المستخدمين
-          {unreadCount > 0 && (
-            <span className="faq-admin__main-tab-badge">
-              {unreadCount}
-            </span>
-          )}
+          {unreadCount > 0 && <span className="fq__badge">{unreadCount}</span>}
         </button>
       </div>
-      
-      {/* FAQ Management Section */}
+
+      {/* ════════ FAQ Section ════════ */}
       {activeUserTab === 'faq' && (
-        <div className="faq-admin__content">
-          <motion.div
-            className="faq-admin__editor-panel"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            {/* Section Settings */}
-            <div className="section-settings-card">
-              <h2 className="section-settings-card__title">
-                <Globe size={24} />
-                إعدادات القسم
-              </h2>
-              
-              <div className="settings-grid">
-                <div className="form-group">
-                  <label className="form-label">🇸🇦 العنوان (عربي)</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={sectionSettings.titleAr}
-                    onChange={(e) => setSectionSettings({...sectionSettings, titleAr: e.target.value})}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label className="form-label">🇬🇧 Title (English)</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={sectionSettings.titleEn}
-                    onChange={(e) => setSectionSettings({...sectionSettings, titleEn: e.target.value})}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label className="form-label">🇸🇦 الوصف (عربي)</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={sectionSettings.subtitleAr}
-                    onChange={(e) => setSectionSettings({...sectionSettings, subtitleAr: e.target.value})}
-                  />
-                </div>
-                
-                <div className="form-group">
-                  <label className="form-label">🇬🇧 Subtitle (English)</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    value={sectionSettings.subtitleEn}
-                    onChange={(e) => setSectionSettings({...sectionSettings, subtitleEn: e.target.value})}
-                  />
-                </div>
+        <motion.div
+          className="fq__content"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {/* Section Settings */}
+          <div className="fq__settings">
+            <div className="fq__settings-title">إعدادات القسم</div>
+            <div className="fq__settings-grid">
+              <div className="fq__field">
+                <label className="fq__label">🇸🇦 العنوان (عربي)</label>
+                <input
+                  type="text"
+                  className="fq__input"
+                  value={sectionSettings.titleAr}
+                  onChange={(e) => setSectionSettings({ ...sectionSettings, titleAr: e.target.value })}
+                />
+              </div>
+              <div className="fq__field">
+                <label className="fq__label">🇬🇧 Title (English)</label>
+                <input
+                  type="text"
+                  className="fq__input"
+                  value={sectionSettings.titleEn}
+                  onChange={(e) => setSectionSettings({ ...sectionSettings, titleEn: e.target.value })}
+                />
+              </div>
+              <div className="fq__field">
+                <label className="fq__label">🇸🇦 الوصف (عربي)</label>
+                <input
+                  type="text"
+                  className="fq__input"
+                  value={sectionSettings.subtitleAr}
+                  onChange={(e) => setSectionSettings({ ...sectionSettings, subtitleAr: e.target.value })}
+                />
+              </div>
+              <div className="fq__field">
+                <label className="fq__label">🇬🇧 Subtitle (English)</label>
+                <input
+                  type="text"
+                  className="fq__input"
+                  value={sectionSettings.subtitleEn}
+                  onChange={(e) => setSectionSettings({ ...sectionSettings, subtitleEn: e.target.value })}
+                />
               </div>
             </div>
-            
-            {/* Language Tabs */}
-            <div className="language-tabs">
-              <button
-                className={`language-tab ${activeTab === 'arabic' ? 'language-tab--active' : ''}`}
-                onClick={() => setActiveTab('arabic')}
-              >
-                <Languages size={18} />
-                🇸🇦 الأسئلة العربية ({arabicQuestions.length})
-              </button>
-              <button
-                className={`language-tab ${activeTab === 'english' ? 'language-tab--active' : ''}`}
-                onClick={() => setActiveTab('english')}
-              >
-                <Languages size={18} />
-                🇬🇧 English Questions ({englishQuestions.length})
-              </button>
-            </div>
-            
-            {/* Questions List */}
-            <div className="questions-list-card">
-              <div className="questions-list-card__header">
-                <h2 className="questions-list-card__title">
-                  {activeTab === 'arabic' ? 'الأسئلة' : 'Questions'}
-                </h2>
-                <button
-                  className="questions-list-card__add-btn"
-                  onClick={activeTab === 'arabic' ? handleAddArabicQuestion : handleAddEnglishQuestion}
-                >
-                  <Plus size={18} />
-                  {activeTab === 'arabic' ? 'إضافة سؤال' : 'Add Question'}
-                </button>
-              </div>
-              
-              <div className="questions-list">
-                {(activeTab === 'arabic' ? arabicQuestions : englishQuestions).map((question, index) => (
-                  <QuestionCard
-                    key={index}
-                    question={question}
-                    index={index}
-                    isEditing={activeTab === 'arabic' ? editingArabic === index : editingEnglish === index}
-                    isExpanded={expandedQuestion === index}
-                    lang={activeTab}
-                    onEdit={() => activeTab === 'arabic' ? setEditingArabic(index) : setEditingEnglish(index)}
-                    onSave={() => activeTab === 'arabic' ? setEditingArabic(null) : setEditingEnglish(null)}
-                    onCancel={() => {
-                      if (!question.question) {
-                        if (activeTab === 'arabic') {
-                          handleDeleteArabicQuestion(index);
-                        } else {
-                          handleDeleteEnglishQuestion(index);
-                        }
-                      }
-                      activeTab === 'arabic' ? setEditingArabic(null) : setEditingEnglish(null);
-                    }}
-                    onDelete={() => activeTab === 'arabic' ? handleDeleteArabicQuestion(index) : handleDeleteEnglishQuestion(index)}
-                    onUpdate={(field, value) => activeTab === 'arabic' ? handleUpdateArabicQuestion(index, field, value) : handleUpdateEnglishQuestion(index, field, value)}
-                    onToggleExpand={() => setExpandedQuestion(expandedQuestion === index ? null : index)}
-                  />
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-      
-      {/* User Questions Section */}
-      {activeUserTab === 'user-questions' && (
-        <UserQuestionsPanel
-          questions={userQuestions}
-          onMarkAsRead={handleMarkAsRead}
-          onMarkAsUnread={handleMarkAsUnread}
-          onDelete={handleDeleteUserQuestion}
-        />
-      )}
-    </div>
-  );
-};
+          </div>
 
-// Question Card Component (same as before)
-const QuestionCard = ({ question, index, isEditing, isExpanded, lang, onEdit, onSave, onCancel, onDelete, onUpdate, onToggleExpand }) => {
-  return (
-    <motion.div
-      className={`question-card ${isEditing ? 'question-card--editing' : ''}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05 }}
-    >
-      {isEditing ? (
-        <div className="question-card__form">
-          <div className="question-card__icon-section">
-            <label className="form-label">{lang === 'arabic' ? 'الأيقونة' : 'Icon'}</label>
-            <input
-              type="text"
-              className="question-card__icon-input"
-              value={question.icon}
-              onChange={(e) => onUpdate('icon', e.target.value)}
-              placeholder="😊"
-              maxLength="2"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label className="form-label">{lang === 'arabic' ? 'الفئة' : 'Category'}</label>
-            <input
-              type="text"
-              className="form-input"
-              value={question.category}
-              onChange={(e) => onUpdate('category', e.target.value)}
-              placeholder={lang === 'arabic' ? 'مثال: البداية' : 'Example: Getting Started'}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label className="form-label">{lang === 'arabic' ? 'السؤال' : 'Question'}</label>
-            <input
-              type="text"
-              className="form-input"
-              value={question.question}
-              onChange={(e) => onUpdate('question', e.target.value)}
-              placeholder={lang === 'arabic' ? 'السؤال...' : 'Question...'}
-            />
-          </div>
-          
-          <div className="form-group">
-            <label className="form-label">{lang === 'arabic' ? 'الجواب' : 'Answer'}</label>
-            <textarea
-              className="form-textarea"
-              value={question.answer}
-              onChange={(e) => onUpdate('answer', e.target.value)}
-              placeholder={lang === 'arabic' ? 'الجواب...' : 'Answer...'}
-              rows="3"
-            />
-          </div>
-          
-          <div className="question-card__actions">
-            <button className="question-card__save-btn" onClick={onSave}>
-              <Check size={18} />
-              {lang === 'arabic' ? 'حفظ' : 'Save'}
-            </button>
-            <button className="question-card__cancel-btn" onClick={onCancel}>
-              {lang === 'arabic' ? 'إلغاء' : 'Cancel'}
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="question-card__header">
-            <div className="question-card__icon">{question.icon}</div>
-            <div className="question-card__info">
-              <div className="question-card__category">{question.category}</div>
-              <h3 className="question-card__question">{question.question}</h3>
-            </div>
-            <div className="question-card__header-actions">
-              <button className="question-card__action-btn" onClick={onToggleExpand}>
-                <motion.div
-                  animate={{ rotate: isExpanded ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <ChevronDown size={18} />
-                </motion.div>
-              </button>
-              <button className="question-card__action-btn" onClick={onEdit}>
-                <Edit2 size={16} />
-              </button>
-              <button className="question-card__action-btn question-card__action-btn--danger" onClick={onDelete}>
-                <Trash2 size={16} />
-              </button>
-            </div>
-          </div>
-          
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                className="question-card__content"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="question-card__answer">
-                  <strong>{lang === 'arabic' ? 'الجواب:' : 'Answer:'}</strong> {question.answer}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </>
-      )}
-    </motion.div>
-  );
-};
-
-// User Questions Panel Component (محدث - بدون إجابة وأرشفة)
-const UserQuestionsPanel = ({ questions, onMarkAsRead, onMarkAsUnread, onDelete }) => {
-  return (
-    <motion.div className="user-questions-panel" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="user-questions-card">
-        <h2 className="user-questions-card__title">أسئلة المستخدمين من الفورم</h2>
-        
-        <div className="user-questions-list">
-          {questions.map((question, index) => (
-            <motion.div
-              key={question.id}
-              className={`user-question-item ${question.is_read ? 'user-question-item--read' : 'user-question-item--unread'}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
+          {/* Language Tabs */}
+          <div className="fq__lang">
+            <button
+              className={`fq__lang-tab ${activeTab === 'arabic' ? 'fq__lang-tab--on' : ''}`}
+              onClick={() => setActiveTab('arabic')}
             >
-              <div className="user-question-item__header">
-                <div className="user-question-item__user">
-                  <div className="user-question-item__avatar">
-                    <User size={20} />
-                  </div>
-                  <div className="user-question-item__info">
-                    <h3 className="user-question-item__name">{question.name}</h3>
-                    <div className="user-question-item__meta">
-                      <Mail size={14} />
-                      <span>{question.email}</span>
-                    </div>
-                    <div className="user-question-item__meta">
-                      <Calendar size={14} />
-                      <span>{question.date}</span>
-                    </div>
-                  </div>
+              🇸🇦 الأسئلة العربية ({arabicQuestions.length})
+            </button>
+            <button
+              className={`fq__lang-tab ${activeTab === 'english' ? 'fq__lang-tab--on' : ''}`}
+              onClick={() => setActiveTab('english')}
+            >
+              🇬🇧 English ({englishQuestions.length})
+            </button>
+          </div>
+
+          {/* Questions List */}
+          <div className="fq__qlist">
+            <div className="fq__qlist-head">
+              <span className="fq__qlist-title">
+                {isAr ? 'الأسئلة' : 'Questions'}
+              </span>
+              <button className="fq__qlist-add" onClick={handleAdd}>
+                <Plus size={15} />
+                {isAr ? 'إضافة سؤال' : 'Add Question'}
+              </button>
+            </div>
+
+            <div className="fq__qlist-items">
+              {questions.length === 0 && (
+                <div className="fq__qlist-empty">
+                  <HelpCircle size={32} />
+                  <p>{isAr ? 'لا توجد أسئلة' : 'No questions yet'}</p>
                 </div>
-                
-                <div className={`user-question-item__status ${question.is_read ? 'user-question-item__status--read' : 'user-question-item__status--unread'}`}>
-                  {question.is_read ? (
-                    <>
-                      <CheckCircle size={16} />
-                      <span>مقروء</span>
-                    </>
+              )}
+
+              {questions.map((q, index) => (
+                <motion.div
+                  key={index}
+                  className={`fq__q ${editing === index ? 'fq__q--edit' : ''}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.04 }}
+                >
+                  {editing === index ? (
+                    /* ── Edit Mode ── */
+                    <div className="fq__q-form">
+                      <div className="fq__q-form-row">
+                        <input
+                          className="fq__q-icon-input"
+                          value={q.icon}
+                          onChange={(e) => handleUpdate(index, 'icon', e.target.value)}
+                          maxLength="2"
+                          placeholder="❓"
+                        />
+                        <input
+                          className="fq__q-cat-input"
+                          value={q.category}
+                          onChange={(e) => handleUpdate(index, 'category', e.target.value)}
+                          placeholder={isAr ? 'الفئة' : 'Category'}
+                        />
+                        <button
+                          className="fq__q-ok"
+                          onClick={() => setEditing(null)}
+                        >
+                          <Check size={16} />
+                        </button>
+                      </div>
+                      <input
+                        className="fq__q-input"
+                        value={q.question}
+                        onChange={(e) => handleUpdate(index, 'question', e.target.value)}
+                        placeholder={isAr ? 'السؤال...' : 'Question...'}
+                      />
+                      <textarea
+                        className="fq__q-textarea"
+                        value={q.answer}
+                        onChange={(e) => handleUpdate(index, 'answer', e.target.value)}
+                        placeholder={isAr ? 'الجواب...' : 'Answer...'}
+                        rows="3"
+                      />
+                    </div>
                   ) : (
+                    /* ── Display Mode ── */
                     <>
-                      <AlertCircle size={16} />
-                      <span>جديد</span>
+                      <div
+                        className="fq__q-row"
+                        onClick={() =>
+                          setExpandedQuestion(expandedQuestion === index ? null : index)
+                        }
+                      >
+                        <span className="fq__q-icon">{q.icon}</span>
+                        <div className="fq__q-text">
+                          {q.category && (
+                            <span className="fq__q-cat">{q.category}</span>
+                          )}
+                          <span className="fq__q-question">{q.question}</span>
+                        </div>
+                        <div className="fq__q-acts">
+                          <motion.div
+                            className="fq__q-chevron"
+                            animate={{ rotate: expandedQuestion === index ? 180 : 0 }}
+                          >
+                            <ChevronDown size={16} />
+                          </motion.div>
+                          <button
+                            className="fq__q-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditing(index);
+                            }}
+                          >
+                            <Edit2 size={13} />
+                          </button>
+                          <button
+                            className="fq__q-btn fq__q-btn--del"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteQ(index);
+                            }}
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      </div>
+
+                      <AnimatePresence>
+                        {expandedQuestion === index && (
+                          <motion.div
+                            className="fq__q-answer"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                          >
+                            <p>{q.answer}</p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </>
                   )}
-                </div>
-              </div>
-              
-              <div className="user-question-item__question">
-                <strong>السؤال:</strong> {question.question}
-              </div>
-              
-              <div className="user-question-item__actions">
-                {question.is_read ? (
-                  <button
-                    className="user-question-item__action-btn"
-                    onClick={() => onMarkAsUnread(question.id)}
-                  >
-                    <EyeOff size={16} />
-                    تحديد كغير مقروء
-                  </button>
-                ) : (
-                  <button
-                    className="user-question-item__action-btn user-question-item__action-btn--primary"
-                    onClick={() => onMarkAsRead(question.id)}
-                  >
-                    <Eye size={16} />
-                    تحديد كمقروء
-                  </button>
-                )}
-                <button
-                  className="user-question-item__action-btn user-question-item__action-btn--danger"
-                  onClick={() => onDelete(question.id)}
-                >
-                  <Trash2 size={16} />
-                  حذف
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        
-        {questions.length === 0 && (
-          <div className="user-questions-list__empty">
-            <MessageSquare size={64} />
-            <p>لا توجد أسئلة من المستخدمين</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        )}
-      </div>
-    </motion.div>
+        </motion.div>
+      )}
+
+      {/* ════════ User Questions Section ════════ */}
+      {activeUserTab === 'user-questions' && (
+        <motion.div
+          className="fq__uq"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          {userQuestions.length === 0 ? (
+            <div className="fq__uq-empty">
+              <MessageSquare size={32} />
+              <p>لا توجد أسئلة من المستخدمين</p>
+            </div>
+          ) : (
+            <div className="fq__uq-list">
+              {userQuestions.map((uq, index) => (
+                <motion.div
+                  key={uq.id}
+                  className={`fq__uq-item ${uq.is_read ? 'fq__uq-item--read' : ''}`}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <div className="fq__uq-top">
+                    <div className="fq__uq-user">
+                      <div className="fq__uq-avatar">
+                        <User size={16} />
+                      </div>
+                      <div>
+                        <span className="fq__uq-name">{uq.name}</span>
+                        <span className="fq__uq-meta">
+                          <Mail size={11} /> {uq.email}
+                        </span>
+                        <span className="fq__uq-meta">
+                          <Calendar size={11} /> {uq.date}
+                        </span>
+                      </div>
+                    </div>
+                    <span className={`fq__uq-status ${uq.is_read ? 'fq__uq-status--read' : ''}`}>
+                      {uq.is_read ? (
+                        <>
+                          <CheckCircle size={13} /> مقروء
+                        </>
+                      ) : (
+                        <>
+                          <AlertCircle size={13} /> جديد
+                        </>
+                      )}
+                    </span>
+                  </div>
+
+                  <p className="fq__uq-question">{uq.question}</p>
+
+                  <div className="fq__uq-acts">
+                    {uq.is_read ? (
+                      <button
+                        className="fq__uq-btn"
+                        onClick={() => handleMarkAsUnread(uq.id)}
+                      >
+                        <EyeOff size={14} /> غير مقروء
+                      </button>
+                    ) : (
+                      <button
+                        className="fq__uq-btn fq__uq-btn--primary"
+                        onClick={() => handleMarkAsRead(uq.id)}
+                      >
+                        <Eye size={14} /> مقروء
+                      </button>
+                    )}
+                    <button
+                      className="fq__uq-btn fq__uq-btn--del"
+                      onClick={() => handleDeleteUserQuestion(uq.id)}
+                    >
+                      <Trash2 size={14} /> حذف
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </motion.div>
+      )}
+    </div>
   );
 };
 

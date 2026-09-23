@@ -10,7 +10,12 @@ import {
   CheckCircle,
   Clock,
   XCircle,
-  Calendar
+  Calendar,
+  DollarSign,
+  Users,
+  TrendingUp,
+  X,
+  ChevronDown
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import subscriptionsApi from '../../api/subscriptionsApi';
@@ -28,14 +33,13 @@ const PayPalSubscriptions = () => {
     total: 0,
     active: 0,
     expired: 0,
-    totalRevenue: 0
+    totalRevenue: 0,
   });
 
-  // Filters
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+const [statusFilter, setStatusFilter] = useState('approved');
   const [planFilter, setPlanFilter] = useState('all');
-  const [showFilters, setShowFilters] = useState(false);
+  const [expandedPlan, setExpandedPlan] = useState(null);
 
   useEffect(() => {
     fetchSubscriptions();
@@ -49,7 +53,6 @@ const PayPalSubscriptions = () => {
     setIsLoading(true);
     try {
       const response = await subscriptionsApi.getPayPalSubscriptions();
-      
       if (response.success) {
         setSubscriptions(response.data || []);
         calculateStats(response.data || []);
@@ -60,7 +63,7 @@ const PayPalSubscriptions = () => {
         title: 'خطأ',
         text: 'فشل تحميل البيانات',
         icon: 'error',
-        confirmButtonColor: '#e91e63'
+        confirmButtonColor: '#e91e63',
       });
     } finally {
       setIsLoading(false);
@@ -69,55 +72,49 @@ const PayPalSubscriptions = () => {
 
   const calculateStats = (data) => {
     const now = new Date();
-    const active = data.filter(s => 
-      s.status === 'approved' && 
-      new Date(s.ends_at) > now
+    const active = data.filter(
+      (s) => s.status === 'approved' && new Date(s.ends_at) > now
     ).length;
-    
-    const expired = data.filter(s => 
-      s.status === 'approved' && 
-      new Date(s.ends_at) <= now
+    const expired = data.filter(
+      (s) => s.status === 'approved' && new Date(s.ends_at) <= now
     ).length;
-
     const totalRevenue = data
-      .filter(s => s.status === 'approved')
+      .filter((s) => s.status === 'approved')
       .reduce((sum, s) => sum + parseFloat(s.amount || 0), 0);
 
     setStats({
       total: data.length,
       active,
       expired,
-      totalRevenue: totalRevenue.toFixed(2)
+      totalRevenue: totalRevenue.toFixed(2),
     });
   };
 
   const applyFilters = () => {
     let filtered = [...subscriptions];
 
-    // Search filter
     if (searchQuery) {
-      filtered = filtered.filter(sub =>
-        sub.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sub.user?.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        sub.paypal_order_id?.toLowerCase().includes(searchQuery.toLowerCase())
+      filtered = filtered.filter(
+        (sub) =>
+          sub.user?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          sub.user?.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          sub.paypal_order_id?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Status filter
     if (statusFilter !== 'all') {
       if (statusFilter === 'expired') {
-        filtered = filtered.filter(sub => 
-          sub.status === 'approved' && 
-          new Date(sub.ends_at) <= new Date()
+        filtered = filtered.filter(
+          (sub) =>
+            sub.status === 'approved' && new Date(sub.ends_at) <= new Date()
         );
       } else {
-        filtered = filtered.filter(sub => sub.status === statusFilter);
+        filtered = filtered.filter((sub) => sub.status === statusFilter);
       }
     }
 
-    // Plan filter
     if (planFilter !== 'all') {
-      filtered = filtered.filter(sub => sub.plan_type === planFilter);
+      filtered = filtered.filter((sub) => sub.plan_type === planFilter);
     }
 
     setFilteredSubscriptions(filtered);
@@ -137,23 +134,23 @@ const PayPalSubscriptions = () => {
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#607d8b',
       confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء'
+      cancelButtonText: 'إلغاء',
     });
 
     if (!result.isConfirmed) return;
 
     try {
-      const response = await subscriptionsApi.deleteSubscription(subscription.id);
-
+      const response = await subscriptionsApi.deleteSubscription(
+        subscription.id
+      );
       if (response.success) {
         Swal.fire({
           title: 'تم الحذف',
           text: 'تم حذف الاشتراك بنجاح',
           icon: 'success',
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
         });
-
         fetchSubscriptions();
       }
     } catch (error) {
@@ -162,7 +159,7 @@ const PayPalSubscriptions = () => {
         title: 'خطأ',
         text: 'فشل حذف الاشتراك',
         icon: 'error',
-        confirmButtonColor: '#e91e63'
+        confirmButtonColor: '#e91e63',
       });
     }
   };
@@ -182,28 +179,26 @@ const PayPalSubscriptions = () => {
   };
 
   const exportData = () => {
-    // Export functionality
     Swal.fire({
       title: 'قريباً',
       text: 'ميزة التصدير قيد التطوير',
       icon: 'info',
-      confirmButtonColor: '#e91e63'
+      confirmButtonColor: '#e91e63',
     });
   };
 
-  // Group subscriptions by plan
   const groupedSubscriptions = () => {
     const groups = {
-      basic: [],
-      nutrition: [],
       elite: [],
       vip: [],
-      expired: []
+      nutrition: [],
+      basic: [],
+      expired: [],
     };
 
     const now = new Date();
 
-    filteredSubscriptions.forEach(sub => {
+    filteredSubscriptions.forEach((sub) => {
       if (sub.status === 'approved' && new Date(sub.ends_at) <= now) {
         groups.expired.push(sub);
       } else {
@@ -220,7 +215,7 @@ const PayPalSubscriptions = () => {
       nutrition: 'خطة التغذية',
       elite: 'الخطة المتميزة',
       vip: 'الخطة VIP',
-      expired: 'اشتراكات منتهية'
+      expired: 'اشتراكات منتهية',
     };
     return names[type] || type;
   };
@@ -231,219 +226,160 @@ const PayPalSubscriptions = () => {
       nutrition: '🥗',
       elite: '🔥',
       vip: '👑',
-      expired: '⏰'
+      expired: '⏰',
     };
     return icons[type] || '📦';
   };
 
+  const pct = (n) =>
+    stats.total > 0 ? Math.round((n / stats.total) * 100) : 0;
+
   if (isLoading) {
     return (
-      <div className="paypal-subscriptions">
-        <div className="paypal-subscriptions__loading">
-          <div className="spinner-large"></div>
-          <p>جاري تحميل البيانات...</p>
+      <div className="pp">
+        <div className="pp__loader">
+          <div className="pp__loader-spin" />
+          <span>جاري تحميل الاشتراكات...</span>
         </div>
       </div>
     );
   }
 
   const groups = groupedSubscriptions();
+  const hasFilters =
+    searchQuery || statusFilter !== 'all' || planFilter !== 'all';
 
   return (
-    <div className="paypal-subscriptions">
-      {/* Header */}
-      <motion.div
-        className="paypal-subscriptions__header"
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <div className="paypal-subscriptions__header-content">
-          <div className="paypal-subscriptions__title-section">
-            <h1 className="paypal-subscriptions__title">
-              <CreditCard size={32} />
-              اشتراكات PayPal
-            </h1>
-            <p className="paypal-subscriptions__subtitle">
-              إدارة جميع اشتراكات PayPal والمدفوعات
-            </p>
-          </div>
-
-          <div className="paypal-subscriptions__actions">
-            <button
-              className="paypal-subscriptions__action-btn"
-              onClick={() => fetchSubscriptions()}
-            >
-              <RefreshCw size={18} />
-              <span>تحديث</span>
-            </button>
-
-            <button
-              className="paypal-subscriptions__action-btn"
-              onClick={exportData}
-            >
-              <Download size={18} />
-              <span>تصدير</span>
-            </button>
-
-            <button
-              className="paypal-subscriptions__add-btn"
-              onClick={handleAddNew}
-            >
-              <Plus size={18} />
-              <span>إضافة اشتراك</span>
-            </button>
-          </div>
+    <div className="pp">
+      {/* ── Top Bar ── */}
+      <div className="pp__topbar">
+        <div>
+          <h1 className="pp__title">اشتراكات PayPal</h1>
+          <p className="pp__desc">إدارة الاشتراكات والمدفوعات</p>
         </div>
-      </motion.div>
-
-      {/* Stats */}
-      <motion.div
-        className="paypal-subscriptions__stats"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
-        <div className="stat-card stat-card--blue">
-          <div className="stat-card__icon">
-            <CreditCard size={24} />
-          </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">{stats.total}</div>
-            <div className="stat-card__label">إجمالي الاشتراكات</div>
-          </div>
+        <div className="pp__topbar-acts">
+          <button className="pp__icon-btn" onClick={fetchSubscriptions} title="تحديث">
+            <RefreshCw size={15} />
+          </button>
+          <button className="pp__icon-btn" onClick={exportData} title="تصدير">
+            <Download size={15} />
+          </button>
+          <motion.button
+            className="pp__add"
+            onClick={handleAddNew}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Plus size={16} />
+            <span>إضافة اشتراك</span>
+          </motion.button>
         </div>
+      </div>
 
-        <div className="stat-card stat-card--success">
-          <div className="stat-card__icon">
-            <CheckCircle size={24} />
-          </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">{stats.active}</div>
-            <div className="stat-card__label">اشتراكات نشطة</div>
-          </div>
+      {/* ── Stats Strip ── */}
+      <div className="pp__stats">
+        <div className="pp__stat">
+          <CreditCard size={18} className="pp__stat-ic pp__stat-ic--blue" />
+          <span className="pp__stat-num">{stats.total}</span>
+          <span className="pp__stat-label">إجمالي</span>
         </div>
-
-        <div className="stat-card stat-card--warning">
-          <div className="stat-card__icon">
-            <Clock size={24} />
-          </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">{stats.expired}</div>
-            <div className="stat-card__label">اشتراكات منتهية</div>
-          </div>
+        <div className="pp__stat-sep" />
+        <div className="pp__stat">
+          <CheckCircle size={18} className="pp__stat-ic pp__stat-ic--green" />
+          <span className="pp__stat-num">{stats.active}</span>
+          <span className="pp__stat-label">نشط</span>
+          <span className="pp__stat-pct pp__stat-pct--green">{pct(stats.active)}%</span>
         </div>
-
-        <div className="stat-card stat-card--pink">
-          <div className="stat-card__icon">
-            <Calendar size={24} />
-          </div>
-          <div className="stat-card__content">
-            <div className="stat-card__value">${stats.totalRevenue}</div>
-            <div className="stat-card__label">إجمالي الإيرادات</div>
-          </div>
+        <div className="pp__stat-sep" />
+        <div className="pp__stat">
+          <Clock size={18} className="pp__stat-ic pp__stat-ic--yellow" />
+          <span className="pp__stat-num">{stats.expired}</span>
+          <span className="pp__stat-label">منتهي</span>
+          <span className="pp__stat-pct pp__stat-pct--yellow">{pct(stats.expired)}%</span>
         </div>
-      </motion.div>
+        <div className="pp__stat-sep" />
+        <div className="pp__stat">
+          <DollarSign size={18} className="pp__stat-ic pp__stat-ic--pink" />
+          <span className="pp__stat-num">${stats.totalRevenue}</span>
+          <span className="pp__stat-label">إيرادات</span>
+        </div>
+      </div>
 
-      {/* Filters */}
-      <motion.div
-        className="paypal-subscriptions__filters"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <div className="paypal-subscriptions__search">
-          <Search size={20} />
+      {/* ── Search + Filters ── */}
+      <div className="pp__toolbar">
+        <div className="pp__search">
+          <Search size={16} className="pp__search-ic" />
           <input
             type="text"
-            placeholder="ابحث عن متدرب، بريد إلكتروني، أو رقم طلب..."
+            placeholder="ابحث بالاسم أو البريد أو رقم الطلب..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          {searchQuery && (
+            <button className="pp__search-x" onClick={() => setSearchQuery('')}>
+              <X size={14} />
+            </button>
+          )}
         </div>
 
-        <button
-          className="paypal-subscriptions__filter-btn"
-          onClick={() => setShowFilters(!showFilters)}
+        <select
+          className="pp__select"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
         >
-          <Filter size={18} />
-          <span>فلاتر</span>
-        </button>
-      </motion.div>
+          <option value="all">كل الحالات</option>
+          <option value="approved">نشط</option>
+          <option value="pending">قيد الانتظار</option>
+          <option value="expired">منتهي</option>
+          <option value="cancelled">ملغي</option>
+        </select>
 
-      <AnimatePresence>
-        {showFilters && (
-          <motion.div
-            className="paypal-subscriptions__filter-panel"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+        <select
+          className="pp__select"
+          value={planFilter}
+          onChange={(e) => setPlanFilter(e.target.value)}
+        >
+          <option value="all">كل الخطط</option>
+          <option value="basic">الأساسية</option>
+          <option value="nutrition">التغذية</option>
+          <option value="elite">المتميزة</option>
+          <option value="vip">VIP</option>
+        </select>
+
+        {hasFilters && (
+          <button
+            className="pp__clear-filters"
+            onClick={() => {
+              setSearchQuery('');
+              setStatusFilter('all');
+              setPlanFilter('all');
+            }}
           >
-            <div className="filter-group">
-              <label>الحالة:</label>
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-              >
-                <option value="all">الكل</option>
-                <option value="approved">نشط</option>
-                <option value="pending">قيد الانتظار</option>
-                <option value="expired">منتهي</option>
-                <option value="cancelled">ملغي</option>
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>نوع الخطة:</label>
-              <select
-                value={planFilter}
-                onChange={(e) => setPlanFilter(e.target.value)}
-              >
-                <option value="all">الكل</option>
-                <option value="basic">الخطة الأساسية</option>
-                <option value="nutrition">خطة التغذية</option>
-                <option value="elite">الخطة المتميزة</option>
-                <option value="vip">الخطة VIP</option>
-              </select>
-            </div>
-
-            <button
-              className="filter-reset"
-              onClick={() => {
-                setSearchQuery('');
-                setStatusFilter('all');
-                setPlanFilter('all');
-              }}
-            >
-              إعادة تعيين
-            </button>
-          </motion.div>
+            <X size={14} /> مسح الفلاتر
+          </button>
         )}
-      </AnimatePresence>
+      </div>
 
-      {/* Subscriptions by Plan */}
-      <div className="paypal-subscriptions__content">
+      {/* ── Plan Groups ── */}
+      <div className="pp__plans">
         {Object.entries(groups).map(([planType, subs]) => {
           if (subs.length === 0) return null;
 
           return (
             <motion.div
               key={planType}
-              className="plan-section"
-              initial={{ opacity: 0, y: 20 }}
+              className="pp__plan"
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
             >
-              <div className="plan-section__header">
-                <h2 className="plan-section__title">
-                  <span className="plan-section__icon">{getPlanIcon(planType)}</span>
-                  {getPlanName(planType)}
-                  <span className="plan-section__count">({subs.length})</span>
-                </h2>
+              <div className="pp__plan-head">
+                <span className="pp__plan-emoji">{getPlanIcon(planType)}</span>
+                <span className="pp__plan-name">{getPlanName(planType)}</span>
+                <span className="pp__plan-count">{subs.length}</span>
               </div>
 
-              <div className="plan-section__grid">
+              <div className="pp__plan-grid">
                 <AnimatePresence>
-                  {subs.map(subscription => (
+                  {subs.map((subscription) => (
                     <SubscriptionCard
                       key={subscription.id}
                       subscription={subscription}
@@ -459,19 +395,15 @@ const PayPalSubscriptions = () => {
 
         {filteredSubscriptions.length === 0 && (
           <motion.div
-            className="paypal-subscriptions__empty"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            className="pp__empty"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
           >
-            <CreditCard size={64} />
+            <CreditCard size={40} />
             <h3>لا توجد اشتراكات</h3>
-            <p>لم يتم العثور على اشتراكات مطابقة للفلاتر المحددة</p>
-            <button
-              className="paypal-subscriptions__empty-btn"
-              onClick={handleAddNew}
-            >
-              <Plus size={18} />
-              إضافة اشتراك جديد
+            <p>لم يتم العثور على اشتراكات مطابقة</p>
+            <button className="pp__empty-btn" onClick={handleAddNew}>
+              <Plus size={16} /> إضافة اشتراك جديد
             </button>
           </motion.div>
         )}

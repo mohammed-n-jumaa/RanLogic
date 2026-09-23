@@ -1,8 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, Dumbbell } from 'lucide-react';
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  Dumbbell,
+  Crown,
+  ShieldCheck,
+  Settings2,
+  ShieldAlert,
+  AlertCircle,
+  ArrowLeft
+} from 'lucide-react';
 import authApi from '../../api/authApi';
 import './Login.scss';
+
+// Generates one continuous, perfectly-periodic ECG path so that shifting it
+// by exactly half its rendered width creates a seamless infinite scroll.
+const buildPulsePath = () => {
+  const unit = [
+    [0, 50], [24, 50], [36, 50], [46, 50],
+    [54, 14], [62, 86], [70, 38], [78, 50],
+    [100, 50]
+  ];
+  const repeats = 16;
+  let d = `M0,${unit[0][1]}`;
+  for (let r = 0; r < repeats; r++) {
+    unit.forEach(([x, y], i) => {
+      if (r === 0 && i === 0) return;
+      d += ` L${x + r * 100},${y}`;
+    });
+  }
+  return d;
+};
+
+const FEATURES = [
+  { icon: Crown, label: 'مدير النظام' },
+  { icon: ShieldCheck, label: 'صلاحية كاملة' },
+  { icon: Settings2, label: 'إدارة الموقع' }
+];
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +50,8 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const pulsePath = useMemo(buildPulsePath, []);
 
   // Check if already authenticated AND is admin
   useEffect(() => {
@@ -51,22 +90,22 @@ const Login = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
         [name]: ''
       }));
     }
-    
+
     // Clear submit error
     if (errors.submit) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
         submit: ''
       }));
@@ -103,7 +142,7 @@ const Login = () => {
 
         // Success - admin user, redirect to dashboard
         console.log('Admin login successful:', response.data);
-        
+
         // Small delay for better UX
         setTimeout(() => {
           navigate('/dashboard');
@@ -117,10 +156,10 @@ const Login = () => {
         // Handle validation errors from backend
         if (response.errors) {
           const backendErrors = {};
-          Object.keys(response.errors).forEach(key => {
+          Object.keys(response.errors).forEach((key) => {
             backendErrors[key] = response.errors[key][0];
           });
-          setErrors(prev => ({ ...prev, ...backendErrors }));
+          setErrors((prev) => ({ ...prev, ...backendErrors }));
         }
       }
     } catch (error) {
@@ -133,76 +172,118 @@ const Login = () => {
     }
   };
 
+  const handleShowcaseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    e.currentTarget.style.setProperty('--mx', x.toFixed(3));
+    e.currentTarget.style.setProperty('--my', y.toFixed(3));
+  };
+
+  const handleShowcaseLeave = (e) => {
+    e.currentTarget.style.setProperty('--mx', 0);
+    e.currentTarget.style.setProperty('--my', 0);
+  };
+
   return (
     <div className="login-page">
       <div className="login-container">
-        {/* Left Side - Brand */}
-        <div className="login-brand">
-          <div className="brand-content">
-            <div className="brand-logo">
-              <Dumbbell size={48} />
-            </div>
-            <h1>Rand Jarar</h1>
-            <p className="brand-subtitle">Admin Dashboard</p>
-            <p className="brand-description">
-              لوحة التحكم الإدارية للمدرب الشخصي
-            </p>
-            
-            {/* Feature Cards */}
-            <div className="brand-features">
-              <div className="feature-item">
-                <div className="feature-icon">👑</div>
-                <span>مدير النظام</span>
-              </div>
-              <div className="feature-item">
-                <div className="feature-icon">🔒</div>
-                <span>صلاحية كاملة</span>
-              </div>
-              <div className="feature-item">
-                <div className="feature-icon">⚙️</div>
-                <span>إدارة الموقع</span>
-              </div>
-            </div>
+        {/* Showcase Side */}
+        <div
+          className="login-showcase"
+          onMouseMove={handleShowcaseMove}
+          onMouseLeave={handleShowcaseLeave}
+        >
+          <div className="showcase-glow" aria-hidden="true">
+            <span className="glow-orb orb-a" />
+            <span className="glow-orb orb-b" />
+            <span className="glow-mesh" />
           </div>
-          <div className="brand-decoration">
-            <div className="decoration-circle circle-1"></div>
-            <div className="decoration-circle circle-2"></div>
-            <div className="decoration-circle circle-3"></div>
+
+          <div className="showcase-content">
+            <div className="logo-mark">
+              <span className="logo-ring" aria-hidden="true" />
+              <Dumbbell size={30} />
+            </div>
+
+            <h1 className="brand-name">Rand Jarar</h1>
+            <p className="brand-role">مدربة شخصية معتمدة</p>
+            <p className="brand-description">
+              لوحة التحكم الإدارية لإدارة العميلات والبرامج التدريبية
+            </p>
+
+            <div className="pulse-panel">
+              <div className="pulse-status">
+                <span className="status-dot" />
+                النظام متصل الآن
+              </div>
+              <div className="pulse-track" aria-hidden="true">
+                <svg
+                  className="pulse-line pulse-line--glow"
+                  viewBox="0 0 1600 100"
+                  preserveAspectRatio="none"
+                >
+                  <path d={pulsePath} />
+                </svg>
+                <svg
+                  className="pulse-line pulse-line--core"
+                  viewBox="0 0 1600 100"
+                  preserveAspectRatio="none"
+                >
+                  <defs>
+                    <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#ff5d94" />
+                      <stop offset="55%" stopColor="#ff8fb5" />
+                      <stop offset="100%" stopColor="#9b6bff" />
+                    </linearGradient>
+                  </defs>
+                  <path d={pulsePath} stroke="url(#pulseGradient)" />
+                </svg>
+              </div>
+            </div>
+
+            <div className="feature-grid">
+              {FEATURES.map(({ icon: Icon, label }, index) => (
+                <div className="feature-item" style={{ '--i': index }} key={label}>
+                  <span className="feature-icon">
+                    <Icon size={17} />
+                  </span>
+                  <span>{label}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Right Side - Login Form */}
-        <div className="login-form-section">
-          <div className="login-form-container">
+        {/* Form Side */}
+        <div className="login-panel">
+          <div className="login-card">
             <div className="login-header">
               <h2>تسجيل الدخول للإدارة</h2>
               <p>مساحة إدارية حصرية للمدربين والمشرفين</p>
-              
-              {/* Admin Only Notice */}
-              <div className="admin-notice">
-                <div className="notice-icon">⚠️</div>
-                <p className="notice-text">
-                  هذا المسار مخصص فقط للمدربين  
-                </p>
+
+              <div className="access-notice">
+                <ShieldAlert size={18} className="notice-icon" />
+                <p className="notice-text">هذا المسار مخصص فقط للمدربين</p>
               </div>
             </div>
 
             <form onSubmit={handleSubmit} className="login-form" noValidate>
               {/* Email Field */}
               <div className="form-group">
-                <label htmlFor="email">البريد الإلكتروني الإداري</label>
                 <div className={`input-wrapper ${errors.email ? 'error' : ''}`}>
-                  <Mail className="input-icon" size={20} />
+                  <Mail className="input-icon" size={19} />
                   <input
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Enter your admin email"
+                    placeholder=" "
                     value={formData.email}
                     onChange={handleChange}
                     disabled={isLoading}
                     autoComplete="email"
                   />
+                  <label htmlFor="email">البريد الإلكتروني الإداري</label>
                 </div>
                 {errors.email && (
                   <span className="error-message">{errors.email}</span>
@@ -211,27 +292,28 @@ const Login = () => {
 
               {/* Password Field */}
               <div className="form-group">
-                <label htmlFor="password">كلمة المرور الإدارية</label>
                 <div className={`input-wrapper ${errors.password ? 'error' : ''}`}>
-                  <Lock className="input-icon" size={20} />
+                  <Lock className="input-icon" size={19} />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     name="password"
-                    placeholder="كلمة المرور الإدارية"
+                    placeholder=" "
                     value={formData.password}
                     onChange={handleChange}
                     disabled={isLoading}
                     autoComplete="current-password"
                   />
+                  <label htmlFor="password">كلمة المرور الإدارية</label>
                   <button
                     type="button"
                     className="toggle-password"
                     onClick={() => setShowPassword(!showPassword)}
                     disabled={isLoading}
                     tabIndex="-1"
+                    aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
                   >
-                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                    {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
                   </button>
                 </div>
                 {errors.password && (
@@ -242,7 +324,7 @@ const Login = () => {
               {/* Submit Error */}
               {errors.submit && (
                 <div className="submit-error">
-                  <div className="error-icon">❌</div>
+                  <AlertCircle size={18} className="error-icon" />
                   <span>{errors.submit}</span>
                 </div>
               )}
@@ -255,20 +337,21 @@ const Login = () => {
               >
                 {isLoading ? (
                   <>
-                    <span className="spinner"></span>
+                    <span className="btn-spinner" />
                     جاري تسجيل الدخول...
                   </>
                 ) : (
                   <>
-                    <span className="lock-icon">🔐</span>
+                    <Lock size={17} />
                     دخول الإدارة
                   </>
                 )}
               </button>
 
-           
-
-        
+              <a className="back-link" href="https://ranlogic.com">
+                <ArrowLeft size={15} />
+                العودة إلى الموقع الرئيسي
+              </a>
             </form>
           </div>
         </div>

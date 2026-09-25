@@ -6,6 +6,11 @@ import heroApi from '../../api/heroApi';
 import './Hero.scss';
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
 import DOMPurify from 'dompurify';
+import HeroDesign2 from './HeroDesign2';
+import HeroDesign3 from './HeroDesign3';
+import HeroDesign4 from './HeroDesign4';
+import HeroDesign5 from './HeroDesign5';
+import HeroDesign6 from './HeroDesign6';
 
 // ─── Static fallback (مطابق للصور) ──────────────────────────────────────────
 const getStaticHero = (isArabic) => ({
@@ -63,7 +68,23 @@ const Hero = () => {
   videoRef.current.load();
 }, [heroData.video_url]);
 
-  const { badge, main_title, sub_title, description, stats = [] } = heroData;
+  const { badge, main_title, sub_title, description, stats = [], design_type, cta_buttons = [] } = heroData;
+
+  // ── Route to active design ──
+  if (design_type === 'cinematic') return <HeroDesign2 heroData={heroData} />;
+  if (design_type === 'split')     return <HeroDesign3 heroData={heroData} />;
+  if (design_type === 'mosaic')    return <HeroDesign4 heroData={heroData} />;
+  if (design_type === 'cube')      return <HeroDesign5 heroData={heroData} />;
+  if (design_type === 'filmreel')  return <HeroDesign6 heroData={heroData} />;
+
+  // ── Classic design (default) ──
+  const handleCtaClick = (btn) => {
+    if (btn.target_type === 'section') {
+      document.getElementById(btn.target_value)?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate(btn.target_value || '/auth');
+    }
+  };
 
   return (
     <section className="hero" id="home">
@@ -112,18 +133,26 @@ const Hero = () => {
           />
 
           <motion.div className="hero-buttons" variants={itemVariants}>
-            <button className="btn btn-primary" onClick={() => navigate('/auth')}>
-              {isArabic
-                ? <><span>ابدأ الآن</span><ArrowLeft /></>
-                : <><span>Start Now</span><ArrowRight /></>}
-            </button>
-            <button
-              className="btn btn-white"
-              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              <Play />
-              {isArabic ? 'استكشف البرامج' : 'Explore Programs'}
-            </button>
+            {cta_buttons.length > 0 ? cta_buttons.map((btn, i) => (
+              <button
+                key={i}
+                className={`btn ${btn.style === 'primary' ? 'btn-primary' : 'btn-white'}`}
+                onClick={() => handleCtaClick(btn)}
+              >
+                {btn.style === 'secondary' && <Play />}
+                <span>{btn.label}</span>
+                {btn.style === 'primary' && (isArabic ? <ArrowLeft /> : <ArrowRight />)}
+              </button>
+            )) : (
+              <>
+                <button className="btn btn-primary" onClick={() => navigate('/auth')}>
+                  {isArabic ? <><span>ابدأ الآن</span><ArrowLeft /></> : <><span>Start Now</span><ArrowRight /></>}
+                </button>
+                <button className="btn btn-white" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
+                  <Play />{isArabic ? 'استكشف البرامج' : 'Explore Programs'}
+                </button>
+              </>
+            )}
           </motion.div>
 
           {stats.length > 0 && (

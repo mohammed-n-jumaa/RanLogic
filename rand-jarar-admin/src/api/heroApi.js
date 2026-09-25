@@ -57,6 +57,28 @@ export const heroApi = {
     return response.data;
   },
 
+  // ── Slides ──
+  async uploadSlide(designKey, file, textData = {}) {
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('design_key', designKey);
+    Object.entries(textData).forEach(([k, v]) => v && formData.append(k, v));
+    const response = await apiClient.post('/admin/hero-section/slides', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    return response.data;
+  },
+
+  async updateSlide(id, data) {
+    const response = await apiClient.put(`/admin/hero-section/slides/${id}`, data);
+    return response.data;
+  },
+
+  async deleteSlide(id) {
+    const response = await apiClient.delete(`/admin/hero-section/slides/${id}`);
+    return response.data;
+  },
+
   /**
    * Get hero section for public website
    * @param {string} locale - 'ar' or 'en'

@@ -1,0 +1,57 @@
+@use '../../styles/variables.scss' as *;
+
+.hero-d2 { position: relative; min-height: 95vh; display: flex; align-items: center; overflow: hidden; direction: ltr;
+  @media (max-width: $breakpoint-tablet) { min-height: 90vh; }
+}
+
+.hero-d2__bg { position: absolute; inset: 0; z-index: 0; }
+.hero-d2__slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease, transform 1.2s ease; transform: scale(1.08);
+  &--active { opacity: 1; transform: scale(1); }
+  img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.35); }
+}
+.hero-d2__video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); filter: brightness(0.35); }
+.hero-d2__overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(var(--site-secondary-rgb), 0.7), rgba(var(--site-primary-rgb), 0.3)); z-index: 1; }
+
+.hero-d2__content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 90px 48px 0; width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  @media (max-width: $breakpoint-tablet) { flex-direction: column; padding: 80px 1.5rem 0; }
+}
+.hero-d2__text { max-width: 600px; }
+
+.hero-d2__badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.3rem; background: rgba(var(--site-primary-rgb), 0.12); border: 1px solid rgba(var(--site-primary-rgb), 0.25); border-radius: $radius-lg; color: var(--site-primary); font-weight: 600; font-size: 0.8rem; margin-bottom: 1.5rem; font-family: 'Poppins', sans-serif;
+  .hero-d2__badge-dot { width: 6px; height: 6px; background: var(--site-primary); border-radius: 50%; animation: hero2P 2s infinite; }
+}
+.hero-d2__title { font-size: 2.6rem; font-weight: 800; color: $text-white; line-height: 1.2; margin-bottom: 0.8rem; font-family: 'Poppins', sans-serif;
+  @media (max-width: $breakpoint-tablet) { font-size: 1.9rem; }
+  @media (max-width: $breakpoint-mobile) { font-size: 1.5rem; }
+}
+.hero-d2__accent { display: block; color: var(--site-primary); font-size: 1.6rem; font-weight: 700; margin-top: 0.4rem;
+  @media (max-width: $breakpoint-tablet) { font-size: 1.3rem; }
+}
+.hero-d2__desc { font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 2rem; max-width: 480px; font-family: 'Poppins', sans-serif; }
+
+.hero-d2__btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.hero-d2__btn { padding: 0.85rem 2rem; font-size: 0.95rem; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 30px; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.25s; border: none;
+  &--primary { background: var(--site-primary); color: var(--site-secondary); &:hover { transform: scale(1.04); filter: brightness(1.1); } }
+  &--secondary { background: rgba(255,255,255,0.08); color: $text-white; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(6px); &:hover { background: rgba(255,255,255,0.15); } }
+}
+
+.hero-d2__float { background: rgba(255,255,255,0.06); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 1.5rem; min-width: 200px;
+  @media (max-width: $breakpoint-tablet) { align-self: flex-end; min-width: 160px; }
+}
+.hero-d2__float-val { font-size: 2rem; font-weight: 800; color: var(--site-primary); font-family: 'Poppins', sans-serif; }
+.hero-d2__float-lbl { font-size: 0.75rem; color: rgba(255,255,255,0.65); margin-top: 2px; }
+.hero-d2__float-bar { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 14px; overflow: hidden; }
+.hero-d2__float-fill { height: 100%; background: var(--site-primary); border-radius: 2px; }
+
+.hero-d2__indicators { position: absolute; bottom: 1.5rem; left: 48px; z-index: 5; display: flex; gap: 8px; }
+.hero-d2__ind { width: 28px; height: 3px; background: rgba(255,255,255,0.2); border-radius: 2px; cursor: pointer; transition: all 0.3s; border: none; padding: 0;
+  &--active { width: 48px; background: var(--site-primary); }
+}
+.hero-d2__ring { position: absolute; bottom: 1rem; right: 1rem; z-index: 5; width: 32px; height: 32px; }
+
+[dir="rtl"] {
+  .hero-d2 { direction: rtl; }
+  .hero-d2__badge { flex-direction: row-reverse; font-family: 'Tajawal', 'Poppins', sans-serif; }
+  .hero-d2__title, .hero-d2__accent, .hero-d2__desc, .hero-d2__btn { font-family: 'Tajawal', 'Poppins', sans-serif; }
+}
+@keyframes hero2P { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.3); } }

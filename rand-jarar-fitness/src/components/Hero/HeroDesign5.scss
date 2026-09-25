@@ -4,7 +4,7 @@
   background: radial-gradient(ellipse at 70% 50%, rgba(var(--site-primary-rgb), 0.04), #0b0b0b 60%);
   @media (max-width: $breakpoint-tablet) { min-height: auto; }
 }
-.hd5-wrap { max-width: 1200px; width: 100%; margin: 0 auto; padding: 100px 50px; display: flex; align-items: center; gap: 60px;
+.hd5-wrap { max-width: 1200px; width: 100%; margin: 0 auto; padding: 100px 50px; display: flex; align-items: center; gap: 40px; justify-content: space-between;
   @media (max-width: $breakpoint-tablet) { flex-direction: column; padding: 80px 1.5rem 2rem; gap: 2rem; }
 }
 .hd5-content { flex: 1; max-width: 480px;
@@ -35,25 +35,25 @@
 .hd5-stat__v { font-size: 1.2rem; font-weight: 800; color: #fff; font-family: 'Poppins', sans-serif; }
 .hd5-stat__l { font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 1px; font-family: 'Poppins', sans-serif; }
 
-.hd5-cube-area { width: 300px; height: 300px; perspective: 900px; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0; margin-left: auto;
+.hd5-cube-area { width: 380px; height: 380px; perspective: 900px; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0;
   @media (max-width: $breakpoint-tablet) { order: 1; width: 220px; height: 220px; margin-left: auto; margin-right: auto; }
 }
-.hd5-orbit { position: absolute; width: 280px; height: 280px; border: 1px solid rgba(var(--site-primary-rgb), 0.06); border-radius: 50%; animation: hd5Orbit 10s linear infinite;
+.hd5-orbit { position: absolute; width: 340px; height: 340px; border: 1px solid rgba(var(--site-primary-rgb), 0.06); border-radius: 50%; animation: hd5Orbit 10s linear infinite;
   @media (max-width: $breakpoint-tablet) { width: 200px; height: 200px; }
   &__dot { position: absolute; width: 6px; height: 6px; background: var(--site-primary); border-radius: 50%; top: -3px; left: 50%; margin-left: -3px; box-shadow: 0 0 10px rgba(var(--site-primary-rgb), 0.5); }
 }
-.hd5-cube { width: 200px; height: 200px; position: relative; transform-style: preserve-3d; animation: hd5Rotate 16s ease-in-out infinite;
+.hd5-cube { width: 240px; height: 240px; position: relative; transform-style: preserve-3d; animation: hd5Rotate 16s ease-in-out infinite;
   @media (max-width: $breakpoint-tablet) { width: 140px; height: 140px; }
 }
 .hd5-face { position: absolute; width: 100%; height: 100%; border-radius: 14px; overflow: hidden; backface-visibility: visible; border: 2px solid rgba(var(--site-primary-rgb), 0.15);
   img { width: 100%; height: 100%; object-fit: cover; }
   &::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(var(--site-primary-rgb), 0.1), transparent); }
-  &--f  { transform: translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: translateZ(70px); } }
-  &--b  { transform: rotateY(180deg) translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: rotateY(180deg) translateZ(70px); } }
-  &--r  { transform: rotateY(90deg) translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: rotateY(90deg) translateZ(70px); } }
-  &--l  { transform: rotateY(-90deg) translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: rotateY(-90deg) translateZ(70px); } }
-  &--t  { transform: rotateX(90deg) translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: rotateX(90deg) translateZ(70px); } }
-  &--bo { transform: rotateX(-90deg) translateZ(100px); @media (max-width: $breakpoint-tablet) { transform: rotateX(-90deg) translateZ(70px); } }
+  &--f  { transform: translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: translateZ(70px); } }
+  &--b  { transform: rotateY(180deg) translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: rotateY(180deg) translateZ(70px); } }
+  &--r  { transform: rotateY(90deg) translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: rotateY(90deg) translateZ(70px); } }
+  &--l  { transform: rotateY(-90deg) translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: rotateY(-90deg) translateZ(70px); } }
+  &--t  { transform: rotateX(90deg) translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: rotateX(90deg) translateZ(70px); } }
+  &--bo { transform: rotateX(-90deg) translateZ(120px); @media (max-width: $breakpoint-tablet) { transform: rotateX(-90deg) translateZ(70px); } }
 }
 
 [dir="rtl"] {

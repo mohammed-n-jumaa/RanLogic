@@ -1,0 +1,93 @@
+@use '../../styles/variables.scss' as *;
+
+.hd4 { position: relative; min-height: 95vh; display: flex; align-items: center; overflow: hidden; direction: ltr;
+  @media (max-width: $breakpoint-tablet) { min-height: auto; flex-direction: column; }
+}
+.hd4-bg { position: absolute; inset: 0; z-index: 0;
+  &__img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.15) blur(6px); transform: scale(1.1); }
+}
+
+// ── Mosaic ──
+.hd4-mosaic {
+  position: absolute; top: 50%; right: 4%; transform: translateY(-50%);
+  width: 400px; height: 480px; z-index: 1;
+
+  @media (max-width: $breakpoint-tablet) {
+    position: relative; top: auto; right: auto; transform: none;
+    width: 80vw; max-width: 320px; height: 60vw; max-height: 400px;
+    margin: 80px auto 1rem;
+  }
+  @media (max-width: $breakpoint-mobile) {
+    width: 75vw; max-width: 260px; height: 55vw; max-height: 320px;
+    margin-top: 70px;
+  }
+}
+
+.hd4-tile {
+  position: absolute; overflow: hidden; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: all 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+  &--scatter { opacity: 0; transform: translate(var(--sx), var(--sy)) rotate(var(--sr)) scale(0.5) !important; }
+}
+.hd4-tile__inner {
+  width: 100%; height: 100%;
+  background-repeat: no-repeat;
+}
+
+// ── Content ──
+.hd4-content {
+  position: relative; z-index: 2; padding: 60px 55px; max-width: 520px;
+  @media (max-width: $breakpoint-tablet) { padding: 0 1.5rem 1.5rem; text-align: center; max-width: 100%; }
+}
+.hd4-kicker { font-size: 0.7rem; font-weight: 700; color: var(--site-primary); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif;
+  &__line { width: 24px; height: 2px; background: var(--site-primary); border-radius: 1px; }
+  @media (max-width: $breakpoint-tablet) { justify-content: center; }
+}
+.hd4-title { font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 0.5rem; font-family: 'Poppins', sans-serif;
+  @media (max-width: $breakpoint-tablet) { font-size: 1.5rem; }
+  @media (max-width: $breakpoint-mobile) { font-size: 1.2rem; }
+}
+.hd4-sub { font-size: 1.05rem; font-weight: 700; color: var(--site-primary); margin-bottom: 0.8rem; font-family: 'Poppins', sans-serif;
+  @media (max-width: $breakpoint-mobile) { font-size: 0.9rem; }
+}
+.hd4-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; font-family: 'Poppins', sans-serif; max-width: 400px;
+  @media (max-width: $breakpoint-tablet) { margin: 0 auto; font-size: 0.8rem; }
+}
+
+// ── Buttons ──
+.hd4-btns { display: flex; gap: 0.8rem; margin-top: 1.8rem; flex-wrap: wrap;
+  @media (max-width: $breakpoint-tablet) { justify-content: center; }
+  @media (max-width: $breakpoint-mobile) { flex-direction: column; }
+}
+.hd4-btn { padding: 0.8rem 2rem; font-size: 0.9rem; font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.25s; border: none; border-radius: 28px;
+  &--primary { background: var(--site-primary); color: var(--site-secondary); &:hover { transform: translateY(-2px); } }
+  &--secondary { background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.15); &:hover { border-color: rgba(255,255,255,0.35); } }
+  @media (max-width: $breakpoint-mobile) { width: 100%; padding: 0.75rem 1.5rem; font-size: 0.85rem; }
+}
+
+// ── Bottom ──
+.hd4-bottom { position: absolute; bottom: 1.5rem; left: 55px; right: 55px; z-index: 3; display: flex; align-items: center; justify-content: space-between;
+  @media (max-width: $breakpoint-tablet) { position: relative; bottom: auto; left: auto; right: auto; flex-direction: column; gap: 1rem; padding: 1.5rem; }
+}
+.hd4-stats { display: flex; gap: 1.5rem; @media (max-width: $breakpoint-mobile) { gap: 1rem; } }
+.hd4-st { display: flex; align-items: baseline; gap: 5px; }
+.hd4-st__v { font-size: 1.2rem; font-weight: 800; color: var(--site-primary); font-family: 'Poppins', sans-serif;
+  @media (max-width: $breakpoint-mobile) { font-size: 1rem; }
+}
+.hd4-st__l { font-size: 0.65rem; color: rgba(255,255,255,0.4); font-family: 'Poppins', sans-serif; }
+.hd4-dots { display: flex; gap: 6px; }
+.hd4-dot { width: 24px; height: 4px; border: none; border-radius: 2px; background: rgba(255,255,255,0.15); cursor: pointer; padding: 0; transition: all 0.3s;
+  &--on { width: 36px; background: var(--site-primary); }
+}
+
+// ── RTL ──
+[dir="rtl"] {
+  .hd4 { direction: rtl; }
+  .hd4-mosaic { right: auto; left: 4%; @media (max-width: $breakpoint-tablet) { left: auto; } }
+  .hd4-kicker { flex-direction: row-reverse; font-family: 'Tajawal', 'Poppins', sans-serif; &__line { order: 1; } }
+  .hd4-title, .hd4-sub, .hd4-desc { font-family: 'Tajawal', 'Poppins', sans-serif; text-align: right;
+    @media (max-width: $breakpoint-tablet) { text-align: center; }
+  }
+  .hd4-btn { font-family: 'Tajawal', 'Poppins', sans-serif; }
+  .hd4-btns { @media (max-width: $breakpoint-tablet) { justify-content: center; } }
+}

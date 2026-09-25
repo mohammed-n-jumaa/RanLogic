@@ -25,6 +25,7 @@ class HeroSection extends Model
         'description_en',
         'description_ar',
         'is_active',
+        'design_type',
         'updated_by',
     ];
 
@@ -93,6 +94,38 @@ class HeroSection extends Model
         return $this->hasMany(HeroStat::class)
             ->where('is_active', true)
             ->orderBy('order');
+    }
+
+    public function designContents()
+    {
+        return $this->hasMany(HeroDesignContent::class);
+    }
+
+    public function designContent($key)
+    {
+        return $this->designContents()->where('design_key', $key)->first();
+    }
+
+    public function slides()
+    {
+        return $this->hasMany(HeroSlide::class)->orderBy('order');
+    }
+
+    public function activeSlides($key = null)
+    {
+        $q = $this->hasMany(HeroSlide::class)->where('is_active', true)->orderBy('order');
+        return $key ? $q->where('design_key', $key) : $q;
+    }
+
+    public function ctaButtons()
+    {
+        return $this->hasMany(HeroCtaButton::class)->orderBy('order');
+    }
+
+    public function activeCtaButtons($key = null)
+    {
+        $q = $this->hasMany(HeroCtaButton::class)->where('is_active', true)->orderBy('order');
+        return $key ? $q->where('design_key', $key) : $q;
     }
 
     /**

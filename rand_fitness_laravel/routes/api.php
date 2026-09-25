@@ -137,6 +137,11 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Delete video
     Route::delete('/admin/hero-section/video', [HeroSectionController::class, 'deleteVideo']);
 
+    // Slides
+    Route::post('/admin/hero-section/slides', [HeroSectionController::class, 'uploadSlide']);
+    Route::put('/admin/hero-section/slides/{id}', [HeroSectionController::class, 'updateSlide']);
+    Route::delete('/admin/hero-section/slides/{id}', [HeroSectionController::class, 'deleteSlide']);
+
 });
 
 /*

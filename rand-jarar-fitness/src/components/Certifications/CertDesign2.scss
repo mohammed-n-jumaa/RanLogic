@@ -1,0 +1,103 @@
+@use '../../styles/variables.scss' as *;
+
+.cert2 {
+  padding: 1.2rem 0;
+  background: var(--site-background);
+  overflow: hidden;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &::before { left: 0; background: linear-gradient(90deg, var(--site-background), transparent); }
+  &::after { right: 0; background: linear-gradient(-90deg, var(--site-background), transparent); }
+}
+
+.cert2-track {
+  display: flex;
+  gap: 14px;
+  animation: cert2Scroll 30s linear infinite;
+  width: max-content;
+
+  [dir="rtl"] & { animation: cert2ScrollRTL 30s linear infinite; }
+}
+
+.cert2-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  flex-shrink: 0;
+  min-width: 280px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  transition: border-color 0.3s;
+
+  &:hover {
+    border-color: rgba(253, 184, 19, 0.3);
+  }
+}
+
+.cert2-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--site-primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(253, 184, 19, 0.15);
+}
+
+.cert2-text {
+  flex: 1;
+
+  h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--site-secondary);
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+    margin: 0 0 2px;
+
+    [dir="rtl"] & { font-family: 'Tajawal', 'Poppins', sans-serif; }
+  }
+
+  span {
+    font-size: 0.75rem;
+    color: var(--site-text-light);
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+
+    [dir="rtl"] & { font-family: 'Tajawal', 'Poppins', sans-serif; }
+  }
+}
+
+.cert2-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(253, 184, 19, 0.1);
+  border: 1px solid rgba(253, 184, 19, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  color: #c98f00;
+}
+
+@keyframes cert2Scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes cert2ScrollRTL {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}

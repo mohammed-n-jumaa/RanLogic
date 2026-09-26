@@ -11,6 +11,7 @@ class CoachFeature extends Model
 
     protected $fillable = [
         'about_coach_id',
+        'design_key',
         'icon',
         'title_en',
         'title_ar',
@@ -25,43 +26,33 @@ class CoachFeature extends Model
         'order' => 'integer',
     ];
 
-    /**
-     * Get about coach relationship
-     */
     public function aboutCoach()
     {
         return $this->belongsTo(AboutCoach::class);
     }
 
-    /**
-     * Get localized title
-     */
     public function getTitle($locale = 'ar'): string
     {
         return $locale === 'en' ? $this->title_en : $this->title_ar;
     }
 
-    /**
-     * Get localized description
-     */
     public function getDescription($locale = 'ar'): string
     {
         return $locale === 'en' ? $this->description_en : $this->description_ar;
     }
 
-    /**
-     * Scope active
-     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Scope ordered
-     */
     public function scopeOrdered($query)
     {
         return $query->orderBy('order');
+    }
+
+    public function scopeForDesign($query, $key)
+    {
+        return $query->where('design_key', $key);
     }
 }

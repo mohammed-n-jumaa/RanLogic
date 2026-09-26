@@ -136,7 +136,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Delete video
     Route::delete('/admin/hero-section/video', [HeroSectionController::class, 'deleteVideo']);
-
+    
     // Slides
     Route::post('/admin/hero-section/slides', [HeroSectionController::class, 'uploadSlide']);
     Route::put('/admin/hero-section/slides/{id}', [HeroSectionController::class, 'updateSlide']);
@@ -161,7 +161,9 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Create certification
     Route::post('/admin/certifications', [CertificationController::class, 'store']);
-
+    
+    // Design type — MUST be before {id} routes
+    Route::put('/admin/certifications/design-type', [CertificationController::class, 'updateDesignType']);
     // Update certification
     Route::put('/admin/certifications/{id}', [CertificationController::class, 'update']);
 
@@ -173,6 +175,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
     // Bulk update certifications
     Route::post('/admin/certifications/bulk-update', [CertificationController::class, 'bulkUpdate']);
+    
 
 });
 
@@ -214,7 +217,8 @@ Route::get('/testimonials/public', [TestimonialController::class, 'show']);
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     // Get all testimonials and section for admin
     Route::get('/admin/testimonials', [TestimonialController::class, 'index']);
-    
+    // Design type — MUST be before any {id} routes
+    Route::put('/admin/testimonials/design-type', [TestimonialController::class, 'updateDesignType']);
     // Update section settings
     Route::put('/admin/testimonials/section', [TestimonialController::class, 'updateSection']);
     
@@ -495,6 +499,7 @@ Route::post('/plans/bulk-update', [AdminPlansController::class, 'bulkUpdate']);
     Route::put('/site-colors', [SiteColorsController::class, 'update']);
     Route::post('/site-colors/reset', [SiteColorsController::class, 'reset']);
 });
+
 
 
 /*

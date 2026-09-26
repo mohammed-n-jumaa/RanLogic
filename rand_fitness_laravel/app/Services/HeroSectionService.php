@@ -170,6 +170,9 @@ class HeroSectionService
                 'classic'   => $buildDesign('classic'),
                 'cinematic' => $buildDesign('cinematic'),
                 'split'     => $buildDesign('split'),
+                'mosaic'    => $buildDesign('mosaic'),
+                'cube'      => $buildDesign('cube'),
+                'filmreel'  => $buildDesign('filmreel'),
             ],
         ];
     }
@@ -243,10 +246,17 @@ class HeroSectionService
         $filename = 'slide_' . now()->format('YmdHis') . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
         $path = $file->storeAs('hero-slides', $filename, 'public');
 
-        $pubDir = public_path('hero-slides');
-        if (!is_dir($pubDir)) mkdir($pubDir, 0755, true);
-        $src = storage_path("app/public/{$path}");
-        if (file_exists($src)) copy($src, "{$pubDir}/{$filename}");
+$pubDir = base_path('../public/hero-slides');
+
+if (!is_dir($pubDir)) {
+    mkdir($pubDir, 0755, true);
+}
+
+$src = storage_path("app/public/{$path}");
+
+if (file_exists($src)) {
+    copy($src, "{$pubDir}/{$filename}");
+}
 
         $maxOrder = HeroSlide::where('hero_section_id', $hero->id)
             ->where('design_key', $designKey)->max('order') ?? -1;

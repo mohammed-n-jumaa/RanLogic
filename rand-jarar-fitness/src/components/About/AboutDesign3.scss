@@ -1,0 +1,248 @@
+@use '../../styles/variables.scss' as *;
+
+.abt3 {
+  display: flex;
+  min-height: 100vh;
+  background: var(--site-secondary, #0b0b0b);
+  overflow: hidden;
+
+  --abt-text: #fff;
+  --abt-text-sub: rgba(255, 255, 255, 0.5);
+  --abt-text-muted: rgba(255, 255, 255, 0.4);
+  --abt-border: rgba(255, 255, 255, 0.06);
+  --abt-border-hover: rgba(var(--site-primary-rgb), 0.2);
+  --abt-card-bg: rgba(255, 255, 255, 0.03);
+  --abt-overlay-from: var(--site-secondary, #0b0b0b);
+  --abt-quote-border: rgba(var(--site-primary-rgb), 0.1);
+
+  &--light {
+    background: transparent;
+    --abt-text: var(--site-secondary, #1a1a1a);
+    --abt-text-sub: rgba(0, 0, 0, 0.55);
+    --abt-text-muted: rgba(0, 0, 0, 0.35);
+    --abt-border: rgba(0, 0, 0, 0.06);
+    --abt-card-bg: rgba(0, 0, 0, 0.02);
+--abt-overlay-from: var(--site-background, #fff);
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: column;
+    min-height: auto;
+  }
+}
+
+.abt3-img-side {
+  width: 45%;
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-tablet) {
+    width: 100%;
+    height: 400px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    height: 320px;
+  }
+}
+
+.abt3-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  position: absolute;
+  inset: 0;
+}
+
+.abt3-img-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, transparent 35%),
+    linear-gradient(90deg, transparent 55%, var(--abt-overlay-from) 100%);
+
+  @media (max-width: $breakpoint-tablet) {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, transparent 35%);
+  }
+}
+
+.abt3-verified {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background: rgba(var(--site-primary-rgb), 0.9);
+  color: var(--site-secondary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  z-index: 3;
+  font-family: 'Poppins', sans-serif;
+}
+
+.abt3-name-tag {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 2;
+
+  h3 { font-size: 1.2rem; font-weight: 700; color: #fff; margin: 0 0 2px; font-family: 'Poppins', sans-serif; }
+  span { font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); font-family: 'Poppins', sans-serif; }
+}
+
+.abt3-content {
+  flex: 1;
+  padding: 60px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media (max-width: $breakpoint-tablet) { padding: 2.5rem 1.5rem; }
+}
+
+.abt3-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  &__line { width: 32px; height: 2px; background: var(--site-primary); }
+  &__text { font-size: 0.8rem; font-weight: 700; color: var(--site-primary); letter-spacing: 2.5px; text-transform: uppercase; font-family: 'Poppins', sans-serif; }
+
+  @media (max-width: $breakpoint-tablet) { justify-content: center; }
+}
+
+.abt3-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--abt-text);
+  line-height: 1.3;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+
+  strong { color: var(--site-primary); font-weight: 800; }
+
+  @media (max-width: $breakpoint-tablet) { font-size: 1.5rem; text-align: center; }
+  @media (max-width: $breakpoint-mobile) { font-size: 1.2rem; }
+}
+
+.abt3-desc {
+  font-size: 0.95rem;
+  color: var(--abt-text-sub);
+  line-height: 1.8;
+  margin-bottom: 28px;
+  max-width: 520px;
+  font-family: 'Poppins', sans-serif;
+
+  strong { color: var(--site-primary); font-weight: 700; }
+
+  @media (max-width: $breakpoint-tablet) { text-align: center; max-width: 100%; font-size: 0.85rem; }
+}
+
+.abt3-stats {
+  display: flex;
+  gap: 0;
+  margin-bottom: 28px;
+
+  @media (max-width: $breakpoint-tablet) { justify-content: center; }
+}
+
+.abt3-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 0 20px;
+  border-left: 1px solid var(--abt-border);
+
+  &:first-child { border-left: none; padding-left: 0; }
+
+  &__val { font-size: 1.6rem; font-weight: 800; color: var(--site-primary); font-family: 'Poppins', sans-serif; }
+  &__lbl { font-size: 0.8rem; color: var(--abt-text-muted); font-family: 'Poppins', sans-serif; }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 0 12px;
+    &__val { font-size: 1.2rem; }
+    &__lbl { font-size: 0.65rem; }
+  }
+}
+
+.abt3-feats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+
+  @media (max-width: $breakpoint-mobile) { grid-template-columns: 1fr; }
+}
+
+.abt3-feat {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px 16px;
+  border: 1px solid var(--abt-border);
+  border-radius: 12px;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: var(--abt-border-hover); }
+
+  &__icon {
+    width: 36px; height: 36px;
+    background: rgba(var(--site-primary-rgb), 0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+
+  &__text h4 { font-size: 0.85rem; font-weight: 700; color: var(--abt-text); margin: 0 0 2px; font-family: 'Poppins', sans-serif; }
+  &__text p { font-size: 0.72rem; color: var(--abt-text-muted); margin: 0; line-height: 1.4; font-family: 'Poppins', sans-serif; }
+}
+
+.abt3-quote {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+  padding: 16px 0;
+  border-top: 1px solid var(--abt-border);
+
+  &__bar { width: 3px; min-height: 40px; background: rgba(var(--site-primary-rgb), 0.3); border-radius: 2px; flex-shrink: 0; margin-top: 2px; }
+  &__body p { font-size: 0.9rem; color: var(--abt-text-sub); font-style: italic; line-height: 1.6; margin: 0 0 6px; font-family: 'Poppins', sans-serif; }
+  &__body span { font-size: 0.75rem; color: var(--site-primary); font-weight: 600; font-family: 'Poppins', sans-serif; }
+
+  @media (max-width: $breakpoint-tablet) { justify-content: center; }
+}
+
+.abt3-cta {
+  background: var(--site-primary);
+  color: var(--site-secondary);
+  border: none;
+  border-radius: 30px;
+  padding: 16px 40px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  align-self: flex-start;
+  transition: all 0.25s;
+
+  &:hover { transform: translateY(-2px); }
+
+  @media (max-width: $breakpoint-tablet) { align-self: center; width: 100%; max-width: 400px; }
+}
+
+[dir="rtl"] {
+  .abt3 { flex-direction: row-reverse; @media (max-width: $breakpoint-tablet) { flex-direction: column; } }
+  .abt3-img-overlay { background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 35%), linear-gradient(-90deg, transparent 55%, var(--abt-overlay-from) 100%); @media (max-width: $breakpoint-tablet) { background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 35%); } }
+  .abt3-verified { left: auto; right: 24px; font-family: 'Tajawal', 'Poppins', sans-serif; }
+  .abt3-name-tag { left: auto; right: 24px; h3, span { font-family: 'Tajawal', 'Poppins', sans-serif; } }
+  .abt3-eyebrow { flex-direction: row-reverse; &__text { font-family: 'Tajawal', 'Poppins', sans-serif; } @media (max-width: $breakpoint-tablet) { justify-content: center; } }
+  .abt3-title { font-family: 'Tajawal', 'Poppins', sans-serif; text-align: right; @media (max-width: $breakpoint-tablet) { text-align: center; } }
+  .abt3-desc { font-family: 'Tajawal', 'Poppins', sans-serif; text-align: right; margin-left: auto; margin-right: 0; @media (max-width: $breakpoint-tablet) { text-align: center; margin: 0 auto 28px; } }
+  .abt3-stats { justify-content: flex-end; @media (max-width: $breakpoint-tablet) { justify-content: center; } }
+  .abt3-stat { border-left: none; border-right: 1px solid var(--abt-border); &:first-child { border-right: none; padding-right: 0; } &__lbl { font-family: 'Tajawal', 'Poppins', sans-serif; } }
+  .abt3-feat { flex-direction: row-reverse; &__text h4, &__text p { font-family: 'Tajawal', 'Poppins', sans-serif; text-align: right; } }
+  .abt3-quote { flex-direction: row-reverse; &__body p, &__body span { font-family: 'Tajawal', 'Poppins', sans-serif; text-align: right; } }
+  .abt3-cta { font-family: 'Tajawal', 'Poppins', sans-serif; align-self: flex-end; @media (max-width: $breakpoint-tablet) { align-self: center; } }
+}

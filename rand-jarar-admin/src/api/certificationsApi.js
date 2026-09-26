@@ -75,6 +75,17 @@ export const certificationsApi = {
     const response = await apiClient.get(`/certifications/public?locale=${locale}`);
     return response.data;
   },
+
+    updateDesignType: async (designType) => {
+    try {
+      const response = await apiClient.put('/admin/certifications/design-type', {
+        design_type: designType,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
 };
 
 export default certificationsApi;

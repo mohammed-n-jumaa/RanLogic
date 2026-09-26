@@ -106,6 +106,7 @@ $tablet: 768px;
 $desktop: 1024px;
 $large: 1440px;
 
+
 // CSS Variables (Dynamic Theme)
 :root {
   // Dark Mode (Default)
@@ -141,4 +142,6 @@ body.light-mode {
   --shadow-sm: #{$light-shadow-sm};
   --shadow-md: #{$light-shadow-md};
   --shadow-lg: #{$light-shadow-lg};
+
+  
 }

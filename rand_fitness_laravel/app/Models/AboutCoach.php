@@ -25,6 +25,7 @@ class AboutCoach extends Model
         'highlight_text_en',
         'highlight_text_ar',
         'is_active',
+        'bg_style',
         'updated_by',
     ];
 
@@ -32,17 +33,11 @@ class AboutCoach extends Model
         'is_active' => 'boolean',
     ];
 
-    /**
-     * Get features relationship
-     */
     public function features()
     {
-        return $this->hasMany(CoachFeature::class);
+        return $this->hasMany(CoachFeature::class)->orderBy('order');
     }
 
-    /**
-     * Get active features
-     */
     public function activeFeatures()
     {
         return $this->hasMany(CoachFeature::class)
@@ -50,87 +45,67 @@ class AboutCoach extends Model
             ->orderBy('order');
     }
 
-    /**
-     * Get updater relationship
-     */
+    public function designContents()
+    {
+        return $this->hasMany(AboutCoachDesignContent::class);
+    }
+
+    public function designContent($key)
+    {
+        return $this->designContents()->where('design_key', $key)->first();
+    }
+
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    /**
-     * Get image URL accessor
-     */
     public function getImageUrlAttribute()
     {
         if (!$this->image_path) {
             return null;
         }
 
-        // Check public path first (Windows/WAMP compatibility)
         $publicPath = public_path('images/coach/' . basename($this->image_path));
         if (file_exists($publicPath)) {
             return asset('images/coach/' . basename($this->image_path));
         }
 
-        // Fall back to storage
         return Storage::url($this->image_path);
     }
 
-    /**
-     * Get localized badge
-     */
     public function getBadge($locale = 'ar'): ?string
     {
         return $locale === 'en' ? $this->badge_en : $this->badge_ar;
     }
 
-    /**
-     * Get localized title
-     */
     public function getTitle($locale = 'ar'): string
     {
         return $locale === 'en' ? $this->title_en : $this->title_ar;
     }
 
-    /**
-     * Get localized main description
-     */
     public function getMainDescription($locale = 'ar'): string
     {
         return $locale === 'en' ? $this->main_description_en : $this->main_description_ar;
     }
 
-    /**
-     * Get localized highlight text
-     */
     public function getHighlightText($locale = 'ar'): ?string
     {
         return $locale === 'en' ? $this->highlight_text_en : $this->highlight_text_ar;
     }
 
-    /**
-     * Scope active
-     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * Boot method
-     */
     protected static function boot()
     {
         parent::boot();
 
         static::deleting(function ($aboutCoach) {
-            // Delete image files
             if ($aboutCoach->image_path) {
-                // Delete from storage
                 Storage::delete($aboutCoach->image_path);
-
-                // Delete from public (Windows/WAMP)
                 $publicPath = public_path('images/coach/' . basename($aboutCoach->image_path));
                 if (file_exists($publicPath)) {
                     @unlink($publicPath);

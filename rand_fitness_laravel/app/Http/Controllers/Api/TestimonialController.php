@@ -35,9 +35,12 @@ class TestimonialController extends Controller
             return $this->testimonialService->getTestimonialsForApi($locale);
         });
 
+        $designType = \App\Models\TestimonialsSection::value('design_type') ?? 'classic';
+
         return response()->json([
-            'success' => true,
-            'data'    => $data,
+            'success'     => true,
+            'data'        => $data,
+            'design_type' => $designType,
         ]);
     }
 
@@ -52,6 +55,7 @@ class TestimonialController extends Controller
     {
         $section      = $this->testimonialService->getSection();
         $testimonials = $this->testimonialService->getTestimonials();
+        $designType = \App\Models\TestimonialsSection::value('design_type') ?? 'classic';
 
         return response()->json([
             'success' => true,
@@ -59,6 +63,7 @@ class TestimonialController extends Controller
                 'section'      => $section ? $this->formatSectionData($section) : null,
                 'testimonials' => $testimonials->map(fn($t) => $this->formatTestimonialData($t)),
             ],
+            'design_type' => $designType,
         ]);
     }
 
@@ -169,6 +174,24 @@ class TestimonialController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'تم حذف الصورة بنجاح',
+        ]);
+    }
+    
+    public function updateDesignType(Request $request): JsonResponse
+    {
+        $request->validate([
+            'design_type' => 'required|in:classic,spotlight,timeline,carousel',
+        ]);
+
+        \App\Models\TestimonialsSection::query()->update([
+            'design_type' => $request->input('design_type'),
+        ]);
+
+        $this->clearPublicCache();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم تحديث تصميم آراء العملاء',
         ]);
     }
 

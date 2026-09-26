@@ -20,6 +20,7 @@ class TestimonialsSection extends Model
         'description_en',
         'description_ar',
         'is_active',
+        'design_type',
         'updated_by',
     ];
 
@@ -27,41 +28,26 @@ class TestimonialsSection extends Model
         'is_active' => 'boolean',
     ];
 
-    /**
-     * Get updater relationship
-     */
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    /**
-     * Get localized badge
-     */
     public function getBadge($locale = 'ar'): ?string
     {
         return $locale === 'en' ? $this->badge_en : $this->badge_ar;
     }
 
-    /**
-     * Get localized title
-     */
     public function getTitle($locale = 'ar'): string
     {
         return $locale === 'en' ? $this->title_en : $this->title_ar;
     }
 
-    /**
-     * Get localized description
-     */
     public function getDescription($locale = 'ar'): ?string
     {
         return $locale === 'en' ? $this->description_en : $this->description_ar;
     }
 
-    /**
-     * Scope active
-     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

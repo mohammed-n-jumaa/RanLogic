@@ -5,73 +5,79 @@ import {
   Upload,
   Save,
   Check,
-  AlertCircle,
   Trash2,
   Plus,
-  X,
   Languages,
   Globe,
   Edit2,
-  ImageIcon
+  Monitor,
+  Sparkles,
+  Columns,
+  Layout,
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import aboutCoachApi from '../../../api/aboutCoachApi';
 import './AboutCoach.scss';
 
+const DESIGN_TABS = [
+  { key: 'classic',   label: 'الكلاسيكي', labelEn: 'Classic',   icon: Monitor,  desc: 'التصميم الأصلي' },
+  { key: 'editorial', label: 'المجلة',    labelEn: 'Editorial', icon: Sparkles, desc: 'تصميم المجلة' },
+  { key: 'bento',     label: 'البينتو',   labelEn: 'Bento',     icon: Columns,  desc: 'شبكة البينتو' },
+  { key: 'spotlight', label: 'الأضواء',   labelEn: 'Spotlight', icon: Layout,   desc: 'تصميم الأضواء' },
+];
+
+const emptyContent = () => ({
+  badge_en: '',
+  badge_ar: '',
+  title_en: '',
+  title_ar: '',
+  main_description_en: '',
+  main_description_ar: '',
+  highlight_text_en: '',
+  highlight_text_ar: '',
+});
+
 const AboutCoach = () => {
-  const [activeTab, setActiveTab] = useState('ar');
-
-  const [contentEn, setContentEn] = useState({
-    badge: '',
-    title: '',
-    mainDescription: '',
-    highlightText: '',
-  });
-
-  const [contentAr, setContentAr] = useState({
-    badge: '',
-    title: '',
-    mainDescription: '',
-    highlightText: '',
-  });
-
-  const [coachImage, setCoachImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const [activeDesignTab, setActiveDesignTab] = useState('classic');
+  const [activeDesignType, setActiveDesignType] = useState('classic');
+  const [langTab, setLangTab] = useState('ar');
+
+  const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
 
-  const [features, setFeatures] = useState([]);
   const [editingFeature, setEditingFeature] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [designs, setDesigns] = useState({
+    classic:   { content: emptyContent(), features: [] },
+    editorial: { content: emptyContent(), features: [] },
+    bento:     { content: emptyContent(), features: [] },
+    spotlight: { content: emptyContent(), features: [] },
+  });
+  const [bgStyle, setBgStyle] = useState('dark');
 
   useEffect(() => {
-    fetchAboutCoach();
+    fetchData();
   }, []);
 
-  const fetchAboutCoach = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
     try {
       const response = await aboutCoachApi.getAboutCoach();
       if (response.success && response.data) {
-        const { data } = response;
-        setContentEn({
-          badge: data.badge_en || '',
-          title: data.title_en || '',
-          mainDescription: data.main_description_en || '',
-          highlightText: data.highlight_text_en || '',
+        const d = response.data;
+        setActiveDesignType(d.design_type || 'classic');
+        setBgStyle(d.bg_style || 'dark');
+        setImagePreview(d.image_url);
+        setDesigns({
+          classic:   d.designs?.classic   || { content: emptyContent(), features: [] },
+          editorial: d.designs?.editorial || { content: emptyContent(), features: [] },
+          bento:     d.designs?.bento     || { content: emptyContent(), features: [] },
+          spotlight: d.designs?.spotlight || { content: emptyContent(), features: [] },
         });
-        setContentAr({
-          badge: data.badge_ar || '',
-          title: data.title_ar || '',
-          mainDescription: data.main_description_ar || '',
-          highlightText: data.highlight_text_ar || '',
-        });
-        if (data.image_url) {
-          setImagePreview(data.image_url);
-        }
-        setFeatures(data.features || []);
       }
     } catch (error) {
       console.error('Error fetching about coach:', error);
@@ -86,17 +92,85 @@ const AboutCoach = () => {
     }
   };
 
+  const curDesign = designs[activeDesignTab];
+
+  const setCurDesign = (updater) => {
+    setDesigns((prev) => ({
+      ...prev,
+      [activeDesignTab]:
+        typeof updater === 'function'
+          ? updater(prev[activeDesignTab])
+          : updater,
+    }));
+  };
+
+  const updateContent = (field, value) => {
+    setCurDesign((d) => ({
+      ...d,
+      content: { ...d.content, [field]: value },
+    }));
+  };
+
+  const handleUpdateFeature = (index, field, value) => {
+    const updatedFeatures = [...(curDesign.features || [])];
+    updatedFeatures[index] = { ...updatedFeatures[index], [field]: value };
+    setCurDesign((d) => ({ ...d, features: updatedFeatures }));
+  };
+
+  const handleAddFeature = () => {
+    setCurDesign((d) => ({
+      ...d,
+      features: [
+        ...(d.features || []),
+        {
+          id: null,
+          icon: '✨',
+          title_en: '',
+          title_ar: '',
+          description_en: '',
+          description_ar: '',
+        },
+      ],
+    }));
+    setEditingFeature((curDesign.features || []).length);
+  };
+
+  const handleDeleteFeature = async (index) => {
+    const result = await Swal.fire({
+      title: 'تأكيد الحذف',
+      text: 'هل أنت متأكد من حذف هذه الميزة؟',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#e91e63',
+      cancelButtonColor: '#607d8b',
+      confirmButtonText: 'نعم، احذف',
+      cancelButtonText: 'إلغاء',
+    });
+
+    if (!result.isConfirmed) return;
+
+    setCurDesign((d) => ({
+      ...d,
+      features: d.features.filter((_, i) => i !== index),
+    }));
+
+    Swal.fire({
+      title: 'تم الحذف',
+      text: 'تم حذف الميزة بنجاح',
+      icon: 'success',
+      timer: 2000,
+      showConfirmButton: false,
+    });
+  };
+
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      processImage(file);
-    }
+    if (!file) return;
+    processImage(file);
   };
 
   const processImage = async (file) => {
     if (!file.type.startsWith('image/')) {
-      setUploadStatus('error');
-      setTimeout(() => setUploadStatus(null), 3000);
       Swal.fire({
         title: 'خطأ',
         text: 'يرجى اختيار ملف صورة صالح',
@@ -107,8 +181,6 @@ const AboutCoach = () => {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      setUploadStatus('error');
-      setTimeout(() => setUploadStatus(null), 3000);
       Swal.fire({
         title: 'خطأ',
         text: 'حجم الصورة يجب أن لا يتجاوز 5MB',
@@ -132,9 +204,6 @@ const AboutCoach = () => {
 
       if (response.success) {
         setImagePreview(response.data.image_url);
-        setCoachImage(null);
-        setUploadStatus('success');
-        setTimeout(() => setUploadStatus(null), 3000);
         Swal.fire({
           title: 'نجح',
           text: 'تم رفع الصورة بنجاح',
@@ -145,8 +214,6 @@ const AboutCoach = () => {
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      setUploadStatus('error');
-      setTimeout(() => setUploadStatus(null), 3000);
       Swal.fire({
         title: 'خطأ',
         text: error.response?.data?.message || 'فشل رفع الصورة',
@@ -176,7 +243,6 @@ const AboutCoach = () => {
       const response = await aboutCoachApi.deleteImage();
       if (response.success) {
         setImagePreview(null);
-        setCoachImage(null);
         Swal.fire({
           title: 'تم الحذف',
           text: 'تم حذف الصورة بنجاح',
@@ -196,124 +262,31 @@ const AboutCoach = () => {
     }
   };
 
-  const handleAddFeature = () => {
-    setFeatures([
-      ...features,
-      {
-        id: null,
-        icon: '✨',
-        title_en: '',
-        title_ar: '',
-        description_en: '',
-        description_ar: '',
-      },
-    ]);
-    setEditingFeature(features.length);
-  };
-
-  const handleUpdateFeature = (index, field, value) => {
-    const updatedFeatures = [...features];
-    updatedFeatures[index] = { ...updatedFeatures[index], [field]: value };
-    setFeatures(updatedFeatures);
-  };
-
-  const handleDeleteFeature = async (index) => {
-    const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف هذه الميزة؟',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#e91e63',
-      cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
-    });
-
-    if (!result.isConfirmed) return;
-
-    setFeatures(features.filter((_, i) => i !== index));
-    Swal.fire({
-      title: 'تم الحذف',
-      text: 'تم حذف الميزة بنجاح',
-      icon: 'success',
-      timer: 2000,
-      showConfirmButton: false,
-    });
-  };
-
-  const handleSaveFeature = (index) => {
-    setEditingFeature(null);
-  };
-
   const handleSaveChanges = async () => {
-    if (!contentEn.title || !contentAr.title) {
-      Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى ملء العنوان بالعربية والإنجليزية',
-        icon: 'warning',
-        confirmButtonColor: '#e91e63',
-      });
-      return;
-    }
-
-    if (!contentEn.mainDescription || !contentAr.mainDescription) {
-      Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى ملء الوصف الرئيسي بالعربية والإنجليزية',
-        icon: 'warning',
-        confirmButtonColor: '#e91e63',
-      });
-      return;
-    }
-
-    const invalidFeature = features.find(
-      (f) =>
-        !f.icon ||
-        !f.title_en ||
-        !f.title_ar ||
-        !f.description_en ||
-        !f.description_ar
-    );
-
-    if (invalidFeature) {
-      Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى ملء جميع حقول المميزات (عربي وإنجليزي)',
-        icon: 'warning',
-        confirmButtonColor: '#e91e63',
-      });
-      return;
-    }
-
     setIsSaving(true);
 
     try {
-      const data = {
-        badge_en: contentEn.badge,
-        badge_ar: contentAr.badge,
-        title_en: contentEn.title,
-        title_ar: contentAr.title,
-        main_description_en: contentEn.mainDescription,
-        main_description_ar: contentAr.mainDescription,
-        highlight_text_en: contentEn.highlightText,
-        highlight_text_ar: contentAr.highlightText,
-        features: features.map((f) => ({
+      const payload = {
+        design_key: activeDesignTab,
+        design_type: activeDesignType,
+        bg_style: bgStyle,
+        content: curDesign.content,
+        features: (curDesign.features || []).map((f, i) => ({
           id: f.id,
           icon: f.icon,
           title_en: f.title_en,
           title_ar: f.title_ar,
           description_en: f.description_en,
           description_ar: f.description_ar,
+          order: i,
           is_active: true,
+      
         })),
       };
 
-      const response = await aboutCoachApi.updateAboutCoach(data);
+      const response = await aboutCoachApi.updateAboutCoach(payload);
 
       if (response.success) {
-        setUploadStatus('success');
-        setTimeout(() => setUploadStatus(null), 3000);
-
         Swal.fire({
           title: 'نجح',
           text: 'تم حفظ جميع التغييرات بنجاح',
@@ -322,14 +295,11 @@ const AboutCoach = () => {
           showConfirmButton: false,
         });
 
-        await fetchAboutCoach();
+        await fetchData();
         setEditingFeature(null);
       }
     } catch (error) {
       console.error('Error saving changes:', error);
-      setUploadStatus('error');
-      setTimeout(() => setUploadStatus(null), 3000);
-
       Swal.fire({
         title: 'خطأ',
         text: error.response?.data?.message || 'فشل حفظ التغييرات',
@@ -341,9 +311,7 @@ const AboutCoach = () => {
     }
   };
 
-  const isAr = activeTab === 'ar';
-  const content = isAr ? contentAr : contentEn;
-  const setContent = isAr ? setContentAr : setContentEn;
+  const isAr = langTab === 'ar';
 
   if (isLoading) {
     return (
@@ -358,12 +326,12 @@ const AboutCoach = () => {
 
   return (
     <div className="ac">
-      {/* ── Top Bar ── */}
+
       <div className="ac__topbar">
         <div>
-          <h1 className="ac__title">عن المدربة</h1>
+          <h1 className="ac__title">إدارة قسم عن المدربة</h1>
           <p className="ac__desc">
-            تحرير معلومات المدربة وصورتها الشخصية — عربي / English
+            إدارة 4 تصاميم مختلفة — التصميم النشط هو الظاهر بالموقع
           </p>
         </div>
         <motion.button
@@ -386,35 +354,86 @@ const AboutCoach = () => {
         </motion.button>
       </div>
 
-      {/* ── Main Grid ── */}
+      <div className="ac__design-tabs">
+        {DESIGN_TABS.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeDesignTab === tab.key;
+          const isLive = activeDesignType === tab.key;
+          return (
+            <button
+              key={tab.key}
+              className={`ac__design-tab ${isActive ? 'ac__design-tab--active' : ''}`}
+              onClick={() => {
+                setActiveDesignTab(tab.key);
+                setEditingFeature(null);
+              }}
+            >
+              <Icon size={16} />
+              <span>{tab.label}</span>
+              <span className="ac__design-tab-en">{tab.labelEn}</span>
+              {isLive && <span className="ac__design-tab-live">ACTIVE</span>}
+            </button>
+          );
+        })}
+      </div>
+
+      {activeDesignType !== activeDesignTab && (
+        <motion.button
+          className="ac__activate-btn"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          onClick={() => setActiveDesignType(activeDesignTab)}
+        >
+          <Sparkles size={14} />
+          تفعيل هذا التصميم كالتصميم الرئيسي
+        </motion.button>
+      )}
+
+      <div className="ac__bg-toggle">
+        <span className="ac__bg-label">خلفية السيكشن:</span>
+        <div className="ac__bg-options">
+          <button
+            className={`ac__bg-opt ${bgStyle === 'dark' ? 'ac__bg-opt--on' : ''}`}
+            onClick={() => setBgStyle('dark')}
+          >
+            داكنة
+          </button>
+          <button
+            className={`ac__bg-opt ${bgStyle === 'transparent' ? 'ac__bg-opt--on' : ''}`}
+            onClick={() => setBgStyle('transparent')}
+          >
+            شفافة (نفس الأصلي)
+          </button>
+        </div>
+      </div>
+
       <div className="ac__grid">
-        {/* ═══ COL 1: Form ═══ */}
+
         <motion.div
           className="ac__col"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
+          key={activeDesignTab}
         >
-          {/* Language Tabs */}
           <div className="ac__lang">
             <button
-              className={`ac__lang-tab ${activeTab === 'ar' ? 'ac__lang-tab--on' : ''}`}
-              onClick={() => setActiveTab('ar')}
+              className={`ac__lang-tab ${langTab === 'ar' ? 'ac__lang-tab--on' : ''}`}
+              onClick={() => setLangTab('ar')}
             >
               <Globe size={15} /> العربية
             </button>
             <button
-              className={`ac__lang-tab ${activeTab === 'en' ? 'ac__lang-tab--on' : ''}`}
-              onClick={() => setActiveTab('en')}
+              className={`ac__lang-tab ${langTab === 'en' ? 'ac__lang-tab--on' : ''}`}
+              onClick={() => setLangTab('en')}
             >
               <Languages size={15} /> English
             </button>
           </div>
 
-          {/* Content Form */}
           <AnimatePresence mode="wait">
             <motion.div
               className="ac__form"
-              key={activeTab}
+              key={`${activeDesignTab}-${langTab}`}
               initial={{ opacity: 0, x: isAr ? 12 : -12 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
@@ -428,38 +447,34 @@ const AboutCoach = () => {
                 <input
                   type="text"
                   className="ac__input"
-                  value={content.badge}
-                  onChange={(e) =>
-                    setContent({ ...content, badge: e.target.value })
-                  }
+                  value={curDesign.content[`badge_${langTab}`] || ''}
+                  onChange={(e) => updateContent(`badge_${langTab}`, e.target.value)}
                   placeholder={isAr ? 'من أنا' : 'Who Am I'}
                 />
               </div>
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'العنوان الرئيسي *' : 'Main Title *'}
+                  {isAr ? 'العنوان الرئيسي' : 'Main Title'}
                 </label>
                 <input
                   type="text"
                   className="ac__input"
-                  value={content.title}
-                  onChange={(e) =>
-                    setContent({ ...content, title: e.target.value })
-                  }
+                  value={curDesign.content[`title_${langTab}`] || ''}
+                  onChange={(e) => updateContent(`title_${langTab}`, e.target.value)}
                   placeholder={isAr ? 'عن المدربة' : 'About the Coach'}
                 />
               </div>
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'الوصف الرئيسي *' : 'Main Description *'}
+                  {isAr ? 'الوصف الرئيسي' : 'Main Description'}
                 </label>
                 <textarea
                   className="ac__textarea"
-                  value={content.mainDescription}
+                  value={curDesign.content[`main_description_${langTab}`] || ''}
                   onChange={(e) =>
-                    setContent({ ...content, mainDescription: e.target.value })
+                    updateContent(`main_description_${langTab}`, e.target.value)
                   }
                   rows="4"
                   placeholder={
@@ -472,31 +487,30 @@ const AboutCoach = () => {
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr
-                    ? 'النص المميز (وردي - اختياري)'
-                    : 'Highlight Text (Pink - Optional)'}
+                  {isAr ? 'الاقتباس / النص المميز' : 'Quote / Highlight Text'}
                 </label>
                 <textarea
                   className="ac__textarea ac__textarea--accent"
-                  value={content.highlightText}
+                  value={curDesign.content[`highlight_text_${langTab}`] || ''}
                   onChange={(e) =>
-                    setContent({ ...content, highlightText: e.target.value })
+                    updateContent(`highlight_text_${langTab}`, e.target.value)
                   }
                   rows="3"
                   placeholder={
                     isAr
-                      ? 'ساعدت أكثر من 500 متدربة...'
-                      : 'I have helped over 500 trainees...'
+                      ? 'ساعدت أكثر من 200 متدربة...'
+                      : 'I have helped over 200 trainees...'
                   }
                 />
               </div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Features */}
           <div className="ac__features">
             <div className="ac__features-head">
-              <span className="ac__features-title">المميزات / Features</span>
+              <span className="ac__features-title">
+                المميزات / Features
+              </span>
               <button className="ac__features-add" onClick={handleAddFeature}>
                 <Plus size={15} /> إضافة
               </button>
@@ -504,7 +518,7 @@ const AboutCoach = () => {
 
             <div className="ac__features-list">
               <AnimatePresence>
-                {features.length === 0 ? (
+                {(curDesign.features || []).length === 0 ? (
                   <motion.div
                     className="ac__features-empty"
                     initial={{ opacity: 0 }}
@@ -512,10 +526,10 @@ const AboutCoach = () => {
                   >
                     <Star size={32} />
                     <p>لا توجد مميزات حالياً</p>
-                    <span>انقر على "إضافة" للبدء</span>
+                    <span>انقر على "إضافة" للبدء — أو سيتم استخدام الافتراضية</span>
                   </motion.div>
                 ) : (
-                  features.map((feature, index) => (
+                  (curDesign.features || []).map((feature, index) => (
                     <motion.div
                       key={index}
                       className={`ac__feat ${editingFeature === index ? 'ac__feat--edit' : ''}`}
@@ -538,14 +552,15 @@ const AboutCoach = () => {
                             />
                             <button
                               className="ac__feat-ok"
-                              onClick={() => handleSaveFeature(index)}
+                              onClick={() => setEditingFeature(null)}
                             >
                               <Check size={16} />
                             </button>
                           </div>
+
                           <AnimatePresence mode="wait">
                             <motion.div
-                              key={activeTab}
+                              key={langTab}
                               className="ac__feat-fields"
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
@@ -599,7 +614,9 @@ const AboutCoach = () => {
                           <span className="ac__feat-icon">{feature.icon}</span>
                           <div className="ac__feat-text">
                             <span className="ac__feat-title">
-                              {isAr ? feature.title_ar : feature.title_en}
+                              {isAr
+                                ? feature.title_ar || '—'
+                                : feature.title_en || '—'}
                             </span>
                             <span className="ac__feat-desc">
                               {isAr
@@ -631,7 +648,6 @@ const AboutCoach = () => {
           </div>
         </motion.div>
 
-        {/* ═══ COL 2: Image ═══ */}
         <motion.div
           className="ac__col"
           initial={{ opacity: 0, y: 16 }}
@@ -671,6 +687,9 @@ const AboutCoach = () => {
                   src={imagePreview}
                   alt="Coach"
                   className="ac__photo-img"
+                  onError={(e) => {
+                    e.target.src = '/coach.png';
+                  }}
                 />
                 {uploadProgress > 0 && (
                   <div className="ac__photo-progress">

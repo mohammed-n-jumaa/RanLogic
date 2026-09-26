@@ -6,7 +6,9 @@ import aboutApi from '../../api/aboutApi';
 import './About.scss';
 import { CheckCircle } from 'lucide-react';
 import DOMPurify from 'dompurify';
-
+import AboutDesign2 from './AboutDesign2';
+import AboutDesign3 from './AboutDesign3';
+import AboutDesign4 from './AboutDesign4';
 // ─── Icon map ─────────────────────────────────────────────────────────────────
 const getIconComponent = (icon) => {
   const icons = {
@@ -149,11 +151,25 @@ const About = () => {
 
   const { badge, title, main_description, highlight_text, image_url, features = [] } = aboutData;
 
-  // الـ title: الـ static جاهز فيه gold-word، الـ API data يمر على formatDescription
-  const renderedTitle = aboutData._fromApi ? formatDescription(title) : title;
+  const designType = aboutData.design_type;
+
+  if (designType === 'editorial' || designType === 'bento' || designType === 'spotlight') {
+    const formattedData = aboutData._fromApi ? {
+      ...aboutData,
+      title: formatDescription(aboutData.title),
+      main_description: formatDescription(aboutData.main_description),
+    } : aboutData;
+
+    if (designType === 'editorial') return <AboutDesign2 aboutData={formattedData} />;
+    if (designType === 'bento')     return <AboutDesign3 aboutData={formattedData} />;
+    if (designType === 'spotlight') return <AboutDesign4 aboutData={formattedData} />;
+  }
+
+
+const renderedTitle = aboutData._fromApi ? formatDescription(title) : title;
 
   return (
-    <section className="about" id="about">
+    <section className="about" id="about" style={aboutData.bg_style === 'transparent' ? { background: 'transparent' } : {}}>
 
       {/* ── Decorative background shapes ── */}
       <div className="about-shape about-shape--1" aria-hidden="true" />

@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../../contexts/LanguageContext';
 import testimonialApi from '../../api/testimonialApi';
+import TestimonialsDesign2 from './TestimonialsDesign2';
+import TestimonialsDesign3 from './TestimonialsDesign3';
+import TestimonialsDesign4 from './TestimonialsDesign4';
 import './Testimonials.scss';
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -64,6 +67,7 @@ const Testimonials = ({ onDataStatus }) => {
   const [currentIndex,    setCurrentIndex]    = useState(0);
   const [direction,       setDirection]       = useState(0);
   const [windowWidth,     setWindowWidth]     = useState(0);
+  const [designType,      setDesignType]      = useState('classic');
   const { currentLang, isArabic } = useLanguage();
 
   // ── Responsive ───────────────────────────────────────────────────────────────
@@ -84,7 +88,6 @@ const Testimonials = ({ onDataStatus }) => {
 
   // ── جلب الـ API + تحديث اللغة ────────────────────────────────────────────────
   useEffect(() => {
-    // حدّث الـ static للغة الحالية فوراً
     setTestimonialData(prev => prev._fromApi ? prev : getStaticTestimonials(isArabic));
     setCurrentIndex(0);
 
@@ -94,6 +97,7 @@ const Testimonials = ({ onDataStatus }) => {
         const list = Array.isArray(res.data?.testimonials) ? res.data.testimonials : [];
         setTestimonialData({ ...res.data, _fromApi: true });
         setCurrentIndex(0);
+        if (res.design_type) setDesignType(res.design_type);
         onDataStatus?.(list.length > 0);
       }
     });
@@ -141,6 +145,12 @@ const Testimonials = ({ onDataStatus }) => {
   const totalGroups = Math.ceil(testimonials.length / cardsToShow);
   const activeGroup = Math.floor(currentIndex / cardsToShow);
 
+  // ── Design switching ─────────────────────────────────────────────────────────
+  if (designType === 'spotlight') return <TestimonialsDesign2 section={section} testimonials={testimonials} />;
+  if (designType === 'timeline')  return <TestimonialsDesign3 section={section} testimonials={testimonials} />;
+  if (designType === 'carousel')  return <TestimonialsDesign4 section={section} testimonials={testimonials} />;
+
+  // ── Classic (default) ────────────────────────────────────────────────────────
   return (
     <section className="testimonials" id="testimonials">
 

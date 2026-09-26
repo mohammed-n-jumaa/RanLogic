@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BulkUpdateCertificationsRequest;
 use App\Http\Requests\StoreCertificationRequest;
 use App\Http\Requests\UpdateCertificationRequest;
+use App\Models\Certification;
 use App\Services\CertificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,9 +24,6 @@ class CertificationController extends Controller
     // PUBLIC
     // -------------------------------------------------------------------------
 
-    /**
-     * GET /api/certifications  (public)
-     */
     public function index(Request $request): JsonResponse
     {
         $locale = $request->get('locale', 'ar');
@@ -34,9 +32,12 @@ class CertificationController extends Controller
             return $this->certService->getActiveCertifications($locale);
         });
 
+        $designType = Certification::value('design_type') ?? 'classic';
+
         return response()->json([
-            'success' => true,
-            'data'    => $data,
+            'success'     => true,
+            'data'        => $data,
+            'design_type' => $designType,
         ]);
     }
 
@@ -44,15 +45,15 @@ class CertificationController extends Controller
     // ADMIN — READ
     // -------------------------------------------------------------------------
 
-    /**
-     * GET /api/admin/certifications  (admin)
-     */
     public function adminIndex(): JsonResponse
     {
+        $designType = Certification::value('design_type') ?? 'classic';
+
         return response()->json([
-            'success' => true,
-            'data'    => $this->certService->getAllCertifications()
+            'success'     => true,
+            'data'        => $this->certService->getAllCertifications()
                 ->map(fn($cert) => $this->formatAdminData($cert)),
+            'design_type' => $designType,
         ]);
     }
 
@@ -60,9 +61,6 @@ class CertificationController extends Controller
     // ADMIN — WRITE
     // -------------------------------------------------------------------------
 
-    /**
-     * POST /api/admin/certifications  (admin)
-     */
     public function store(StoreCertificationRequest $request): JsonResponse
     {
         $cert = $this->certService->createCertification(
@@ -80,9 +78,6 @@ class CertificationController extends Controller
         ], 201);
     }
 
-    /**
-     * PUT /api/admin/certifications/{id}  (admin)
-     */
     public function update(UpdateCertificationRequest $request, int $id): JsonResponse
     {
         $cert = $this->certService->updateCertification($id, $request->validated(), auth()->id());
@@ -97,9 +92,6 @@ class CertificationController extends Controller
         ]);
     }
 
-    /**
-     * DELETE /api/admin/certifications/{id}  (admin)
-     */
     public function destroy(int $id): JsonResponse
     {
         $this->certService->deleteCertification($id);
@@ -113,9 +105,6 @@ class CertificationController extends Controller
         ]);
     }
 
-    /**
-     * PATCH /api/admin/certifications/reorder  (admin)
-     */
     public function reorder(Request $request): JsonResponse
     {
         $request->validate([
@@ -134,9 +123,6 @@ class CertificationController extends Controller
         ]);
     }
 
-    /**
-     * POST /api/admin/certifications/bulk  (admin)
-     */
     public function bulkUpdate(BulkUpdateCertificationsRequest $request): JsonResponse
     {
         $certs = $this->certService->bulkUpdate(
@@ -151,6 +137,24 @@ class CertificationController extends Controller
             'success' => true,
             'message' => 'تم حفظ جميع الشهادات بنجاح',
             'data'    => $certs->map(fn($cert) => $this->formatAdminData($cert)),
+        ]);
+    }
+
+    public function updateDesignType(Request $request): JsonResponse
+    {
+        $request->validate([
+            'design_type' => 'required|in:classic,dots,medals,shields',
+        ]);
+
+        Certification::query()->update([
+            'design_type' => $request->input('design_type'),
+        ]);
+
+        $this->clearPublicCache();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم تحديث تصميم الشهادات',
         ]);
     }
 

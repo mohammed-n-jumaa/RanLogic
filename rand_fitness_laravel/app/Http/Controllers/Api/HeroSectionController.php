@@ -47,8 +47,8 @@ class HeroSectionController extends Controller
         $designKey = $request->input('design_key', 'classic');
 
         $request->validate([
-            'design_key'   => 'required|in:classic,cinematic,split',
-            'design_type'  => 'nullable|in:classic,cinematic,split',
+            'design_key'   => 'required|in:classic,cinematic,split,mosaic,cube,filmreel',
+            'design_type'  => 'nullable|in:classic,cinematic,split,mosaic,cube,filmreel',
             'content'      => 'nullable|array',
             'stats'        => 'nullable|array',
             'cta_buttons'  => 'nullable|array',
@@ -117,7 +117,7 @@ class HeroSectionController extends Controller
     {
         $request->validate([
             'image'      => 'required|image|mimes:jpeg,png,webp,gif|max:10240',
-            'design_key' => 'required|in:cinematic,split',
+            'design_key' => 'required|in:cinematic,split,mosaic,cube,filmreel',
         ]);
 
         $slide = $this->heroService->uploadSlideImage(

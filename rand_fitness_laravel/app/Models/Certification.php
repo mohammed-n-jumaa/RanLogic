@@ -19,6 +19,7 @@ class Certification extends Model
         'is_verified',
         'order',
         'is_active',
+        'design_type',
         'updated_by',
     ];
 

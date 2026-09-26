@@ -1,0 +1,94 @@
+@use '../../styles/variables.scss' as *;
+
+.cert3 {
+  padding: 1.2rem 0;
+  background: var(--site-background);
+  overflow: hidden;
+  position: relative;
+
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &::before { left: 0; background: linear-gradient(90deg, var(--site-background), transparent); }
+  &::after { right: 0; background: linear-gradient(-90deg, var(--site-background), transparent); }
+}
+
+.cert3-track {
+  display: flex;
+  gap: 14px;
+  animation: cert3Scroll 30s linear infinite;
+  width: max-content;
+
+  [dir="rtl"] & { animation: cert3ScrollRTL 30s linear infinite; }
+}
+
+.cert3-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 24px;
+  flex-shrink: 0;
+  text-align: center;
+  min-width: 180px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  transition: border-color 0.3s;
+
+  &:hover {
+    border-color: rgba(253, 184, 19, 0.3);
+  }
+}
+
+.cert3-medal {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--site-primary), #e6a400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 12px rgba(253, 184, 19, 0.3);
+
+  span {
+    font-size: 22px;
+    filter: grayscale(1) brightness(10);
+  }
+}
+
+.cert3-item h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--site-secondary);
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+  margin: 0;
+
+  [dir="rtl"] & { font-family: 'Tajawal', 'Poppins', sans-serif; }
+}
+
+.cert3-org {
+  font-size: 0.7rem;
+  color: var(--site-text-light);
+  font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
+
+  [dir="rtl"] & { font-family: 'Tajawal', 'Poppins', sans-serif; }
+}
+
+@keyframes cert3Scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes cert3ScrollRTL {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}

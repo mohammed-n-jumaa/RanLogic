@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import HomeSkeleton from '../components/common/HomeSkeleton/HomeSkeleton';
 import Header from '../components/layout/Header/Header';
 import Hero from '../components/Hero/Hero';
 import Certifications from '../components/Certifications/Certifications';
@@ -18,10 +19,16 @@ const Home = () => {
   const { currentLang, isArabic } = useLanguage();
   usePageTitle('الرئيسية', 'Home', currentLang);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [hasCertifications, setHasCertifications] = useState(true);
   const [hasAbout, setHasAbout] = useState(true);
   const [hasTestimonials, setHasTestimonials] = useState(true);
   const [hasCTA, setHasCTA] = useState(true);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleCertificationsStatus = useCallback((hasData) => {
     setHasCertifications(Boolean(hasData));
@@ -108,7 +115,8 @@ const Home = () => {
         </ul>
       </HiddenSEO>
 
-      <div className="home-page page-shell">
+      {isLoading && <HomeSkeleton />}
+      <div className="home-page page-shell" style={{ display: isLoading ? 'none' : undefined }}>
         <Header />
         <Hero />
 

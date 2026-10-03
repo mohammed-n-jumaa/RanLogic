@@ -10,6 +10,28 @@
     <link rel="dns-prefetch" href="https://api.ranlogic.com/" />
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
+    <!-- Apply last-known site colors before the app bundle loads (see SiteColorsContext.jsx) -->
+    <script>
+      (function () {
+        try {
+          var c = JSON.parse(localStorage.getItem('site_colors'));
+          if (!c) return;
+          var s = document.documentElement.style;
+          var rgb = function (hex) {
+            var h = hex.replace('#', '');
+            if (h.length === 3) h = h.split('').map(function (x) { return x + x; }).join('');
+            var n = parseInt(h.slice(0, 6), 16);
+            return ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255);
+          };
+          ['primary', 'secondary', 'accent', 'background', 'text', 'text_light'].forEach(function (k) {
+            if (c['site_' + k]) s.setProperty('--site-' + k.replace('_', '-'), c['site_' + k]);
+          });
+          if (c.site_primary) s.setProperty('--site-primary-rgb', rgb(c.site_primary));
+          if (c.site_secondary) s.setProperty('--site-secondary-rgb', rgb(c.site_secondary));
+        } catch (e) {}
+      })();
+    </script>
+
     <link
       href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -127,211 +149,6 @@
     <meta name="google-site-verification"          content="84d673ab0f98d7b4..." />
   </head>
   <body>
-    <div id="seo-static-content"
-         style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"
-         aria-hidden="true">
-
-      <!-- ══ Home ══ -->
-      <h1>RanLogic | فريق مدربين ومختصي تغذية أونلاين</h1>
-      <p>
-        RanLogic منصة لياقة بدنية متكاملة تضم فريقاً من المدربين الشخصيين المعتمدين وأخصائيي التغذية.
-        نقدم برامج تدريب مخصصة وأنظمة غذائية متكاملة عبر الإنترنت لمساعدتك على تحقيق أهدافك في
-        حرق الدهون وبناء العضلات والحفاظ على صحتك.
-      </p>
-
-      <nav>
-        <a href="/">الرئيسية</a>
-        <a href="/plans">باقات الاشتراك</a>
-        <a href="/calorie-calculator">حاسبة السعرات الحرارية المجانية</a>
-        <a href="/faq">الأسئلة الشائعة</a>
-        <a href="/contact">تواصل معنا</a>
-        <a href="/privacy-policy">سياسة الخصوصية</a>
-        <a href="/terms-of-service">شروط الخدمة</a>
-        <a href="/refund-policy">سياسة الاسترداد</a>
-      </nav>
-
-      <section>
-        <h2>خدماتنا</h2>
-        <article>
-          <h3>التدريب الشخصي أونلاين</h3>
-          <p>
-            احصل على برنامج تدريب مخصص يناسب مستواك وأهدافك مع مدرب شخصي معتمد.
-            يشمل البرنامج جدول تمارين أسبوعي، ومتابعة يومية، وتعديل مستمر بناءً على تقدمك.
-            سواء كنت تريد حرق الدهون، بناء العضلات، أو تحسين لياقتك البدنية العامة.
-          </p>
-        </article>
-        <article>
-          <h3>التغذية المخصصة مع أخصائي تغذية</h3>
-          <p>
-            خطة غذائية متكاملة من أخصائي تغذية معتمد مصممة خصيصاً لجسمك وأهدافك وأسلوب حياتك.
-            تشمل حساب السعرات الحرارية، توزيع المغذيات الكبرى، وقوائم طعام عملية تناسب ذوقك.
-          </p>
-        </article>
-        <article>
-          <h3>الباقة المتكاملة: تدريب + تغذية</h3>
-          <p>
-            أفضل نتائج في أقصر وقت من خلال الجمع بين برنامج التدريب الشخصي والنظام الغذائي المخصص.
-            فريق متكامل من المدرب وأخصائي التغذية يعمل معاً لتحقيق أهدافك.
-          </p>
-        </article>
-      </section>
-
-      <section>
-        <h2>باقات الاشتراك</h2>
-        <p>
-          نقدم باقات متنوعة تناسب جميع الاحتياجات والميزانيات.
-          تشمل باقاتنا: التدريب فقط، التغذية فقط، والباقة المتكاملة للتدريب والتغذية معاً.
-          جميع الباقات تشمل متابعة مستمرة وتواصل مباشر مع المختص.
-        </p>
-        <a href="/plans">اطلع على جميع الباقات والأسعار</a>
-      </section>
-
-      <section>
-        <h2>لماذا RanLogic؟</h2>
-        <ul>
-          <li>فريق من المدربين الشخصيين المعتمدين وأخصائيي التغذية ذوي الخبرة</li>
-          <li>برامج مخصصة بالكامل لكل عميل بناءً على أهدافه وجسمه وأسلوب حياته</li>
-          <li>متابعة يومية ودعم مستمر طوال فترة الاشتراك</li>
-          <li>نتائج حقيقية وموثقة لآلاف العملاء</li>
-          <li>تواصل سهل ومباشر مع المختص في أي وقت</li>
-          <li>خدمة أونلاين تناسبك أينما كنت</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>تواصل معنا</h2>
-        <p>
-          هل لديك سؤال أو تريد الاشتراك؟ تواصل مع فريق RanLogic عبر صفحة التواصل
-          وسيرد عليك أحد أخصائيينا في أقرب وقت.
-        </p>
-        <a href="/contact">تواصل مع فريقنا</a>
-      </section>
-
-      <!-- ══ FAQ ══ -->
-      <section>
-        <h2>الأسئلة الشائعة — Frequently Asked Questions</h2>
-        <p>
-          إجابات شاملة على أكثر الأسئلة شيوعاً حول التدريب الرياضي أونلاين، التغذية الصحية،
-          وكيفية الاشتراك في برامج RanLogic.
-        </p>
-        <p>
-          Comprehensive answers to the most common questions about online fitness training,
-          healthy nutrition, and how to subscribe to RanLogic programs.
-        </p>
-        <a href="/faq">اقرأ الأسئلة الشائعة — Read the FAQ</a>
-        <article>
-          <h3>كيف تعمل برامج RanLogic؟</h3>
-          <p>بعد الاشتراك تحصل على برنامج تدريب وتغذية مخصص خلال 24-48 ساعة، مع متابعة مستمرة من مدربك الشخصي عبر الدردشة المباشرة.</p>
-        </article>
-        <article>
-          <h3>هل البرامج مناسبة للمبتدئين؟</h3>
-          <p>نعم، نصمم البرامج لتناسب جميع المستويات من المبتدئين إلى المحترفين. كل برنامج يتم تخصيصه حسب مستواك وأهدافك.</p>
-        </article>
-        <article>
-          <h3>هل يمكنني الإلغاء في أي وقت؟</h3>
-          <p>نعم، يمكنك إلغاء اشتراكك في أي وقت. سيستمر الاشتراك حتى نهاية الفترة المدفوعة ولن يتم تجديده تلقائياً.</p>
-        </article>
-        <article>
-          <h3>How do RanLogic programs work?</h3>
-          <p>After subscribing, you receive a customized training and nutrition plan within 24-48 hours, with continuous follow-up from your personal coach via direct chat.</p>
-        </article>
-        <article>
-          <h3>Are the programs suitable for beginners?</h3>
-          <p>Yes, we design programs for all levels from beginners to professionals. Each program is customized based on your level and goals.</p>
-        </article>
-        <article>
-          <h3>Can I cancel at any time?</h3>
-          <p>Yes, you can cancel your subscription at any time. The subscription will continue until the end of the paid period and will not renew automatically.</p>
-        </article>
-      </section>
-
-      <!-- ══ Calorie Calculator ══ -->
-      <section>
-        <h2>حاسبة السعرات الحرارية المجانية — Free Calorie Calculator</h2>
-        <p>
-          احسب احتياجك اليومي من السعرات الحرارية والبروتين والكربوهيدرات والدهون مجاناً.
-          الحاسبة مصممة من قبل أخصائيي التغذية في فريق RanLogic وتأخذ بعين الاعتبار
-          عمرك، وزنك، طولك، جنسك، ومستوى نشاطك اليومي وهدفك.
-        </p>
-        <p>
-          Calculate your daily calorie needs, protein, carbohydrates and fats for free.
-          Designed by RanLogic nutrition specialists based on your age, weight, height,
-          gender, activity level and fitness goal — whether weight loss or muscle gain.
-        </p>
-        <a href="/calorie-calculator">استخدم حاسبة السعرات المجانية — Use the Free Calorie Calculator</a>
-        <ul>
-          <li>حساب السعرات الحرارية اليومية (BMR و TDEE) بناءً على هدفك</li>
-          <li>توزيع المغذيات الكبرى: بروتين، كربوهيدرات، دهون</li>
-          <li>مناسبة لخسارة الوزن، بناء العضلات، أو الحفاظ على الوزن</li>
-          <li>Calculate BMR and TDEE accurately for your fitness goal</li>
-          <li>Free macro calculator for weight loss and muscle gain</li>
-          <li>Suitable for all ages and activity levels</li>
-        </ul>
-      </section>
-
-      <!-- ══ Privacy Policy ══ -->
-      <section>
-        <h2>سياسة الخصوصية — Privacy Policy</h2>
-        <p>
-          نوضح هنا كيف يتم جمع بياناتك واستخدامها وحمايتها أثناء استخدامك لموقع RanLogic
-          وخدمات الاشتراك والتدريب والتغذية المقدمة من فريق RanLogic.
-        </p>
-        <p>
-          This policy explains how we collect, use, and protect your personal data
-          when you use RanLogic's website, subscription services, and online training programs.
-        </p>
-        <a href="/privacy-policy">اقرأ سياسة الخصوصية كاملة — Read the full Privacy Policy</a>
-        <ul>
-          <li>نحمي بياناتك الشخصية ولا نشاركها مع أطراف ثالثة دون إذنك</li>
-          <li>نستخدم بياناتك فقط لتقديم خدمات التدريب والتغذية المخصصة</li>
-          <li>يحق لك طلب حذف بياناتك في أي وقت</li>
-          <li>We protect your personal data and do not share it with third parties without your consent</li>
-        </ul>
-      </section>
-
-      <!-- ══ Terms of Service ══ -->
-      <section>
-        <h2>شروط الخدمة — Terms of Service</h2>
-        <p>
-          اقرأ الشروط والأحكام التي تحكم استخدام منصة RanLogic وخدمات التدريب الشخصي
-          والتغذية المخصصة أونلاين. باستخدامك للموقع فإنك توافق على هذه الشروط.
-        </p>
-        <p>
-          Read the terms and conditions governing the use of the RanLogic platform
-          and online personal training and nutrition services.
-          By using our website, you agree to these terms.
-        </p>
-        <a href="/terms-of-service">اقرأ شروط الخدمة كاملة — Read the full Terms of Service</a>
-        <ul>
-          <li>يجب أن يكون عمر المستخدم 16 سنة أو أكثر للاشتراك في الخدمات</li>
-          <li>الاشتراكات غير قابلة للتحويل وتسري على الحساب المسجل فقط</li>
-          <li>Users must be 16 years or older to subscribe to our services</li>
-          <li>Subscriptions are non-transferable and apply to the registered account only</li>
-        </ul>
-      </section>
-
-      <!-- ══ Refund Policy ══ -->
-      <section>
-        <h2>سياسة الاسترداد — Refund Policy</h2>
-        <p>
-          تعرف على سياسة استرداد المدفوعات وشروطها في منصة RanLogic للتدريب الشخصي
-          والتغذية المخصصة أونلاين. نسعى لضمان رضاك التام عن خدماتنا.
-        </p>
-        <p>
-          Learn about our payment refund policy and conditions for RanLogic online
-          personal training and nutrition services. We strive to ensure your complete satisfaction.
-        </p>
-        <a href="/refund-policy">اقرأ سياسة الاسترداد كاملة — Read the full Refund Policy</a>
-        <ul>
-          <li>يمكن طلب الاسترداد خلال 7 أيام من تاريخ الاشتراك إذا لم يتم استخدام الخدمة</li>
-          <li>لا يتم الاسترداد بعد تسليم البرنامج المخصص وبدء الخدمة</li>
-          <li>Refunds can be requested within 7 days of subscription if the service has not been used</li>
-          <li>No refunds after the customized program has been delivered and the service has started</li>
-        </ul>
-      </section>
-
-    </div>
-
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

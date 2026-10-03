@@ -1,0 +1,162 @@
+# RanLogic — Hostinger (LiteSpeed/Apache)
+# This file is copied into dist/ on every build — edit it here, not on the server.
+
+# A real folder must not force /faq → /faq/ (Search Console: "Page with redirect")
+DirectorySlash Off
+
+RewriteEngine On
+
+# ══════════════════════════════════════════════
+# 1) Redirect index.html → / (منع Google من فهرسة /index.html)
+# ══════════════════════════════════════════════
+RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
+RewriteRule ^index\.html$ https://ranlogic.com/ [R=301,L]
+
+# ══════════════════════════════════════════════
+# 2) Redirect www → non-www (HTTPS)
+# ══════════════════════════════════════════════
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^www\.ranlogic\.com$ [NC]
+RewriteRule ^ https://ranlogic.com%{REQUEST_URI} [R=301,L]
+
+# ══════════════════════════════════════════════
+# 3) One URL per page: no .html, no trailing slash
+#    (must match sitemap.xml and canonical tags)
+# ══════════════════════════════════════════════
+# /faq.html → /faq  (Google verification file stays untouched)
+RewriteCond %{THE_REQUEST} \s/([^\s?]+)\.html[\s?] [NC]
+RewriteCond %{REQUEST_URI} !^/google[0-9a-f]+\.html$ [NC]
+RewriteRule ^ https://ranlogic.com/%1 [R=301,L]
+
+# /faq/ → /faq
+RewriteCond %{REQUEST_URI} ^/(.+)/$
+RewriteRule ^ https://ranlogic.com/%1 [R=301,L]
+
+# /faq → faq.html (prerendered page with its own title/description/canonical)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^.]+)$ $1.html [L]
+
+# ══════════════════════════════════════════════
+# 4) React routes without their own .html → index.html
+#    ⚠️ Keep in sync with the <Route> list in src/App.jsx
+# ══════════════════════════════════════════════
+RewriteRule ^(auth|profile|plans|payment/success|payment/cancel)$ index.html [L]
+
+# Anything else that doesn't exist → real 404 status (not a "soft 404").
+# 404.html is the app shell with noindex; React renders the NotFound page.
+ErrorDocument 404 /404.html
+
+# ══════════════════════════════════════════════
+# 5) PHP Upload Limits
+# ══════════════════════════════════════════════
+php_value upload_max_filesize 200M
+php_value post_max_size       256M
+php_value max_execution_time  300
+php_value max_input_time      300
+php_value memory_limit        512M
+
+# ══════════════════════════════════════════════
+# 6) Browser Cache — يحل "Use efficient cache lifetimes"
+# ══════════════════════════════════════════════
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML — قصير لأنه يتغير
+  ExpiresByType text/html                  "access plus 1 hour"
+
+  # CSS & JS — أسبوع (Vite يضيف hash تلقائياً)
+  ExpiresByType text/css                   "access plus 1 week"
+  ExpiresByType application/javascript     "access plus 1 week"
+  ExpiresByType text/javascript            "access plus 1 week"
+
+  # Images — شهر كامل
+  ExpiresByType image/gif                  "access plus 1 month"
+  ExpiresByType image/png                  "access plus 1 month"
+  ExpiresByType image/jpeg                 "access plus 1 month"
+  ExpiresByType image/jpg                  "access plus 1 month"
+  ExpiresByType image/webp                 "access plus 1 month"
+  ExpiresByType image/svg+xml              "access plus 1 month"
+  ExpiresByType image/x-icon              "access plus 1 year"
+  ExpiresByType image/vnd.microsoft.icon   "access plus 1 year"
+
+  # Fonts — سنة كاملة
+  ExpiresByType font/woff                  "access plus 1 year"
+  ExpiresByType font/woff2                 "access plus 1 year"
+  ExpiresByType application/font-woff      "access plus 1 year"
+  ExpiresByType application/font-woff2     "access plus 1 year"
+
+  # Video — شهر
+  ExpiresByType video/mp4                  "access plus 1 month"
+  ExpiresByType video/webm                 "access plus 1 month"
+
+  # JSON & Manifest
+  ExpiresByType application/json           "access plus 1 day"
+  ExpiresByType application/manifest+json  "access plus 1 week"
+  ExpiresByType text/cache-manifest        "access plus 0 seconds"
+</IfModule>
+
+# Cache-Control headers
+<IfModule mod_headers.c>
+  # CSS & JS (Vite hashed files)
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=604800, immutable"
+  </FilesMatch>
+
+  # Images
+  <FilesMatch "\.(gif|png|jpg|jpeg|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # Fonts
+  <FilesMatch "\.(woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Videos
+  <FilesMatch "\.(mp4|webm)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+
+  # HTML — no cache
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# ══════════════════════════════════════════════
+# 7) GZIP Compression — يحل "Reduce network payloads"
+# ══════════════════════════════════════════════
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/manifest+json
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/woff
+  AddOutputFilterByType DEFLATE font/woff2
+</IfModule>
+
+# ══════════════════════════════════════════════
+# 8) Security headers
+# ══════════════════════════════════════════════
+<IfModule mod_headers.c>
+  # منع clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # منع MIME sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # XSS Protection
+  Header always set X-XSS-Protection "1; mode=block"
+
+  # Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # HSTS — يجبر HTTPS (مهم للـ Best Practices score)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>

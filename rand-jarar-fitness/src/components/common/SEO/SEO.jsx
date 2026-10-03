@@ -20,7 +20,9 @@ const SEO = ({
   const location   = useLocation();
   const { currentLang } = useLanguage();
   const lang = currentLang || 'ar';
-  const currentUrl = `${siteConfig.siteUrl}${location.pathname}`;
+  // No trailing slash (except root) — must match sitemap.xml and the prerendered pages
+  const pathname   = location.pathname.replace(/\/+$/, '') || '/';
+  const currentUrl = `${siteConfig.siteUrl}${pathname}`;
 
   useEffect(() => {
     // ── Resolve content ──────────────────────────────────────────

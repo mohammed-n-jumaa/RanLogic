@@ -134,6 +134,27 @@ export const pagesSEO = {
     en: { title: 'Terms of Service | RanLogic', description: 'Read the terms governing the use of RanLogic team platform and online training services.', keywords: 'terms of service, RanLogic', ogImage: '/og-image.jpg' }
   },
 
+  refundPolicy: {
+    ar: { title: 'سياسة الاسترداد | RanLogic', description: 'تعرف على سياسة استرداد المدفوعات وشروطها في منصة RanLogic للتدريب الشخصي والتغذية المخصصة أونلاين.', keywords: 'سياسة الاسترداد, RanLogic', ogImage: '/og-image.jpg' },
+    en: { title: 'Refund Policy | RanLogic', description: 'Learn about the payment refund policy and conditions for RanLogic online personal training and nutrition services.', keywords: 'refund policy, RanLogic', ogImage: '/og-image.jpg' }
+  },
+
+  // ── MEAL CALCULATOR ───────────────────────────────────────
+  mealCalculator: {
+    ar: {
+      title: 'حاسبة الوجبات المجانية | احسب سعرات وماكروز وجبتك - RanLogic',
+      description: 'حاسبة وجبات مجانية من RanLogic: احسب السعرات الحرارية والبروتين والكربوهيدرات والدهون لكل وجبة بسهولة لتلتزم بنظامك الغذائي.',
+      keywords: 'حاسبة الوجبات, حساب سعرات الوجبة, حاسبة ماكروز, سعرات الأكل, بروتين كربوهيدرات دهون, RanLogic',
+      ogImage: '/og-image.jpg'
+    },
+    en: {
+      title: 'Free Meal Calculator | Calories & Macros per Meal - RanLogic',
+      description: 'Free meal calculator by RanLogic: calculate calories, protein, carbs and fats for every meal and stay on track with your nutrition plan.',
+      keywords: 'meal calculator, meal calories, macro calculator, food calories, protein carbs fats, RanLogic',
+      ogImage: '/og-image.jpg'
+    }
+  },
+
   // ── PROFILE (private — noindex) ───────────────────────────
   profile: {
     ar: { title: 'ملفي الشخصي - RanLogic', description: 'متابعة تقدمك التدريبي والغذائي.', keywords: '', ogImage: '/og-image.jpg' },

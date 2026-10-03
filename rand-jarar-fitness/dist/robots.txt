@@ -1,7 +1,7 @@
-# robots.txt — RanLogic (auto-generated 2026-09-30)
+# robots.txt — RanLogic (auto-generated 2026-10-03)
 User-agent: *
 Allow: /
 Disallow: /profile
 Disallow: /payment
 
-Sitemap: https://api.ranlogic.com/sitemap.xml
+Sitemap: https://ranlogic.com/sitemap.xml

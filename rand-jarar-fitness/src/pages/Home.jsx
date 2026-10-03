@@ -9,14 +9,13 @@ import CTA from '../components/CTA/CTA';
 import Footer from '../components/layout/Footer/Footer';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../components/common/SEO/SEO';
-import HiddenSEO from '../components/common/SEO/HiddenSEO';
 import { breadcrumbs, structuredData, siteConfig } from '../utils/seoConfig';
 import usePageTitle from '@/hooks/usePageTitle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import './Home.scss';
 
 const Home = () => {
-  const { currentLang, isArabic } = useLanguage();
+  const { currentLang } = useLanguage();
   usePageTitle('الرئيسية', 'Home', currentLang);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -80,40 +79,6 @@ const Home = () => {
         structuredDataOverride={homeStructuredData}
         breadcrumbItems={breadcrumbs.home(currentLang)}
       />
-
-      {/*
-        HiddenSEO — محتوى نصي مرئي لـ screen readers وGoogle.
-        مقبول من Google لأنه:
-        1. محتواه ذو صلة بالصفحة
-        2. متاح لقارئات الشاشة (sr-only)
-        3. ليس مخفياً بـ opacity أو color:transparent (cloaking)
-      */}
-      <HiddenSEO as="div">
-        <h1>
-          {isArabic
-            ? 'RanLogic - فريق مدربين ومختصي تغذية أونلاين معتمدين عالمياً'
-            : 'RanLogic - Certified Online Personal Trainers & Nutrition Specialists'}
-        </h1>
-        <p>
-          {isArabic
-            ? 'منصة لياقة بدنية متكاملة: فريق من المدربين الشخصيين المعتمدين ومختصي التغذية. برامج خسارة الوزن، بناء العضلات، التنشيف للنساء والرجال. متابعة يومية ونتائج مضمونة في جميع أنحاء العالم عبر الإنترنت.'
-            : 'Complete fitness platform: team of certified personal trainers and nutrition specialists. Weight loss, muscle building, and cutting programs for women and men. Daily follow-up and guaranteed results worldwide.'}
-        </p>
-        <h2>
-          {isArabic
-            ? 'خدمات RanLogic المتوفرة عالمياً'
-            : 'RanLogic Global Services'}
-        </h2>
-        <ul>
-          <li>{isArabic ? 'تدريب شخصي أونلاين مع مدرب معتمد' : 'Online personal training with certified coach'}</li>
-          <li>{isArabic ? 'استشارة تغذية مخصصة مع مختص معتمد' : 'Custom nutrition consultation with certified specialist'}</li>
-          <li>{isArabic ? 'برامج حرق الدهون وتنشيف الجسم' : 'Fat loss and body toning programs'}</li>
-          <li>{isArabic ? 'برامج بناء العضلات وزيادة القوة' : 'Muscle building and strength programs'}</li>
-          <li>{isArabic ? 'حاسبة السعرات الحرارية مجانية' : 'Free calorie calculator'}</li>
-          <li>{isArabic ? 'متابعة يومية وأسبوعية' : 'Daily and weekly follow-up'}</li>
-          <li>{isArabic ? 'اشتراكات مرنة شهرية وسنوية' : 'Flexible monthly and annual subscriptions'}</li>
-        </ul>
-      </HiddenSEO>
 
       {isLoading && <HomeSkeleton />}
       <div className="home-page page-shell" style={{ display: isLoading ? 'none' : undefined }}>

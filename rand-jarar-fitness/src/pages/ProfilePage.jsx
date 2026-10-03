@@ -12,6 +12,7 @@ import PaymentTab from '../features/payment/PaymentTab';
 import DashboardTab from '../features/dashboard/DashboardTab';
 import LanguageToggle from '../features/profile/LanguageToggle/LanguageToggle';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
+import ProfileSkeleton from '../components/common/ProfileSkeleton/ProfileSkeleton';
 import SEO from '../components/common/SEO/SEO';
 import { ProfileLanguageProvider } from '../contexts/ProfileLanguageContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -146,12 +147,7 @@ const handleProfileUpdate = useCallback(throttle(async (updatedData) => {
     return (
       <>
         {sharedSEO}
-        <div className="profile-page loading">
-          <div className="loading-spinner">
-            <div className="spinner"></div>
-            <p>{currentLang === 'ar' ? 'جاري تحميل الملف الشخصي...' : 'Loading profile...'}</p>
-          </div>
-        </div>
+        <ProfileSkeleton />
       </>
     );
   }

@@ -270,7 +270,7 @@ Both applications are fully responsive across all breakpoints:
 
 ## 👤 Author
 
-**Mohammed** — Full Stack Developer at K-Apps, Kuwait
+**Mohammed** — Full Stack Developer
 
 Built with Laravel, React, and dedication for **Rand Jarar** — Certified Fitness Coach.
 
@@ -279,3 +279,8 @@ Built with Laravel, React, and dedication for **Rand Jarar** — Certified Fitne
 <p align="center">
   <sub>© 2025 RanLogic. All rights reserved.</sub>
 </p>
+
+- Run commands with minimal output: npm ci --silent, vitest --reporter=dot, playwright --reporter=line, eslint --quiet.
+- Never read Playwright screenshot images unless a diff fails; read only the diff summary.
+- Never print whole files to confirm an edit.
+- Read only the files needed for the current task.

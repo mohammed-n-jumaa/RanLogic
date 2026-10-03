@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/layout/Header/Header';
+import PlansSkeleton from '../components/common/PlansSkeleton/PlansSkeleton';
 import PlanCard from "../features/plans/PlanCard";
 import PaymentModal from "../features/plans/PaymentModal";
 import FeaturesComparison from "../features/plans/FeaturesComparison";
@@ -128,13 +129,7 @@ const Plans = () => {
           page="plans"
           breadcrumbItems={breadcrumbs.plans(currentLang)}
         />
-        <div className="plans-page">
-          <Header />
-          <div className="plans-loading">
-            <div className="spinner"></div>
-            <p>{isArabic ? 'جاري تحميل الخطط...' : 'Loading plans...'}</p>
-          </div>
-        </div>
+        <PlansSkeleton />
       </>
     );
   }

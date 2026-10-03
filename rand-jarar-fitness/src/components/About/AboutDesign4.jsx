@@ -38,7 +38,7 @@ const AboutDesign4 = ({ aboutData }) => {
         <div className="abt4-col abt4-col--center">
           <div className="abt4-photo">
             <div className="abt4-cert">✓ {isArabic ? 'معتمدة' : 'Certified'}</div>
-            <img src={image_url || '/coach.png'} alt="Coach" onError={e => e.target.src = '/coach.png'} />
+            <img src={image_url || '/coach.webp'} alt="Coach" onError={e => e.target.src = '/coach.webp'} />
           </div>
           <div className="abt4-name"><h3>Rand Jarar</h3><span>{isArabic ? 'مدربة رئيسية' : 'Head Coach'}</span></div>
           <div className="abt4-float-stats">

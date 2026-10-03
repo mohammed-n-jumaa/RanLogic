@@ -12,6 +12,8 @@ const Profile = lazy(() => import('./pages/ProfilePage.jsx'));
 const Plans = lazy(() => import('./pages/Plans.jsx'));
 const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
 import ProtectedRoute from './features/auth/ProtectedRoute';
+import PlansSkeleton from './components/common/PlansSkeleton/PlansSkeleton';
+import ProfileSkeleton from './components/common/ProfileSkeleton/ProfileSkeleton';
 const SubscriptionCancel = lazy(() => import('./pages/SubscriptionCancel'));
 import { initAnalytics } from './utils/analytics.loader';
 import { initPerformanceMonitoring } from './utils/performance.utils';
@@ -112,8 +114,10 @@ function App() {
                   <Route
                     path="/profile"
                     element={
-                      <ProtectedRoute>
-                        <PageErrorBoundary><Profile /></PageErrorBoundary>
+                      <ProtectedRoute fallback={<ProfileSkeleton />}>
+                        <Suspense fallback={<ProfileSkeleton />}>
+                          <PageErrorBoundary><Profile /></PageErrorBoundary>
+                        </Suspense>
                       </ProtectedRoute>
                     }
                   />
@@ -121,8 +125,10 @@ function App() {
                   <Route
                     path="/plans"
                     element={
-                      <ProtectedRoute>
-                        <PageErrorBoundary><Plans /></PageErrorBoundary>
+                      <ProtectedRoute fallback={<PlansSkeleton />}>
+                        <Suspense fallback={<PlansSkeleton />}>
+                          <PageErrorBoundary><Plans /></PageErrorBoundary>
+                        </Suspense>
                       </ProtectedRoute>
                     }
                   />

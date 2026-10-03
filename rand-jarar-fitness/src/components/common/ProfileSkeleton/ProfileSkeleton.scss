@@ -1,0 +1,152 @@
+@use '../../../styles/variables.scss' as *;
+
+// Bones come from HomeSkeleton.scss — light variant to match .profile-page in Profile.scss
+.profile-skeleton {
+  --sk-bone:  #eceef1;
+  --sk-shine: #f6f7f9;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 2rem 0;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-mobile) { padding: 1rem 0; }
+}
+
+// ─── Header card (mirrors .profile-header) ──────────
+.prs-header {
+  background: white;
+  border-radius: $radius-lg;
+  padding: 2.5rem;
+  margin: 0 auto 2rem;
+  max-width: 1400px;
+  box-shadow: $shadow-md;
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: 2rem 1.5rem;
+    margin: 0 1rem 1.5rem;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    padding: 1.5rem;
+    margin: 0 0.5rem 0.5rem;
+    border-radius: $radius-md;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+
+    @media (max-width: $breakpoint-tablet) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+
+  &__info {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+
+    @media (max-width: $breakpoint-mobile) { gap: 1rem; }
+  }
+
+  &__stats {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.prs-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+.prs-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+// ─── Tabs (mirrors .profile-tabs) ───────────────────
+.prs-tabs {
+  display: flex;
+  gap: 1rem;
+  margin: 0 auto 2rem;
+  max-width: 1400px;
+  padding: 0 1rem;
+  overflow: hidden;
+
+  @media (max-width: $breakpoint-mobile) {
+    gap: 0.5rem;
+    padding: 0 0.5rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.prs-tab {
+  flex: 0 0 140px;
+  height: 52px;
+  border-radius: $radius-md;
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-basis: 100px;
+    height: 44px;
+  }
+}
+
+// ─── Overview grid (mirrors .overview-grid) ─────────
+.prs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media (max-width: $breakpoint-laptop) { grid-template-columns: 1fr; }
+
+  @media (max-width: $breakpoint-mobile) {
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+}
+
+.prs-card {
+  background: white;
+  border-radius: $radius-lg;
+  padding: 2rem;
+  box-shadow: $shadow-md;
+
+  @media (max-width: $breakpoint-mobile) { padding: 1.5rem; }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: $radius-md;
+    background: #f8f9fa;
+  }
+}

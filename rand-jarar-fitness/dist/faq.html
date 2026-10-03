@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.ranlogic.com" />
+    <link rel="dns-prefetch" href="https://api.ranlogic.com/" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+    <!-- Apply last-known site colors before the app bundle loads (see SiteColorsContext.jsx) -->
+    <script>
+      (function () {
+        try {
+          var c = JSON.parse(localStorage.getItem('site_colors'));
+          if (!c) return;
+          var s = document.documentElement.style;
+          var rgb = function (hex) {
+            var h = hex.replace('#', '');
+            if (h.length === 3) h = h.split('').map(function (x) { return x + x; }).join('');
+            var n = parseInt(h.slice(0, 6), 16);
+            return ((n >> 16) & 255) + ', ' + ((n >> 8) & 255) + ', ' + (n & 255);
+          };
+          ['primary', 'secondary', 'accent', 'background', 'text', 'text_light'].forEach(function (k) {
+            if (c['site_' + k]) s.setProperty('--site-' + k.replace('_', '-'), c['site_' + k]);
+          });
+          if (c.site_primary) s.setProperty('--site-primary-rgb', rgb(c.site_primary));
+          if (c.site_secondary) s.setProperty('--site-secondary-rgb', rgb(c.site_secondary));
+        } catch (e) {}
+      })();
+    </script>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <title>الأسئلة الشائعة | كل ما تريد معرفته عن التدريب والتغذية أونلاين - RanLogic</title>
+    <meta name="description" content="إجابات على أكثر الأسئلة شيوعاً: كيف يعمل التدريب أونلاين؟ ما الفرق بين الباقات؟ كيف يُصمَّم النظام الغذائي؟ وأكثر." />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://ranlogic.com/faq" />
+
+    <link rel="alternate" hreflang="ar" href="https://ranlogic.com/faq" />
+    <link rel="alternate" hreflang="en" href="https://ranlogic.com/faq" />
+    <link rel="alternate" hreflang="x-default" href="https://ranlogic.com/faq" />
+
+    <meta property="og:type"        content="website" />
+    <meta property="og:site_name"   content="RanLogic" />
+    <meta property="og:url"         content="https://ranlogic.com/faq" />
+    <meta property="og:title"       content="الأسئلة الشائعة | كل ما تريد معرفته عن التدريب والتغذية أونلاين - RanLogic" />
+    <meta property="og:description" content="إجابات على أكثر الأسئلة شيوعاً: كيف يعمل التدريب أونلاين؟ ما الفرق بين الباقات؟ كيف يُصمَّم النظام الغذائي؟ وأكثر." />
+    <meta property="og:image"       content="https://ranlogic.com/og-image.jpg" />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale"      content="ar_AR" />
+
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:site"        content="@RanLogic" />
+    <meta name="twitter:title"       content="الأسئلة الشائعة | كل ما تريد معرفته عن التدريب والتغذية أونلاين - RanLogic" />
+    <meta name="twitter:description" content="إجابات على أكثر الأسئلة شيوعاً: كيف يعمل التدريب أونلاين؟ ما الفرق بين الباقات؟ كيف يُصمَّم النظام الغذائي؟ وأكثر." />
+    <meta name="twitter:image"       content="https://ranlogic.com/og-image.jpg" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://ranlogic.com/#organization",
+      "name": "RanLogic",
+      "url": "https://ranlogic.com",
+      "logo": { "@type": "ImageObject", "url": "https://ranlogic.com/icons/icon-512x512.png" },
+      "sameAs": ["https://instagram.com/ranlogicc","https://tiktok.com/@ranlogicc","https://youtube.com/@ranlogic"]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://ranlogic.com/#website",
+      "name": "RanLogic",
+      "url": "https://ranlogic.com",
+      "inLanguage": ["ar", "en"],
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://ranlogic.com/faq?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HealthAndBeautyBusiness",
+      "@id": "https://ranlogic.com/#business",
+      "name": "RanLogic",
+      "url": "https://ranlogic.com",
+      "description": "فريق متخصص من المدربين الشخصيين المعتمدين وأخصائيي التغذية. نقدم برامج تدريب مخصصة وأنظمة غذائية متكاملة عبر الإنترنت.",
+      "priceRange": "$$",
+      "areaServed": { "@type": "Country", "name": "الدول العربية" },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "باقات التدريب والتغذية",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "برنامج التدريب الشخصي أونلاين",
+              "description": "برنامج تدريب مخصص مع مدرب شخصي معتمد عبر الإنترنت"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "نظام غذائي مخصص مع أخصائي تغذية",
+              "description": "خطة غذائية متكاملة من أخصائي تغذية معتمد تناسب أهدافك وأسلوب حياتك"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "باقة التدريب والتغذية المتكاملة",
+              "description": "الجمع بين برنامج التدريب الشخصي والنظام الغذائي المخصص لأسرع النتائج"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <link rel="icon"            type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon"                    href="/apple-touch-icon-V2.png" />
+    <link rel="manifest"                            href="/manifest.webmanifest" />
+    <meta name="theme-color"                       content="#FDB813" />
+    <meta name="mobile-web-app-capable"            content="yes" />
+    <meta name="apple-mobile-web-app-capable"      content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title"        content="RanLogic" />
+    <meta name="google-site-verification"          content="84d673ab0f98d7b4..." />
+    <script type="module" crossorigin src="/assets/index-DvZkK4yl.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-BBZsY560.js">
+    <link rel="modulepreload" crossorigin href="/assets/framer-C0CX1KXE.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CRyf-2dc.js">
+    <link rel="modulepreload" crossorigin href="/assets/axios-BV78V7bl.js">
+    <link rel="modulepreload" crossorigin href="/assets/swal-N3ScyWiI.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-BCIYxBva.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

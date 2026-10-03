@@ -6,7 +6,8 @@
 }
 
 .hs-bone {
-  background: linear-gradient(90deg, #232323 25%, #2c2c2c 50%, #232323 75%);
+  // --sk-bone / --sk-shine let other skeletons (Plans, Profile) match their page background
+  background: linear-gradient(90deg, var(--sk-bone, #232323) 25%, var(--sk-shine, #2c2c2c) 50%, var(--sk-bone, #232323) 75%);
   background-size: 400px 100%;
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: $radius-sm;

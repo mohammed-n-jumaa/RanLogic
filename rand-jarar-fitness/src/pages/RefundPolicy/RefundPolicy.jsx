@@ -112,6 +112,7 @@ const RefundPolicy = () => {
   return (
     <>
       <SEO
+        page="refundPolicy"
         title={t.seoTitle}
         description={t.seoDescription}
         lang={currentLang}

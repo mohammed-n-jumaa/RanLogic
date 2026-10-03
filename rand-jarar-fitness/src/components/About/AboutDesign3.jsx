@@ -22,8 +22,8 @@ const AboutDesign3 = ({ aboutData }) => {
         <div className="abt3-verified">
           {isArabic ? '✓ معتمدة' : '✓ Certified'}
         </div>
-        <img src={image_url || '/coach.png'} alt="Coach" className="abt3-img"
-          onError={(e) => { e.target.src = '/coach.png'; }} />
+        <img src={image_url || '/coach.webp'} alt="Coach" className="abt3-img"
+          onError={(e) => { e.target.src = '/coach.webp'; }} />
         <div className="abt3-img-overlay" />
         <div className="abt3-name-tag">
           <h3>Rand Jarar</h3>

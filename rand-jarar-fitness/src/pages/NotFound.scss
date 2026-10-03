@@ -1,449 +1,291 @@
+@use '../styles/variables.scss' as *;
+
 .nf {
+  position: relative;
+  isolation: isolate;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #050505;
-  position: relative;
+  background: var(--site-secondary, #1C1C1C);
+  color: #f5f5f5;
   overflow: hidden;
-  text-align: center;
-  padding: 2rem;
 
-  // ═══════════════════════════════
-  // GRID BACKGROUND
-  // ═══════════════════════════════
-  &__grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(var(--site-primary-rgb), 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(var(--site-primary-rgb), 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 100%);
-  }
-
-  // ═══════════════════════════════
-  // FLOATING PARTICLES
-  // ═══════════════════════════════
-  &__particles {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  &__particle {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--size);
-    height: var(--size);
-    background: var(--site-primary);
-    border-radius: 50%;
-    opacity: 0;
-    animation: nf-particle var(--duration) var(--delay) ease-in-out infinite;
-  }
-
-  // ═══════════════════════════════
-  // GLOWING ORBS
-  // ═══════════════════════════════
-  &__orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-
-    &--1 {
-      width: 400px;
-      height: 400px;
-      background: rgba(var(--site-primary-rgb), 0.08);
-      top: -10%;
-      right: -5%;
-      animation: nf-orbit1 12s ease-in-out infinite;
-    }
-
-    &--2 {
-      width: 300px;
-      height: 300px;
-      background: rgba(var(--site-primary-rgb), 0.05);
-      bottom: -5%;
-      left: -5%;
-      animation: nf-orbit2 15s ease-in-out infinite;
-    }
-
-    &--3 {
-      width: 200px;
-      height: 200px;
-      background: rgba(var(--site-primary-rgb), 0.04);
-      top: 40%;
-      left: 30%;
-      animation: nf-orbit3 10s ease-in-out infinite;
-    }
-  }
-
-  // ═══════════════════════════════
-  // CONTENT
-  // ═══════════════════════════════
-  &__content {
-    position: relative;
-    z-index: 1;
-    max-width: 600px;
+  &__inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 3rem;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+
+    @media (max-width: $breakpoint-laptop) {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 1rem;
+    }
+  }
+
+  &__glow {
+    position: absolute;
+    inset: auto 0 -30% 0;
+    height: 70%;
+    z-index: -1;
+    background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(var(--site-primary-rgb), 0.18), transparent 70%);
+    pointer-events: none;
+  }
+
+  // ─── Stage (barbell + copy) ───────────────────────
+  &__stage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    text-align: center;
   }
 
-  &__hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  // ═══════════════════════════════
-  // 404 NUMBER
-  // ═══════════════════════════════
-  &__big-number {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    user-select: none;
-  }
-
-  &__digit {
-    font-size: 8rem;
-    font-weight: 900;
-    line-height: 1;
-    background: linear-gradient(180deg, var(--site-primary) 0%, #c48a00 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 60px rgba(var(--site-primary-rgb), 0.2);
-    filter: drop-shadow(0 0 30px rgba(var(--site-primary-rgb), 0.15));
-  }
-
-  &__kettlebell {
-    width: 80px;
-    height: 100px;
-    animation: nf-swing 3s ease-in-out infinite;
-    transform-origin: 50% 15%;
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  &__kb-handle {
-    animation: nf-glow 2s ease-in-out infinite;
-  }
-
-  // ═══════════════════════════════
-  // HEARTBEAT LINE
-  // ═══════════════════════════════
-  &__heartbeat-wrap {
-    width: 100%;
-    max-width: 400px;
-    height: 40px;
-    margin-top: -0.5rem;
-  }
-
-  &__heartbeat {
-    width: 100%;
-    height: 100%;
-  }
-
-  &__heartbeat-line {
-    stroke-dasharray: 800;
-    stroke-dashoffset: 800;
-    animation: nf-draw 2s ease forwards 0.8s, nf-pulse-line 3s ease-in-out infinite 3s;
-    filter: drop-shadow(0 0 6px rgba(var(--site-primary-rgb), 0.4));
-  }
-
-  // ═══════════════════════════════
-  // TEXT
-  // ═══════════════════════════════
-  &__text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  &__badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.45rem 1.2rem;
-    background: rgba(var(--site-primary-rgb), 0.08);
-    border: 1px solid rgba(var(--site-primary-rgb), 0.2);
-    border-radius: 50px;
+  &__eyebrow {
+    margin: 0 0 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     color: var(--site-primary);
-    font-size: 0.82rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
 
-    &-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--site-primary);
-      animation: nf-blink 2s ease-in-out infinite;
+  &__bar-btn {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    padding: 0 0 18px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    &:focus-visible {
+      outline: 2px solid var(--site-primary);
+      outline-offset: 8px;
+      border-radius: $radius-md;
     }
+  }
+
+  &__barbell {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__floor {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: 0;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), transparent 70%);
+  }
+
+  &__counter {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  &__counter-num {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--site-primary);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  &__counter-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   &__title {
-    font-size: 2.2rem;
+    margin: 1.25rem 0 0.75rem;
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
     font-weight: 800;
-    color: #fff;
-    margin: 0;
     line-height: 1.3;
+    color: #fff;
   }
 
-  &__subtitle {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.45);
-    line-height: 1.8;
+  &__coach {
+    min-height: 3em;
     margin: 0;
     max-width: 440px;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.7);
   }
 
-  // ═══════════════════════════════
-  // STATS BAR
-  // ═══════════════════════════════
-  &__stats {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-  }
-
-  &__stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-
-    &-number {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--site-primary);
-    }
-
-    &-label {
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.4);
-      font-weight: 500;
-    }
-
-    &-line {
-      width: 1px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-  }
-
-  // ═══════════════════════════════
-  // BUTTONS
-  // ═══════════════════════════════
   &__actions {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
   }
 
   &__btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.85rem 2rem;
-    border-radius: 14px;
-    font-size: 0.95rem;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 1.75rem;
+    border-radius: $radius-xl;
+    font-size: 1rem;
     font-weight: 700;
+    text-decoration: none;
     cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    font-family: inherit;
-    position: relative;
-    overflow: hidden;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+
+    &:hover { transform: translateY(-2px); }
+    &:focus-visible {
+      outline: 2px solid var(--site-primary);
+      outline-offset: 3px;
+    }
 
     &--primary {
-      background: linear-gradient(135deg, var(--site-primary) 0%, #d49a00 100%);
-      color: #0a0a0a;
-      box-shadow:
-        0 4px 15px rgba(var(--site-primary-rgb), 0.3),
-        0 0 40px rgba(var(--site-primary-rgb), 0.1);
-
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
-        transform: translateX(-100%);
-        transition: transform 0.6s ease;
-      }
-
-      &:hover {
-        transform: translateY(-3px);
-        box-shadow:
-          0 8px 30px rgba(var(--site-primary-rgb), 0.45),
-          0 0 60px rgba(var(--site-primary-rgb), 0.15);
-
-        &::before {
-          transform: translateX(100%);
-        }
-      }
-
-      &:active {
-        transform: translateY(-1px);
-      }
+      border: 0;
+      background: var(--site-primary);
+      color: var(--site-secondary, #1C1C1C);
     }
 
     &--ghost {
+      border: 1px solid rgba(255, 255, 255, 0.2);
       background: transparent;
-      color: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
 
-      &:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(var(--site-primary-rgb), 0.3);
-        color: var(--site-primary);
-        transform: translateY(-3px);
-      }
-
-      &:active {
-        transform: translateY(-1px);
-      }
+      &:hover { border-color: var(--site-primary); }
     }
   }
 
-  // ═══════════════════════════════
-  // QUOTE
-  // ═══════════════════════════════
-  &__quote {
-    color: rgba(255, 255, 255, 0.2);
-    font-size: 0.85rem;
-    font-style: italic;
+  // ─── Recovery workout card ───────────────────────
+  &__workout {
+    padding: 2rem;
+    border-radius: $radius-lg;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    @media (max-width: $breakpoint-mobile) { padding: 1.5rem 1.25rem; }
+  }
+
+  &__workout-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+
+    h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    span {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__exercises {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
     margin: 0;
-    max-width: 400px;
-    line-height: 1.6;
+    padding: 0;
+    list-style: none;
   }
 
-  // ═══════════════════════════════
-  // ANIMATIONS
-  // ═══════════════════════════════
-  @keyframes nf-particle {
-    0%, 100% {
-      opacity: 0;
-      transform: translateY(0) scale(0);
-    }
-    20% {
-      opacity: 0.6;
-      transform: translateY(-20px) scale(1);
-    }
-    80% {
-      opacity: 0.3;
-      transform: translateY(-80px) scale(0.5);
+  &__exercise {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid transparent;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(var(--site-primary-rgb), 0.08);
+      border-color: rgba(var(--site-primary-rgb), 0.35);
+      outline: none;
+
+      .nf__exercise-arrow { transform: translateX(var(--nf-arrow-shift, 4px)); }
     }
   }
 
-  @keyframes nf-orbit1 {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(-40px, 30px); }
-    66% { transform: translate(20px, -20px); }
+  &[dir='rtl'] { --nf-arrow-shift: -4px; }
+
+  &__exercise-num {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--site-primary);
+    font-variant-numeric: tabular-nums;
   }
 
-  @keyframes nf-orbit2 {
-    0%, 100% { transform: translate(0, 0); }
-    33% { transform: translate(30px, -40px); }
-    66% { transform: translate(-20px, 20px); }
+  &__exercise-name {
+    flex: 1;
+    font-weight: 600;
   }
 
-  @keyframes nf-orbit3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(30px, -20px) scale(1.3); }
+  &__exercise-sets {
+    padding: 0.2rem 0.6rem;
+    border-radius: $radius-sm;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
   }
 
-  @keyframes nf-swing {
-    0%, 100% { transform: rotate(0deg); }
-    20% { transform: rotate(-12deg); }
-    40% { transform: rotate(10deg); }
-    60% { transform: rotate(-6deg); }
-    80% { transform: rotate(4deg); }
+  &__exercise-arrow {
+    color: var(--site-primary);
+    transition: transform 0.2s ease;
   }
+}
 
-  @keyframes nf-glow {
-    0%, 100% { stroke: var(--site-primary); }
-    50% { stroke: var(--site-primary); }
-  }
+// ─── Barbell SVG parts ─────────────────────────────
+.nf-bar {
+  fill: #8a8a8a;
+}
 
-  @keyframes nf-draw {
-    to { stroke-dashoffset: 0; }
-  }
+.nf-bar__end {
+  fill: #6b6b6b;
+}
 
-  @keyframes nf-pulse-line {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
+.nf-plate {
+  fill: var(--site-primary);
+}
 
-  @keyframes nf-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+.nf-plate__groove {
+  fill: rgba(0, 0, 0, 0.18);
+}
 
-  // ═══════════════════════════════
-  // RESPONSIVE
-  // ═══════════════════════════════
-  @media (max-width: 640px) {
-    padding: 1.5rem;
+.nf-plate__label {
+  font-size: 46px;
+  font-weight: 900;
+  fill: var(--site-secondary, #1C1C1C);
+  font-family: inherit;
+}
 
-    &__digit {
-      font-size: 5rem;
-    }
-
-    &__kettlebell {
-      width: 55px;
-      height: 70px;
-    }
-
-    &__title {
-      font-size: 1.6rem;
-    }
-
-    &__subtitle {
-      font-size: 0.95rem;
-    }
-
-    &__stats {
-      flex-direction: column;
-      gap: 1rem;
-      padding: 1.2rem;
-    }
-
-    &__stat-line {
-      width: 60%;
-      height: 1px;
-    }
-
-    &__actions {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    &__btn {
-      justify-content: center;
-      width: 100%;
-    }
-
-    &__heartbeat-wrap {
-      max-width: 280px;
-    }
-
-    &__quote {
-      font-size: 0.78rem;
-    }
+@media (prefers-reduced-motion: reduce) {
+  .nf__btn,
+  .nf__exercise,
+  .nf__exercise-arrow {
+    transition: none;
   }
 }

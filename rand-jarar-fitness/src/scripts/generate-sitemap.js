@@ -11,7 +11,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const SITE_URL   = 'https://api.ranlogic.com';
+const SITE_URL   = 'https://ranlogic.com';
 const PUBLIC_DIR = path.join(__dirname, '../../public');
 
 const today = new Date().toISOString().split('T')[0];
@@ -19,15 +19,14 @@ const today = new Date().toISOString().split('T')[0];
 // ── Pages config ─────────────────────────────────────────────────────────────
 const pages = [
   { path: '/',                    priority: '1.0', changefreq: 'weekly',  public: true  },
-  { path: '/plans',               priority: '0.9', changefreq: 'weekly',  public: true  },
   { path: '/calorie-calculator',  priority: '0.9', changefreq: 'monthly', public: true  },
   { path: '/faq',                 priority: '0.8', changefreq: 'weekly',  public: true  },
   { path: '/contact',             priority: '0.7', changefreq: 'monthly', public: true  },
-  { path: '/auth',                priority: '0.6', changefreq: 'monthly', public: true  },
+  { path: '/meal-calculator',     priority: '0.8', changefreq: 'monthly', public: true  },
   { path: '/privacy-policy',      priority: '0.3', changefreq: 'yearly',  public: true  },
   { path: '/terms-of-service',    priority: '0.3', changefreq: 'yearly',  public: true  },
   { path: '/refund-policy',       priority: '0.3', changefreq: 'yearly',  public: true  },
-  // Private — excluded
+  // Private — excluded (/auth is noindex and /plans requires login: crawlable, but kept out of the sitemap)
   { path: '/profile',             public: false },
   { path: '/payment',             public: false },
 ];

@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import siteColorsApi from '../api/siteColorsApi';
 
+// Must stay in sync with :root in styles/variables.scss and the inline script in index.html
 const DEFAULTS = {
-  site_primary:    'var(--site-primary)',
-  site_secondary:  'var(--site-secondary)',
-  site_accent:     'var(--site-accent)',
+  site_primary:    '#FDB813',
+  site_secondary:  '#1C1C1C',
+  site_accent:     '#FFF8E1',
   site_background: '#FFFFFF',
-  site_text:       'var(--site-secondary)',
+  site_text:       '#1C1C1C',
   site_text_light: '#757575',
 };
+
+const STORAGE_KEY = 'site_colors';
 
 const SiteColorsContext = createContext(DEFAULTS);
 
@@ -34,16 +37,36 @@ const applyColorsToDOM = (colors) => {
  */
 const hexToRgb = (hex) => {
   const h = hex.replace('#', '');
-  const bigint = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+  const bigint = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h.slice(0, 6), 16);
   return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
 };
 
+/**
+ * Last colors fetched from the API, so repeat visits paint the right colors instantly
+ */
+const readCachedColors = () => {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : null;
+  } catch {
+    return null;
+  }
+};
+
+const writeCachedColors = (colors) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(colors));
+  } catch {
+    // Storage unavailable (private mode, quota) — colors still apply for this visit
+  }
+};
+
 export const SiteColorsProvider = ({ children }) => {
-  const [colors, setColors] = useState(DEFAULTS);
+  const [colors, setColors] = useState(() => readCachedColors() || DEFAULTS);
 
   useEffect(() => {
-    // Apply defaults immediately
-    applyColorsToDOM(DEFAULTS);
+    // Apply cached (or default) colors immediately
+    applyColorsToDOM(colors);
 
     // Then fetch from API and override
     const load = async () => {
@@ -52,11 +75,12 @@ export const SiteColorsProvider = ({ children }) => {
         const merged = { ...DEFAULTS, ...fetched };
         setColors(merged);
         applyColorsToDOM(merged);
+        writeCachedColors(merged);
       }
     };
 
     load();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SiteColorsContext.Provider value={colors}>

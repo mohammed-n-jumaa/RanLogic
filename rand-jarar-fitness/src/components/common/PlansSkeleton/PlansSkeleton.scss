@@ -1,0 +1,75 @@
+@use '../../../styles/variables.scss' as *;
+
+// Bones and header come from HomeSkeleton.scss
+
+// Same background as .plans-hero / .plans-section in Plans.scss
+.home-skeleton.plans-skeleton {
+  --sk-bone:  rgba(255, 255, 255, 0.07);
+  --sk-shine: rgba(255, 255, 255, 0.14);
+  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+}
+
+// ─── Hero ───────────────────────────────────────────
+.ps-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 2rem 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: $breakpoint-tablet) { padding: 50px 1.5rem 40px; }
+  @media (max-width: $breakpoint-mobile) { padding: 40px 1rem 30px; }
+}
+
+.ps-offer {
+  border-radius: $radius-md;
+}
+
+// ─── Cards (mirrors .plans-grid breakpoints) ────────
+.ps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem 80px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    padding: 0 1.5rem 60px;
+  }
+
+  @media (max-width: $breakpoint-mobile) { padding: 0 1rem 50px; }
+}
+
+.ps-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+  padding: 1.5rem;
+  border-radius: $radius-xl;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  @media (max-width: $breakpoint-mobile) { padding: 1.3rem; }
+
+  &__durations {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 28px 0;
+  }
+}

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import authApi from '../../api/authApi';
 import { useLanguage } from '../../contexts/LanguageContext';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, fallback = null }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
@@ -52,6 +52,7 @@ const ProtectedRoute = ({ children }) => {
   };
 
   if (loading) {
+    if (fallback) return fallback;
     return (
       <div className="loading-container">
         <div className="spinner"></div>

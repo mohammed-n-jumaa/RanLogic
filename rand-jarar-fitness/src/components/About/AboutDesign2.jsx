@@ -21,7 +21,7 @@ const AboutDesign2 = ({ aboutData }) => {
   return (
     <section className={`abt2 ${isTransparent ? 'abt2--light' : ''}`} id="about">
       <div className="abt2-img">
-        <img src={image_url || '/coach.png'} alt="Coach" onError={e => e.target.src = '/coach.png'} />
+        <img src={image_url || '/coach.webp'} alt="Coach" onError={e => e.target.src = '/coach.webp'} />
       </div>
 
       <div className="abt2-content">

@@ -55,7 +55,7 @@ const getStaticAbout = (isArabic) => ({
   highlight_text: isArabic
     ? 'معنا، لن تحصل على مجرد جدول تمارين، بل على رفيق يدعمك في كل خطوة.'
     : "With us, you don't just get a workout plan; you get a partner who supports you every step of the way.",
-  image_url: '/coach.png',
+  image_url: '/coach.webp',
   features: [
     {
       id: 1, icon: '🏋️‍♀️',
@@ -294,13 +294,13 @@ const renderedTitle = aboutData._fromApi ? formatDescription(title) : title;
               </div>
 
               <img
-                src={image_url || '/coach.png'}
+                src={image_url || '/coach.webp'}
                 alt={isArabic ? 'رند جرار — مدربة لياقة بدنية' : 'Rand Jarar — Fitness Coach'}
                 className="profile-image"
                 width="400"
                 height="533"
                 loading="lazy"
-                onError={(e) => { e.target.src = '/coach.png'; }}
+                onError={(e) => { e.target.src = '/coach.webp'; }}
               />
 
               <div className="profile-overlay" aria-hidden="true" />

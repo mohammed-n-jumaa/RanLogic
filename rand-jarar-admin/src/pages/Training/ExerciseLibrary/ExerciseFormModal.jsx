@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Save, Loader, Upload, Youtube, Dumbbell, Trash2 } from 'lucide-react';
 import apiClient from '../../../api/apiClient';
 import './ExerciseFormModal.scss';
+import { t } from '../../../i18n';
 
 const TABLET = 768;
 const toDateInput = (d) => (d ? String(d).split('T')[0] : '');
@@ -40,7 +41,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
     apiClient.get('/admin/training/trainees')
       .then(res => {
         if (res.data.success)
-          setTrainees(res.data.data.map(t => ({ id: t.id, name: t.name })));
+          setTrainees(res.data.data.map(tItem => ({ id: tItem.id, name: tItem.name })));
       })
       .catch(e => console.error('Failed to fetch trainees', e))
       .finally(() => setLoadingTrainees(false));
@@ -98,7 +99,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
         const startDate = wp.month_start_date ?? wp.start_date ?? '';
         const label = startDate
           ? new Date(startDate + 'T12:00:00').toLocaleDateString('ar', { month: 'long', year: 'numeric' })
-          : `خطة #${planId}`;
+          : t('خطة #{0}', planId);
         setAvailablePlans([{
           id: planId, label,
           month_start: wp.month_start_date ?? wp.start_date ?? '',
@@ -132,9 +133,9 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
 
   const validate = () => {
     const errs = {};
-    if (!form.workout_plan_id) errs.workout_plan_id = 'اختر خطة التدريب';
-    if (!form.exercise_date)   errs.exercise_date   = 'التاريخ مطلوب';
-    if (!form.name.trim())     errs.name            = 'اسم التمرين مطلوب';
+    if (!form.workout_plan_id) errs.workout_plan_id = t('اختر خطة التدريب');
+    if (!form.exercise_date)   errs.exercise_date   = t('التاريخ مطلوب');
+    if (!form.name.trim())     errs.name            = t('اسم التمرين مطلوب');
     return errs;
   };
 
@@ -184,7 +185,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
       <div className="ex-form-modal__header">
         <div className="ex-form-modal__header-title">
           <Dumbbell size={17} />
-          <span>{isEditing ? 'تعديل التمرين' : 'إضافة تمرين جديد'}</span>
+          <span>{isEditing ? t('تعديل التمرين') : t('إضافة تمرين جديد')}</span>
         </div>
         <button className="ex-form-modal__close" onClick={onClose}><X size={17} /></button>
       </div>
@@ -194,33 +195,33 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
 
         {/* Trainee */}
         <div className="ex-form-modal__field">
-          <label className="ex-form-modal__label">👤 المتدربة *</label>
+          <label className="ex-form-modal__label">{t('👤 المتدربة *')}</label>
           <select
             className={`ex-form-modal__select ${errors.workout_plan_id && !form.trainee_id ? 'error' : ''}`}
             value={form.trainee_id}
             onChange={(e) => handleTraineeChange(e.target.value)}
             disabled={loadingTrainees}
           >
-            <option value="">{loadingTrainees ? 'جاري التحميل...' : '-- اختر المتدربة --'}</option>
-            {trainees.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+            <option value="">{loadingTrainees ? t('جاري التحميل...') : t('-- اختر المتدربة --')}</option>
+            {trainees.map(tItem => <option key={tItem.id} value={tItem.id}>{tItem.name}</option>)}
           </select>
         </div>
 
         {/* Workout plan */}
         {form.trainee_id && (
           <div className="ex-form-modal__field">
-            <label className="ex-form-modal__label">📅 خطة التدريب (الشهر) *</label>
+            <label className="ex-form-modal__label">{t('📅 خطة التدريب (الشهر) *')}</label>
             {loadingPlans ? (
-              <p className="ex-form-modal__hint">⏳ جاري تحميل الخطط...</p>
+              <p className="ex-form-modal__hint">{t('⏳ جاري تحميل الخطط...')}</p>
             ) : availablePlans.length === 0 ? (
-              <p className="ex-form-modal__hint">⚠️ لا توجد خطط تدريب لهذه المتدربة في الأشهر الأخيرة</p>
+              <p className="ex-form-modal__hint">{t('⚠️ لا توجد خطط تدريب لهذه المتدربة في الأشهر الأخيرة')}</p>
             ) : (
               <select
                 className={`ex-form-modal__select ${errors.workout_plan_id ? 'error' : ''}`}
                 value={form.workout_plan_id}
                 onChange={(e) => { set('workout_plan_id', e.target.value); set('exercise_date', ''); }}
               >
-                <option value="">-- اختر الشهر --</option>
+                <option value="">{t('-- اختر الشهر --')}</option>
                 {availablePlans.map(p => <option key={p.id} value={p.id}>{p.label}</option>)}
               </select>
             )}
@@ -232,7 +233,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
         {form.workout_plan_id && (
           <div className="ex-form-modal__field">
             <label className="ex-form-modal__label">
-              📆 تاريخ التمرين *
+              {t('📆 تاريخ التمرين *')}
               {dateMin && dateMax && <span className="ex-form-modal__label-hint"> ({dateMin} → {dateMax})</span>}
             </label>
             <input
@@ -249,11 +250,11 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
 
         {/* Name */}
         <div className="ex-form-modal__field">
-          <label className="ex-form-modal__label">🏋️ اسم التمرين *</label>
+          <label className="ex-form-modal__label">{t('🏋️ اسم التمرين *')}</label>
           <input
             type="text"
             className={`ex-form-modal__input ${errors.name ? 'error' : ''}`}
-            placeholder="مثال: سكوات، بنش برس، ديد ليفت..."
+            placeholder={t('مثال: سكوات، بنش برس، ديد ليفت...')}
             value={form.name}
             onChange={(e) => set('name', e.target.value)}
           />
@@ -263,12 +264,12 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
         {/* Sets & Reps */}
         <div className="ex-form-modal__row">
           <div className="ex-form-modal__field">
-            <label className="ex-form-modal__label">🧱 المجموعات</label>
+            <label className="ex-form-modal__label">{t('🧱 المجموعات')}</label>
             <input type="number" min={1} max={100} className="ex-form-modal__input"
               value={form.sets} onChange={(e) => set('sets', e.target.value)} />
           </div>
           <div className="ex-form-modal__field">
-            <label className="ex-form-modal__label">🔁 التكرارات</label>
+            <label className="ex-form-modal__label">{t('🔁 التكرارات')}</label>
             <input type="number" min={1} max={1000} className="ex-form-modal__input"
               value={form.reps} onChange={(e) => set('reps', e.target.value)} />
           </div>
@@ -278,7 +279,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
         <div className="ex-form-modal__field">
           <label className="ex-form-modal__label">
             <Youtube size={13} style={{ display: 'inline', marginLeft: '4px', color: '#ff0000', verticalAlign: 'middle' }} />
-            رابط يوتيوب
+            {t('رابط يوتيوب')}
           </label>
           <input
             type="url"
@@ -292,7 +293,7 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
 
         {/* Video File */}
         <div className="ex-form-modal__field">
-          <label className="ex-form-modal__label">🎬 فيديو محلي (اختياري)</label>
+          <label className="ex-form-modal__label">{t('🎬 فيديو محلي (اختياري)')}</label>
           <div
             className={`ex-form-modal__upload ${videoFile ? 'has-file' : ''}`}
             onClick={() => videoInputRef.current?.click()}
@@ -309,8 +310,8 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
             ) : (
               <>
                 <Upload size={14} />
-                <span>اضغط لرفع فيديو</span>
-                <small>MP4, MOV – حتى 100MB</small>
+                <span>{t('اضغط لرفع فيديو')}</span>
+                <small>{t('MP4, MOV – حتى 100MB')}</small>
               </>
             )}
           </div>
@@ -320,19 +321,19 @@ const ExerciseFormModal = ({ isOpen, exercise, onClose, onSave }) => {
 
         {/* Notes */}
         <div className="ex-form-modal__field">
-          <label className="ex-form-modal__label">📝 ملاحظات</label>
-          <textarea className="ex-form-modal__textarea" placeholder="أي ملاحظات إضافية..."
+          <label className="ex-form-modal__label">{t('📝 ملاحظات')}</label>
+          <textarea className="ex-form-modal__textarea" placeholder={t('أي ملاحظات إضافية...')}
             value={form.notes} onChange={(e) => set('notes', e.target.value)} rows={3} />
         </div>
       </div>
 
       {/* Footer */}
       <div className="ex-form-modal__footer">
-        <button className="ex-form-modal__btn ex-form-modal__btn--cancel" onClick={onClose}>إلغاء</button>
+        <button className="ex-form-modal__btn ex-form-modal__btn--cancel" onClick={onClose}>{t('إلغاء')}</button>
         <button className="ex-form-modal__btn ex-form-modal__btn--save" onClick={handleSubmit} disabled={isSaving}>
           {isSaving
-            ? <><Loader size={13} className="spin" /> جاري الحفظ...</>
-            : <><Save size={13} /> {isEditing ? 'حفظ التعديلات' : 'إضافة التمرين'}</>
+            ? <><Loader size={13} className="spin" /> {t('جاري الحفظ...')}</>
+            : <><Save size={13} /> {isEditing ? t('حفظ التعديلات') : t('إضافة التمرين')}</>
           }
         </button>
       </div>

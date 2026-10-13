@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, RotateCcw, SlidersHorizontal } from 'lucide-react';
 import './FilterSheet.scss';
+import { t } from '../../../i18n';
 
 const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
   const [local, setLocal] = useState(filters);
@@ -42,7 +43,7 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
             <div className="filter-sheet__header">
               <div className="filter-sheet__title">
                 <SlidersHorizontal size={18} />
-                <span>الفلاتر</span>
+                <span>{t('الفلاتر')}</span>
               </div>
               <button className="filter-sheet__close" onClick={onClose}>
                 <X size={18} />
@@ -54,7 +55,7 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
 
               {/* Date */}
               <div className="filter-sheet__field">
-                <label className="filter-sheet__label">📅 تاريخ التمرين</label>
+                <label className="filter-sheet__label">{t('📅 تاريخ التمرين')}</label>
                 <input
                   type="date"
                   className="filter-sheet__input"
@@ -65,11 +66,11 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
 
               {/* Sets */}
               <div className="filter-sheet__field">
-                <label className="filter-sheet__label">🧱 عدد المجموعات</label>
+                <label className="filter-sheet__label">{t('🧱 عدد المجموعات')}</label>
                 <input
                   type="number"
                   className="filter-sheet__input"
-                  placeholder="مثال: 3"
+                  placeholder={t('مثال: 3')}
                   min={1}
                   max={100}
                   value={local.sets}
@@ -79,11 +80,11 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
 
               {/* Reps */}
               <div className="filter-sheet__field">
-                <label className="filter-sheet__label">🔁 عدد التكرارات</label>
+                <label className="filter-sheet__label">{t('🔁 عدد التكرارات')}</label>
                 <input
                   type="number"
                   className="filter-sheet__input"
-                  placeholder="مثال: 12"
+                  placeholder={t('مثال: 12')}
                   min={1}
                   max={1000}
                   value={local.reps}
@@ -93,12 +94,12 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
 
               {/* Sort */}
               <div className="filter-sheet__field">
-                <label className="filter-sheet__label">🔃 الترتيب</label>
+                <label className="filter-sheet__label">{t('🔃 الترتيب')}</label>
                 <div className="filter-sheet__radio-group">
                   {[
-                    { value: 'newest', label: 'الأحدث أولاً' },
-                    { value: 'date', label: 'حسب تاريخ التمرين' },
-                    { value: 'order', label: 'حسب الترتيب' },
+                    { value: 'newest', label: t('الأحدث أولاً') },
+                    { value: 'date', label: t('حسب تاريخ التمرين') },
+                    { value: 'order', label: t('حسب الترتيب') },
                   ].map((opt) => (
                     <label
                       key={opt.value}
@@ -122,10 +123,10 @@ const FilterSheet = ({ isOpen, filters, onClose, onApply, onReset }) => {
             <div className="filter-sheet__footer">
               <button className="filter-sheet__btn filter-sheet__btn--reset" onClick={onReset}>
                 <RotateCcw size={14} />
-                إعادة تعيين
+                {t('إعادة تعيين')}
               </button>
               <button className="filter-sheet__btn filter-sheet__btn--apply" onClick={() => onApply(local)}>
-                تطبيق الفلاتر
+                {t('تطبيق الفلاتر')}
               </button>
             </div>
           </motion.div>

@@ -299,7 +299,7 @@
   
   &__progress-bar {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
@@ -615,7 +615,7 @@
     @include mobile {
       width: auto;
       flex: 1;
-      margin-left: $spacing-sm;
+      margin-inline-end: $spacing-sm;
       padding: 0 1rem;
       
       span {
@@ -664,7 +664,7 @@
     @include flex-center;
     position: absolute;
     top: $spacing-sm;
-    right: $spacing-sm;
+    inset-inline-start: $spacing-sm;
     width: 32px;
     height: 32px;
     background: $danger;
@@ -696,8 +696,8 @@
 .media-modal {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.9);
   display: flex;
@@ -714,7 +714,7 @@
   &__close {
     position: absolute;
     top: -40px;
-    right: 0;
+    inset-inline-start: 0;
     background: none;
     border: none;
     color: #ffffff;
@@ -1118,7 +1118,7 @@
 .btn-remove-media {
   position: absolute;
   top: 0.5rem;
-  right: 0.5rem;
+  inset-inline-start: 0.5rem;
   width: 28px;
   height: 28px;
   background: rgba(244, 67, 54, 0.9);
@@ -1562,7 +1562,7 @@
   
   &__progress-bar {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
@@ -1976,7 +1976,7 @@
     iframe {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-end: 0;
       width: 100%;
       height: 100%;
       border-radius: $radius-sm;
@@ -1987,7 +1987,7 @@
     @include flex-center;
     position: absolute;
     top: $spacing-sm;
-    right: $spacing-sm;
+    inset-inline-start: $spacing-sm;
     width: 32px;
     height: 32px;
     background: $danger;
@@ -2037,7 +2037,7 @@
 .workout-plan__save-btn {
   position: fixed;
   bottom: 1.5rem;
-  left: 1.5rem;
+  inset-inline-end: 1.5rem;
   z-index: 999;
 
   @include flex-center;
@@ -2189,7 +2189,7 @@
 .auto-save-indicator {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  inset-inline-start: 20px;
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 8px 16px;
@@ -2302,8 +2302,8 @@
 .workout-plan__modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
@@ -2421,7 +2421,7 @@
       padding: 6px 12px;
       color: white;
       cursor: pointer;
-      margin-right: 12px;
+      margin-inline-start: 12px;
     }
   }
 }

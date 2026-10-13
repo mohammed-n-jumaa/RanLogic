@@ -272,8 +272,8 @@ select.form-input {
 .modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
   display: flex;
@@ -394,7 +394,7 @@ select.form-input {
   &__image-remove {
     position: absolute;
     top: 8px;
-    right: 8px;
+    inset-inline-start: 8px;
     background: rgba(239, 68, 68, 0.9);
     border: none;
     color: white;

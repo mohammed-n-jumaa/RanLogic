@@ -77,7 +77,7 @@
   // Tooltip for collapsed state - FIXED
   &__tooltip {
     position: fixed;
-    left: calc(80px + 15px); // عرض السايدبار المغلق + مسافة
+    inset-inline-end: calc(80px + 15px); // عرض السايدبار المغلق + مسافة
     top: auto;
     opacity: 0;
     visibility: hidden;

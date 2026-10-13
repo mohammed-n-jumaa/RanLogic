@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import './Layout.scss';
+import { t } from '../../i18n';
 
 const Layout = () => {
   return (
@@ -10,7 +11,7 @@ const Layout = () => {
       <Sidebar />
 
       <div className="layout__main">
-        <Header currentSection="لوحة التحكم" />
+        <Header currentSection={t('لوحة التحكم')} />
 
         <main className="layout__content">
           <div className="layout__content-wrapper">

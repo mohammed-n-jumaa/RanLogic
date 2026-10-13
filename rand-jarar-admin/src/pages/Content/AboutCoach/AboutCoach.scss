@@ -106,10 +106,10 @@
 
     @media (max-width: $tablet) {
       gap: 4px;
-      margin-left: -1rem;
-      margin-right: -1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      margin-inline-end: -1rem;
+      margin-inline-start: -1rem;
+      padding-inline-end: 1rem;
+      padding-inline-start: 1rem;
     }
   }
 
@@ -449,7 +449,7 @@
     background: $success;
     color: #fff;
     cursor: pointer;
-    margin-left: auto;
+    margin-inline-end: auto;
     transition: all $transition-fast;
 
     &:hover {
@@ -655,8 +655,8 @@
   &__photo-progress {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     height: 4px;
     background: rgba(0, 0, 0, 0.3);
   }

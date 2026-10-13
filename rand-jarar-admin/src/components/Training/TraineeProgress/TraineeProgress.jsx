@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import trainingApi from '../../../api/trainingApi';
 import './TraineeProgress.scss';
+import { t, loc } from '../../../i18n';
 
 const Tip = ({ text, children, block }) => {
   const [show, setShow] = useState(false);
@@ -22,8 +23,8 @@ const Tip = ({ text, children, block }) => {
   );
 };
 
-const dayNames = ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'];
-const statusText = { done: 'أكمل التمرين', missed: 'لم يتمرن', today: 'اليوم', future: 'لم يأتِ بعد' };
+const dayNames = [t('أحد'), t('اثنين'), t('ثلاثاء'), t('أربعاء'), t('خميس'), t('جمعة'), t('سبت')];
+const statusText = { done: t('أكمل التمرين'), missed: t('لم يتمرن'), today: t('اليوم'), future: t('لم يأتِ بعد') };
 const colors = ['#ED93B1', '#5DCAA5', '#AFA9EC', '#85B7EB', '#FAC775', '#F09595'];
 
 const TraineeProgress = ({ clientId }) => {
@@ -78,12 +79,12 @@ const TraineeProgress = ({ clientId }) => {
   };
 
   const handleDeleteChallenge = async (id) => {
-    if (!window.confirm('حذف التحدي؟')) return;
+    if (!window.confirm(t('حذف التحدي؟'))) return;
     try { await trainingApi.deleteChallenge(id); fetchData(); } catch (err) { console.error(err); }
   };
 
-  if (loading) return <div className="tp-loading"><div className="spinner" /> جاري التحميل...</div>;
-  if (!data) return <div className="tp-loading">فشل تحميل البيانات</div>;
+  if (loading) return <div className="tp-loading"><div className="spinner" /> {t('جاري التحميل...')}</div>;
+  if (!data) return <div className="tp-loading">{t('فشل تحميل البيانات')}</div>;
 
   const weights = data.weight_chart;
   const firstW = weights[0]?.weight;
@@ -91,41 +92,41 @@ const TraineeProgress = ({ clientId }) => {
   const change = firstW && lastW ? (parseFloat(lastW) - parseFloat(firstW)).toFixed(1) : null;
   const photos = data.photos || [];
 
-  const fmtDate = (d) => new Date(d).toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+  const fmtDate = (d) => new Date(d).toLocaleDateString(loc('ar-EG'), { month: 'short', day: 'numeric' });
 
   return (
     <div className="tp">
 
       {/* Quick Stats */}
       <div className="tp-stats">
-        <Tip block text={`من ${firstW || '--'} إلى ${lastW || '--'} كغ`}>
+        <Tip block text={t('من {0} إلى {1} كغ', firstW || '--', lastW || '--')}>
           <div className="tp-stat">
             <span className="tp-stat-v" style={{ color: '#993556' }}>{change ? `${change > 0 ? '+' : ''}${change}` : '--'}</span>
-            <span className="tp-stat-l">تغيير الوزن</span>
+            <span className="tp-stat-l">{t('تغيير الوزن')}</span>
           </div>
         </Tip>
-        <Tip block text="عدد الأيام المتتالية اللي التزم فيها بالتمارين">
+        <Tip block text={t('عدد الأيام المتتالية اللي التزم فيها بالتمارين')}>
           <div className="tp-stat">
             <span className="tp-stat-v" style={{ color: '#f59e0b' }}>{data.streak.count}</span>
-            <span className="tp-stat-l">يوم التزام</span>
+            <span className="tp-stat-l">{t('يوم التزام')}</span>
           </div>
         </Tip>
-        <Tip block text="نسبة التمارين المكتملة هالأسبوع">
+        <Tip block text={t('نسبة التمارين المكتملة هالأسبوع')}>
           <div className="tp-stat">
             <span className="tp-stat-v" style={{ color: '#534AB7' }}>{data.report.exercise_rate}%</span>
-            <span className="tp-stat-l">التزام التمارين</span>
+            <span className="tp-stat-l">{t('التزام التمارين')}</span>
           </div>
         </Tip>
-        <Tip block text="معدل أكواب المي اليومية هالأسبوع">
+        <Tip block text={t('معدل أكواب المي اليومية هالأسبوع')}>
           <div className="tp-stat">
             <span className="tp-stat-v" style={{ color: '#185FA5' }}>{data.report.avg_water}</span>
-            <span className="tp-stat-l">معدل المي</span>
+            <span className="tp-stat-l">{t('معدل المي')}</span>
           </div>
         </Tip>
-        <Tip block text={`${data.report.badges_earned} مكتسبة من ${data.report.badges_total}`}>
+        <Tip block text={t('{0} مكتسبة من {1}', data.report.badges_earned, data.report.badges_total)}>
           <div className="tp-stat">
             <span className="tp-stat-v" style={{ color: '#854F0B' }}>{data.report.badges_earned}/{data.report.badges_total}</span>
-            <span className="tp-stat-l">شارات</span>
+            <span className="tp-stat-l">{t('شارات')}</span>
           </div>
         </Tip>
       </div>
@@ -135,7 +136,7 @@ const TraineeProgress = ({ clientId }) => {
         {/* Weight Chart */}
         {weights.length > 0 && (
           <div className="tp-card tp-full">
-            <div className="tp-card-t"><TrendingDown size={16} /> رحلة الوزن</div>
+            <div className="tp-card-t"><TrendingDown size={16} /> {t('رحلة الوزن')}</div>
             <div className="tp-chart">
               {weights.map((w, i) => {
                 const max = Math.max(...weights.map(x => parseFloat(x.weight)));
@@ -143,7 +144,7 @@ const TraineeProgress = ({ clientId }) => {
                 const range = max - min || 1;
                 const pct = ((parseFloat(w.weight) - min) / range) * 80 + 20;
                 return (
-                  <Tip block key={i} text={`${w.weight} كغ — ${fmtDate(w.logged_at)}`}>
+                  <Tip block key={i} text={t('{0} كغ — {1}', w.weight, fmtDate(w.logged_at))}>
                     <div className="tp-bar-g">
                       <span className="tp-bar-v">{w.weight}</span>
                       <div className="tp-bar-track">
@@ -160,14 +161,14 @@ const TraineeProgress = ({ clientId }) => {
 
         {/* Streak */}
         <div className="tp-card">
-          <div className="tp-card-t"><Flame size={16} /> التزام الأسبوع</div>
+          <div className="tp-card-t"><Flame size={16} /> {t('التزام الأسبوع')}</div>
           <div className="tp-streak">
             {data.streak.days.map((d, i) => (
               <Tip block key={i} text={`${dayNames[i]} — ${statusText[d.status]}`}>
                 <div className={`tp-streak-d ${d.status}`}>
                   {d.status === 'done' && <Check size={12} />}
                   {d.status === 'missed' && <X size={12} />}
-                  {d.status === 'today' && 'اليوم'}
+                  {d.status === 'today' && t('اليوم')}
                 </div>
               </Tip>
             ))}
@@ -176,13 +177,13 @@ const TraineeProgress = ({ clientId }) => {
 
         {/* Water */}
         <div className="tp-card">
-          <div className="tp-card-t"><Droplets size={16} /> المي — آخر 7 أيام</div>
+          <div className="tp-card-t"><Droplets size={16} /> {t('المي — آخر 7 أيام')}</div>
           <div className="tp-water">
             {data.water_logs.map((w, i) => {
               const pct = w.goal > 0 ? Math.round((w.cups / w.goal) * 100) : 0;
-              const dn = new Date(w.logged_at).toLocaleDateString('ar-EG', { weekday: 'short' });
+              const dn = new Date(w.logged_at).toLocaleDateString(loc('ar-EG'), { weekday: 'short' });
               return (
-                <Tip block key={i} text={`${dn}: ${w.cups}/${w.goal} أكواب (${pct}%)`}>
+                <Tip block key={i} text={t('{0}: {1}/{2} أكواب ({3}%)', dn, w.cups, w.goal, pct)}>
                   <div className="tp-water-day">
                     <div className="tp-water-bar-w">
                       <div className="tp-water-fill" style={{ height: `${(w.cups / w.goal) * 100}%` }} />
@@ -199,8 +200,8 @@ const TraineeProgress = ({ clientId }) => {
         {/* Challenges */}
         <div className="tp-card">
           <div className="tp-card-t">
-            <Trophy size={16} /> التحديات
-            <Tip text="إضافة تحدي جديد">
+            <Trophy size={16} /> {t('التحديات')}
+            <Tip text={t('إضافة تحدي جديد')}>
               <button className={`tp-add-btn ${showAddChallenge ? 'open' : ''}`} onClick={() => setShowAddChallenge(!showAddChallenge)}>
                 <Plus size={14} />
               </button>
@@ -210,13 +211,13 @@ const TraineeProgress = ({ clientId }) => {
           {showAddChallenge && (
             <div className="tp-add-form">
               <div className="tp-add-row">
-                <input placeholder="اسم التحدي بالعربي" dir="rtl" value={newChallenge.name_ar} onChange={e => setNewChallenge({ ...newChallenge, name_ar: e.target.value })} />
+                <input placeholder={t('اسم التحدي بالعربي')} dir="rtl" value={newChallenge.name_ar} onChange={e => setNewChallenge({ ...newChallenge, name_ar: e.target.value })} />
                 <input placeholder="English name" dir="ltr" value={newChallenge.name_en} onChange={e => setNewChallenge({ ...newChallenge, name_en: e.target.value })} />
               </div>
               <div className="tp-add-row2">
-                <span>المدة</span>
+                <span>{t('المدة')}</span>
                 <input type="number" value={newChallenge.duration_days} onChange={e => setNewChallenge({ ...newChallenge, duration_days: parseInt(e.target.value) || 30 })} />
-                <span>يوم</span>
+                <span>{t('يوم')}</span>
                 <div className="tp-colors">
                   {colors.map(c => (
                     <div key={c} className={`tp-color ${newChallenge.color === c ? 'sel' : ''}`} style={{ background: c }} onClick={() => setNewChallenge({ ...newChallenge, color: c })} />
@@ -224,14 +225,14 @@ const TraineeProgress = ({ clientId }) => {
                 </div>
               </div>
               <div className="tp-add-actions">
-                <button className="tp-save-btn" onClick={handleCreateChallenge} disabled={saving}><Check size={14} /> حفظ</button>
-                <button className="tp-cancel-btn" onClick={() => setShowAddChallenge(false)}>إلغاء</button>
+                <button className="tp-save-btn" onClick={handleCreateChallenge} disabled={saving}><Check size={14} /> {t('حفظ')}</button>
+                <button className="tp-cancel-btn" onClick={() => setShowAddChallenge(false)}>{t('إلغاء')}</button>
               </div>
             </div>
           )}
 
           {data.challenges.length === 0 && !showAddChallenge ? (
-            <p className="tp-empty">لا توجد تحديات بعد</p>
+            <p className="tp-empty">{t('لا توجد تحديات بعد')}</p>
           ) : (
             data.challenges.map(ch => {
               const pct = ch.duration_days > 0 ? Math.round((ch.completed_days / ch.duration_days) * 100) : 0;
@@ -244,9 +245,9 @@ const TraineeProgress = ({ clientId }) => {
                     <input value={editingChallenge.name_en} dir="ltr" onChange={e => setEditingChallenge({ ...editingChallenge, name_en: e.target.value })} />
                   </div>
                   <div className="tp-add-row2">
-                    <span>المدة</span>
+                    <span>{t('المدة')}</span>
                     <input type="number" value={editingChallenge.duration_days} onChange={e => setEditingChallenge({ ...editingChallenge, duration_days: parseInt(e.target.value) || 1 })} />
-                    <span>يوم</span>
+                    <span>{t('يوم')}</span>
                     <div className="tp-colors">
                       {colors.map(c => (
                         <div key={c} className={`tp-color ${editingChallenge.color === c ? 'sel' : ''}`} style={{ background: c }} onClick={() => setEditingChallenge({ ...editingChallenge, color: c })} />
@@ -254,8 +255,8 @@ const TraineeProgress = ({ clientId }) => {
                     </div>
                   </div>
                   <div className="tp-add-actions">
-                    <button className="tp-save-btn" onClick={handleUpdateChallenge} disabled={saving}><Check size={14} /> حفظ</button>
-                    <button className="tp-cancel-btn" onClick={() => setEditingChallenge(null)}>إلغاء</button>
+                    <button className="tp-save-btn" onClick={handleUpdateChallenge} disabled={saving}><Check size={14} /> {t('حفظ')}</button>
+                    <button className="tp-cancel-btn" onClick={() => setEditingChallenge(null)}>{t('إلغاء')}</button>
                   </div>
                 </div>
               ) : (
@@ -269,10 +270,10 @@ const TraineeProgress = ({ clientId }) => {
                     <div className="tp-chal-bar"><div className="tp-chal-fill" style={{ width: `${pct}%`, background: ch.color }} /></div>
                   </div>
                   <span className="tp-chal-pct">{pct}%</span>
-                  <Tip text="تعديل">
+                  <Tip text={t('تعديل')}>
                     <button className="tp-icon-btn" onClick={() => setEditingChallenge({ id: ch.id, name_ar: ch.name_ar, name_en: ch.name_en, duration_days: ch.duration_days, color: ch.color })}><Edit size={14} /></button>
                   </Tip>
-                  <Tip text="حذف">
+                  <Tip text={t('حذف')}>
                     <button className="tp-icon-btn danger" onClick={() => handleDeleteChallenge(ch.id)}><Trash2 size={14} /></button>
                   </Tip>
                 </div>
@@ -283,17 +284,17 @@ const TraineeProgress = ({ clientId }) => {
 
         {/* Badges */}
         <div className="tp-card">
-          <div className="tp-card-t"><Award size={16} /> الشارات</div>
+          <div className="tp-card-t"><Award size={16} /> {t('الشارات')}</div>
           <div className="tp-badges">
             {data.badges.map(b => (
-              <Tip block  key={b.key} text={b.earned ? `مكتسبة — ${new Date(b.earned_at).toLocaleDateString('ar-EG')}` : 'لم تُكتسب — اضغط منح'}>
+              <Tip block  key={b.key} text={b.earned ? t('مكتسبة — {0}', new Date(b.earned_at).toLocaleDateString(loc('ar-EG'))) : t('لم تُكتسب — اضغط منح')}>
                 <div className={`tp-badge ${b.earned ? 'earned' : 'locked'}`}>
                   <div className="tp-badge-ic">{b.earned ? <Award size={16} /> : <Lock size={14} />}</div>
                   <span className="tp-badge-n">{b.name_ar}</span>
                   {!b.earned ? (
-                    <button className="tp-badge-btn" onClick={() => handleAwardBadge(b.id)}>منح</button>
+                    <button className="tp-badge-btn" onClick={() => handleAwardBadge(b.id)}>{t('منح')}</button>
                   ) : (
-                    <button className="tp-badge-btn revoke" onClick={() => handleRevokeBadge(b.id)}>سحب</button>
+                    <button className="tp-badge-btn revoke" onClick={() => handleRevokeBadge(b.id)}>{t('سحب')}</button>
                   )}
                 </div>
               </Tip>
@@ -303,17 +304,17 @@ const TraineeProgress = ({ clientId }) => {
 
         {/* Photos */}
         <div className="tp-card tp-full">
-          <div className="tp-card-t"><Camera size={16} /> صور التقدم</div>
+          <div className="tp-card-t"><Camera size={16} /> {t('صور التقدم')}</div>
           <div className="tp-photos">
             {photos.length === 0 ? (
-              <p className="tp-empty">لا توجد صور بعد</p>
+              <p className="tp-empty">{t('لا توجد صور بعد')}</p>
             ) : (
               photos.map((p, i) => (
-                <Tip key={p.id} text={`أسبوع ${i + 1} — ${p.weight_at_photo || '--'} كغ`}>
+                <Tip key={p.id} text={t('أسبوع {0} — {1} كغ', i + 1, p.weight_at_photo || '--')}>
                   <div className="tp-photo" onClick={() => setLightbox(i)}>
                     <img src={p.photo_url} alt="" loading="lazy" />
                     <div className="tp-photo-label">
-                      أسبوع {i + 1}
+                      {t('أسبوع')} {i + 1}
                       {p.weight_at_photo && ` · ${p.weight_at_photo}`}
                     </div>
                   </div>
@@ -322,10 +323,10 @@ const TraineeProgress = ({ clientId }) => {
             )}
           </div>
 
-          <Tip text={data.marketing_consent ? 'وافق على استخدام صوره للتسويق' : 'لم يوافق على استخدام صوره'}>
+          <Tip text={data.marketing_consent ? t('وافق على استخدام صوره للتسويق') : t('لم يوافق على استخدام صوره')}>
             <div className={`tp-consent ${data.marketing_consent ? 'yes' : 'no'}`}>
               <Shield size={14} />
-              <span>{data.marketing_consent ? 'وافق/ت على استخدام الصور تسويقياً' : 'لم يوافق/لم توافق على استخدام الصور تسويقياً'}</span>
+              <span>{data.marketing_consent ? t('وافق/ت على استخدام الصور تسويقياً') : t('لم يوافق/لم توافق على استخدام الصور تسويقياً')}</span>
             </div>
           </Tip>
         </div>
@@ -349,11 +350,11 @@ const TraineeProgress = ({ clientId }) => {
             )}
 
             <div className="tp-lb-info">
-              <span>أسبوع {lightbox + 1}</span>
-              {photos[lightbox].weight_at_photo && <span> — {photos[lightbox].weight_at_photo} كغ</span>}
+              <span>{t('أسبوع')} {lightbox + 1}</span>
+              {photos[lightbox].weight_at_photo && <span> — {photos[lightbox].weight_at_photo} {t('كغ')}</span>}
               {photos[lightbox].taken_at && (
                 <span className="tp-lb-date">
-                  {new Date(photos[lightbox].taken_at).toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  {new Date(photos[lightbox].taken_at).toLocaleDateString(loc('ar-EG'), { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
               )}
             </div>

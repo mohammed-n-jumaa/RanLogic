@@ -25,6 +25,7 @@ import trainingApi from '../../../api/trainingApi';
 import TraineeProgress from '../../../components/Training/TraineeProgress/TraineeProgress';
 import Swal from 'sweetalert2';
 import './ClientDetails.scss';
+import { t, loc } from '../../../i18n';
 
 const ClientDetails = () => {
   const { clientId } = useParams();
@@ -134,9 +135,9 @@ const ClientDetails = () => {
       console.error('Response:', error.response);
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'حدث خطأ أثناء جلب البيانات',
-        confirmButtonText: 'حسناً',
+        title: t('خطأ'),
+        text: t('حدث خطأ أثناء جلب البيانات'),
+        confirmButtonText: t('حسناً'),
       }).then(() => {
         navigate('/training/clients');
       });
@@ -150,7 +151,7 @@ const ClientDetails = () => {
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return '-';
 
-    return date.toLocaleDateString('ar-SA', {
+    return date.toLocaleDateString(loc('ar-SA'), {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -164,20 +165,20 @@ const ClientDetails = () => {
 
   const getGoalText = (goal) => {
     const goals = {
-      'weight-loss': 'إنقاص الوزن',
-      'muscle-gain': 'بناء العضلات',
-      'toning': 'تنشيف',
-      'fitness': 'لياقة عامة'
+      'weight-loss': t('إنقاص الوزن'),
+      'muscle-gain': t('بناء العضلات'),
+      'toning': t('تنشيف'),
+      'fitness': t('لياقة عامة')
     };
     return goals[goal] || goal;
   };
 
   const getGenderText = (gender) => {
-    return gender === 'male' ? 'ذكر' : gender === 'female' ? 'أنثى' : '-';
+    return gender === 'male' ? t('ذكر') : gender === 'female' ? t('أنثى') : '-';
   };
 
   const getWorkoutPlaceText = (place) => {
-    return place === 'home' ? 'منزل' : place === 'gym' ? 'جيم' : '-';
+    return place === 'home' ? t('منزل') : place === 'gym' ? t('جيم') : '-';
   };
 
   const getSubscriptionStatus = () => {
@@ -200,7 +201,7 @@ const ClientDetails = () => {
       <div className="client-details">
         <div className="client-details__loading">
           <Loader size={48} className="spinner" />
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('جاري تحميل البيانات...')}</p>
         </div>
       </div>
     );
@@ -210,9 +211,9 @@ const ClientDetails = () => {
     return (
       <div className="client-details">
         <div className="client-details__error">
-          <h3>المتدرب غير موجود</h3>
+          <h3>{t('المتدرب غير موجود')}</h3>
           <button onClick={() => navigate('/training/clients')}>
-            العودة للقائمة
+            {t('العودة للقائمة')}
           </button>
         </div>
       </div>
@@ -233,7 +234,7 @@ const ClientDetails = () => {
       >
         <button className="client-details__back-btn" onClick={() => navigate('/training/clients')}>
           <ArrowRight size={20} />
-          <span>العودة للقائمة</span>
+          <span>{t('العودة للقائمة')}</span>
         </button>
       </motion.div>
 
@@ -280,7 +281,7 @@ const ClientDetails = () => {
           </div>
 
           <div className={`client-info-card__status client-info-card__status--${status}`}>
-            {status === 'active' ? 'نشط' : status === 'expired' ? 'منتهي' : 'معلّق'}
+            {status === 'active' ? t('نشط') : status === 'expired' ? t('منتهي') : t('معلّق')}
           </div>
         </div>
 
@@ -291,8 +292,8 @@ const ClientDetails = () => {
                 <TrendingUp size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">العمر</span>
-                <span className="info-stat__value">{client.age} سنة</span>
+                <span className="info-stat__label">{t('العمر')}</span>
+                <span className="info-stat__value">{client.age} {t('سنة')}</span>
               </div>
             </div>
           )}
@@ -303,7 +304,7 @@ const ClientDetails = () => {
                 <User size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">الجنس</span>
+                <span className="info-stat__label">{t('الجنس')}</span>
                 <span className="info-stat__value">{getGenderText(client.gender)}</span>
               </div>
             </div>
@@ -315,8 +316,8 @@ const ClientDetails = () => {
                 <Weight size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">الوزن</span>
-                <span className="info-stat__value">{client.weight} كغ</span>
+                <span className="info-stat__label">{t('الوزن')}</span>
+                <span className="info-stat__value">{client.weight} {t('كغ')}</span>
               </div>
             </div>
           )}
@@ -327,8 +328,8 @@ const ClientDetails = () => {
                 <Ruler size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">الطول</span>
-                <span className="info-stat__value">{client.height} سم</span>
+                <span className="info-stat__label">{t('الطول')}</span>
+                <span className="info-stat__value">{client.height} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -339,8 +340,8 @@ const ClientDetails = () => {
                 <Activity size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">محيط الخصر</span>
-                <span className="info-stat__value">{client.waist} سم</span>
+                <span className="info-stat__label">{t('محيط الخصر')}</span>
+                <span className="info-stat__value">{client.waist} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -351,8 +352,8 @@ const ClientDetails = () => {
                 <Activity size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">محيط الأرداف</span>
-                <span className="info-stat__value">{client.hips} سم</span>
+                <span className="info-stat__label">{t('محيط الأرداف')}</span>
+                <span className="info-stat__value">{client.hips} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -363,7 +364,7 @@ const ClientDetails = () => {
                 <Target size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">الهدف</span>
+                <span className="info-stat__label">{t('الهدف')}</span>
                 <span className="info-stat__value">{getGoalText(client.goal)}</span>
               </div>
             </div>
@@ -375,7 +376,7 @@ const ClientDetails = () => {
                 <Home size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">مكان التدريب</span>
+                <span className="info-stat__label">{t('مكان التدريب')}</span>
                 <span className="info-stat__value">{getWorkoutPlaceText(client.workout_place)}</span>
               </div>
             </div>
@@ -387,7 +388,7 @@ const ClientDetails = () => {
                 <Dumbbell size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">البرنامج</span>
+                <span className="info-stat__label">{t('البرنامج')}</span>
                 <span className="info-stat__value">{client.program}</span>
               </div>
             </div>
@@ -399,7 +400,7 @@ const ClientDetails = () => {
                 <Calendar size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">بداية الاشتراك</span>
+                <span className="info-stat__label">{t('بداية الاشتراك')}</span>
                 <span className="info-stat__value">{formatDate(client.subscription_start_date)}</span>
               </div>
             </div>
@@ -411,7 +412,7 @@ const ClientDetails = () => {
                 <Calendar size={20} />
               </div>
               <div className="info-stat__content">
-                <span className="info-stat__label">نهاية الاشتراك</span>
+                <span className="info-stat__label">{t('نهاية الاشتراك')}</span>
                 <span className="info-stat__value">{formatDate(client.subscription_end_date)}</span>
               </div>
             </div>
@@ -422,7 +423,7 @@ const ClientDetails = () => {
           <div className="client-info-card__health-notes">
             <div className="health-notes-header">
               <Heart size={18} />
-              <strong>ملاحظات صحية مهمة:</strong>
+              <strong>{t('ملاحظات صحية مهمة:')}</strong>
             </div>
             <p>{client.health_notes}</p>
           </div>
@@ -441,7 +442,7 @@ const ClientDetails = () => {
           onClick={() => setActiveTab('workout')}
         >
           <Dumbbell size={20} />
-          <span>البرنامج التدريبي</span>
+          <span>{t('البرنامج التدريبي')}</span>
         </button>
 
         <button
@@ -449,7 +450,7 @@ const ClientDetails = () => {
           onClick={() => setActiveTab('nutrition')}
         >
           <Apple size={20} />
-          <span>النظام الغذائي</span>
+          <span>{t('النظام الغذائي')}</span>
         </button>
 
         <button
@@ -457,7 +458,7 @@ const ClientDetails = () => {
           onClick={() => setActiveTab('progress')}
         >
           <Activity size={20} />
-          <span>التقدم والإنجازات</span>
+          <span>{t('التقدم والإنجازات')}</span>
         </button>
       </motion.div>
 

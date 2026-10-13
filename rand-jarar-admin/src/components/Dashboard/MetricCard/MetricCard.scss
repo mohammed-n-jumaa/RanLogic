@@ -168,7 +168,7 @@
 
     .change-label {
       color: var(--text-muted);
-      margin-right: auto;
+      margin-inline-start: auto;
       font-size: 0.8rem;
 
       @media (max-width: 576px) {
@@ -180,8 +180,8 @@
   &__progress {
     position: absolute;
     bottom: 0;
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     height: 4px;
     background: var(--border-color);
     border-radius: 0 0 16px 16px;
@@ -198,7 +198,7 @@
   &__chart {
     position: absolute;
     bottom: 1rem;
-    right: 1rem;
+    inset-inline-start: 1rem;
     opacity: 0.3;
     color: currentColor;
     display: none;

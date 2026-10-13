@@ -101,7 +101,7 @@
   
   &__progress-fill {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(90deg, $primary-pink 0%, $primary-pink-dark 100%);

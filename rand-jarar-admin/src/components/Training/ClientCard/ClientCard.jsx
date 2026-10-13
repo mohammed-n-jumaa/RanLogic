@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './ClientCard.scss';
+import { t } from '../../../i18n';
 
 const ClientCard = ({ client, onEdit, onDelete }) => {
   const navigate = useNavigate();
@@ -43,29 +44,29 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
   
   const getStatusText = (status) => {
     switch (status) {
-      case 'active': return 'نشط';
-      case 'expired': return 'منتهي';
-      case 'pending': return 'معلّق';
-      default: return 'غير نشط';
+      case 'active': return t('نشط');
+      case 'expired': return t('منتهي');
+      case 'pending': return t('معلّق');
+      default: return t('غير نشط');
     }
   };
   
   const getGoalText = (goal) => {
     const goals = {
-      'weight-loss': 'إنقاص الوزن',
-      'muscle-gain': 'بناء العضلات',
-      'toning': 'تنشيف',
-      'fitness': 'لياقة عامة'
+      'weight-loss': t('إنقاص الوزن'),
+      'muscle-gain': t('بناء العضلات'),
+      'toning': t('تنشيف'),
+      'fitness': t('لياقة عامة')
     };
     return goals[goal] || goal;
   };
   
   const getGenderText = (gender) => {
-    return gender === 'male' ? 'ذكر' : gender === 'female' ? 'أنثى' : '-';
+    return gender === 'male' ? t('ذكر') : gender === 'female' ? t('أنثى') : '-';
   };
   
   const getWorkoutPlaceText = (place) => {
-    return place === 'home' ? 'منزل' : place === 'gym' ? 'جيم' : '-';
+    return place === 'home' ? t('منزل') : place === 'gym' ? t('جيم') : '-';
   };
   
   const handleCardClick = () => {
@@ -170,8 +171,8 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <TrendingUp size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">العمر</span>
-                <span className="client-card__info-value">{client.age} سنة</span>
+                <span className="client-card__info-label">{t('العمر')}</span>
+                <span className="client-card__info-value">{client.age} {t('سنة')}</span>
               </div>
             </div>
           )}
@@ -182,7 +183,7 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <User size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الجنس</span>
+                <span className="client-card__info-label">{t('الجنس')}</span>
                 <span className="client-card__info-value">{getGenderText(client.gender)}</span>
               </div>
             </div>
@@ -194,8 +195,8 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Weight size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الوزن</span>
-                <span className="client-card__info-value">{client.weight} كغ</span>
+                <span className="client-card__info-label">{t('الوزن')}</span>
+                <span className="client-card__info-value">{client.weight} {t('كغ')}</span>
               </div>
             </div>
           )}
@@ -206,8 +207,8 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Ruler size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الطول</span>
-                <span className="client-card__info-value">{client.height} سم</span>
+                <span className="client-card__info-label">{t('الطول')}</span>
+                <span className="client-card__info-value">{client.height} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -218,8 +219,8 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Activity size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الخصر</span>
-                <span className="client-card__info-value">{client.waist} سم</span>
+                <span className="client-card__info-label">{t('الخصر')}</span>
+                <span className="client-card__info-value">{client.waist} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -230,8 +231,8 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Activity size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الأرداف</span>
-                <span className="client-card__info-value">{client.hips} سم</span>
+                <span className="client-card__info-label">{t('الأرداف')}</span>
+                <span className="client-card__info-value">{client.hips} {t('سم')}</span>
               </div>
             </div>
           )}
@@ -242,7 +243,7 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Target size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">الهدف</span>
+                <span className="client-card__info-label">{t('الهدف')}</span>
                 <span className="client-card__info-value">{getGoalText(client.goal)}</span>
               </div>
             </div>
@@ -254,7 +255,7 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Home size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">مكان التدريب</span>
+                <span className="client-card__info-label">{t('مكان التدريب')}</span>
                 <span className="client-card__info-value">{getWorkoutPlaceText(client.workout_place)}</span>
               </div>
             </div>
@@ -266,7 +267,7 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
                 <Dumbbell size={16} />
               </div>
               <div className="client-card__info-content">
-                <span className="client-card__info-label">البرنامج</span>
+                <span className="client-card__info-label">{t('البرنامج')}</span>
                 <span className="client-card__info-value">{client.program}</span>
               </div>
             </div>
@@ -275,7 +276,7 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
         
         {client.health_notes && (
           <div className="client-card__health-notes">
-            <strong>ملاحظات صحية:</strong>
+            <strong>{t('ملاحظات صحية:')}</strong>
             <p>{client.health_notes}</p>
           </div>
         )}
@@ -287,13 +288,13 @@ const ClientCard = ({ client, onEdit, onDelete }) => {
           {client.subscription_start_date && (
             <div className="client-card__date">
               <Calendar size={14} />
-              <span>بداية: {client.subscription_start_date}</span>
+              <span>{t('بداية:')} {client.subscription_start_date}</span>
             </div>
           )}
           {client.subscription_end_date && (
             <div className="client-card__date">
               <Calendar size={14} />
-              <span>نهاية: {client.subscription_end_date}</span>
+              <span>{t('نهاية:')} {client.subscription_end_date}</span>
             </div>
           )}
         </div>

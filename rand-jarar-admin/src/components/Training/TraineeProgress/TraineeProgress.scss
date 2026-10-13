@@ -39,7 +39,7 @@
   border-radius: 6px;
   pointer-events: none;
   z-index: 50;
-  direction: rtl;
+  // direction follows <html dir>
   max-width: 220px;
   text-align: center;
   line-height: 1.5;
@@ -518,8 +518,8 @@
 .tp-photo-label {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-size: 9px;
@@ -551,7 +551,7 @@
 .tp-lb-close {
   position: absolute;
   top: -40px;
-  right: 0;
+  inset-inline-start: 0;
   background: none;
   border: none;
   color: #fff;
@@ -587,12 +587,12 @@
 
   &:hover { background: rgba(255, 255, 255, 0.3); }
 
-  &.prev { left: -50px; }
-  &.next { right: -50px; }
+  &.prev { inset-inline-end: -50px; }
+  &.next { inset-inline-start: -50px; }
 
   @media (max-width: 700px) {
-    &.prev { left: 8px; }
-    &.next { right: 8px; }
+    &.prev { inset-inline-end: 8px; }
+    &.next { inset-inline-start: 8px; }
   }
 
   @media (max-width: 400px) {

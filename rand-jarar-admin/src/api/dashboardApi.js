@@ -1,4 +1,5 @@
 import apiClient from './apiClient';
+import { t } from '../i18n';
 
 const dashboardAPI = {
   getMetrics: async () => {
@@ -101,9 +102,9 @@ const dashboardAPI = {
   getCompletionData: async () => {
     console.log('⚠️ Using default completion data');
     return [
-      { program: 'تنشيف', completion: 75 },
-      { program: 'نحت', completion: 68 },
-      { program: 'زيادة عضل', completion: 82 }
+      { program: t('تنشيف'), completion: 75 },
+      { program: t('نحت'), completion: 68 },
+      { program: t('زيادة عضل'), completion: 82 }
     ];
   },
 
@@ -220,9 +221,9 @@ const dashboardAPI = {
         paymentStatus: [],
         programTypes: [],
         completion: [
-          { program: 'تنشيف', completion: 75 },
-          { program: 'نحت', completion: 68 },
-          { program: 'زيادة عضل', completion: 82 }
+          { program: t('تنشيف'), completion: 75 },
+          { program: t('نحت'), completion: 68 },
+          { program: t('زيادة عضل'), completion: 82 }
         ],
         engagement: [],
         funnel: [],

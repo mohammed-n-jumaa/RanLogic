@@ -482,7 +482,7 @@
   &__item-img-remove {
     position: absolute;
     top: -2px;
-    right: -2px;
+    inset-inline-start: -2px;
     @include flex-center;
     width: 18px;
     height: 18px;
@@ -512,7 +512,7 @@
   &__item-rating {
     display: flex;
     gap: 2px;
-    margin-right: auto;
+    margin-inline-start: auto;
   }
 
   &__star {

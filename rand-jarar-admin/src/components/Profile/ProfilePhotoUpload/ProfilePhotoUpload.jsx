@@ -12,6 +12,7 @@ import {
   Trash2
 } from 'lucide-react';
 import './ProfilePhotoUpload.scss';
+import { t } from '../../../i18n';
 
 const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
   const [photo, setPhoto] = useState(null);
@@ -46,12 +47,12 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
 
   const handleFileSelect = (file) => {
     if (!file.type.match('image.*')) {
-      alert('الرجاء اختيار صورة فقط');
+      alert(t('الرجاء اختيار صورة فقط'));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('حجم الصورة يجب أن يكون أقل من 5 ميجابايت');
+      alert(t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت'));
       return;
     }
 
@@ -180,8 +181,8 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
       <div className="upload-header">
         <Camera size={28} />
         <div className="header-content">
-          <h2>الصورة الشخصية</h2>
-          <p>قم بتحديث صورتك الشخصية لجعل حسابك أكثر تميزاً</p>
+          <h2>{t('الصورة الشخصية')}</h2>
+          <p>{t('قم بتحديث صورتك الشخصية لجعل حسابك أكثر تميزاً')}</p>
         </div>
       </div>
 
@@ -190,7 +191,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
         <div className="main-area">
           {/* معاينة الصورة */}
           <div className="preview-section">
-            <h3>معاينة الصورة</h3>
+            <h3>{t('معاينة الصورة')}</h3>
             <div className="preview-container">
               {preview ? (
                 <div className="photo-preview">
@@ -213,8 +214,8 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
               ) : (
                 <div className="no-photo">
                   <User size={64} />
-                  <p>لا توجد صورة شخصية</p>
-                  <span>قم بتحميل صورة لعرضها هنا</span>
+                  <p>{t('لا توجد صورة شخصية')}</p>
+                  <span>{t('قم بتحميل صورة لعرضها هنا')}</span>
                 </div>
               )}
             </div>
@@ -227,7 +228,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
                     type="button" 
                     className="tool-btn"
                     onClick={handleZoomOut}
-                    title="تصغير"
+                    title={t('تصغير')}
                   >
                     <ZoomOut size={18} />
                   </button>
@@ -236,7 +237,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
                     type="button" 
                     className="tool-btn"
                     onClick={handleZoomIn}
-                    title="تكبير"
+                    title={t('تكبير')}
                   >
                     <ZoomIn size={18} />
                   </button>
@@ -247,7 +248,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
                     type="button" 
                     className="tool-btn"
                     onClick={handleRotate}
-                    title="تدوير 90 درجة"
+                    title={t('تدوير 90 درجة')}
                   >
                     <RotateCw size={18} />
                   </button>
@@ -260,7 +261,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
                   onClick={handleCrop}
                 >
                   <CheckCircle size={18} />
-                  <span>قص الصورة</span>
+                  <span>{t('قص الصورة')}</span>
                 </button>
               </div>
             )}
@@ -268,7 +269,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
 
           {/* منطقة التحميل */}
           <div className="upload-section">
-            <h3>رفع صورة جديدة</h3>
+            <h3>{t('رفع صورة جديدة')}</h3>
             <div 
               className={`upload-area ${isDragging ? 'dragging' : ''}`}
               onDragOver={handleDragOver}
@@ -288,24 +289,24 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
               <div className="upload-content">
                 <Upload size={48} />
                 <div className="upload-text">
-                  <p className="upload-title">اسحب وأفلت الصورة هنا</p>
-                  <p className="upload-subtitle">أو انقر للاختيار من الجهاز</p>
+                  <p className="upload-title">{t('اسحب وأفلت الصورة هنا')}</p>
+                  <p className="upload-subtitle">{t('أو انقر للاختيار من الجهاز')}</p>
                 </div>
                 <div className="upload-requirements">
-                  <span>JPG, PNG, GIF بحد أقصى 5MB</span>
+                  <span>{t('JPG, PNG, GIF بحد أقصى 5MB')}</span>
                 </div>
               </div>
             </div>
 
             {/* نصائح الصورة */}
             <div className="photo-tips">
-              <h4>نصائح للصورة المثالية:</h4>
+              <h4>{t('نصائح للصورة المثالية:')}</h4>
               <ul className="tips-list">
-                <li>وجه واضح وضوح كامل</li>
-                <li>خلفية محايدة وبسيطة</li>
-                <li>إضاءة جيدة بدون ظلال</li>
-                <li>تعبير وجه ودود وابتسامة لطيفة</li>
-                <li>تجنب الصور الجماعية أو المرشحات</li>
+                <li>{t('وجه واضح وضوح كامل')}</li>
+                <li>{t('خلفية محايدة وبسيطة')}</li>
+                <li>{t('إضاءة جيدة بدون ظلال')}</li>
+                <li>{t('تعبير وجه ودود وابتسامة لطيفة')}</li>
+                <li>{t('تجنب الصور الجماعية أو المرشحات')}</li>
               </ul>
             </div>
           </div>
@@ -320,7 +321,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
               onClick={handleRemove}
             >
               <Trash2 size={20} />
-              <span>حذف الصورة</span>
+              <span>{t('حذف الصورة')}</span>
             </button>
           )}
           
@@ -332,7 +333,7 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
               disabled={!photo && preview === currentPhoto}
             >
               <X size={20} />
-              <span>إلغاء</span>
+              <span>{t('إلغاء')}</span>
             </button>
             
             <button 
@@ -344,12 +345,12 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
               {isLoading ? (
                 <>
                   <div className="spinner-small"></div>
-                  <span>جاري الحفظ...</span>
+                  <span>{t('جاري الحفظ...')}</span>
                 </>
               ) : (
                 <>
                   <CheckCircle size={20} />
-                  <span>حفظ الصورة</span>
+                  <span>{t('حفظ الصورة')}</span>
                 </>
               )}
             </button>
@@ -361,15 +362,15 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
           <div className="info-card">
             <ImageIcon size={20} />
             <div className="info-content">
-              <h5>أبعاد الصورة الموصى بها</h5>
-              <p>300 × 300 بيكسل (1:1)</p>
+              <h5>{t('أبعاد الصورة الموصى بها')}</h5>
+              <p>{t('300 × 300 بيكسل (1:1)')}</p>
             </div>
           </div>
           
           <div className="info-card">
             <CheckCircle size={20} />
             <div className="info-content">
-              <h5>تنسيقات مدعومة</h5>
+              <h5>{t('تنسيقات مدعومة')}</h5>
               <p>JPG, PNG, GIF, WebP</p>
             </div>
           </div>
@@ -377,8 +378,8 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
           <div className="info-card">
             <Upload size={20} />
             <div className="info-content">
-              <h5>الحجم الأقصى</h5>
-              <p>5 ميجابايت</p>
+              <h5>{t('الحجم الأقصى')}</h5>
+              <p>{t('5 ميجابايت')}</p>
             </div>
           </div>
         </div>

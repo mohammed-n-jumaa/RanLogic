@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import footerApi from '../../../api/footerApi';
 import './FooterManagement.scss';
+import { t } from '../../../i18n';
 
 // ── Font Awesome ──────────────────────────────────────────────────────────────
 const loadFA = () => {
@@ -20,10 +21,10 @@ const loadFA = () => {
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 const TABS = [
-  { id: 'social',  label: 'السوشيال ميديا', Icon: Share2   },
-  { id: 'text',    label: 'النصوص',          Icon: FileText  },
-  { id: 'contact', label: 'الاتصال',         Icon: Mail      },
-  { id: 'preview', label: 'المعاينة',        Icon: Eye       },
+  { id: 'social',  label: t('السوشيال ميديا'), Icon: Share2   },
+  { id: 'text',    label: t('النصوص'),          Icon: FileText  },
+  { id: 'contact', label: t('الاتصال'),         Icon: Mail      },
+  { id: 'preview', label: t('المعاينة'),        Icon: Eye       },
 ];
 
 const EMPTY = {
@@ -41,7 +42,7 @@ const PlatformCard = ({ platform, isAdded, onAdd }) => (
     onClick={() => !isAdded && onAdd(platform.value)}
     whileHover={!isAdded ? { scale: 1.05, y: -2 } : {}}
     whileTap={!isAdded ? { scale: 0.95 } : {}}
-    title={isAdded ? 'مضاف' : `إضافة ${platform.label}`}
+    title={isAdded ? t('مضاف') : t('إضافة {0}', platform.label)}
   >
     <div className="pc-icon" style={{ background: platform.bg }}>
       <i className={platform.icon} style={{ color: platform.iconColor || '#fff' }} />
@@ -76,11 +77,11 @@ const SocialRow = ({ social, index, onChange, onRemove }) => {
         />
       </div>
       {social.url && (
-        <a href={social.url} target="_blank" rel="noopener noreferrer" className="sr-btn preview-btn" title="فتح">
+        <a href={social.url} target="_blank" rel="noopener noreferrer" className="sr-btn preview-btn" title={t('فتح')}>
           <ExternalLink size={14} />
         </a>
       )}
-      <button className="sr-btn delete-btn" onClick={() => onRemove(index)} title="حذف">
+      <button className="sr-btn delete-btn" onClick={() => onRemove(index)} title={t('حذف')}>
         <Trash2 size={14} />
       </button>
     </motion.div>
@@ -96,8 +97,8 @@ const LangField = ({ label, hint, valueAr, valueEn, onChangeAr, onChangeEn, mult
       <div className="lf-input-wrap">
         <span className="lf-lang ar">AR</span>
         {multiline
-          ? <textarea className="lf-input" rows={3} value={valueAr} onChange={e => onChangeAr(e.target.value)} placeholder="النص بالعربية..." />
-          : <input    className="lf-input" type="text" value={valueAr} onChange={e => onChangeAr(e.target.value)} placeholder="النص بالعربية..." />
+          ? <textarea className="lf-input" rows={3} value={valueAr} onChange={e => onChangeAr(e.target.value)} placeholder={t('النص بالعربية...')} />
+          : <input    className="lf-input" type="text" value={valueAr} onChange={e => onChangeAr(e.target.value)} placeholder={t('النص بالعربية...')} />
         }
       </div>
       <div className="lf-input-wrap">
@@ -121,16 +122,16 @@ const SocialTab = ({ socialLinks, addedSet, addPlatform, updateUrl, removeSocial
       {/* الروابط المضافة */}
       <div className="section-card">
         <div className="sc-hd">
-          <Share2 size={15} />الروابط المضافة
+          <Share2 size={15} />{t('الروابط المضافة')}
           <span className="sc-count">{socialLinks.length}</span>
           {/* زر إضافة على الموبايل */}
           <button
             className="sc-add-btn"
             onClick={() => setPickerOpen(v => !v)}
-            title="إضافة منصة"
+            title={t('إضافة منصة')}
           >
             <Plus size={15} />
-            <span>إضافة</span>
+            <span>{t('إضافة')}</span>
             <ChevronDown size={13} className={pickerOpen ? 'rotated' : ''} />
           </button>
         </div>
@@ -162,8 +163,8 @@ const SocialTab = ({ socialLinks, addedSet, addPlatform, updateUrl, removeSocial
         {socialLinks.length === 0 ? (
           <div className="empty-state">
             <Share2 size={38} />
-            <p>لا توجد منصات مضافة بعد</p>
-            <span>اضغط "إضافة" لاختيار المنصات</span>
+            <p>{t('لا توجد منصات مضافة بعد')}</p>
+            <span>{t('اضغط "إضافة" لاختيار المنصات')}</span>
           </div>
         ) : (
           <div className="social-list">
@@ -178,7 +179,7 @@ const SocialTab = ({ socialLinks, addedSet, addPlatform, updateUrl, removeSocial
 
       {/* Picker الديسكتوب — جانبي دائماً ظاهر */}
       <div className="section-card desktop-picker">
-        <div className="sc-hd"><Plus size={15} />اختر منصة لإضافتها</div>
+        <div className="sc-hd"><Plus size={15} />{t('اختر منصة لإضافتها')}</div>
         <div className="platforms-grid">
           {footerApi.socialPlatforms.map(p => (
             <PlatformCard key={p.value} platform={p} isAdded={addedSet.has(p.value)} onAdd={addPlatform} />
@@ -214,7 +215,7 @@ const FooterManagement = () => {
   const handleSave = async () => {
     setSaving(true);
     const res = await footerApi.updateFooter(data);
-    showToast(res.success ? 'success' : 'error', res.success ? 'تم حفظ التغييرات بنجاح ✓' : (res.message || 'حدث خطأ'));
+    showToast(res.success ? 'success' : 'error', res.success ? t('تم حفظ التغييرات بنجاح ✓') : (res.message || t('حدث خطأ')));
     setSaving(false);
   };
 
@@ -230,7 +231,7 @@ const FooterManagement = () => {
   if (isLoading) {
     return (
       <div className="footer-mgmt">
-        <div className="footer-mgmt__loading"><Loader size={32} className="spin" /><p>جاري التحميل...</p></div>
+        <div className="footer-mgmt__loading"><Loader size={32} className="spin" /><p>{t('جاري التحميل...')}</p></div>
       </div>
     );
   }
@@ -242,11 +243,11 @@ const FooterManagement = () => {
       <div className="footer-mgmt__header">
         <div>
           <div className="breadcrumb">
-            <ChevronLeft size={14} /><span>المحتوى</span>
-            <span className="sep">/</span><span className="crumb-active">إدارة الفوتر</span>
+            <ChevronLeft size={14} /><span>{t('المحتوى')}</span>
+            <span className="sep">/</span><span className="crumb-active">{t('إدارة الفوتر')}</span>
           </div>
-          <h1 className="fmh-title"><Globe size={24} />إدارة الفوتر</h1>
-          <p className="fmh-sub">نصوص الفوتر، معلومات الاتصال، ومنصات التواصل الاجتماعي</p>
+          <h1 className="fmh-title"><Globe size={24} />{t('إدارة الفوتر')}</h1>
+          <p className="fmh-sub">{t('نصوص الفوتر، معلومات الاتصال، ومنصات التواصل الاجتماعي')}</p>
         </div>
         <div className="fmh-actions">
           {/* تبديل اللغة — مرئي فقط في تبويبات النصوص والاتصال */}
@@ -264,7 +265,7 @@ const FooterManagement = () => {
             whileTap={{ scale: 0.97 }}
           >
             {isSaving ? <Loader size={15} className="spin" /> : <Save size={15} />}
-            {isSaving ? 'جاري الحفظ...' : 'حفظ'}
+            {isSaving ? t('جاري الحفظ...') : t('حفظ')}
           </motion.button>
         </div>
       </div>
@@ -282,9 +283,9 @@ const FooterManagement = () => {
 
       {/* ── Tabs ── */}
       <div className="footer-mgmt__tabs">
-        {TABS.map(t => (
-          <button key={t.id} className={`fm-tab ${tab === t.id ? 'active' : ''}`} onClick={() => setTab(t.id)}>
-            <t.Icon size={16} /><span>{t.label}</span>
+        {TABS.map(tItem => (
+          <button key={tItem.id} className={`fm-tab ${tab === tItem.id ? 'active' : ''}`} onClick={() => setTab(tItem.id)}>
+            <tItem.Icon size={16} /><span>{tItem.label}</span>
           </button>
         ))}
       </div>
@@ -312,12 +313,12 @@ const FooterManagement = () => {
             <motion.div key="text" className="tab-pane"
               initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>
               <div className="section-card full">
-                <div className="sc-hd"><FileText size={15} />نصوص الفوتر</div>
+                <div className="sc-hd"><FileText size={15} />{t('نصوص الفوتر')}</div>
                 <div className="fields-stack">
 
                   <LangField
-                    label="وصف الفوتر"
-                    hint="يظهر تحت الشعار في الفوتر"
+                    label={t('وصف الفوتر')}
+                    hint={t('يظهر تحت الشعار في الفوتر')}
                     valueAr={data.description_ar}
                     valueEn={data.description_en}
                     onChangeAr={v => set('description_ar', v)}
@@ -326,8 +327,8 @@ const FooterManagement = () => {
                   />
 
                   <LangField
-                    label="نص حقوق النشر"
-                    hint="يظهر في أسفل الفوتر"
+                    label={t('نص حقوق النشر')}
+                    hint={t('يظهر في أسفل الفوتر')}
                     valueAr={data.copyright_ar}
                     valueEn={data.copyright_en}
                     onChangeAr={v => set('copyright_ar', v)}
@@ -335,7 +336,7 @@ const FooterManagement = () => {
                   />
 
                   <LangField
-                    label="عنوان قسم الروابط السريعة"
+                    label={t('عنوان قسم الروابط السريعة')}
                     valueAr={data.quick_links_title_ar}
                     valueEn={data.quick_links_title_en}
                     onChangeAr={v => set('quick_links_title_ar', v)}
@@ -352,21 +353,21 @@ const FooterManagement = () => {
             <motion.div key="contact" className="tab-pane"
               initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>
               <div className="section-card full">
-                <div className="sc-hd"><Mail size={15} />معلومات الاتصال</div>
+                <div className="sc-hd"><Mail size={15} />{t('معلومات الاتصال')}</div>
                 <div className="fields-stack">
 
                   <div className="simple-field">
-                    <label><Mail size={14} />البريد الإلكتروني</label>
+                    <label><Mail size={14} />{t('البريد الإلكتروني')}</label>
                     <input type="email" value={data.email} onChange={e => set('email', e.target.value)} placeholder="info@ranlogic.com" />
                   </div>
 
                   <div className="simple-field">
-                    <label><Phone size={14} />رقم الهاتف</label>
+                    <label><Phone size={14} />{t('رقم الهاتف')}</label>
                     <input type="text" value={data.phone} onChange={e => set('phone', e.target.value)} placeholder="+966 55 123 4567" dir="ltr" />
                   </div>
 
                   <LangField
-                    label="العنوان"
+                    label={t('العنوان')}
                     valueAr={data.address_ar}
                     valueEn={data.address_en}
                     onChangeAr={v => set('address_ar', v)}
@@ -385,7 +386,7 @@ const FooterManagement = () => {
               initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>
               <div className="preview-wrapper">
                 <div className="preview-lang-toggle">
-                  <button className={lang === 'ar' ? 'active' : ''} onClick={() => setLang('ar')}>🇸🇦 العربية</button>
+                  <button className={lang === 'ar' ? 'active' : ''} onClick={() => setLang('ar')}>{t('🇸🇦 العربية')}</button>
                   <button className={lang === 'en' ? 'active' : ''} onClick={() => setLang('en')}>🇬🇧 English</button>
                 </div>
 

@@ -4,8 +4,8 @@
 .approval-modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   @include flex-center;
@@ -137,7 +137,7 @@
     
     .value {
       color: var(--text-secondary);
-      text-align: left;
+      text-align: end;
     }
     
     @include mobile {
@@ -199,8 +199,8 @@
     gap: $spacing-xs;
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.7);
     color: #ffffff;

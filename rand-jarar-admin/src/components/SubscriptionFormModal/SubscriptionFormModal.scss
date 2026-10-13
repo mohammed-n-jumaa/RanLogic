@@ -4,8 +4,8 @@
 .subscription-modal-overlay {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   @include flex-center;
@@ -307,7 +307,7 @@
     svg {
       position: absolute;
       top: 50%;
-      right: 12px;
+      inset-inline-start: 12px;
       transform: translateY(-50%);
       color: var(--text-muted);
     }
@@ -338,8 +338,8 @@
   &__results {
     position: absolute;
     top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: $radius-sm;

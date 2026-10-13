@@ -22,6 +22,7 @@ import {
 import Swal from 'sweetalert2';
 import faqApi from '../../../api/faqApi';
 import './FAQ.scss';
+import { t } from '../../../i18n';
 
 const FAQ = () => {
   const [sectionSettings, setSectionSettings] = useState({
@@ -70,7 +71,7 @@ const FAQ = () => {
       }
     } catch (error) {
       console.error('Error fetching FAQ data:', error);
-      Swal.fire({ title: 'خطأ', text: 'فشل تحميل البيانات', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل البيانات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsLoading(false);
     }
@@ -89,14 +90,14 @@ const FAQ = () => {
 
   const handleDeleteArabicQuestion = async (index) => {
     const result = await Swal.fire({
-      title: 'هل أنت متأكد؟',
-      text: 'سيتم حذف السؤال نهائياً',
+      title: t('هل أنت متأكد؟'),
+      text: t('سيتم حذف السؤال نهائياً'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#E91E63',
       cancelButtonColor: '#757575',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
     if (!result.isConfirmed) return;
     setArabicQuestions(arabicQuestions.filter((_, i) => i !== index));
@@ -152,29 +153,29 @@ const FAQ = () => {
 
   const handleDeleteUserQuestion = async (id) => {
     const result = await Swal.fire({
-      title: 'هل أنت متأكد؟',
-      text: 'سيتم حذف السؤال نهائياً',
+      title: t('هل أنت متأكد؟'),
+      text: t('سيتم حذف السؤال نهائياً'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#E91E63',
       cancelButtonColor: '#757575',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
     if (!result.isConfirmed) return;
     try {
       await faqApi.deleteUserQuestion(id);
       setUserQuestions(userQuestions.filter((q) => q.id !== id));
-      Swal.fire({ icon: 'success', title: 'تم الحذف', text: 'تم حذف السؤال بنجاح', timer: 1500, showConfirmButton: false });
+      Swal.fire({ icon: 'success', title: t('تم الحذف'), text: t('تم حذف السؤال بنجاح'), timer: 1500, showConfirmButton: false });
     } catch (error) {
       console.error('Error deleting question:', error);
-      Swal.fire({ title: 'خطأ', text: 'فشل حذف السؤال', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: t('فشل حذف السؤال'), icon: 'error', confirmButtonColor: '#e91e63' });
     }
   };
 
   const handleSaveChanges = async () => {
     if (!sectionSettings.titleAr || !sectionSettings.titleEn) {
-      Swal.fire({ title: 'تنبيه', text: 'يرجى ملء عنوان القسم بالعربية والإنجليزية', icon: 'warning', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('تنبيه'), text: t('يرجى ملء عنوان القسم بالعربية والإنجليزية'), icon: 'warning', confirmButtonColor: '#e91e63' });
       return;
     }
     setIsSaving(true);
@@ -193,7 +194,7 @@ const FAQ = () => {
       if (response.success) {
         setUploadStatus('success');
         setTimeout(() => setUploadStatus(null), 3000);
-        Swal.fire({ icon: 'success', title: 'تم الحفظ بنجاح!', text: 'تم حفظ جميع التغييرات', timer: 2000, confirmButtonColor: '#E91E63' });
+        Swal.fire({ icon: 'success', title: t('تم الحفظ بنجاح!'), text: t('تم حفظ جميع التغييرات'), timer: 2000, confirmButtonColor: '#E91E63' });
         await fetchFaqData();
         setEditingArabic(null);
         setEditingEnglish(null);
@@ -202,7 +203,7 @@ const FAQ = () => {
       console.error('Error saving changes:', error);
       setUploadStatus('error');
       setTimeout(() => setUploadStatus(null), 3000);
-      Swal.fire({ title: 'خطأ', text: error.response?.data?.message || 'فشل حفظ التغييرات', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ التغييرات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsSaving(false);
     }
@@ -221,7 +222,7 @@ const FAQ = () => {
       <div className="fq">
         <div className="fq__loader">
           <div className="fq__loader-spin" />
-          <span>جاري تحميل البيانات...</span>
+          <span>{t('جاري تحميل البيانات...')}</span>
         </div>
       </div>
     );
@@ -232,8 +233,8 @@ const FAQ = () => {
       {/* ── Top Bar ── */}
       <div className="fq__topbar">
         <div>
-          <h1 className="fq__title">إدارة الأسئلة الشائعة</h1>
-          <p className="fq__desc">إدارة الأسئلة الشائعة وأسئلة المستخدمين</p>
+          <h1 className="fq__title">{t('إدارة الأسئلة الشائعة')}</h1>
+          <p className="fq__desc">{t('إدارة الأسئلة الشائعة وأسئلة المستخدمين')}</p>
         </div>
         <motion.button
           className="fq__save"
@@ -244,12 +245,12 @@ const FAQ = () => {
           {isSaving ? (
             <>
               <div className="fq__spinner" />
-              <span>جاري الحفظ...</span>
+              <span>{t('جاري الحفظ...')}</span>
             </>
           ) : (
             <>
               <Save size={16} />
-              <span>حفظ التغييرات</span>
+              <span>{t('حفظ التغييرات')}</span>
             </>
           )}
         </motion.button>
@@ -262,14 +263,14 @@ const FAQ = () => {
           onClick={() => setActiveUserTab('faq')}
         >
           <HelpCircle size={16} />
-          الأسئلة الشائعة
+          {t('الأسئلة الشائعة')}
         </button>
         <button
           className={`fq__main-tab ${activeUserTab === 'user-questions' ? 'fq__main-tab--on' : ''}`}
           onClick={() => setActiveUserTab('user-questions')}
         >
           <MessageSquare size={16} />
-          أسئلة المستخدمين
+          {t('أسئلة المستخدمين')}
           {unreadCount > 0 && <span className="fq__badge">{unreadCount}</span>}
         </button>
       </div>
@@ -283,10 +284,10 @@ const FAQ = () => {
         >
           {/* Section Settings */}
           <div className="fq__settings">
-            <div className="fq__settings-title">إعدادات القسم</div>
+            <div className="fq__settings-title">{t('إعدادات القسم')}</div>
             <div className="fq__settings-grid">
               <div className="fq__field">
-                <label className="fq__label">🇸🇦 العنوان (عربي)</label>
+                <label className="fq__label">{t('🇸🇦 العنوان (عربي)')}</label>
                 <input
                   type="text"
                   className="fq__input"
@@ -304,7 +305,7 @@ const FAQ = () => {
                 />
               </div>
               <div className="fq__field">
-                <label className="fq__label">🇸🇦 الوصف (عربي)</label>
+                <label className="fq__label">{t('🇸🇦 الوصف (عربي)')}</label>
                 <input
                   type="text"
                   className="fq__input"
@@ -330,7 +331,7 @@ const FAQ = () => {
               className={`fq__lang-tab ${activeTab === 'arabic' ? 'fq__lang-tab--on' : ''}`}
               onClick={() => setActiveTab('arabic')}
             >
-              🇸🇦 الأسئلة العربية ({arabicQuestions.length})
+              {t('🇸🇦 الأسئلة العربية (')}{arabicQuestions.length})
             </button>
             <button
               className={`fq__lang-tab ${activeTab === 'english' ? 'fq__lang-tab--on' : ''}`}
@@ -344,11 +345,11 @@ const FAQ = () => {
           <div className="fq__qlist">
             <div className="fq__qlist-head">
               <span className="fq__qlist-title">
-                {isAr ? 'الأسئلة' : 'Questions'}
+                {isAr ? t('الأسئلة') : 'Questions'}
               </span>
               <button className="fq__qlist-add" onClick={handleAdd}>
                 <Plus size={15} />
-                {isAr ? 'إضافة سؤال' : 'Add Question'}
+                {isAr ? t('إضافة سؤال') : 'Add Question'}
               </button>
             </div>
 
@@ -356,7 +357,7 @@ const FAQ = () => {
               {questions.length === 0 && (
                 <div className="fq__qlist-empty">
                   <HelpCircle size={32} />
-                  <p>{isAr ? 'لا توجد أسئلة' : 'No questions yet'}</p>
+                  <p>{isAr ? t('لا توجد أسئلة') : 'No questions yet'}</p>
                 </div>
               )}
 
@@ -383,7 +384,7 @@ const FAQ = () => {
                           className="fq__q-cat-input"
                           value={q.category}
                           onChange={(e) => handleUpdate(index, 'category', e.target.value)}
-                          placeholder={isAr ? 'الفئة' : 'Category'}
+                          placeholder={isAr ? t('الفئة') : 'Category'}
                         />
                         <button
                           className="fq__q-ok"
@@ -396,13 +397,13 @@ const FAQ = () => {
                         className="fq__q-input"
                         value={q.question}
                         onChange={(e) => handleUpdate(index, 'question', e.target.value)}
-                        placeholder={isAr ? 'السؤال...' : 'Question...'}
+                        placeholder={isAr ? t('السؤال...') : 'Question...'}
                       />
                       <textarea
                         className="fq__q-textarea"
                         value={q.answer}
                         onChange={(e) => handleUpdate(index, 'answer', e.target.value)}
-                        placeholder={isAr ? 'الجواب...' : 'Answer...'}
+                        placeholder={isAr ? t('الجواب...') : 'Answer...'}
                         rows="3"
                       />
                     </div>
@@ -482,7 +483,7 @@ const FAQ = () => {
           {userQuestions.length === 0 ? (
             <div className="fq__uq-empty">
               <MessageSquare size={32} />
-              <p>لا توجد أسئلة من المستخدمين</p>
+              <p>{t('لا توجد أسئلة من المستخدمين')}</p>
             </div>
           ) : (
             <div className="fq__uq-list">
@@ -512,11 +513,11 @@ const FAQ = () => {
                     <span className={`fq__uq-status ${uq.is_read ? 'fq__uq-status--read' : ''}`}>
                       {uq.is_read ? (
                         <>
-                          <CheckCircle size={13} /> مقروء
+                          <CheckCircle size={13} /> {t('مقروء')}
                         </>
                       ) : (
                         <>
-                          <AlertCircle size={13} /> جديد
+                          <AlertCircle size={13} /> {t('جديد')}
                         </>
                       )}
                     </span>
@@ -530,21 +531,21 @@ const FAQ = () => {
                         className="fq__uq-btn"
                         onClick={() => handleMarkAsUnread(uq.id)}
                       >
-                        <EyeOff size={14} /> غير مقروء
+                        <EyeOff size={14} /> {t('غير مقروء')}
                       </button>
                     ) : (
                       <button
                         className="fq__uq-btn fq__uq-btn--primary"
                         onClick={() => handleMarkAsRead(uq.id)}
                       >
-                        <Eye size={14} /> مقروء
+                        <Eye size={14} /> {t('مقروء')}
                       </button>
                     )}
                     <button
                       className="fq__uq-btn fq__uq-btn--del"
                       onClick={() => handleDeleteUserQuestion(uq.id)}
                     >
-                      <Trash2 size={14} /> حذف
+                      <Trash2 size={14} /> {t('حذف')}
                     </button>
                   </div>
                 </motion.div>

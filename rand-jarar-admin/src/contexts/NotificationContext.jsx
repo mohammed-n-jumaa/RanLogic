@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getUnreadNotificationsCount, getNotifications, markNotificationsAsRead } from '../api/chatApi';
+import { t } from '../i18n';
 
 const NotificationContext = createContext();
 
@@ -39,7 +40,7 @@ export const NotificationProvider = ({ children }) => {
         setNotifications(response.data);
       }
     } catch (err) {
-      setError('حدث خطأ أثناء جلب الإشعارات');
+      setError(t('حدث خطأ أثناء جلب الإشعارات'));
       console.error('Error fetching notifications:', err);
     } finally {
       setLoading(false);

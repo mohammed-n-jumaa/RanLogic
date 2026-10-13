@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, CheckCheck, Image as ImageIcon, FileText, PlayCircle } from 'lucide-react';
 import './ChatWindow.scss';
+import { t, loc } from '../../i18n';
 
 const ChatWindow = ({ messages = [], client = {} }) => {
   const messagesEndRef = useRef(null);
@@ -48,7 +49,7 @@ const ChatWindow = ({ messages = [], client = {} }) => {
     if (message.date) {
       const d = new Date(message.date);
       if (!isNaN(d.getTime())) {
-        return d.toLocaleDateString('ar-SA', {
+        return d.toLocaleDateString(loc('ar-SA'), {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -62,7 +63,7 @@ const ChatWindow = ({ messages = [], client = {} }) => {
     if (message.created_at) {
       const d = new Date(message.created_at);
       if (!isNaN(d.getTime())) {
-        return d.toLocaleDateString('ar-SA', {
+        return d.toLocaleDateString(loc('ar-SA'), {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -95,7 +96,7 @@ const ChatWindow = ({ messages = [], client = {} }) => {
         <div className="message__attachment message__attachment--video">
           <video controls preload="metadata">
             <source src={url} />
-            المتصفح لا يدعم تشغيل الفيديو
+            {t('المتصفح لا يدعم تشغيل الفيديو')}
           </video>
         </div>
       );
@@ -113,7 +114,7 @@ const ChatWindow = ({ messages = [], client = {} }) => {
         >
           <FileText size={18} />
           <div className="message__file-info">
-            <div className="message__file-name">{message.file_name || 'ملف'}</div>
+            <div className="message__file-name">{message.file_name || t('ملف')}</div>
             {message.file_size && <div className="message__file-size">{message.file_size}</div>}
           </div>
         </a>
@@ -142,9 +143,9 @@ const ChatWindow = ({ messages = [], client = {} }) => {
               }}
             />
           </div>
-          <h3 className="welcome-message__title">أنت تتحدث مع {client.name || 'المتدرب'}</h3>
+          <h3 className="welcome-message__title">{t('أنت تتحدث مع')} {client.name || t('المتدرب')}</h3>
           <p className="welcome-message__subtitle">
-            {client.isOnline ? 'متصل الآن' : `آخر ظهور ${client.lastSeen || ''}`}
+            {client.isOnline ? t('متصل الآن') : t('آخر ظهور {0}', client.lastSeen || '')}
           </p>
         </motion.div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import authApi from '../../api/authApi';
 import './ProtectedRoute.scss';
+import { t } from '../i18n';
 
 /**
  * ProtectedRoute Component
@@ -59,7 +60,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
     return (
       <div className="protected-route-loading">
         <div className="loading-spinner"></div>
-        <p>جاري التحميل...</p>
+        <p>{t('جاري التحميل...')}</p>
       </div>
     );
   }
@@ -75,10 +76,10 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
       <div className="unauthorized-page">
         <div className="unauthorized-content">
           <div className="unauthorized-icon">🚫</div>
-          <h1>غير مصرح</h1>
-          <p>ليس لديك صلاحية الوصول إلى هذه الصفحة</p>
+          <h1>{t('غير مصرح')}</h1>
+          <p>{t('ليس لديك صلاحية الوصول إلى هذه الصفحة')}</p>
           <p className="unauthorized-hint">
-            هذه الصفحة مخصصة للمسؤولين فقط
+            {t('هذه الصفحة مخصصة للمسؤولين فقط')}
           </p>
           <button 
             className="back-btn"
@@ -87,7 +88,7 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
               window.location.href = '/login';
             }}
           >
-            تسجيل الخروج
+            {t('تسجيل الخروج')}
           </button>
         </div>
       </div>

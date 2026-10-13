@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { CheckCircle, X } from 'lucide-react';
 import './SuccessMessage.scss';
+import { t } from '../../../i18n';
 
 const SuccessMessage = ({ message, isVisible, onClose }) => {
   useEffect(() => {
@@ -21,7 +22,7 @@ const SuccessMessage = ({ message, isVisible, onClose }) => {
         <div className="message-content">
           <CheckCircle className="success-icon" size={24} />
           <div className="message-text">
-            <strong>تم بنجاح!</strong>
+            <strong>{t('تم بنجاح!')}</strong>
             <p>{message}</p>
           </div>
         </div>

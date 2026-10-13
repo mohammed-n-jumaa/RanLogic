@@ -5,7 +5,7 @@
   display: flex;
   min-height: 100vh;
   background: var(--bg-primary);
-  direction: rtl;
+  // direction follows <html dir>
   position: relative;
 
   &__main {

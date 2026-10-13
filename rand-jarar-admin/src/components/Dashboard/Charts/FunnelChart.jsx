@@ -8,6 +8,7 @@ import {
   Cell
 } from 'recharts';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const FunnelChart = ({ data = [], height = 250 }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -19,10 +20,10 @@ const FunnelChart = ({ data = [], height = 250 }) => {
       setChartData(data);
     } else {
       setChartData([
-        { stage: 'التسجيلات', value: 200, fill: '#e91e63' },
-        { stage: 'اشتراكات نشطة', value: 156, fill: '#9c27b0' },
-        { stage: 'التجديدات', value: 120, fill: '#2196f3' },
-        { stage: 'منتهية', value: 45, fill: '#4caf50' },
+        { stage: t('التسجيلات'), value: 200, fill: '#e91e63' },
+        { stage: t('اشتراكات نشطة'), value: 156, fill: '#9c27b0' },
+        { stage: t('التجديدات'), value: 120, fill: '#2196f3' },
+        { stage: t('منتهية'), value: 45, fill: '#4caf50' },
       ]);
     }
   }, [data]);
@@ -78,7 +79,7 @@ const FunnelChart = ({ data = [], height = 250 }) => {
               fontSize: '12px',
               borderRadius: '8px'
             }}
-            formatter={(value, name, props) => [`${value} متدربة`, props.payload.stage]}
+            formatter={(value, name, props) => [t('{0} متدربة', value), props.payload.stage]}
           />
           <Funnel
             data={chartData}

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import trainingApi from '../../../api/trainingApi';
 import './ProgressTracker.scss';
+import { t } from '../../../i18n';
 
 const ProgressTracker = ({ clientId, year, month }) => {
   const [progressData, setProgressData] = useState(null);
@@ -45,8 +46,8 @@ const ProgressTracker = ({ clientId, year, month }) => {
     if (workout.completed_exercises >= 10) {
       achievements.push({
         id: 1,
-        title: 'محارب مبتدئ',
-        description: `أكمل ${workout.completed_exercises} تمرين`,
+        title: t('محارب مبتدئ'),
+        description: t('أكمل {0} تمرين', workout.completed_exercises),
         icon: '💪',
         color: '#4caf50'
       });
@@ -55,8 +56,8 @@ const ProgressTracker = ({ clientId, year, month }) => {
     if (nutrition.completed_items >= 20) {
       achievements.push({
         id: 2,
-        title: 'خبير تغذية',
-        description: `أكمل ${nutrition.completed_items} وجبة صحية`,
+        title: t('خبير تغذية'),
+        description: t('أكمل {0} وجبة صحية', nutrition.completed_items),
         icon: '🥗',
         color: '#ff9800'
       });
@@ -65,8 +66,8 @@ const ProgressTracker = ({ clientId, year, month }) => {
     if (workout.completion_percentage === 100) {
       achievements.push({
         id: 3,
-        title: 'البطل الشهري',
-        description: 'أكمل جميع التمارين الشهرية',
+        title: t('البطل الشهري'),
+        description: t('أكمل جميع التمارين الشهرية'),
         icon: '🏆',
         color: '#e91e63'
       });
@@ -75,8 +76,8 @@ const ProgressTracker = ({ clientId, year, month }) => {
     if (nutrition.completion_percentage === 100) {
       achievements.push({
         id: 4,
-        title: 'نظام متكامل',
-        description: 'التزم بالنظام الغذائي بالكامل',
+        title: t('نظام متكامل'),
+        description: t('التزم بالنظام الغذائي بالكامل'),
         icon: '⭐',
         color: '#2196f3'
       });
@@ -85,8 +86,8 @@ const ProgressTracker = ({ clientId, year, month }) => {
     if (workout.completion_percentage >= 80 && nutrition.completion_percentage >= 80) {
       achievements.push({
         id: 5,
-        title: 'الشهر الذهبي',
-        description: 'التزام ممتاز بالبرنامج',
+        title: t('الشهر الذهبي'),
+        description: t('التزام ممتاز بالبرنامج'),
         icon: '🌟',
         color: '#ffc107'
       });
@@ -100,7 +101,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
       <div className="progress-tracker">
         <div className="progress-tracker__loading">
           <Loader size={48} className="spinner" />
-          <p>جاري تحميل الإحصائيات...</p>
+          <p>{t('جاري تحميل الإحصائيات...')}</p>
         </div>
       </div>
     );
@@ -110,7 +111,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
     return (
       <div className="progress-tracker">
         <div className="progress-tracker__error">
-          <h3>لا توجد بيانات متاحة</h3>
+          <h3>{t('لا توجد بيانات متاحة')}</h3>
         </div>
       </div>
     );
@@ -126,7 +127,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
       <div className="progress-tracker__header">
         <h2 className="progress-tracker__title">
           <Activity size={24} />
-          التقدم والإنجازات
+          {t('التقدم والإنجازات')}
         </h2>
       </div>
       
@@ -136,11 +137,11 @@ const ProgressTracker = ({ clientId, year, month }) => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <h3 className="weekly-overview-card__title">نظرة عامة على الشهر</h3>
+        <h3 className="weekly-overview-card__title">{t('نظرة عامة على الشهر')}</h3>
         
         <div className="weekly-overview-card__progress">
           <div className="weekly-overview-card__progress-header">
-            <span>التقدم الإجمالي</span>
+            <span>{t('التقدم الإجمالي')}</span>
             <span className="weekly-overview-card__percentage">{overallProgress}%</span>
           </div>
           <div className="weekly-overview-card__progress-bar">
@@ -162,7 +163,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
               <span className="weekly-stat__value">
                 {progressData.workout.completed_exercises}/{progressData.workout.total_exercises}
               </span>
-              <span className="weekly-stat__label">تمارين مكتملة</span>
+              <span className="weekly-stat__label">{t('تمارين مكتملة')}</span>
             </div>
           </div>
           
@@ -174,7 +175,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
               <span className="weekly-stat__value">
                 {progressData.nutrition.completed_items}/{progressData.nutrition.total_items}
               </span>
-              <span className="weekly-stat__label">وجبات مكتملة</span>
+              <span className="weekly-stat__label">{t('وجبات مكتملة')}</span>
             </div>
           </div>
           
@@ -186,7 +187,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
               <span className="weekly-stat__value">
                 {Math.round(progressData.nutrition.total_calories / new Date(year, month, 0).getDate())}
               </span>
-              <span className="weekly-stat__label">متوسط السعرات/يوم</span>
+              <span className="weekly-stat__label">{t('متوسط السعرات/يوم')}</span>
             </div>
           </div>
         </div>
@@ -202,7 +203,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
         <div className="progress-card">
           <div className="progress-card__header">
             <Dumbbell size={20} />
-            <h3>البرنامج التدريبي</h3>
+            <h3>{t('البرنامج التدريبي')}</h3>
           </div>
           <div className="progress-card__content">
             <div className="progress-ring">
@@ -238,11 +239,11 @@ const ProgressTracker = ({ clientId, year, month }) => {
             </div>
             <div className="progress-card__stats">
               <div className="stat-item">
-                <span className="stat-item__label">إجمالي التمارين</span>
+                <span className="stat-item__label">{t('إجمالي التمارين')}</span>
                 <span className="stat-item__value">{progressData.workout.total_exercises}</span>
               </div>
               <div className="stat-item">
-                <span className="stat-item__label">المكتملة</span>
+                <span className="stat-item__label">{t('المكتملة')}</span>
                 <span className="stat-item__value">{progressData.workout.completed_exercises}</span>
               </div>
             </div>
@@ -252,7 +253,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
         <div className="progress-card">
           <div className="progress-card__header">
             <Apple size={20} />
-            <h3>النظام الغذائي</h3>
+            <h3>{t('النظام الغذائي')}</h3>
           </div>
           <div className="progress-card__content">
             <div className="progress-ring">
@@ -288,11 +289,11 @@ const ProgressTracker = ({ clientId, year, month }) => {
             </div>
             <div className="progress-card__stats">
               <div className="stat-item">
-                <span className="stat-item__label">إجمالي العناصر</span>
+                <span className="stat-item__label">{t('إجمالي العناصر')}</span>
                 <span className="stat-item__value">{progressData.nutrition.total_items}</span>
               </div>
               <div className="stat-item">
-                <span className="stat-item__label">المكتملة</span>
+                <span className="stat-item__label">{t('المكتملة')}</span>
                 <span className="stat-item__value">{progressData.nutrition.completed_items}</span>
               </div>
             </div>
@@ -310,7 +311,7 @@ const ProgressTracker = ({ clientId, year, month }) => {
         >
           <h3 className="achievements-section__title">
             <Award size={24} />
-            الإنجازات المحققة
+            {t('الإنجازات المحققة')}
           </h3>
           
           <div className="achievements-grid">

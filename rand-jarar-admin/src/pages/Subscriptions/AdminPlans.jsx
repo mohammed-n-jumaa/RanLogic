@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import plansApi from '../../api/plansApi';
 import PlanCard from '../../components/PlanCard/PlanCard';
 import './AdminPlans.scss';
+import { t } from '../../i18n';
 
 const AdminPlans = () => {
     const [plans, setPlans]         = useState([]);
@@ -19,7 +20,7 @@ const AdminPlans = () => {
             const res = await plansApi.getAll();
             if (res.success) setPlans(res.data);
         } catch {
-            Swal.fire({ title: 'خطأ', text: 'فشل تحميل الخطط', icon: 'error', confirmButtonColor: '#e91e63' });
+            Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الخطط'), icon: 'error', confirmButtonColor: '#e91e63' });
         } finally {
             setIsLoading(false);
         }
@@ -41,18 +42,18 @@ const AdminPlans = () => {
                     toast: true,
                     position: 'top-end',
                     icon: 'success',
-                    title: 'تم الحفظ بنجاح',
+                    title: t('تم الحفظ بنجاح'),
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true,
                 });
             } else {
-                throw new Error(res.message || 'خطأ غير معروف');
+                throw new Error(res.message || t('خطأ غير معروف'));
             }
         } catch (err) {
             Swal.fire({
-                title: 'خطأ في الحفظ',
-                text: err?.response?.data?.message || err.message || 'حدث خطأ',
+                title: t('خطأ في الحفظ'),
+                text: err?.response?.data?.message || err.message || t('حدث خطأ'),
                 icon: 'error',
                 confirmButtonColor: '#e91e63',
             });
@@ -70,16 +71,16 @@ const AdminPlans = () => {
                         <LayoutGrid size={20} />
                     </div>
                     <div>
-                        <h1 className="admin-plans__title">إدارة خطط الاشتراك</h1>
+                        <h1 className="admin-plans__title">{t('إدارة خطط الاشتراك')}</h1>
                         <p className="admin-plans__subtitle">
-                            التغييرات تنعكس فوراً على صفحة الاشتراك وعلى PayPal
+                            {t('التغييرات تنعكس فوراً على صفحة الاشتراك وعلى PayPal')}
                         </p>
                     </div>
                 </div>
 
                 <button className="admin-plans__refresh-btn" onClick={fetchPlans} disabled={isLoading}>
                     <RefreshCw size={16} className={isLoading ? 'spin' : ''} />
-                    <span>تحديث</span>
+                    <span>{t('تحديث')}</span>
                 </button>
             </div>
 
@@ -87,8 +88,7 @@ const AdminPlans = () => {
             <div className="admin-plans__info-banner">
                 <span className="admin-plans__info-icon">ℹ️</span>
                 <p>
-                    أدخل <strong>السعر الأصلي</strong> وخصم % اختياري — سيُحسب السعر النهائي تلقائياً.
-                    عند الحفظ، يُرسل السعر النهائي لـ PayPal مباشرةً.
+                    {t('أدخل')} <strong>{t('السعر الأصلي')}</strong> {t('وخصم % اختياري — سيُحسب السعر النهائي تلقائياً. عند الحفظ، يُرسل السعر النهائي لـ PayPal مباشرةً.')}
                 </p>
             </div>
 
@@ -96,7 +96,7 @@ const AdminPlans = () => {
             {isLoading ? (
                 <div className="admin-plans__loading">
                     <div className="spinner-large" />
-                    <p>جارٍ تحميل الخطط...</p>
+                    <p>{t('جارٍ تحميل الخطط...')}</p>
                 </div>
             ) : (
                 <motion.div

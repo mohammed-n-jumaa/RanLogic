@@ -3,13 +3,13 @@
 .success-message-overlay {
   position: fixed;
   bottom: 2rem;
-  left: 2rem;
+  inset-inline-end: 2rem;
   z-index: 1001;
   animation: slideIn 0.3s ease;
 
   @media (max-width: 768px) {
-    left: 1rem;
-    right: 1rem;
+    inset-inline-end: 1rem;
+    inset-inline-start: 1rem;
     bottom: 1rem;
   }
 

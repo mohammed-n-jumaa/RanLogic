@@ -293,7 +293,7 @@
     gap: $spacing-sm;
     
     @include mobile {
-      margin-right: auto;
+      margin-inline-start: auto;
     }
   }
   
@@ -368,7 +368,7 @@
   
   &__progress-bar {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
     top: 0;
     bottom: 0;
     background: linear-gradient(135deg, $success 0%, darken($success, 10%) 100%);
@@ -587,7 +587,7 @@
     @include mobile {
       position: absolute;
       top: $spacing-sm;
-      left: $spacing-sm;
+      inset-inline-end: $spacing-sm;
       background: $danger;
       color: #ffffff;
       border-color: $danger;
@@ -673,7 +673,7 @@
     @include flex-center;
     position: absolute;
     top: $spacing-sm;
-    right: $spacing-sm;
+    inset-inline-start: $spacing-sm;
     width: 32px;
     height: 32px;
     background: $danger;
@@ -981,7 +981,7 @@
     iframe {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-end: 0;
       width: 100%;
       height: 100%;
       border: none;
@@ -992,7 +992,7 @@
     &-thumbnail {
       position: absolute;
       top: 0;
-      left: 0;
+      inset-inline-end: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -1019,10 +1019,10 @@
         content: '';
         width: 0;
         height: 0;
-        border-left: 20px solid white;
+        border-inline-end: 20px solid white;
         border-top: 12px solid transparent;
         border-bottom: 12px solid transparent;
-        margin-left: 4px;
+        margin-inline-end: 4px;
       }
       
       &:hover {
@@ -1035,7 +1035,7 @@
         height: 50px;
         
         &::before {
-          border-left-width: 16px;
+          border-inline-end-width: 16px;
           border-top-width: 10px;
           border-bottom-width: 10px;
         }
@@ -1083,7 +1083,7 @@
     @include flex-center;
     position: absolute;
     top: 8px;
-    right: 8px;
+    inset-inline-start: 8px;
     width: 32px;
     height: 32px;
     background: $danger;
@@ -1103,7 +1103,7 @@
       width: 28px;
       height: 28px;
       top: 6px;
-      right: 6px;
+      inset-inline-start: 6px;
       
       svg {
         width: 14px;
@@ -1674,7 +1674,7 @@
     @include mobile {
       position: absolute;
       top: $spacing-sm;
-      left: $spacing-sm;
+      inset-inline-end: $spacing-sm;
     }
   }
   
@@ -1775,7 +1775,7 @@
     @include flex-center;
     position: absolute;
     top: 8px;
-    right: 8px;
+    inset-inline-start: 8px;
     width: 32px;
     height: 32px;
     background: $danger;

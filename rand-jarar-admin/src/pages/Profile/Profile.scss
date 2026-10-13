@@ -227,8 +227,8 @@
 
   @media (max-width: 768px) {
     top: 1rem;
-    left: 1rem;
-    right: 1rem;
+    inset-inline-end: 1rem;
+    inset-inline-start: 1rem;
     transform: none;
   }
 

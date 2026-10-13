@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Paperclip, Smile, Image as ImageIcon, X } from 'lucide-react';
 import './MessageInput.scss';
+import { t } from '../../i18n';
 
 const MessageInput = ({
   newMessage,
@@ -40,7 +41,7 @@ const MessageInput = ({
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={handleFileClick}
-          aria-label="إرفاق ملف"
+          aria-label={t('إرفاق ملف')}
         >
           <Paperclip size={20} />
         </motion.button>
@@ -53,7 +54,7 @@ const MessageInput = ({
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="اكتب رسالتك هنا..."
+          placeholder={t('اكتب رسالتك هنا...')}
           rows="1"
         />
       </div>
@@ -65,7 +66,7 @@ const MessageInput = ({
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           disabled={!newMessage.trim()}
-          aria-label="إرسال الرسالة"
+          aria-label={t('إرسال الرسالة')}
         >
           <Send size={20} />
         </motion.button>

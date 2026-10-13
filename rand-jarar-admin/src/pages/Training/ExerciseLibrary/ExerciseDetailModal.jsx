@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Edit2, Trash2, Copy, CheckCircle, Calendar, Dumbbell, User, Youtube } from 'lucide-react';
 import './ExerciseDetailModal.scss';
+import { t } from '../../../i18n';
 
 const TABLET = 768;
 
@@ -25,7 +26,7 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
   };
 
   const formatDate = (d) => (d ? String(d).split('T')[0] : '');
-  const DAY_NAMES = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  const DAY_NAMES = [t('الأحد'), t('الإثنين'), t('الثلاثاء'), t('الأربعاء'), t('الخميس'), t('الجمعة'), t('السبت')];
   const getDayName = (d) => {
     const clean = formatDate(d);
     if (!clean) return '';
@@ -87,7 +88,7 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
           <div className="detail-modal__info-item">
             <Calendar size={15} />
             <div>
-              <span className="detail-modal__info-label">التاريخ</span>
+              <span className="detail-modal__info-label">{t('التاريخ')}</span>
               <span className="detail-modal__info-value">
                 {getDayName(exercise.exercise_date)} {formatDate(exercise.exercise_date)}
               </span>
@@ -96,9 +97,9 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
           <div className="detail-modal__info-item">
             <Dumbbell size={15} />
             <div>
-              <span className="detail-modal__info-label">المجموعات والتكرارات</span>
+              <span className="detail-modal__info-label">{t('المجموعات والتكرارات')}</span>
               <span className="detail-modal__info-value detail-modal__info-value--highlight">
-                {exercise.sets} مجموعات × {exercise.reps} تكرار
+                {exercise.sets} {t('مجموعات ×')} {exercise.reps} {t('تكرار')}
               </span>
             </div>
           </div>
@@ -106,7 +107,7 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
             <div className="detail-modal__info-item">
               <User size={15} />
               <div>
-                <span className="detail-modal__info-label">المتدربة</span>
+                <span className="detail-modal__info-label">{t('المتدربة')}</span>
                 <span className="detail-modal__info-value">{exercise.workout_plan.user.name}</span>
               </div>
             </div>
@@ -115,7 +116,7 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
 
         {exercise.notes && (
           <div className="detail-modal__notes">
-            <p className="detail-modal__notes-label">📝 ملاحظات</p>
+            <p className="detail-modal__notes-label">{t('📝 ملاحظات')}</p>
             <p className="detail-modal__notes-text">{exercise.notes}</p>
           </div>
         )}
@@ -134,10 +135,10 @@ const ExerciseDetailModal = ({ exercise, isOpen, onClose, onEdit, onDelete, apiS
       {/* Footer */}
       <div className="detail-modal__footer">
         <button className="detail-modal__action-btn detail-modal__action-btn--delete" onClick={() => onDelete(exercise)}>
-          <Trash2 size={15} /> حذف
+          <Trash2 size={15} /> {t('حذف')}
         </button>
         <button className="detail-modal__action-btn detail-modal__action-btn--edit" onClick={() => onEdit(exercise)}>
-          <Edit2 size={15} /> تعديل
+          <Edit2 size={15} /> {t('تعديل')}
         </button>
       </div>
     </motion.div>

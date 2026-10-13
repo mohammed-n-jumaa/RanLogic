@@ -21,6 +21,7 @@ import {
 import trainingApi from '../../../api/trainingApi';
 import Swal from 'sweetalert2';
 import './NutritionPlan.scss';
+import { t, loc } from '../../../i18n';
 
 const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   const [expandedDays, setExpandedDays] = useState([1]);
@@ -48,7 +49,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => {
     const day = i + 1;
     const date = new Date(displayYear, displayMonth - 1, day);
-    const dayNames = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+    const dayNames = [t('الأحد'), t('الإثنين'), t('الثلاثاء'), t('الأربعاء'), t('الخميس'), t('الجمعة'), t('السبت')];
     
     return {
       id: day,
@@ -159,8 +160,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (file.size > 5 * 1024 * 1024) {
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'حجم الصورة يجب ألا يتجاوز 5MB',
+        title: t('خطأ'),
+        text: t('حجم الصورة يجب ألا يتجاوز 5MB'),
       });
       return;
     }
@@ -168,8 +169,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (!file.type.startsWith('image/')) {
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'يجب اختيار ملف صورة',
+        title: t('خطأ'),
+        text: t('يجب اختيار ملف صورة'),
       });
       return;
     }
@@ -179,14 +180,14 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   
   const handleDeleteMeal = async (mealId) => {
     const result = await Swal.fire({
-      title: 'هل أنت متأكد؟',
-      text: 'سيتم حذف هذه الوجبة وجميع عناصرها',
+      title: t('هل أنت متأكد؟'),
+      text: t('سيتم حذف هذه الوجبة وجميع عناصرها'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#6c757d',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
     
     if (!result.isConfirmed) return;
@@ -196,7 +197,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
         await trainingApi.deleteMeal(mealId);
         Swal.fire({
           icon: 'success',
-          title: 'تم الحذف',
+          title: t('تم الحذف'),
           timer: 2000,
           showConfirmButton: false,
         });
@@ -204,8 +205,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
         console.error('Error deleting:', error);
         Swal.fire({
           icon: 'error',
-          title: 'خطأ',
-          text: 'حدث خطأ أثناء الحذف',
+          title: t('خطأ'),
+          text: t('حدث خطأ أثناء الحذف'),
         });
         return;
       }
@@ -265,8 +266,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (String(itemId).startsWith('temp-')) {
       Swal.fire({
         icon: 'info',
-        title: 'تنبيه',
-        text: 'يجب حفظ العنصر أولاً',
+        title: t('تنبيه'),
+        text: t('يجب حفظ العنصر أولاً'),
       });
       return;
     }
@@ -293,8 +294,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (file.size > 10 * 1024 * 1024) {
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'حجم الملف يجب ألا يتجاوز 10MB',
+        title: t('خطأ'),
+        text: t('حجم الملف يجب ألا يتجاوز 10MB'),
       });
       e.target.value = null;
       return;
@@ -303,8 +304,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (file.type !== 'application/pdf') {
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'يجب أن يكون الملف PDF',
+        title: t('خطأ'),
+        text: t('يجب أن يكون الملف PDF'),
       });
       e.target.value = null;
       return;
@@ -371,8 +372,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
         
         await Swal.fire({
           icon: 'success',
-          title: 'تم الحفظ',
-          text: 'تم حفظ النظام الغذائي بنجاح',
+          title: t('تم الحفظ'),
+          text: t('تم حفظ النظام الغذائي بنجاح'),
           timer: 2000,
           showConfirmButton: false,
         });
@@ -385,8 +386,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
       console.error('Error saving:', error);
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: error.response?.data?.message || 'حدث خطأ أثناء الحفظ',
+        title: t('خطأ'),
+        text: error.response?.data?.message || t('حدث خطأ أثناء الحفظ'),
       });
     } finally {
       setIsSaving(false);
@@ -430,11 +431,11 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
         <div className="nutrition-plan__header-top">
           <h2 className="nutrition-plan__title">
             <Apple size={24} />
-            النظام الغذائي الشهري
+            {t('النظام الغذائي الشهري')}
           </h2>
           
           <div className="nutrition-plan__week-info">
-            {new Date(displayYear, displayMonth - 1).toLocaleDateString('ar-SA', { 
+            {new Date(displayYear, displayMonth - 1).toLocaleDateString(loc('ar-SA'), { 
               year: 'numeric', 
               month: 'long' 
             })}
@@ -448,12 +449,12 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
             {isSaving ? (
               <>
                 <Loader size={18} className="spinner" />
-                <span>جاري الحفظ...</span>
+                <span>{t('جاري الحفظ...')}</span>
               </>
             ) : (
               <>
                 <Save size={18} />
-                <span>حفظ التعديلات</span>
+                <span>{t('حفظ التعديلات')}</span>
               </>
             )}
           </button>
@@ -474,26 +475,26 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
             disabled={isSaving}
           >
             <FileText size={18} />
-            {pdfFile ? `تم اختيار: ${pdfFile.name}` : 'رفع PDF الشهر'}
+            {pdfFile ? t('تم اختيار: {0}', pdfFile.name) : t('رفع PDF الشهر')}
           </button>
           
           <div className="nutrition-plan__pdf-info">
             {pdfFile ? (
-              <span className="pdf-selected">ملف جديد محدد: {pdfFile.name}</span>
+              <span className="pdf-selected">{t('ملف جديد محدد:')} {pdfFile.name}</span>
             ) : currentPdf ? (
               <span className="pdf-exists">
-                PDF موجود - 
+                {t('PDF موجود -')} 
                 <a 
                   href={getImageUrl(currentPdf)} 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ marginRight: '5px', color: '#4caf50' }}
                 >
-                  عرض
+                  {t('عرض')}
                 </a>
               </span>
             ) : (
-              <span className="pdf-none">لم يتم رفع PDF للشهر الحالي</span>
+              <span className="pdf-none">{t('لم يتم رفع PDF للشهر الحالي')}</span>
             )}
           </div>
         </div>
@@ -527,7 +528,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                   <div className="nutrition-day__title-section">
                     <div className="nutrition-day__title-wrapper">
                       <h3 className="nutrition-day__title">{dayInfo.name}</h3>
-                      {isToday && <span className="nutrition-day__today-badge">اليوم</span>}
+                      {isToday && <span className="nutrition-day__today-badge">{t('اليوم')}</span>}
                     </div>
                     <span className="nutrition-day__date">{dayInfo.date}</span>
                   </div>
@@ -535,7 +536,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                   <div className="nutrition-day__stats">
                     <div className="nutrition-day__stat">
                       <span className="nutrition-day__stat-value">{dayMeals.length}</span>
-                      <span className="nutrition-day__stat-label">وجبة</span>
+                      <span className="nutrition-day__stat-label">{t('وجبة')}</span>
                     </div>
                     
                     <div className="nutrition-day__stat">
@@ -590,7 +591,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                     className="meal-card__type"
                                     value={meal.meal_type}
                                     onChange={(e) => handleUpdateMeal(meal.id, 'meal_type', e.target.value)}
-                                    placeholder="نوع الوجبة"
+                                    placeholder={t('نوع الوجبة')}
                                   />
                                 </div>
                                 
@@ -642,7 +643,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                   onClick={() => fileInputRefs.current[meal.id]?.click()}
                                 >
                                   <Upload size={16} />
-                                  <span>رفع صورة الوجبة</span>
+                                  <span>{t('رفع صورة الوجبة')}</span>
                                 </button>
                               )}
                             </div>
@@ -667,7 +668,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                         className="nutrition-item__name"
                                         value={item.name}
                                         onChange={(e) => handleUpdateItem(meal.id, item.id, 'name', e.target.value)}
-                                        placeholder="اسم الطعام"
+                                        placeholder={t('اسم الطعام')}
                                       />
                                       
                                       <div className="nutrition-item__macros">
@@ -697,7 +698,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                             step="0.1"
                                             placeholder="0"
                                           />
-                                          <span className="nutrition-item__macro-label">بروتين</span>
+                                          <span className="nutrition-item__macro-label">{t('بروتين')}</span>
                                         </div>
                                         
                                         <div className="nutrition-item__macro">
@@ -712,7 +713,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                             step="0.1"
                                             placeholder="0"
                                           />
-                                          <span className="nutrition-item__macro-label">كارب</span>
+                                          <span className="nutrition-item__macro-label">{t('كارب')}</span>
                                         </div>
                                         
                                         <div className="nutrition-item__macro">
@@ -727,7 +728,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                             step="0.1"
                                             placeholder="0"
                                           />
-                                          <span className="nutrition-item__macro-label">دهون</span>
+                                          <span className="nutrition-item__macro-label">{t('دهون')}</span>
                                         </div>
                                       </div>
                                     </div>
@@ -744,7 +745,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                                 ))
                               ) : (
                                 <div style={{ padding: '20px', textAlign: 'center', color: '#888' }}>
-                                  لا توجد عناصر غذائية
+                                  {t('لا توجد عناصر غذائية')}
                                 </div>
                               )}
                             </div>
@@ -754,7 +755,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                               onClick={() => handleAddItem(meal.id)}
                             >
                               <Plus size={14} />
-                              إضافة عنصر غذائي
+                              {t('إضافة عنصر غذائي')}
                             </button>
                           </motion.div>
                         ))}
@@ -762,8 +763,8 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                     ) : (
                       <div className="nutrition-day__empty">
                         <Apple size={40} className="nutrition-day__empty-icon" />
-                        <p className="nutrition-day__empty-text">لا توجد وجبات لهذا اليوم</p>
-                        <p className="nutrition-day__empty-sub">انقر على "إضافة وجبة" لبدء إنشاء النظام الغذائي</p>
+                        <p className="nutrition-day__empty-text">{t('لا توجد وجبات لهذا اليوم')}</p>
+                        <p className="nutrition-day__empty-sub">{t('انقر على "إضافة وجبة" لبدء إنشاء النظام الغذائي')}</p>
                       </div>
                     )}
                     
@@ -772,7 +773,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
                       onClick={() => handleAddMeal(dayInfo.date)}
                     >
                       <Plus size={16} />
-                      إضافة وجبة
+                      {t('إضافة وجبة')}
                     </button>
                   </motion.div>
                 )}

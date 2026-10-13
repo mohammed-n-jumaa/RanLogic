@@ -14,7 +14,9 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import authApi from '../../api/authApi';
+import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import './Login.scss';
+import { t } from '../../i18n';
 
 // Generates one continuous, perfectly-periodic ECG path so that shifting it
 // by exactly half its rendered width creates a seamless infinite scroll.
@@ -36,9 +38,9 @@ const buildPulsePath = () => {
 };
 
 const FEATURES = [
-  { icon: Crown, label: 'مدير النظام' },
-  { icon: ShieldCheck, label: 'صلاحية كاملة' },
-  { icon: Settings2, label: 'إدارة الموقع' }
+  { icon: Crown, label: t('مدير النظام') },
+  { icon: ShieldCheck, label: t('صلاحية كاملة') },
+  { icon: Settings2, label: t('إدارة الموقع') }
 ];
 
 const Login = () => {
@@ -63,7 +65,7 @@ const Login = () => {
         // If authenticated but not admin, clear auth data and show message
         authApi.clearAuthData();
         setErrors({
-          submit: 'ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية'
+          submit: t('ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية')
         });
       }
     }
@@ -73,15 +75,15 @@ const Login = () => {
     const newErrors = {};
 
     if (!formData.email) {
-      newErrors.email = 'البريد الإلكتروني مطلوب';
+      newErrors.email = t('البريد الإلكتروني مطلوب');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'البريد الإلكتروني غير صحيح';
+      newErrors.email = t('البريد الإلكتروني غير صحيح');
     }
 
     if (!formData.password) {
-      newErrors.password = 'كلمة المرور مطلوبة';
+      newErrors.password = t('كلمة المرور مطلوبة');
     } else if (formData.password.length < 6) {
-      newErrors.password = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+      newErrors.password = t('كلمة المرور يجب أن تكون 6 أحرف على الأقل');
     }
 
     setErrors(newErrors);
@@ -134,7 +136,7 @@ const Login = () => {
           // User is not admin, clear auth data and show error
           authApi.clearAuthData();
           setErrors({
-            submit: 'ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية. هذا الحساب مخصص للمدربة فقط.'
+            submit: t('ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية. هذا الحساب مخصص للمدربة فقط.')
           });
           setIsLoading(false);
           return;
@@ -150,7 +152,7 @@ const Login = () => {
       } else {
         // Login failed - show error
         setErrors({
-          submit: response.message || 'البريد الإلكتروني أو كلمة المرور غير صحيحة'
+          submit: response.message || t('البريد الإلكتروني أو كلمة المرور غير صحيحة')
         });
 
         // Handle validation errors from backend
@@ -165,7 +167,7 @@ const Login = () => {
     } catch (error) {
       console.error('Login error:', error);
       setErrors({
-        submit: 'حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى'
+        submit: t('حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة مرة أخرى')
       });
     } finally {
       setIsLoading(false);
@@ -187,6 +189,9 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <div className="login-lang">
+        <LanguageSwitcher variant="header" />
+      </div>
       <div className="login-container">
         {/* Showcase Side */}
         <div
@@ -207,15 +212,15 @@ const Login = () => {
             </div>
 
             <h1 className="brand-name">Rand Jarar</h1>
-            <p className="brand-role">مدربة شخصية معتمدة</p>
+            <p className="brand-role">{t('مدربة شخصية معتمدة')}</p>
             <p className="brand-description">
-              لوحة التحكم الإدارية لإدارة العميلات والبرامج التدريبية
+              {t('لوحة التحكم الإدارية لإدارة العميلات والبرامج التدريبية')}
             </p>
 
             <div className="pulse-panel">
               <div className="pulse-status">
                 <span className="status-dot" />
-                النظام متصل الآن
+                {t('النظام متصل الآن')}
               </div>
               <div className="pulse-track" aria-hidden="true">
                 <svg
@@ -259,12 +264,12 @@ const Login = () => {
         <div className="login-panel">
           <div className="login-card">
             <div className="login-header">
-              <h2>تسجيل الدخول للإدارة</h2>
-              <p>مساحة إدارية حصرية للمدربين والمشرفين</p>
+              <h2>{t('تسجيل الدخول للإدارة')}</h2>
+              <p>{t('مساحة إدارية حصرية للمدربين والمشرفين')}</p>
 
               <div className="access-notice">
                 <ShieldAlert size={18} className="notice-icon" />
-                <p className="notice-text">هذا المسار مخصص فقط للمدربين</p>
+                <p className="notice-text">{t('هذا المسار مخصص فقط للمدربين')}</p>
               </div>
             </div>
 
@@ -283,7 +288,7 @@ const Login = () => {
                     disabled={isLoading}
                     autoComplete="email"
                   />
-                  <label htmlFor="email">البريد الإلكتروني الإداري</label>
+                  <label htmlFor="email">{t('البريد الإلكتروني الإداري')}</label>
                 </div>
                 {errors.email && (
                   <span className="error-message">{errors.email}</span>
@@ -304,14 +309,14 @@ const Login = () => {
                     disabled={isLoading}
                     autoComplete="current-password"
                   />
-                  <label htmlFor="password">كلمة المرور الإدارية</label>
+                  <label htmlFor="password">{t('كلمة المرور الإدارية')}</label>
                   <button
                     type="button"
                     className="toggle-password"
                     onClick={() => setShowPassword(!showPassword)}
                     disabled={isLoading}
                     tabIndex="-1"
-                    aria-label={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+                    aria-label={showPassword ? t('إخفاء كلمة المرور') : t('إظهار كلمة المرور')}
                   >
                     {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
                   </button>
@@ -338,19 +343,19 @@ const Login = () => {
                 {isLoading ? (
                   <>
                     <span className="btn-spinner" />
-                    جاري تسجيل الدخول...
+                    {t('جاري تسجيل الدخول...')}
                   </>
                 ) : (
                   <>
                     <Lock size={17} />
-                    دخول الإدارة
+                    {t('دخول الإدارة')}
                   </>
                 )}
               </button>
 
               <a className="back-link" href="https://ranlogic.com">
                 <ArrowLeft size={15} />
-                العودة إلى الموقع الرئيسي
+                {t('العودة إلى الموقع الرئيسي')}
               </a>
             </form>
           </div>

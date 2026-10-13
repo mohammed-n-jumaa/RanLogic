@@ -11,6 +11,7 @@ import {
 import dashboardAPI from '../../api/dashboardApi';
 import authApi from '../../api/authApi';
 import './Dashboard.scss';
+import { t, loc } from '../../i18n';
 
 const fmt = {
   currency: (v) => `$${Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
@@ -70,19 +71,19 @@ const CTooltip = ({ active, payload, label }) => {
 const NoData = ({ icon: Icon, text, onRefresh }) => (
   <div className="ds-no-data">
     <Icon size={24} />
-    <p>{text || 'لا توجد بيانات'}</p>
+    <p>{text || t('لا توجد بيانات')}</p>
     {onRefresh && (
       <button className="ds-retry" onClick={onRefresh}>
-        <RefreshCw size={14} /> تحديث
+        <RefreshCw size={14} /> {t('تحديث')}
       </button>
     )}
   </div>
 );
 
 const PERIODS = [
-  { value: 'this_week', label: 'هذا الأسبوع' },
-  { value: 'this_month', label: 'الشهر' },
-  { value: 'last_3_months', label: '3 أشهر' },
+  { value: 'this_week', label: t('هذا الأسبوع') },
+  { value: 'this_month', label: t('الشهر') },
+  { value: 'last_3_months', label: t('3 أشهر') },
 ];
 
 const COMPLETION_COLORS = ['#e91e63', '#6366f1', '#34d399', '#fb923c'];
@@ -120,7 +121,7 @@ const Dashboard = () => {
       setLastRefresh(new Date());
     } catch (err) {
       if (err.name === 'AbortError') return;
-      setError(err.message || 'فشل تحميل البيانات');
+      setError(err.message || t('فشل تحميل البيانات'));
     } finally {
       if (mountedRef.current) {
         setIsLoading(false);
@@ -177,7 +178,7 @@ const Dashboard = () => {
       <div className="ds ds--loading">
         <div className="ds-loader">
           <RefreshCw size={28} className="ds-spin" />
-          <p>جاري تحميل لوحة التحكم...</p>
+          <p>{t('جاري تحميل لوحة التحكم...')}</p>
         </div>
       </div>
     );
@@ -187,10 +188,10 @@ const Dashboard = () => {
     return (
       <div className="ds ds--error">
         <AlertTriangle size={40} />
-        <h3>حدث خطأ</h3>
+        <h3>{t('حدث خطأ')}</h3>
         <p>{error}</p>
         <button className="ds-retry" onClick={handleRefresh}>
-          <RefreshCw size={16} /> إعادة المحاولة
+          <RefreshCw size={16} /> {t('إعادة المحاولة')}
         </button>
       </div>
     );
@@ -205,10 +206,10 @@ const Dashboard = () => {
       <div className="ds-header">
         <div className="ds-header__right">
           <div className="ds-header__greeting">
-            مرحباً، <strong>{user?.name || 'Admin'}</strong>
+            {t('مرحباً،')} <strong>{user?.name || 'Admin'}</strong>
           </div>
           <h1 className="ds-header__title">
-            <LayoutDashboard size={20} /> لوحة التحكم
+            <LayoutDashboard size={20} /> {t('لوحة التحكم')}
           </h1>
         </div>
         <div className="ds-header__actions">
@@ -228,7 +229,7 @@ const Dashboard = () => {
           </button>
           {lastRefresh && (
             <span className="ds-header__time">
-              {lastRefresh.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' })}
+              {lastRefresh.toLocaleTimeString(loc('ar-EG'), { hour: '2-digit', minute: '2-digit' })}
             </span>
           )}
         </div>
@@ -238,7 +239,7 @@ const Dashboard = () => {
       <AnimatePresence>
         {isRefreshing && (
           <motion.div className="ds-refreshing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <RefreshCw size={20} className="ds-spin" /> جاري التحديث...
+            <RefreshCw size={20} className="ds-spin" /> {t('جاري التحديث...')}
           </motion.div>
         )}
       </AnimatePresence>
@@ -249,7 +250,7 @@ const Dashboard = () => {
           <div className="ds-row1">
             <motion.div className="ds-hero" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div className="ds-hero__top">
-                <div className="ds-hero__label"><Wallet size={15} /> إجمالي الدخل هذا الشهر</div>
+                <div className="ds-hero__label"><Wallet size={15} /> {t('إجمالي الدخل هذا الشهر')}</div>
                 <div className="ds-hero__amount">{fmt.currency(m.totalRevenue)}<small>USD</small></div>
               </div>
 
@@ -269,33 +270,33 @@ const Dashboard = () => {
                 ) : (
                   <div className="ds-hero__no-chart">
                     <BarChart3 size={20} />
-                    <span>بيانات غير كافية للرسم البياني</span>
+                    <span>{t('بيانات غير كافية للرسم البياني')}</span>
                   </div>
                 )}
               </div>
 
               <div className="ds-hero__stats">
                 <div className="ds-hero__stat">
-                  <span>هذا الأسبوع</span>
+                  <span>{t('هذا الأسبوع')}</span>
                   <span className={pChange.revenue > 0 ? 'up' : ''}>{fmt.currency(m.weeklyRevenue || m.totalRevenue)}</span>
                 </div>
                 <div className="ds-hero__stat">
-                  <span>النمو</span>
+                  <span>{t('النمو')}</span>
                   <span className={pChange.revenue > 0 ? 'up' : pChange.revenue < 0 ? 'dn' : ''}>
                     {pChange.revenue > 0 ? '+' : ''}{Math.round(pChange.revenue || 0)}%
                   </span>
                 </div>
                 <div className="ds-hero__stat">
-                  <span>متوسط المدة</span>
-                  <span>{Number(m.avgSubscriptionDuration || 0).toFixed(1)} شهر</span>
+                  <span>{t('متوسط المدة')}</span>
+                  <span>{Number(m.avgSubscriptionDuration || 0).toFixed(1)} {t('شهر')}</span>
                 </div>
               </div>
             </motion.div>
 
             <div className="ds-side">
-              <MiniStat icon={Users} label="اشتراكات نشطة" value={fmt.number(m.totalSubscriptions)} change={pChange.subscriptions} color="indigo" />
-              <MiniStat icon={UserPlus} label="مستخدمين جدد" value={fmt.number(m.newRegistrations)} change={pChange.registrations} color="emerald" />
-              <MiniStat icon={Ticket} label="كوبونات مستخدمة" value={fmt.number(m.couponsUsed || 0)} change={0} color="amber" />
+              <MiniStat icon={Users} label={t('اشتراكات نشطة')} value={fmt.number(m.totalSubscriptions)} change={pChange.subscriptions} color="indigo" />
+              <MiniStat icon={UserPlus} label={t('مستخدمين جدد')} value={fmt.number(m.newRegistrations)} change={pChange.registrations} color="emerald" />
+              <MiniStat icon={Ticket} label={t('كوبونات مستخدمة')} value={fmt.number(m.couponsUsed || 0)} change={0} color="amber" />
             </div>
           </div>
 
@@ -303,8 +304,8 @@ const Dashboard = () => {
           <div className="ds-row2">
             <motion.div className="ds-glass" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
               <div className="ds-glass__head">
-                <div className="ds-glass__title"><BarChart3 size={16} /> الاشتراكات حسب الفترة</div>
-                <span className="ds-glass__tag">آخر 6 فترات</span>
+                <div className="ds-glass__title"><BarChart3 size={16} /> {t('الاشتراكات حسب الفترة')}</div>
+                <span className="ds-glass__tag">{t('آخر 6 فترات')}</span>
               </div>
               <div className="ds-glass__chart">
                 {growthChart.length > 0 ? (
@@ -314,7 +315,7 @@ const Dashboard = () => {
                       <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
                       <Tooltip content={<CTooltip />} />
-                      <Bar dataKey="count" name="الاشتراكات" fill="#e91e63" radius={[6, 6, 0, 0]} maxBarSize={32} />
+                      <Bar dataKey="count" name={t('الاشتراكات')} fill="#e91e63" radius={[6, 6, 0, 0]} maxBarSize={32} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
@@ -325,7 +326,7 @@ const Dashboard = () => {
 
             <motion.div className="ds-glass" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
               <div className="ds-glass__head">
-                <div className="ds-glass__title"><CreditCard size={16} /> توزيع البرامج</div>
+                <div className="ds-glass__title"><CreditCard size={16} /> {t('توزيع البرامج')}</div>
               </div>
               <div className="ds-plan">
                 {planData.length > 0 ? (
@@ -341,20 +342,20 @@ const Dashboard = () => {
           <div className="ds-row3">
             <motion.div className="ds-glass" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
               <div className="ds-glass__head">
-                <div className="ds-glass__title"><Bell size={16} /> التنبيهات والأحداث</div>
+                <div className="ds-glass__title"><Bell size={16} /> {t('التنبيهات والأحداث')}</div>
               </div>
               <div className="ds-notifs">
                 {notifications.length > 0 ? (
                   notifications.map(n => <Notif key={n.id} {...n} />)
                 ) : (
-                  <NoData icon={Bell} text="لا توجد تنبيهات" onRefresh={handleRefresh} />
+                  <NoData icon={Bell} text={t('لا توجد تنبيهات')} onRefresh={handleRefresh} />
                 )}
               </div>
             </motion.div>
 
             <motion.div className="ds-glass" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
               <div className="ds-glass__head">
-                <div className="ds-glass__title"><BarChart3 size={16} /> إنجاز البرامج</div>
+                <div className="ds-glass__title"><BarChart3 size={16} /> {t('إنجاز البرامج')}</div>
               </div>
               <div className="ds-plan">
                 {completionData.length > 0 ? (

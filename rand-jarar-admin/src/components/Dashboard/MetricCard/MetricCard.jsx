@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import './MetricCard.scss';
+import { t } from '../../../i18n';
 
 const MetricCard = ({ 
   title, 
@@ -83,7 +84,7 @@ const MetricCard = ({
               <span className="change-text neutral">--</span>
             </>
           )}
-          <span className="change-label">عن الفترة السابقة</span>
+          <span className="change-label">{t('عن الفترة السابقة')}</span>
         </div>
       </div>
       
@@ -112,7 +113,7 @@ const MetricCard = ({
       
       {!hasValue && (
         <div className="metric-card__no-data">
-          <span>لا توجد بيانات</span>
+          <span>{t('لا توجد بيانات')}</span>
         </div>
       )}
     </motion.div>

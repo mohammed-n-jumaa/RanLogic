@@ -1,4 +1,5 @@
 import apiClient from './apiClient';
+import { t } from '../i18n';
 
 const footerApi = {
 
@@ -7,7 +8,7 @@ const footerApi = {
       const res = await apiClient.get('/admin/footer');
       return { success: true, data: res.data.data };
     } catch (error) {
-      return { success: false, data: null, message: error.response?.data?.message || 'فشل في جلب البيانات' };
+      return { success: false, data: null, message: error.response?.data?.message || t('فشل في جلب البيانات') };
     }
   },
 
@@ -16,7 +17,7 @@ const footerApi = {
       const res = await apiClient.put('/admin/footer', data);
       return { success: true, data: res.data.data, message: res.data.message };
     } catch (error) {
-      return { success: false, message: error.response?.data?.message || 'فشل في الحفظ' };
+      return { success: false, message: error.response?.data?.message || t('فشل في الحفظ') };
     }
   },
 

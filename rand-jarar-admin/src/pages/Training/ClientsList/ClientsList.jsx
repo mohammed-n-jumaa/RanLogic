@@ -19,6 +19,7 @@ import AddClientModal from '../../../components/Training/AddClientModal';
 import trainingApi from '../../../api/trainingApi';
 import Swal from 'sweetalert2';
 import './ClientsList.scss';
+import { t } from '../../../i18n';
 
 const ClientsList = () => {
   const [clients, setClients] = useState([]);
@@ -46,9 +47,9 @@ const ClientsList = () => {
       console.error('Error fetching clients:', error);
       Swal.fire({
         icon: 'error',
-        title: 'خطأ',
-        text: 'حدث خطأ أثناء جلب البيانات',
-        confirmButtonText: 'حسناً',
+        title: t('خطأ'),
+        text: t('حدث خطأ أثناء جلب البيانات'),
+        confirmButtonText: t('حسناً'),
       });
     } finally {
       setIsLoading(false);
@@ -81,8 +82,8 @@ const ClientsList = () => {
           // Then show success message
           Swal.fire({
             icon: 'success',
-            title: 'تم التحديث',
-            text: 'تم تحديث بيانات المتدرب بنجاح',
+            title: t('تم التحديث'),
+            text: t('تم تحديث بيانات المتدرب بنجاح'),
             timer: 2000,
             showConfirmButton: false,
           });
@@ -105,8 +106,8 @@ const ClientsList = () => {
           // Then show success message
           Swal.fire({
             icon: 'success',
-            title: 'تمت الإضافة',
-            text: 'تم إضافة المتدرب بنجاح',
+            title: t('تمت الإضافة'),
+            text: t('تم إضافة المتدرب بنجاح'),
             timer: 2000,
             showConfirmButton: false,
           });
@@ -117,7 +118,7 @@ const ClientsList = () => {
       console.error('Error saving client:', error);
       console.error('Error response:', error.response);
       
-      let errorMessage = 'حدث خطأ أثناء الحفظ';
+      let errorMessage = t('حدث خطأ أثناء الحفظ');
       
       if (error.response?.status === 422) {
         // Validation error
@@ -136,9 +137,9 @@ const ClientsList = () => {
       setTimeout(() => {
         Swal.fire({
           icon: 'error',
-          title: 'خطأ',
+          title: t('خطأ'),
           text: errorMessage,
-          confirmButtonText: 'حسناً',
+          confirmButtonText: t('حسناً'),
         });
       }, 100);
     }
@@ -151,14 +152,14 @@ const ClientsList = () => {
   
   const handleDeleteClient = async (id) => {
     const result = await Swal.fire({
-      title: 'هل أنت متأكد؟',
-      text: 'سيتم حذف جميع البيانات المرتبطة بهذا المتدرب',
+      title: t('هل أنت متأكد؟'),
+      text: t('سيتم حذف جميع البيانات المرتبطة بهذا المتدرب'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#6c757d',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
     
     if (result.isConfirmed) {
@@ -170,8 +171,8 @@ const ClientsList = () => {
           
           Swal.fire({
             icon: 'success',
-            title: 'تم الحذف',
-            text: 'تم حذف المتدرب بنجاح',
+            title: t('تم الحذف'),
+            text: t('تم حذف المتدرب بنجاح'),
             timer: 2000,
             showConfirmButton: false,
           });
@@ -180,9 +181,9 @@ const ClientsList = () => {
         console.error('Error deleting client:', error);
         Swal.fire({
           icon: 'error',
-          title: 'خطأ',
-          text: error.response?.data?.message || 'حدث خطأ أثناء الحذف',
-          confirmButtonText: 'حسناً',
+          title: t('خطأ'),
+          text: error.response?.data?.message || t('حدث خطأ أثناء الحذف'),
+          confirmButtonText: t('حسناً'),
         });
       }
     }
@@ -213,12 +214,12 @@ const ClientsList = () => {
     if (selectedClients.length === 0) return;
     
     Swal.fire({
-      title: 'حذف متعدد',
-      text: `هل تريد حذف ${selectedClients.length} متدرب؟`,
+      title: t('حذف متعدد'),
+      text: t('هل تريد حذف {0} متدرب؟', selectedClients.length),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     }).then((result) => {
       if (result.isConfirmed) {
         selectedClients.forEach(id => handleDeleteClient(id));
@@ -230,8 +231,8 @@ const ClientsList = () => {
   const handleExportData = () => {
     Swal.fire({
       icon: 'success',
-      title: 'تم التصدير',
-      text: 'سيتم تحميل الملف خلال ثوانٍ',
+      title: t('تم التصدير'),
+      text: t('سيتم تحميل الملف خلال ثوانٍ'),
       timer: 2000,
       showConfirmButton: false,
     });
@@ -286,7 +287,7 @@ const ClientsList = () => {
           className="loading-container"
         >
           <Loader className="spinner" size={40} />
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('جاري تحميل البيانات...')}</p>
         </motion.div>
       </div>
     );
@@ -301,16 +302,16 @@ const ClientsList = () => {
             <div className="title-section">
               <div className="breadcrumb">
                 <ChevronLeft size={16} />
-                <span>لوحة التحكم</span>
+                <span>{t('لوحة التحكم')}</span>
                 <span className="separator">/</span>
-                <span className="active">إدارة المتدربين</span>
+                <span className="active">{t('إدارة المتدربين')}</span>
               </div>
               <h1 className="title">
                 <Users className="title-icon" size={28} />
-                إدارة المتدربين
+                {t('إدارة المتدربين')}
               </h1>
               <p className="subtitle">
-                قم بإدارة جميع بيانات المتدربين والبرامج التدريبية
+                {t('قم بإدارة جميع بيانات المتدربين والبرامج التدريبية')}
               </p>
             </div>
             
@@ -324,7 +325,7 @@ const ClientsList = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Plus size={18} />
-                <span>إضافة متدرب</span>
+                <span>{t('إضافة متدرب')}</span>
               </motion.button>
             </div>
           </div>
@@ -344,10 +345,10 @@ const ClientsList = () => {
               <Users size={24} />
             </div>
             <div className="stat-content">
-              <div className="stat-label">إجمالي المتدربين</div>
+              <div className="stat-label">{t('إجمالي المتدربين')}</div>
               <div className="stat-value">{stats.total}</div>
               <div className="stat-trend positive">
-                <span>+12% عن الشهر الماضي</span>
+                <span>{t('+12% عن الشهر الماضي')}</span>
               </div>
             </div>
           </div>
@@ -357,7 +358,7 @@ const ClientsList = () => {
               <CheckCircle size={24} />
             </div>
             <div className="stat-content">
-              <div className="stat-label">نشط</div>
+              <div className="stat-label">{t('نشط')}</div>
               <div className="stat-value">{stats.active}</div>
               <div className="stat-percentage">
                 <span>{clients.length > 0 ? Math.round((stats.active / clients.length) * 100) : 0}%</span>
@@ -376,7 +377,7 @@ const ClientsList = () => {
               <XCircle size={24} />
             </div>
             <div className="stat-content">
-              <div className="stat-label">منتهي</div>
+              <div className="stat-label">{t('منتهي')}</div>
               <div className="stat-value">{stats.expired}</div>
               <div className="stat-percentage">
                 <span>{clients.length > 0 ? Math.round((stats.expired / clients.length) * 100) : 0}%</span>
@@ -395,7 +396,7 @@ const ClientsList = () => {
               <AlertCircle size={24} />
             </div>
             <div className="stat-content">
-              <div className="stat-label">معلّق</div>
+              <div className="stat-label">{t('معلّق')}</div>
               <div className="stat-value">{stats.pending}</div>
               <div className="stat-percentage">
                 <span>{clients.length > 0 ? Math.round((stats.pending / clients.length) * 100) : 0}%</span>
@@ -421,19 +422,19 @@ const ClientsList = () => {
         >
           {selectedClients.length > 0 ? (
             <div className="selected-info">
-              <span className="selected-count">{selectedClients.length} عنصر محدد</span>
+              <span className="selected-count">{selectedClients.length} {t('عنصر محدد')}</span>
               <button 
                 className="btn-clear"
                 onClick={() => setSelectedClients([])}
               >
-                إلغاء التحديد
+                {t('إلغاء التحديد')}
               </button>
               <button 
                 className="btn-delete-bulk"
                 onClick={handleBulkDelete}
               >
                 <ChevronDown size={16} />
-                <span>حذف المحدد</span>
+                <span>{t('حذف المحدد')}</span>
               </button>
             </div>
           ) : (
@@ -441,10 +442,10 @@ const ClientsList = () => {
               <button 
                 className="btn-action refresh"
                 onClick={fetchClients}
-                title="تحديث البيانات"
+                title={t('تحديث البيانات')}
               >
                 <RefreshCw size={18} />
-                <span>تحديث</span>
+                <span>{t('تحديث')}</span>
               </button>
             </div>
           )}
@@ -464,7 +465,7 @@ const ClientsList = () => {
               <Search className="search-icon" size={20} />
               <input
                 type="text"
-                placeholder="ابحث عن متدرب..."
+                placeholder={t('ابحث عن متدرب...')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -484,7 +485,7 @@ const ClientsList = () => {
                 onClick={() => setIsFiltersOpen(!isFiltersOpen)}
               >
                 <Filter size={18} />
-                <span>تصفية</span>
+                <span>{t('تصفية')}</span>
                 <ChevronDown className={`chevron ${isFiltersOpen ? 'open' : ''}`} size={16} />
               </button>
               
@@ -497,27 +498,27 @@ const ClientsList = () => {
                 >
                   <div className="filter-group">
                     <div className="filter-box">
-                      <label>حالة المتدرب:</label>
+                      <label>{t('حالة المتدرب:')}</label>
                       <select 
                         value={filterStatus} 
                         onChange={(e) => setFilterStatus(e.target.value)}
                       >
-                        <option value="all">جميع الحالات</option>
-                        <option value="active">نشط</option>
-                        <option value="expired">منتهي</option>
-                        <option value="pending">معلق</option>
+                        <option value="all">{t('جميع الحالات')}</option>
+                        <option value="active">{t('نشط')}</option>
+                        <option value="expired">{t('منتهي')}</option>
+                        <option value="pending">{t('معلق')}</option>
                       </select>
                     </div>
                     
                     <div className="filter-box">
-                      <label>ترتيب حسب:</label>
+                      <label>{t('ترتيب حسب:')}</label>
                       <select 
                         value={sortBy} 
                         onChange={(e) => setSortBy(e.target.value)}
                       >
-                        <option value="newest">الأحدث أولاً</option>
-                        <option value="oldest">الأقدم أولاً</option>
-                        <option value="name">حسب الاسم</option>
+                        <option value="newest">{t('الأحدث أولاً')}</option>
+                        <option value="oldest">{t('الأقدم أولاً')}</option>
+                        <option value="name">{t('حسب الاسم')}</option>
                       </select>
                     </div>
                   </div>
@@ -528,14 +529,14 @@ const ClientsList = () => {
           
           <div className="results-info">
             <span className="results-count">
-              عرض {sortedClients.length} من {clients.length} متدرب
+              {t('عرض')} {sortedClients.length} {t('من')} {clients.length} {t('متدرب')}
             </span>
             {sortedClients.length > 0 && (
               <button 
                 className="btn-select-all"
                 onClick={handleSelectAll}
               >
-                {selectedClients.length === filteredClients.length ? 'إلغاء تحديد الكل' : 'تحديد الكل'}
+                {selectedClients.length === filteredClients.length ? t('إلغاء تحديد الكل') : t('تحديد الكل')}
               </button>
             )}
           </div>
@@ -584,8 +585,8 @@ const ClientsList = () => {
                 animate={{ opacity: 1 }}
               >
                 <Users size={64} />
-                <h3>لا يوجد متدربين</h3>
-                <p>ابدأ بإضافة متدرب جديد</p>
+                <h3>{t('لا يوجد متدربين')}</h3>
+                <p>{t('ابدأ بإضافة متدرب جديد')}</p>
                 <motion.button
                   className="btn btn-primary empty-btn"
                   onClick={() => setIsModalOpen(true)}
@@ -593,7 +594,7 @@ const ClientsList = () => {
                   whileTap={{ scale: 0.95 }}
                 >
                   <Plus size={18} />
-                  <span>إضافة أول متدرب</span>
+                  <span>{t('إضافة أول متدرب')}</span>
                 </motion.button>
               </motion.div>
             )}
@@ -611,17 +612,17 @@ const ClientsList = () => {
             transition={{ delay: 0.5 }}
           >
             <div className="pagination-info">
-              <span>عرض 1-{Math.min(10, sortedClients.length)} من {sortedClients.length}</span>
+              <span>{t('عرض 1-')}{Math.min(10, sortedClients.length)} {t('من')} {sortedClients.length}</span>
             </div>
             <div className="pagination-controls">
               <button className="pagination-btn prev" disabled>
-                السابق
+                {t('السابق')}
               </button>
               <button className="pagination-btn active">1</button>
               {sortedClients.length > 10 && <button className="pagination-btn">2</button>}
               {sortedClients.length > 20 && <button className="pagination-btn">3</button>}
               <button className="pagination-btn next">
-                التالي
+                {t('التالي')}
               </button>
             </div>
           </motion.div>

@@ -5,7 +5,7 @@
   min-height: 100vh;
   background: var(--bg-primary);
   padding-bottom: $spacing-xl * 2;
-  direction: rtl;
+  // direction follows <html dir>
   width: 100%;
   box-sizing: border-box;
 
@@ -157,7 +157,7 @@
 
       .search-ico {
         position: absolute;
-        right: 12px;
+        inset-inline-start: 12px;
         top: 50%;
         transform: translateY(-50%);
         color: var(--text-muted);
@@ -179,7 +179,7 @@
       }
       .clear-btn {
         position: absolute;
-        left: 10px;
+        inset-inline-end: 10px;
         top: 50%;
         transform: translateY(-50%);
         background: none;
@@ -290,7 +290,7 @@
     }
     th {
       padding: 14px 16px;
-      text-align: right;
+      text-align: start;
       font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);

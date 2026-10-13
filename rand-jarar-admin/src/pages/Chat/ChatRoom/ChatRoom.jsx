@@ -38,6 +38,7 @@ import {
 import subscriptionsApi from '../../../api/subscriptionsApi';
 import { getEcho } from '../../../lib/echo';
 import './ChatRoom.scss';
+import { t, loc } from '../../../i18n';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -77,8 +78,8 @@ const ChatRoom = () => {
     if (raw === undefined || raw === null) return null;
     const v = String(raw).trim().toLowerCase();
 
-    if (['ذكر', 'ولد', 'رجال', 'رجل', 'male', 'm', 'man', 'boy', '1'].includes(v)) return 'male';
-    if (['أنثى', 'انثى', 'بنت', 'نساء', 'امرأة', 'مرأة', 'female', 'f', 'woman', 'girl', '2'].includes(v)) return 'female';
+    if ([t('ذكر'), t('ولد'), t('رجال'), t('رجل'), 'male', 'm', 'man', 'boy', '1'].includes(v)) return 'male';
+    if ([t('أنثى'), t('انثى'), t('بنت'), t('نساء'), t('امرأة'), t('مرأة'), 'female', 'f', 'woman', 'girl', '2'].includes(v)) return 'female';
 
     return null;
   };
@@ -197,7 +198,7 @@ const ChatRoom = () => {
         }
       }
     } catch (err) {
-      setError('حدث خطأ أثناء جلب المحادثة');
+      setError(t('حدث خطأ أثناء جلب المحادثة'));
       console.error('Error fetching conversation:', err);
     } finally {
       setLoading(false);
@@ -310,7 +311,7 @@ const ChatRoom = () => {
       sender: 'trainer',
       type: 'text',
       content: messageContent,
-      timestamp: new Date().toLocaleTimeString('ar-SA', {
+      timestamp: new Date().toLocaleTimeString(loc('ar-SA'), {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,
@@ -354,9 +355,9 @@ const ChatRoom = () => {
     if (!isFileTypeSupported(file)) {
       Swal.fire({
         icon: 'error',
-        title: 'نوع الملف غير مدعوم',
-        text: 'الأنواع المدعومة: صور، فيديو، PDF، مستندات Word',
-        confirmButtonText: 'حسناً',
+        title: t('نوع الملف غير مدعوم'),
+        text: t('الأنواع المدعومة: صور، فيديو، PDF، مستندات Word'),
+        confirmButtonText: t('حسناً'),
         confirmButtonColor: '#e91e63',
       });
       return;
@@ -369,9 +370,9 @@ const ChatRoom = () => {
     if (!isVideo && !isFileSizeValid(file)) {
       Swal.fire({
         icon: 'error',
-        title: 'حجم الملف كبير جداً',
-        text: `الحد الأقصى ${formatFileSize(MAX_FILE_SIZE)}`,
-        confirmButtonText: 'حسناً',
+        title: t('حجم الملف كبير جداً'),
+        text: t('الحد الأقصى {0}', formatFileSize(MAX_FILE_SIZE)),
+        confirmButtonText: t('حسناً'),
         confirmButtonColor: '#e91e63',
       });
       return;
@@ -397,7 +398,7 @@ const ChatRoom = () => {
       file_name: file.name,
       file_size: formatFileSize(file.size),
       file_url: previewUrl,
-      timestamp: new Date().toLocaleTimeString('ar-SA', {
+      timestamp: new Date().toLocaleTimeString(loc('ar-SA'), {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,
@@ -432,7 +433,7 @@ const ChatRoom = () => {
 
         Toast.fire({
           icon: 'success',
-          title: 'تم إرسال الملف بنجاح',
+          title: t('تم إرسال الملف بنجاح'),
         });
       }
     } catch (err) {
@@ -445,23 +446,23 @@ const ChatRoom = () => {
       if (err.response?.status === 413) {
         Swal.fire({
           icon: 'error',
-          title: 'فشل رفع الملف',
-          text: 'حجم الملف كبير جداً. يرجى رفع ملف أصغر.',
-          confirmButtonText: 'حسناً',
+          title: t('فشل رفع الملف'),
+          text: t('حجم الملف كبير جداً. يرجى رفع ملف أصغر.'),
+          confirmButtonText: t('حسناً'),
           confirmButtonColor: '#e91e63',
         });
       } else if (err.response?.status === 422) {
         Swal.fire({
           icon: 'error',
-          title: 'فشل رفع الملف',
-          text: 'نوع الملف غير مدعوم.',
-          confirmButtonText: 'حسناً',
+          title: t('فشل رفع الملف'),
+          text: t('نوع الملف غير مدعوم.'),
+          confirmButtonText: t('حسناً'),
           confirmButtonColor: '#e91e63',
         });
       } else {
         Toast.fire({
           icon: 'error',
-          title: 'فشل إرسال الملف',
+          title: t('فشل إرسال الملف'),
         });
       }
     } finally {
@@ -472,14 +473,14 @@ const ChatRoom = () => {
 
   const handleDeleteMessage = async (messageId) => {
     const result = await Swal.fire({
-      title: 'حذف الرسالة',
-      text: 'هل أنت متأكد من حذف هذه الرسالة؟',
+      title: t('حذف الرسالة'),
+      text: t('هل أنت متأكد من حذف هذه الرسالة؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#6c757d',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
       reverseButtons: true,
     });
 
@@ -491,14 +492,14 @@ const ChatRoom = () => {
         setMessages((prev) => prev.filter((msg) => msg.id !== messageId));
         Toast.fire({
           icon: 'success',
-          title: 'تم حذف الرسالة',
+          title: t('تم حذف الرسالة'),
         });
       }
     } catch (err) {
       console.error('Error deleting message:', err);
       Toast.fire({
         icon: 'error',
-        title: 'فشل حذف الرسالة',
+        title: t('فشل حذف الرسالة'),
       });
     }
   };
@@ -552,7 +553,7 @@ const ChatRoom = () => {
             <div className="message-media__image-wrapper">
               <img
                 src={message.file_url}
-                alt={message.file_name || 'صورة'}
+                alt={message.file_name || t('صورة')}
                 loading="lazy"
                 onClick={() => setSelectedImage(message.file_url)}
               />
@@ -577,7 +578,7 @@ const ChatRoom = () => {
             <div className="message-media__video-wrapper">
               <video controls preload="metadata">
                 <source src={message.file_url} type="video/mp4" />
-                متصفحك لا يدعم تشغيل الفيديو
+                {t('متصفحك لا يدعم تشغيل الفيديو')}
               </video>
             </div>
             <div className="message-media__info">
@@ -623,7 +624,7 @@ const ChatRoom = () => {
       <div className="chat-room chat-room--loading">
         <div className="chat-room__loader">
           <Loader2 size={48} className="spinner" />
-          <p>جاري تحميل المحادثة...</p>
+          <p>{t('جاري تحميل المحادثة...')}</p>
         </div>
       </div>
     );
@@ -635,8 +636,8 @@ const ChatRoom = () => {
         <div className="chat-room__error-content">
           <AlertCircle size={48} />
           <p>{error}</p>
-          <button onClick={fetchConversationData}>إعادة المحاولة</button>
-          <button onClick={() => navigate('/chat')}>العودة للمحادثات</button>
+          <button onClick={fetchConversationData}>{t('إعادة المحاولة')}</button>
+          <button onClick={() => navigate('/chat')}>{t('العودة للمحادثات')}</button>
         </div>
       </div>
     );
@@ -656,7 +657,7 @@ const ChatRoom = () => {
             <button className="image-lightbox__close" onClick={() => setSelectedImage(null)}>
               <X size={24} />
             </button>
-            <img src={selectedImage} alt="صورة مكبرة" />
+            <img src={selectedImage} alt={t('صورة مكبرة')} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -680,19 +681,19 @@ const ChatRoom = () => {
             </div>
 
             <div className="chat-room__client-details">
-              <h2 className="chat-room__client-name">{client?.name || 'مجهول'}</h2>
+              <h2 className="chat-room__client-name">{client?.name || t('مجهول')}</h2>
               <div className="chat-room__client-status">
                 {clientTyping ? (
-                  <span>يكتب الآن...</span>
+                  <span>{t('يكتب الآن...')}</span>
                 ) : client?.is_online ? (
                   <>
                     <div className="chat-room__status-dot chat-room__status-dot--online" />
-                    <span>متصل الآن</span>
+                    <span>{t('متصل الآن')}</span>
                   </>
                 ) : (
                   <>
                     <Clock size={12} />
-                    <span>{client?.last_seen || 'غير متصل'}</span>
+                    <span>{client?.last_seen || t('غير متصل')}</span>
                   </>
                 )}
               </div>
@@ -724,7 +725,7 @@ const ChatRoom = () => {
             exit={{ opacity: 0, height: 0 }}
           >
             <div className="client-info-panel__header">
-              <h3>معلومات المتدرب</h3>
+              <h3>{t('معلومات المتدرب')}</h3>
               <button onClick={() => setShowClientInfo(false)}>
                 <X size={20} />
               </button>
@@ -733,33 +734,33 @@ const ChatRoom = () => {
             <div className="client-info-panel__content">
               <div className="client-info-grid">
                 <div className="client-info-item">
-                  <span className="client-info-label">الهدف</span>
-                  <span className="client-info-value">{client.goal || 'غير محدد'}</span>
+                  <span className="client-info-label">{t('الهدف')}</span>
+                  <span className="client-info-value">{client.goal || t('غير محدد')}</span>
                 </div>
 
                 <div className="client-info-item">
-                  <span className="client-info-label">الوزن</span>
-                  <span className="client-info-value">{client.weight || 'غير محدد'}</span>
+                  <span className="client-info-label">{t('الوزن')}</span>
+                  <span className="client-info-value">{client.weight || t('غير محدد')}</span>
                 </div>
 
                 <div className="client-info-item">
-                  <span className="client-info-label">الطول</span>
-                  <span className="client-info-value">{client.height || 'غير محدد'}</span>
+                  <span className="client-info-label">{t('الطول')}</span>
+                  <span className="client-info-value">{client.height || t('غير محدد')}</span>
                 </div>
 
                 <div className="client-info-item">
-                  <span className="client-info-label">العمر</span>
-                  <span className="client-info-value">{client.age ? `${client.age} سنة` : 'غير محدد'}</span>
+                  <span className="client-info-label">{t('العمر')}</span>
+                  <span className="client-info-value">{client.age ? t('{0} سنة', client.age) : t('غير محدد')}</span>
                 </div>
 
                 <div className="client-info-item client-info-item--full">
-                  <span className="client-info-label">البريد الإلكتروني</span>
-                  <span className="client-info-value">{client.email || 'غير محدد'}</span>
+                  <span className="client-info-label">{t('البريد الإلكتروني')}</span>
+                  <span className="client-info-value">{client.email || t('غير محدد')}</span>
                 </div>
 
                 {client.phone && (
                   <div className="client-info-item client-info-item--full">
-                    <span className="client-info-label">رقم الهاتف</span>
+                    <span className="client-info-label">{t('رقم الهاتف')}</span>
                     <span className="client-info-value">{client.phone}</span>
                   </div>
                 )}
@@ -772,13 +773,13 @@ const ChatRoom = () => {
       <div className="chat-room__window">
         <div className="chat-room__welcome">
           <div className="welcome-message">
-            <h3>أنت تتحدث مع {client?.name}</h3>
+            <h3>{t('أنت تتحدث مع')} {client?.name}</h3>
             <p>
               {clientTyping
-                ? 'يكتب الآن...'
+                ? t('يكتب الآن...')
                 : client?.is_online
-                  ? 'متصل الآن'
-                  : client?.last_seen || 'غير متصل'}
+                  ? t('متصل الآن')
+                  : client?.last_seen || t('غير متصل')}
             </p>
           </div>
         </div>
@@ -842,7 +843,7 @@ const ChatRoom = () => {
                               color: '#2d9cff',
                               fontWeight: '600'
                             }}>
-                              تمت القراءة
+                              {t('تمت القراءة')}
                             </span>
                           </>
                         ) : (
@@ -862,7 +863,7 @@ const ChatRoom = () => {
                         <button
                           className="message__delete-btn"
                           onClick={() => handleDeleteMessage(message.id)}
-                          title="حذف الرسالة"
+                          title={t('حذف الرسالة')}
                         >
                           <Trash2 size={12} />
                         </button>
@@ -874,7 +875,7 @@ const ChatRoom = () => {
                       className="message__retry-btn"
                       onClick={() => handleRetryMessage(message)}
                     >
-                      فشل الإرسال - انقر للمحاولة مرة أخرى
+                      {t('فشل الإرسال - انقر للمحاولة مرة أخرى')}
                     </button>
                   )}
                 </motion.div>
@@ -914,7 +915,7 @@ const ChatRoom = () => {
               value={newMessage}
               onChange={(e) => handleTyping(e.target.value)}
               onKeyDown={handleKeyPress}
-              placeholder="اكتب رسالتك هنا..."
+              placeholder={t('اكتب رسالتك هنا...')}
               rows="1"
               disabled={sending}
             />

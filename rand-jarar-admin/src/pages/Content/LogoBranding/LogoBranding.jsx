@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import logoApi from '../../../api/logoApi';
 import './LogoBranding.scss';
+import { t } from '../../../i18n';
 
 const LogoBranding = () => {
   const [logo, setLogo] = useState(null);
@@ -103,7 +104,7 @@ const LogoBranding = () => {
   const handleSaveLogo = async () => {
     if (!logo || !(logo instanceof File)) {
       setUploadStatus('error');
-      setStatusMessage('الرجاء اختيار ملف جديد للرفع');
+      setStatusMessage(t('الرجاء اختيار ملف جديد للرفع'));
       setTimeout(() => {
         setUploadStatus(null);
         setStatusMessage('');
@@ -142,7 +143,7 @@ const LogoBranding = () => {
       }
     } catch (error) {
       setUploadStatus('error');
-      setStatusMessage(error.message || 'حدث خطأ أثناء رفع الشعار');
+      setStatusMessage(error.message || t('حدث خطأ أثناء رفع الشعار'));
 
       setTimeout(() => {
         setUploadStatus(null);
@@ -174,9 +175,9 @@ const LogoBranding = () => {
   };
 
   const variations = [
-    { id: 'light', label: 'فاتحة', icon: <Sun size={14} /> },
-    { id: 'dark', label: 'داكنة', icon: <Moon size={14} /> },
-    { id: 'pink', label: 'وردية', icon: <Sparkles size={14} /> },
+    { id: 'light', label: t('فاتحة'), icon: <Sun size={14} /> },
+    { id: 'dark', label: t('داكنة'), icon: <Moon size={14} /> },
+    { id: 'pink', label: t('وردية'), icon: <Sparkles size={14} /> },
   ];
 
   if (isLoading) {
@@ -184,7 +185,7 @@ const LogoBranding = () => {
       <div className="lb">
         <div className="lb__loader">
           <div className="lb__loader-spinner" />
-          <span>جاري التحميل...</span>
+          <span>{t('جاري التحميل...')}</span>
         </div>
       </div>
     );
@@ -203,7 +204,7 @@ const LogoBranding = () => {
           >
             {uploadStatus === 'success' ? <Check size={18} /> : <AlertCircle size={18} />}
             <span>
-              {statusMessage || (uploadStatus === 'success' ? 'تم حفظ الشعار بنجاح!' : 'خطأ: يرجى رفع صورة صالحة')}
+              {statusMessage || (uploadStatus === 'success' ? t('تم حفظ الشعار بنجاح!') : t('خطأ: يرجى رفع صورة صالحة'))}
             </span>
           </motion.div>
         )}
@@ -238,8 +239,8 @@ const LogoBranding = () => {
         >
           <div className="lb__upload-head">
             <div>
-              <h1 className="lb__title">الشعار والعلامة التجارية</h1>
-              <p className="lb__desc">ارفع شعار موقعك ليظهر في الهيدر وجميع الصفحات</p>
+              <h1 className="lb__title">{t('الشعار والعلامة التجارية')}</h1>
+              <p className="lb__desc">{t('ارفع شعار موقعك ليظهر في الهيدر وجميع الصفحات')}</p>
             </div>
             {logo && logo instanceof File && (
               <motion.button
@@ -251,12 +252,12 @@ const LogoBranding = () => {
                 {isUploading ? (
                   <>
                     <RefreshCw size={16} className="lb__spin" />
-                    <span>جاري الحفظ {uploadProgress}%</span>
+                    <span>{t('جاري الحفظ')} {uploadProgress}%</span>
                   </>
                 ) : (
                   <>
                     <Check size={16} />
-                    <span>حفظ</span>
+                    <span>{t('حفظ')}</span>
                   </>
                 )}
               </motion.button>
@@ -287,14 +288,14 @@ const LogoBranding = () => {
                 <Upload size={32} />
               </motion.div>
               <p className="lb__dropzone-title">
-                اسحب الشعار هنا أو <span>تصفح الملفات</span>
+                {t('اسحب الشعار هنا أو')} <span>{t('تصفح الملفات')}</span>
               </p>
               <div className="lb__dropzone-meta">
                 <span>PNG, JPG, SVG, WEBP</span>
                 <span className="lb__dropzone-dot" />
-                <span>أقصى 5MB</span>
+                <span>{t('أقصى 5MB')}</span>
                 <span className="lb__dropzone-dot" />
-                <span>200×60 موصى</span>
+                <span>{t('200×60 موصى')}</span>
               </div>
             </div>
           ) : (
@@ -306,14 +307,14 @@ const LogoBranding = () => {
                   <button
                     className="lb__icon-btn"
                     onClick={handleDownloadLogo}
-                    title="تحميل"
+                    title={t('تحميل')}
                   >
                     <Download size={16} />
                   </button>
                   <button
                     className="lb__icon-btn lb__icon-btn--danger"
                     onClick={handleRemoveLogo}
-                    title="حذف"
+                    title={t('حذف')}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -323,17 +324,17 @@ const LogoBranding = () => {
               {logo && (
                 <div className="lb__meta-row">
                   <div className="lb__meta-item">
-                    <span className="lb__meta-label">الملف</span>
+                    <span className="lb__meta-label">{t('الملف')}</span>
                     <span className="lb__meta-value">{logo.name}</span>
                   </div>
                   <div className="lb__meta-item">
-                    <span className="lb__meta-label">الحجم</span>
+                    <span className="lb__meta-label">{t('الحجم')}</span>
                     <span className="lb__meta-value">
                       {(logo.size / 1024).toFixed(1)} KB
                     </span>
                   </div>
                   <div className="lb__meta-item">
-                    <span className="lb__meta-label">النوع</span>
+                    <span className="lb__meta-label">{t('النوع')}</span>
                     <span className="lb__meta-value">{logo.type}</span>
                   </div>
                 </div>
@@ -344,7 +345,7 @@ const LogoBranding = () => {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload size={15} />
-                تغيير الشعار
+                {t('تغيير الشعار')}
               </button>
               <input
                 ref={fileInputRef}
@@ -359,13 +360,13 @@ const LogoBranding = () => {
           {/* ── Guidelines ── */}
           <div className="lb__tips">
             <div className="lb__tips-head">
-              <Info size={15} /> إرشادات
+              <Info size={15} /> {t('إرشادات')}
             </div>
             <div className="lb__tips-list">
-              <span>خلفية شفافة PNG</span>
-              <span>شعار أفقي 3:1</span>
-              <span>واضح على الفاتح والداكن</span>
-              <span>دقة 300 DPI</span>
+              <span>{t('خلفية شفافة PNG')}</span>
+              <span>{t('شعار أفقي 3:1')}</span>
+              <span>{t('واضح على الفاتح والداكن')}</span>
+              <span>{t('دقة 300 DPI')}</span>
             </div>
           </div>
         </motion.div>
@@ -379,7 +380,7 @@ const LogoBranding = () => {
         >
           <div className="lb__preview-label">
             <Monitor size={16} />
-            <span>معاينة مباشرة</span>
+            <span>{t('معاينة مباشرة')}</span>
           </div>
 
           {/* Browser Mockup */}
@@ -406,17 +407,17 @@ const LogoBranding = () => {
                 )}
               </div>
               <div className="lb__browser-links">
-                <span className="active">الرئيسية</span>
-                <span>الأسئلة الشائعة</span>
-                <span>عن المدربة</span>
-                <span>آراء المتدربات</span>
+                <span className="active">{t('الرئيسية')}</span>
+                <span>{t('الأسئلة الشائعة')}</span>
+                <span>{t('عن المدربة')}</span>
+                <span>{t('آراء المتدربات')}</span>
               </div>
-              <button className="lb__browser-cta">احجزي الآن</button>
+              <button className="lb__browser-cta">{t('احجزي الآن')}</button>
             </div>
 
             <div className="lb__browser-hero">
-              <h2>ابدأي رحلتك نحو جسم أقوى</h2>
-              <p>برامج تدريبية مخصصة مع المدربة رند جرار</p>
+              <h2>{t('ابدأي رحلتك نحو جسم أقوى')}</h2>
+              <p>{t('برامج تدريبية مخصصة مع المدربة رند جرار')}</p>
             </div>
           </div>
 

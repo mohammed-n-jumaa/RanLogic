@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { AlertTriangle } from 'lucide-react';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const LineChart = ({ data = [], height = 250 }) => {
   const [chartData, setChartData] = useState([]);
@@ -47,7 +48,7 @@ const LineChart = ({ data = [], height = 250 }) => {
       >
         <div className="no-data-message">
           <AlertTriangle size={24} />
-          <p>لا توجد بيانات متاحة</p>
+          <p>{t('لا توجد بيانات متاحة')}</p>
         </div>
       </div>
     );
@@ -87,12 +88,12 @@ const LineChart = ({ data = [], height = 250 }) => {
               fontSize: '12px',
               borderRadius: '8px'
             }}
-            formatter={(value) => [`${value}`, 'الاشتراكات']}
-            labelFormatter={(label) => `التاريخ: ${label}`}
+            formatter={(value) => [`${value}`, t('الاشتراكات')]}
+            labelFormatter={(label) => t('التاريخ: {0}', label)}
           />
           <Legend 
             wrapperStyle={{ fontSize: '11px' }}
-            formatter={() => 'الاشتراكات'}
+            formatter={() => t('الاشتراكات')}
           />
           <Line 
             type="monotone" 
@@ -101,7 +102,7 @@ const LineChart = ({ data = [], height = 250 }) => {
             strokeWidth={2}
             dot={{ stroke: '#e91e63', strokeWidth: 2, r: 4 }}
             activeDot={{ r: 6 }}
-            name="الاشتراكات"
+            name={t('الاشتراكات')}
           />
         </RechartsLineChart>
       </ResponsiveContainer>

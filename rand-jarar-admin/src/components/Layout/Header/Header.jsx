@@ -6,7 +6,9 @@ import { useTheme } from '../../../contexts';
 import { useNotifications } from '../../../contexts/NotificationContext';
 import Badge from '../../common/Badge';
 import { sidebarSections } from '../../../data/sidebarData';
+import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import './Header.scss';
+import { t } from '../../../i18n';
 
 // Map routes to page names
 const getPageName = (pathname) => {
@@ -18,7 +20,7 @@ const getPageName = (pathname) => {
       }
     }
   }
-  return 'لوحة التحكم';
+  return t('لوحة التحكم');
 };
 
 const Header = () => {
@@ -75,12 +77,17 @@ const Header = () => {
 
         <div className="hdr__sep" />
 
+        {/* Language switcher */}
+        <LanguageSwitcher variant="header" />
+
+        <div className="hdr__sep" />
+
         {/* Notifications */}
         <div className="hdr__notif-wrap" ref={notifRef}>
           <button
             className={`hdr__btn ${showNotifs ? 'hdr__btn--active' : ''}`}
             onClick={() => setShowNotifs(!showNotifs)}
-            aria-label="الإشعارات"
+            aria-label={t('الإشعارات')}
           >
             <Bell size={16} />
             {unreadCount > 0 && <span className="hdr__btn-dot" />}
@@ -99,11 +106,11 @@ const Header = () => {
                 <div className="hdr__dropdown-head">
                   <h3>
                     <MessageSquare size={16} />
-                    الإشعارات
+                    {t('الإشعارات')}
                   </h3>
                   {unreadCount > 0 && (
                     <button className="hdr__dropdown-mark" onClick={markAllAsRead}>
-                      <Check size={13} /> تحديد الكل كمقروء
+                      <Check size={13} /> {t('تحديد الكل كمقروء')}
                     </button>
                   )}
                 </div>
@@ -112,7 +119,7 @@ const Header = () => {
                   {notifications.length === 0 ? (
                     <div className="hdr__dropdown-empty">
                       <Bell size={28} />
-                      <p>لا توجد إشعارات</p>
+                      <p>{t('لا توجد إشعارات')}</p>
                     </div>
                   ) : (
                     notifications.map((n) => (
@@ -140,7 +147,7 @@ const Header = () => {
 
                 <div className="hdr__dropdown-foot">
                   <button onClick={() => { navigate('/chat'); setShowNotifs(false); }}>
-                    عرض جميع المحادثات
+                    {t('عرض جميع المحادثات')}
                   </button>
                 </div>
               </motion.div>
@@ -149,7 +156,7 @@ const Header = () => {
         </div>
 
         {/* Theme toggle */}
-        <button className="hdr__btn" onClick={toggleTheme} aria-label="تبديل الثيم">
+        <button className="hdr__btn" onClick={toggleTheme} aria-label={t('تبديل الثيم')}>
           <motion.div
             initial={false}
             animate={{ rotate: isDarkMode ? 0 : 180 }}
@@ -165,7 +172,7 @@ const Header = () => {
         {/* Preview */}
         <button className="hdr__preview" onClick={handlePreview}>
           <ExternalLink size={14} />
-          <span>معاينة</span>
+          <span>{t('معاينة')}</span>
         </button>
       </div>
     </header>

@@ -123,7 +123,7 @@
     justify-content: center;
     overflow: hidden;
     background: linear-gradient(165deg, #1a1329 0%, #140f20 55%, #0e0c18 100%);
-    border-left: 1px solid rgba(255, 255, 255, 0.04);
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.04);
 
     @include tablet {
       padding: $spacing-xl $spacing-md;
@@ -154,7 +154,7 @@
       width: 260px;
       height: 260px;
       top: -60px;
-      right: -60px;
+      inset-inline-start: -60px;
       background: radial-gradient(circle, var(--lg-pink) 0%, transparent 70%);
     }
 
@@ -162,7 +162,7 @@
       width: 220px;
       height: 220px;
       bottom: -50px;
-      left: -40px;
+      inset-inline-end: -40px;
       background: radial-gradient(circle, var(--lg-violet) 0%, transparent 70%);
       animation-delay: 2.5s;
     }
@@ -295,7 +295,7 @@
   .pulse-line {
     position: absolute;
     top: 0;
-    left: 0;
+    inset-inline-end: 0;
     width: 200%;
     height: 100%;
     animation: pulseScroll 7s linear infinite;
@@ -452,7 +452,7 @@
     border: 1.5px solid var(--lg-border) !important;
     border-radius: 13px;
     transition: border-color $transition-normal, box-shadow $transition-normal, background-color $transition-normal;
-    direction: rtl;
+    // direction follows <html dir>
 
     &:focus-within {
       border-color: var(--lg-pink) !important;
@@ -471,7 +471,7 @@
 
     .input-icon {
       position: absolute;
-      right: 14px;
+      inset-inline-start: 14px;
       color: var(--lg-text-mute);
       transition: color $transition-normal;
       pointer-events: none;
@@ -495,8 +495,8 @@
       box-shadow: none !important;
       -webkit-appearance: none;
       appearance: none;
-      text-align: right;
-      direction: rtl;
+      text-align: start;
+      // direction follows <html dir>
       height: 58px;
 
       // Neutralise Chrome/Edge autofill's forced white background so the
@@ -523,7 +523,7 @@
 
     label {
       position: absolute;
-      right: 46px;
+      inset-inline-start: 46px;
       top: 50%;
       transform: translateY(-50%);
       font-size: 0.95rem;
@@ -537,7 +537,7 @@
     input:focus + label,
     input:not(:placeholder-shown) + label {
       top: 15px;
-      right: 16px;
+      inset-inline-start: 16px;
       font-size: 0.72rem;
       color: var(--lg-pink-soft);
     }
@@ -551,7 +551,7 @@
     cursor: pointer;
     transition: color $transition-normal;
     position: absolute;
-    left: 10px;
+    inset-inline-end: 10px;
     z-index: 2;
     @include flex-center;
 
@@ -568,9 +568,9 @@
   .error-message {
     font-size: 0.82rem;
     color: var(--lg-danger);
-    text-align: right;
-    direction: rtl;
-    padding-right: 4px;
+    text-align: start;
+    // direction follows <html dir>
+    padding-inline-start: 4px;
   }
 
   .submit-error {
@@ -581,7 +581,7 @@
     border: 1px solid rgba(255, 93, 122, 0.3);
     border-radius: 12px;
     padding: 12px 14px;
-    direction: rtl;
+    // direction follows <html dir>
     animation: shake 0.4s ease;
 
     .error-icon {
@@ -711,4 +711,19 @@
     opacity: 1;
     transform: scale(1) rotate(0deg);
   }
+}
+// ── Language switcher (top corner) ──────────────────────────────────────────
+.login-lang {
+  position: fixed;
+  top: 18px;
+  inset-inline-end: 18px;
+  z-index: 50;
+
+  .lang-pill {
+    background:
+      linear-gradient(var(--lg-surface, #1a1a27), var(--lg-surface, #1a1a27)) padding-box,
+      linear-gradient(135deg, #ff4d85, #8b5cf6 60%, #6366f1) border-box;
+  }
+
+  .lang-pill__label { color: #fff; }
 }

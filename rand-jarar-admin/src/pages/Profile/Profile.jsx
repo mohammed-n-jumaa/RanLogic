@@ -14,6 +14,7 @@ import SuccessMessage from '../../components/Profile/SuccessMessage/SuccessMessa
 import profileApi from '../../api/profileApi';
 import authApi from '../../api/authApi';
 import './Profile.scss';
+import { t } from '../../i18n';
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -51,7 +52,7 @@ const Profile = () => {
 
     if (response.success) {
       setProfileData(response.data);
-      showSuccessMsg('تم حفظ البيانات بنجاح');
+      showSuccessMsg(t('تم حفظ البيانات بنجاح'));
     } else {
       setError(response.message);
     }
@@ -70,7 +71,7 @@ const Profile = () => {
     setIsLoading(false);
 
     if (response.success) {
-      showSuccessMsg('تم تحديث كلمة المرور بنجاح');
+      showSuccessMsg(t('تم تحديث كلمة المرور بنجاح'));
     } else {
       setError(response.message);
     }
@@ -90,7 +91,7 @@ const Profile = () => {
         ...prev,
         avatar_url: response.data.avatar_url
       }));
-      showSuccessMsg('تم حفظ الصورة بنجاح');
+      showSuccessMsg(t('تم حفظ الصورة بنجاح'));
     } else {
       setError(response.message);
     }
@@ -111,7 +112,7 @@ const Profile = () => {
       <div className="profile-page">
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('جاري تحميل البيانات...')}</p>
         </div>
       </div>
     );
@@ -126,8 +127,8 @@ const Profile = () => {
           <div className="header-content">
             <UserCircle size={28} />
             <div className="header-text">
-              <h1>الملف الشخصي</h1>
-              <p>إدارة معلوماتك الشخصية وإعدادات الحساب</p>
+              <h1>{t('الملف الشخصي')}</h1>
+              <p>{t('إدارة معلوماتك الشخصية وإعدادات الحساب')}</p>
             </div>
           </div>
         </div>
@@ -139,21 +140,21 @@ const Profile = () => {
             onClick={() => setActiveTab('profile')}
           >
             <UserCircle size={18} />
-            <span>البيانات</span>
+            <span>{t('البيانات')}</span>
           </button>
           <button
             className={`tab ${activeTab === 'security' ? 'active' : ''}`}
             onClick={() => setActiveTab('security')}
           >
             <Shield size={18} />
-            <span>الأمان</span>
+            <span>{t('الأمان')}</span>
           </button>
           <button
             className={`tab ${activeTab === 'photo' ? 'active' : ''}`}
             onClick={() => setActiveTab('photo')}
           >
             <Camera size={18} />
-            <span>الصورة</span>
+            <span>{t('الصورة')}</span>
           </button>
         </div>
 

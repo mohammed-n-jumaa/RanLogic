@@ -100,7 +100,7 @@
 
   &__progress-pct {
     position: absolute;
-    right: 0;
+    inset-inline-start: 0;
     top: -20px;
     font-size: 0.7rem;
     color: $primary-pink;
@@ -123,10 +123,10 @@
 
     @media (max-width: $tablet) {
       gap: 4px;
-      margin-left: -1rem;
-      margin-right: -1rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
+      margin-inline-end: -1rem;
+      margin-inline-start: -1rem;
+      padding-inline-end: 1rem;
+      padding-inline-start: 1rem;
     }
   }
 
@@ -437,9 +437,9 @@
     align-items: center;
     flex-wrap: wrap;
     position: relative;
-    padding-right: 40px;
+    padding-inline-start: 40px;
 
-    @media (max-width: $mobile) { padding-right: 0; flex-direction: column; }
+    @media (max-width: $mobile) { padding-inline-start: 0; flex-direction: column; }
   }
 
   &__stat-val-input {
@@ -478,7 +478,7 @@
   &__stat-ok {
     @include flex-center;
     position: absolute;
-    right: 0;
+    inset-inline-start: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 32px; height: 32px;
@@ -629,9 +629,9 @@
     gap: 8px;
     width: 100%;
     position: relative;
-    padding-right: 40px;
+    padding-inline-start: 40px;
 
-    @media (max-width: $mobile) { padding-right: 0; }
+    @media (max-width: $mobile) { padding-inline-start: 0; }
   }
 
   &__cta-row {
@@ -706,7 +706,7 @@
   &__slide-del {
     position: absolute;
     top: 8px;
-    right: 8px;
+    inset-inline-start: 8px;
     @include flex-center;
     width: 28px; height: 28px;
     border-radius: 50%;

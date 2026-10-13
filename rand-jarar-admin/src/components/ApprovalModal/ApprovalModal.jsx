@@ -10,6 +10,7 @@ import {
   Image as ImageIcon
 } from 'lucide-react';
 import './ApprovalModal.scss';
+import { t } from '../../i18n';
 
 const ApprovalModal = ({ 
   isOpen, 
@@ -83,12 +84,12 @@ const ApprovalModal = ({
               {isApprove ? (
                 <>
                   <CheckCircle size={24} />
-                  تفعيل الاشتراك
+                  {t('تفعيل الاشتراك')}
                 </>
               ) : (
                 <>
                   <XCircle size={24} />
-                  رفض الاشتراك
+                  {t('رفض الاشتراك')}
                 </>
               )}
             </h2>
@@ -102,24 +103,24 @@ const ApprovalModal = ({
             {/* Subscription Info */}
             <div className="approval-modal__info">
               <div className="approval-modal__info-item">
-                <span className="label">المتدرب:</span>
+                <span className="label">{t('المتدرب:')}</span>
                 <span className="value">{subscription.user?.name}</span>
               </div>
               <div className="approval-modal__info-item">
-                <span className="label">الخطة:</span>
+                <span className="label">{t('الخطة:')}</span>
                 <span className="value">{subscription.plan_name}</span>
               </div>
               <div className="approval-modal__info-item">
-                <span className="label">المدة:</span>
+                <span className="label">{t('المدة:')}</span>
                 <span className="value">{subscription.duration_name}</span>
               </div>
               <div className="approval-modal__info-item">
-                <span className="label">المبلغ:</span>
+                <span className="label">{t('المبلغ:')}</span>
                 <span className="value">${subscription.amount}</span>
               </div>
               {subscription.bank_transfer_number && (
                 <div className="approval-modal__info-item">
-                  <span className="label">رقم التحويل:</span>
+                  <span className="label">{t('رقم التحويل:')}</span>
                   <span className="value">{subscription.bank_transfer_number}</span>
                 </div>
               )}
@@ -130,7 +131,7 @@ const ApprovalModal = ({
               <div className="approval-modal__receipt">
                 <h3 className="approval-modal__section-title">
                   <ImageIcon size={18} />
-                  إيصال التحويل البنكي
+                  {t('إيصال التحويل البنكي')}
                 </h3>
                 <a 
                   href={subscription.bank_receipt_url} 
@@ -145,7 +146,7 @@ const ApprovalModal = ({
                   />
                   <div className="approval-modal__receipt-overlay">
                     <ImageIcon size={32} />
-                    <span>انقر لعرض الصورة كاملة</span>
+                    <span>{t('انقر لعرض الصورة كاملة')}</span>
                   </div>
                 </a>
               </div>
@@ -158,7 +159,7 @@ const ApprovalModal = ({
                   <div className="form-group">
                     <label className="form-label">
                       <Calendar size={16} />
-                      تاريخ البداية *
+                      {t('تاريخ البداية *')}
                     </label>
                     <input
                       type="date"
@@ -172,7 +173,7 @@ const ApprovalModal = ({
                   <div className="form-group">
                     <label className="form-label">
                       <Calendar size={16} />
-                      تاريخ الانتهاء *
+                      {t('تاريخ الانتهاء *')}
                     </label>
                     <input
                       type="date"
@@ -190,14 +191,14 @@ const ApprovalModal = ({
             <div className="form-group">
               <label className="form-label">
                 <FileText size={16} />
-                ملاحظات {!isApprove && '(سبب الرفض)'}
+                {t('ملاحظات')} {!isApprove && t('(سبب الرفض)')}
               </label>
               <textarea
                 className="form-textarea"
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows="3"
-                placeholder={isApprove ? 'أضف أي ملاحظات...' : 'اذكر سبب رفض الاشتراك...'}
+                placeholder={isApprove ? t('أضف أي ملاحظات...') : t('اذكر سبب رفض الاشتراك...')}
                 required={!isApprove}
               />
             </div>
@@ -210,7 +211,7 @@ const ApprovalModal = ({
                 onClick={onClose}
                 disabled={isSaving}
               >
-                إلغاء
+                {t('إلغاء')}
               </button>
               <button
                 type="submit"
@@ -220,10 +221,10 @@ const ApprovalModal = ({
                 {isSaving ? (
                   <>
                     <Loader className="spinner" size={18} />
-                    <span>جاري المعالجة...</span>
+                    <span>{t('جاري المعالجة...')}</span>
                   </>
                 ) : (
-                  <span>{isApprove ? 'تفعيل الاشتراك' : 'رفض الاشتراك'}</span>
+                  <span>{isApprove ? t('تفعيل الاشتراك') : t('رفض الاشتراك')}</span>
                 )}
               </button>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { ChevronDown, ChevronUp, Plus, Trash2, Save, RotateCcw } from 'lucide-react';
 import './PlanCard.scss';
+import { t } from '../../i18n';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -18,10 +19,10 @@ const COLOR_MAP = {
 };
 
 const TAB_LABELS = {
-    pricing:  '💰 أسعار',
-    names:    '✏️ أسماء',
-    features: '📋 مميزات',
-    badge:    '🏅 شارة',
+    pricing:  t('💰 أسعار'),
+    names:    t('✏️ أسماء'),
+    features: t('📋 مميزات'),
+    badge:    t('🏅 شارة'),
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -77,7 +78,7 @@ const PricingRow = React.memo(({ label, pricing, onChange }) => {
 
             <div className="plan-card__pricing-inputs">
                 <div className="plan-card__field-wrap">
-                    <label>السعر الأصلي $</label>
+                    <label>{t('السعر الأصلي $')}</label>
                     <input
                         type="number"
                         min="1"
@@ -89,7 +90,7 @@ const PricingRow = React.memo(({ label, pricing, onChange }) => {
                 </div>
 
                 <div className="plan-card__field-wrap">
-                    <label>خصم %</label>
+                    <label>{t('خصم %')}</label>
                     <input
                         type="number"
                         min="0"
@@ -103,7 +104,7 @@ const PricingRow = React.memo(({ label, pricing, onChange }) => {
                 </div>
 
                 <div className="plan-card__field-wrap plan-card__field-wrap--result">
-                    <label>السعر النهائي $</label>
+                    <label>{t('السعر النهائي $')}</label>
                     <div className="plan-card__final-price">{finalPrice}</div>
                 </div>
             </div>
@@ -214,9 +215,9 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
 
                 <div className="plan-card__header-right">
                     {local.is_popular && (
-                        <span className="plan-card__popular-badge">الأكثر شعبية</span>
+                        <span className="plan-card__popular-badge">{t('الأكثر شعبية')}</span>
                     )}
-                    {isDirty && <span className="plan-card__unsaved">● غير محفوظ</span>}
+                    {isDirty && <span className="plan-card__unsaved">{t('● غير محفوظ')}</span>}
                     {expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                 </div>
             </div>
@@ -256,10 +257,10 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                     {activeTab === 'names' && (
                         <div className="plan-card__section plan-card__section--grid">
                             {[
-                                { label: 'اسم عربي',       field: 'name_ar',     dir: 'rtl' },
-                                { label: 'اسم إنجليزي',    field: 'name_en',     dir: 'ltr' },
-                                { label: 'وصف عربي',       field: 'subtitle_ar', dir: 'rtl' },
-                                { label: 'وصف إنجليزي',    field: 'subtitle_en', dir: 'ltr' },
+                                { label: t('اسم عربي'),       field: 'name_ar',     dir: 'rtl' },
+                                { label: t('اسم إنجليزي'),    field: 'name_en',     dir: 'ltr' },
+                                { label: t('وصف عربي'),       field: 'subtitle_ar', dir: 'rtl' },
+                                { label: t('وصف إنجليزي'),    field: 'subtitle_en', dir: 'ltr' },
                             ].map(({ label, field, dir }) => (
                                 <div key={field} className="plan-card__field-wrap plan-card__field-wrap--full">
                                     <label>{label}</label>
@@ -279,7 +280,7 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                     {activeTab === 'features' && (
                         <div className="plan-card__section plan-card__features-wrap">
                             {[
-                                { lang: 'ar', label: 'المميزات العربية', dir: 'rtl' },
+                                { lang: 'ar', label: t('المميزات العربية'), dir: 'rtl' },
                                 { lang: 'en', label: 'English Features',  dir: 'ltr' },
                             ].map(({ lang, label, dir }) => (
                                 <div key={lang} className="plan-card__features-col">
@@ -292,12 +293,12 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                                                 dir={dir}
                                                 onChange={e => setFeature(lang, idx, e.target.value)}
                                                 className="plan-card__input"
-                                                placeholder={`ميزة ${idx + 1}`}
+                                                placeholder={t('ميزة {0}', idx + 1)}
                                             />
                                             <button
                                                 className="plan-card__icon-btn plan-card__icon-btn--danger"
                                                 onClick={() => removeFeature(lang, idx)}
-                                                title="حذف"
+                                                title={t('حذف')}
                                                 type="button"
                                             >
                                                 <Trash2 size={14} />
@@ -309,7 +310,7 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                                         onClick={() => addFeature(lang)}
                                         type="button"
                                     >
-                                        <Plus size={14} /> إضافة ميزة
+                                        <Plus size={14} /> {t('إضافة ميزة')}
                                     </button>
                                 </div>
                             ))}
@@ -326,11 +327,11 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                                         checked={local.is_popular}
                                         onChange={e => set({ is_popular: e.target.checked })}
                                     />
-                                    <span>تمييز كـ "الأكثر شعبية"</span>
+                                    <span>{t('تمييز كـ "الأكثر شعبية"')}</span>
                                 </label>
                             </div>
                             {[
-                                { label: 'نص الشارة عربي', field: 'badge_ar', dir: 'rtl' },
+                                { label: t('نص الشارة عربي'), field: 'badge_ar', dir: 'rtl' },
                                 { label: 'Badge text EN',   field: 'badge_en', dir: 'ltr' },
                             ].map(({ label, field, dir }) => (
                                 <div key={field} className="plan-card__field-wrap plan-card__field-wrap--full">
@@ -355,7 +356,7 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                             onClick={handleReset}
                             disabled={!isDirty || isSaving}
                         >
-                            <RotateCcw size={15} /> تراجع
+                            <RotateCcw size={15} /> {t('تراجع')}
                         </button>
                         <button
                             type="button"
@@ -365,7 +366,7 @@ const PlanCard = ({ plan, onSave, isSaving }) => {
                         >
                             {isSaving
                                 ? <span className="plan-card__spinner" />
-                                : <><Save size={15} /> حفظ التغييرات</>
+                                : <><Save size={15} /> {t('حفظ التغييرات')}</>
                             }
                         </button>
                     </div>

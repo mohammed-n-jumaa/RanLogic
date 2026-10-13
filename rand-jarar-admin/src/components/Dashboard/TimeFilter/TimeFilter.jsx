@@ -2,19 +2,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar } from 'lucide-react';
 import './TimeFilter.scss';
+import { t } from '../../../i18n';
 
 const TimeFilter = ({ value, onChange }) => {
   const options = [
-    { value: 'this_week', label: 'هذا الأسبوع' },
-    { value: 'this_month', label: 'هذا الشهر' },
-    { value: 'last_3_months', label: 'آخر 3 أشهر' }
+    { value: 'this_week', label: t('هذا الأسبوع') },
+    { value: 'this_month', label: t('هذا الشهر') },
+    { value: 'last_3_months', label: t('آخر 3 أشهر') }
   ];
 
   return (
     <div className="time-filter">
       <div className="time-filter__header">
         <Calendar size={20} />
-        <span>الفترة الزمنية:</span>
+        <span>{t('الفترة الزمنية:')}</span>
       </div>
       
       <div className="time-filter__options">

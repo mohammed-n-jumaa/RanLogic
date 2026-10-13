@@ -1,4 +1,5 @@
 import apiClient from './apiClient';
+import { t } from '../i18n';
 
 /**
  * Profile API Service
@@ -23,7 +24,7 @@ const profileApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل جلب بيانات الملف الشخصي',
+        message: error.response?.data?.message || t('فشل جلب بيانات الملف الشخصي'),
       };
     }
   },
@@ -58,7 +59,7 @@ const profileApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل تحديث البيانات',
+        message: error.response?.data?.message || t('فشل تحديث البيانات'),
         errors: error.response?.data?.errors,
       };
     }
@@ -85,7 +86,7 @@ const profileApi = {
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'فشل تحديث كلمة المرور',
+        message: error.response?.data?.message || t('فشل تحديث كلمة المرور'),
         errors: error.response?.data?.errors,
       };
     }
@@ -119,7 +120,7 @@ const profileApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل رفع الصورة',
+        message: error.response?.data?.message || t('فشل رفع الصورة'),
         errors: error.response?.data?.errors,
       };
     }
@@ -150,7 +151,7 @@ const profileApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل حذف الصورة',
+        message: error.response?.data?.message || t('فشل حذف الصورة'),
       };
     }
   },

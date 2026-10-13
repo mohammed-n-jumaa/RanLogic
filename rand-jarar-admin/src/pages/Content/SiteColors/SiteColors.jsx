@@ -8,27 +8,28 @@ import {
 import Swal from 'sweetalert2';
 import siteColorsApi from '../../../api/siteColorsApi';
 import './SiteColors.scss';
+import { t } from '../../../i18n';
 
 // ─── Color definitions (site only) ───────────────────────────────────────────
 
 const COLOR_ITEMS = [
-  { key: 'site_primary',    label: 'اللون الرئيسي',     hint: 'الأزرار، الروابط، العناصر المميزة' },
-  { key: 'site_secondary',  label: 'اللون الثانوي',      hint: 'النصوص الداكنة، النافبار' },
-  { key: 'site_accent',     label: 'لون التمييز',        hint: 'خلفيات خفيفة، تظليل الأقسام' },
-  { key: 'site_background', label: 'خلفية الموقع',       hint: 'لون الخلفية الرئيسية' },
-  { key: 'site_text',       label: 'لون النص الأساسي',   hint: 'العناوين والنصوص الرئيسية' },
-  { key: 'site_text_light', label: 'لون النص الفاتح',    hint: 'النصوص الثانوية والتوضيحية' },
+  { key: 'site_primary',    label: t('اللون الرئيسي'),     hint: t('الأزرار، الروابط، العناصر المميزة') },
+  { key: 'site_secondary',  label: t('اللون الثانوي'),      hint: t('النصوص الداكنة، النافبار') },
+  { key: 'site_accent',     label: t('لون التمييز'),        hint: t('خلفيات خفيفة، تظليل الأقسام') },
+  { key: 'site_background', label: t('خلفية الموقع'),       hint: t('لون الخلفية الرئيسية') },
+  { key: 'site_text',       label: t('لون النص الأساسي'),   hint: t('العناوين والنصوص الرئيسية') },
+  { key: 'site_text_light', label: t('لون النص الفاتح'),    hint: t('النصوص الثانوية والتوضيحية') },
 ];
 
 const SUGGESTED_SITES = [
-  { name: 'Coolors', url: 'https://coolors.co/generate', desc: 'مولد باليتات عشوائي — اضغط Space لباليت جديدة', emoji: '🎲' },
-  { name: 'Realtime Colors', url: 'https://www.realtimecolors.com', desc: 'شوفي الألوان على موقع حقيقي مباشرة', emoji: '👁️' },
-  { name: 'Color Hunt', url: 'https://colorhunt.co', desc: 'آلاف الباليتات الجاهزة من مصممين حول العالم', emoji: '🎯' },
-  { name: 'Happy Hues', url: 'https://www.happyhues.co', desc: 'باليتات مع أمثلة تطبيقية على مواقع حقيقية', emoji: '😊' },
-  { name: 'Adobe Color', url: 'https://color.adobe.com/create', desc: 'أداة أدوبي المتقدمة — عجلة الألوان والتناسق', emoji: '🎨' },
-  { name: 'Muzli Colors', url: 'https://colors.muz.li', desc: 'ابحثي بلون وبيعطيكِ باليت كاملة منه', emoji: '🔍' },
-  { name: 'Gradient Hunt', url: 'https://gradienthunt.com', desc: 'تدرجات لونية جاهزة للأزرار والخلفيات', emoji: '🌈' },
-  { name: 'Khroma AI', url: 'https://www.khroma.co', desc: 'ذكاء اصطناعي يقترح ألوان بناءً على ذوقك', emoji: '🤖' },
+  { name: 'Coolors', url: 'https://coolors.co/generate', desc: t('مولد باليتات عشوائي — اضغط Space لباليت جديدة'), emoji: '🎲' },
+  { name: 'Realtime Colors', url: 'https://www.realtimecolors.com', desc: t('شوفي الألوان على موقع حقيقي مباشرة'), emoji: '👁️' },
+  { name: 'Color Hunt', url: 'https://colorhunt.co', desc: t('آلاف الباليتات الجاهزة من مصممين حول العالم'), emoji: '🎯' },
+  { name: 'Happy Hues', url: 'https://www.happyhues.co', desc: t('باليتات مع أمثلة تطبيقية على مواقع حقيقية'), emoji: '😊' },
+  { name: 'Adobe Color', url: 'https://color.adobe.com/create', desc: t('أداة أدوبي المتقدمة — عجلة الألوان والتناسق'), emoji: '🎨' },
+  { name: 'Muzli Colors', url: 'https://colors.muz.li', desc: t('ابحثي بلون وبيعطيكِ باليت كاملة منه'), emoji: '🔍' },
+  { name: 'Gradient Hunt', url: 'https://gradienthunt.com', desc: t('تدرجات لونية جاهزة للأزرار والخلفيات'), emoji: '🌈' },
+  { name: 'Khroma AI', url: 'https://www.khroma.co', desc: t('ذكاء اصطناعي يقترح ألوان بناءً على ذوقك'), emoji: '🤖' },
 ];
 
 // ─── Color Card ──────────────────────────────────────────────────────────────
@@ -62,7 +63,7 @@ const ColorCard = ({ colorKey, label, hint, value, onChange, onCopy }) => {
   return (
     <motion.div className="cc" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} whileHover={{ y: -2 }}>
       <div className="cc__preview" style={{ background: value }}>
-        <input type="color" value={value} onChange={handlePicker} className="cc__native" title="اختر لون" />
+        <input type="color" value={value} onChange={handlePicker} className="cc__native" title={t('اختر لون')} />
         <Pipette size={16} className="cc__pip" />
       </div>
       <div className="cc__info">
@@ -86,27 +87,27 @@ const SitePreview = ({ c }) => {
   const s = c.site_secondary || '#1C1C1C';
   const a = c.site_accent || '#FFF8E1';
   const bg = c.site_background || '#FFFFFF';
-  const t = c.site_text || '#1C1C1C';
+  const tItem = c.site_text || '#1C1C1C';
   const tl = c.site_text_light || '#757575';
 
   return (
     <div className="sp" style={{ background: bg }}>
-      <div className="sp__label"><Eye size={14} /> معاينة مباشرة للموقع</div>
+      <div className="sp__label"><Eye size={14} /> {t('معاينة مباشرة للموقع')}</div>
 
       {/* Navbar */}
       <div className="sp__nav" style={{ background: bg, borderBottom: `1px solid ${a}` }}>
-        <div className="sp__nav-logo" style={{ color: t }}>
+        <div className="sp__nav-logo" style={{ color: tItem }}>
           <span style={{ color: p }}>Ran</span>Logic
         </div>
         <div className="sp__nav-links">
-          <span style={{ color: tl }}>الأسئلة</span>
-          <span style={{ color: tl }}>حاسبة</span>
-          <span style={{ color: tl }}>عن الفريق</span>
-          <span style={{ color: tl }}>آراء العملاء</span>
+          <span style={{ color: tl }}>{t('الأسئلة')}</span>
+          <span style={{ color: tl }}>{t('حاسبة')}</span>
+          <span style={{ color: tl }}>{t('عن الفريق')}</span>
+          <span style={{ color: tl }}>{t('آراء العملاء')}</span>
         </div>
         <div className="sp__nav-btns">
-          <span className="sp__btn-outline" style={{ color: t, borderColor: tl }}>تسجيل دخول</span>
-          <span className="sp__btn-fill" style={{ background: p, color: bg }}>احجز الآن</span>
+          <span className="sp__btn-outline" style={{ color: tItem, borderColor: tl }}>{t('تسجيل دخول')}</span>
+          <span className="sp__btn-fill" style={{ background: p, color: bg }}>{t('احجز الآن')}</span>
         </div>
       </div>
 
@@ -114,47 +115,47 @@ const SitePreview = ({ c }) => {
       <div className="sp__hero" style={{ background: `linear-gradient(135deg, ${s}dd, ${s}aa)` }}>
         <div className="sp__hero-badge" style={{ background: `${tl}33`, color: '#fff' }}>
           <span style={{ background: p, width: 6, height: 6, borderRadius: '50%', display: 'inline-block' }}></span>
-          برنامج تدريب شخصي
+          {t('برنامج تدريب شخصي')}
         </div>
-        <h2 style={{ color: '#fff' }}>استثمر في نفسك، واصنع النسخة الأفضل</h2>
-        <p style={{ color: p }}>رحلتك نحو جسم قوي وثقة لا تهتز</p>
+        <h2 style={{ color: '#fff' }}>{t('استثمر في نفسك، واصنع النسخة الأفضل')}</h2>
+        <p style={{ color: p }}>{t('رحلتك نحو جسم قوي وثقة لا تهتز')}</p>
         <div className="sp__hero-btns">
-          <span className="sp__btn-fill" style={{ background: p, color: s }}>← ابدأ الآن</span>
-          <span className="sp__btn-outline" style={{ borderColor: '#fff', color: '#fff' }}>▷ استكشف</span>
+          <span className="sp__btn-fill" style={{ background: p, color: s }}>{t('← ابدأ الآن')}</span>
+          <span className="sp__btn-outline" style={{ borderColor: '#fff', color: '#fff' }}>{t('▷ استكشف')}</span>
         </div>
         <div className="sp__hero-stats">
           <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 16px' }}>
             <strong style={{ color: p }}>+200</strong>
-            <span style={{ color: '#ddd', fontSize: 9 }}>متدرب</span>
+            <span style={{ color: '#ddd', fontSize: 9 }}>{t('متدرب')}</span>
           </div>
           <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 16px' }}>
             <strong style={{ color: p }}>4+</strong>
-            <span style={{ color: '#ddd', fontSize: 9 }}>سنوات</span>
+            <span style={{ color: '#ddd', fontSize: 9 }}>{t('سنوات')}</span>
           </div>
           <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 16px' }}>
             <strong style={{ color: p }}>98%</strong>
-            <span style={{ color: '#ddd', fontSize: 9 }}>نجاح</span>
+            <span style={{ color: '#ddd', fontSize: 9 }}>{t('نجاح')}</span>
           </div>
         </div>
       </div>
 
       {/* About */}
       <div className="sp__about" style={{ background: bg }}>
-        <span className="sp__tag" style={{ color: tl, borderColor: `${tl}33` }}>من نحن</span>
-        <h3 style={{ color: t }}>فريق RanLogic <span style={{ color: p }}>مدربون معتمدون</span></h3>
-        <p style={{ color: tl }}>نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك</p>
+        <span className="sp__tag" style={{ color: tl, borderColor: `${tl}33` }}>{t('من نحن')}</span>
+        <h3 style={{ color: tItem }}>{t('فريق RanLogic')} <span style={{ color: p }}>{t('مدربون معتمدون')}</span></h3>
+        <p style={{ color: tl }}>{t('نصمم برامج تدريبية وغذائية مخصصة تناسب أهدافك وأسلوب حياتك')}</p>
         <div className="sp__features">
           <div style={{ background: a, borderRadius: 8, padding: '8px 12px', textAlign: 'center' }}>
             <div style={{ color: p, fontSize: 16 }}>🏋️</div>
-            <span style={{ color: t, fontSize: 9 }}>تدريب شخصي</span>
+            <span style={{ color: tItem, fontSize: 9 }}>{t('تدريب شخصي')}</span>
           </div>
           <div style={{ background: a, borderRadius: 8, padding: '8px 12px', textAlign: 'center' }}>
             <div style={{ color: p, fontSize: 16 }}>🥗</div>
-            <span style={{ color: t, fontSize: 9 }}>أنظمة غذائية</span>
+            <span style={{ color: tItem, fontSize: 9 }}>{t('أنظمة غذائية')}</span>
           </div>
           <div style={{ background: a, borderRadius: 8, padding: '8px 12px', textAlign: 'center' }}>
             <div style={{ color: p, fontSize: 16 }}>📊</div>
-            <span style={{ color: t, fontSize: 9 }}>متابعة مستمرة</span>
+            <span style={{ color: tItem, fontSize: 9 }}>{t('متابعة مستمرة')}</span>
           </div>
         </div>
       </div>
@@ -163,28 +164,28 @@ const SitePreview = ({ c }) => {
       <div className="sp__testi" style={{ background: s }}>
         <span className="sp__tag" style={{ color: '#ccc', borderColor: '#444' }}>
           <span style={{ background: p, width: 5, height: 5, borderRadius: '50%', display: 'inline-block' }}></span>
-          آراء المتدربين
+          {t('آراء المتدربين')}
         </span>
-        <h3 style={{ color: '#fff' }}>قصص نجاح ملهمة</h3>
+        <h3 style={{ color: '#fff' }}>{t('قصص نجاح ملهمة')}</h3>
         <div className="sp__testi-cards">
           <div style={{ background: bg, borderRadius: 8, padding: 10 }}>
             <div style={{ color: p, fontSize: 10 }}>★★★★★</div>
-            <p style={{ color: t, fontSize: 9, margin: '4px 0' }}>تجربتي كانت ممتازة جداً، النتائج بدأت تظهر بشكل ملحوظ</p>
-            <span style={{ color: tl, fontSize: 8 }}>— سارة</span>
+            <p style={{ color: tItem, fontSize: 9, margin: '4px 0' }}>{t('تجربتي كانت ممتازة جداً، النتائج بدأت تظهر بشكل ملحوظ')}</p>
+            <span style={{ color: tl, fontSize: 8 }}>{t('— سارة')}</span>
           </div>
           <div style={{ background: bg, borderRadius: 8, padding: 10 }}>
             <div style={{ color: p, fontSize: 10 }}>★★★★★</div>
-            <p style={{ color: t, fontSize: 9, margin: '4px 0' }}>الكوتش غيرت حياتي كلياً، خسرت 12 كيلو بـ 3 شهور</p>
-            <span style={{ color: tl, fontSize: 8 }}>— ليلى</span>
+            <p style={{ color: tItem, fontSize: 9, margin: '4px 0' }}>{t('الكوتش غيرت حياتي كلياً، خسرت 12 كيلو بـ 3 شهور')}</p>
+            <span style={{ color: tl, fontSize: 8 }}>{t('— ليلى')}</span>
           </div>
         </div>
       </div>
 
       {/* CTA */}
       <div className="sp__cta" style={{ background: a }}>
-        <h3 style={{ color: t }}>مستعد <span style={{ color: p }}>لتبدأ تحولك</span>؟</h3>
-        <p style={{ color: tl }}>انضم إلى أكثر من 200 متدرب حققوا أهدافهم</p>
-        <span className="sp__btn-fill sp__btn-lg" style={{ background: p, color: s }}>→ احجز الآن</span>
+        <h3 style={{ color: tItem }}>{t('مستعد')} <span style={{ color: p }}>{t('لتبدأ تحولك')}</span>{t('؟')}</h3>
+        <p style={{ color: tl }}>{t('انضم إلى أكثر من 200 متدرب حققوا أهدافهم')}</p>
+        <span className="sp__btn-fill sp__btn-lg" style={{ background: p, color: s }}>{t('→ احجز الآن')}</span>
         <div className="sp__cta-icons">
           <span style={{ color: p, opacity: 0.5 }}>💪</span>
           <span style={{ color: p, opacity: 0.3 }}>⭐</span>
@@ -197,16 +198,16 @@ const SitePreview = ({ c }) => {
         <div className="sp__footer-top">
           <div>
             <div style={{ color: '#fff', fontSize: 11, fontWeight: 600 }}><span style={{ color: p }}>Ran</span>Logic</div>
-            <p style={{ color: '#999', fontSize: 8, marginTop: 4 }}>خبراء في اللياقة والتغذية</p>
+            <p style={{ color: '#999', fontSize: 8, marginTop: 4 }}>{t('خبراء في اللياقة والتغذية')}</p>
           </div>
           <div className="sp__footer-links">
-            <span style={{ color: '#999', fontSize: 8 }}>الرئيسية</span>
-            <span style={{ color: '#999', fontSize: 8 }}>سياسة الخصوصية</span>
-            <span style={{ color: '#999', fontSize: 8 }}>شروط الاستخدام</span>
+            <span style={{ color: '#999', fontSize: 8 }}>{t('الرئيسية')}</span>
+            <span style={{ color: '#999', fontSize: 8 }}>{t('سياسة الخصوصية')}</span>
+            <span style={{ color: '#999', fontSize: 8 }}>{t('شروط الاستخدام')}</span>
           </div>
         </div>
         <div style={{ borderTop: '1px solid #333', paddingTop: 6, textAlign: 'center' }}>
-          <span style={{ color: '#555', fontSize: 7 }}>© 2026 RanLogic. جميع الحقوق محفوظة</span>
+          <span style={{ color: '#555', fontSize: 7 }}>{t('© 2026 RanLogic. جميع الحقوق محفوظة')}</span>
         </div>
       </div>
     </div>
@@ -228,7 +229,7 @@ const SiteColors = () => {
       const res = await siteColorsApi.getAll();
       if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); }
     } catch {
-      Swal.fire({ title: 'خطأ', text: 'فشل تحميل الألوان', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الألوان'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setIsLoading(false); }
   }, []);
 
@@ -251,23 +252,23 @@ const SiteColors = () => {
         Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: res.message, showConfirmButton: false, timer: 2500, timerProgressBar: true });
       }
     } catch (err) {
-      Swal.fire({ title: 'خطأ', icon: 'error', confirmButtonColor: '#e91e63', text: err.response?.data?.message || 'فشل حفظ الألوان' });
+      Swal.fire({ title: t('خطأ'), icon: 'error', confirmButtonColor: '#e91e63', text: err.response?.data?.message || t('فشل حفظ الألوان') });
     } finally { setIsSaving(false); }
   };
 
   const handleReset = async () => {
-    const r = await Swal.fire({ title: 'إعادة الألوان الافتراضية', text: 'سيتم إرجاع جميع الألوان للقيم الافتراضية', icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: 'نعم', cancelButtonText: 'إلغاء', reverseButtons: true });
+    const r = await Swal.fire({ title: t('إعادة الألوان الافتراضية'), text: t('سيتم إرجاع جميع الألوان للقيم الافتراضية'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم'), cancelButtonText: t('إلغاء'), reverseButtons: true });
     if (!r.isConfirmed) return;
     try {
       const res = await siteColorsApi.reset();
-      if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'تم إعادة الألوان', showConfirmButton: false, timer: 2000 }); }
-    } catch { Swal.fire({ title: 'خطأ', text: 'فشل', icon: 'error', confirmButtonColor: '#e91e63' }); }
+      if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: t('تم إعادة الألوان'), showConfirmButton: false, timer: 2000 }); }
+    } catch { Swal.fire({ title: t('خطأ'), text: t('فشل'), icon: 'error', confirmButtonColor: '#e91e63' }); }
   };
 
-  const handleCopy = (val) => Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: `تم نسخ ${val}`, showConfirmButton: false, timer: 1200 });
+  const handleCopy = (val) => Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: t('تم نسخ {0}', val), showConfirmButton: false, timer: 1200 });
   const handleDiscard = () => { setColors(original); setHasChanges(false); };
 
-  if (isLoading) return <div className="sc sc--loading"><RefreshCw size={28} className="sc-spin" /><p>جاري تحميل الألوان...</p></div>;
+  if (isLoading) return <div className="sc sc--loading"><RefreshCw size={28} className="sc-spin" /><p>{t('جاري تحميل الألوان...')}</p></div>;
 
   return (
     <div className="sc">
@@ -276,14 +277,14 @@ const SiteColors = () => {
       <div className="sc__header">
         <div className="sc__header-right">
           <div className="sc__header-icon"><Palette size={22} /></div>
-          <div><h1 className="sc__title">ألوان الموقع</h1><p className="sc__sub">تخصيص مظهر الموقع بالكامل</p></div>
+          <div><h1 className="sc__title">{t('ألوان الموقع')}</h1><p className="sc__sub">{t('تخصيص مظهر الموقع بالكامل')}</p></div>
         </div>
         <div className="sc__actions">
-          <button className="sc-btn sc-btn--ghost" onClick={handleReset}><RotateCcw size={15} /> الافتراضي</button>
-          {hasChanges && <button className="sc-btn sc-btn--ghost" onClick={handleDiscard}>تراجع</button>}
+          <button className="sc-btn sc-btn--ghost" onClick={handleReset}><RotateCcw size={15} /> {t('الافتراضي')}</button>
+          {hasChanges && <button className="sc-btn sc-btn--ghost" onClick={handleDiscard}>{t('تراجع')}</button>}
           <button className="sc-btn sc-btn--primary" onClick={handleSave} disabled={isSaving || !hasChanges}>
             {isSaving ? <RefreshCw size={15} className="sc-spin" /> : <Save size={15} />}
-            {isSaving ? 'جاري الحفظ...' : 'حفظ التغييرات'}
+            {isSaving ? t('جاري الحفظ...') : t('حفظ التغييرات')}
           </button>
         </div>
       </div>
@@ -291,39 +292,39 @@ const SiteColors = () => {
           {/* Banner */}
       <motion.div className="sc__banner" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <div className="sc__banner-top">
-          <div className="sc__banner-badge"><Sparkles size={16} /> حصري</div>
-          <h3>هذه الصفحة صُممت خصيصاً وحصرياً لكِ 🎨</h3>
-          <p className="sc__banner-desc">تحكّمي بمظهر موقعك بالكامل من مكان واحد — الألوان، الأزرار، الخلفيات، النصوص. كل تغيير بيظهر فوراً بالمعاينة، وبيتطبّق على الموقع الحقيقي بعد الحفظ.</p>
+          <div className="sc__banner-badge"><Sparkles size={16} /> {t('حصري')}</div>
+          <h3>{t('هذه الصفحة صُممت خصيصاً وحصرياً لكِ 🎨')}</h3>
+          <p className="sc__banner-desc">{t('تحكّمي بمظهر موقعك بالكامل من مكان واحد — الألوان، الأزرار، الخلفيات، النصوص. كل تغيير بيظهر فوراً بالمعاينة، وبيتطبّق على الموقع الحقيقي بعد الحفظ.')}</p>
         </div>
 
         <div className="sc__banner-divider" />
 
         <div className="sc__banner-section">
-          <h4><Palette size={14} /> كيف تغيّري الألوان؟</h4>
+          <h4><Palette size={14} /> {t('كيف تغيّري الألوان؟')}</h4>
           <div className="sc__steps">
-            <div className="sc__step"><span>1</span><div><strong>اختاري اللون</strong><small>اضغطي على المربع الملون لفتح منتقي الألوان</small></div></div>
-            <div className="sc__step"><span>2</span><div><strong>أو الصقي كود</strong><small>انسخي كود HEX من أي موقع والصقيه بالحقل</small></div></div>
-            <div className="sc__step"><span>3</span><div><strong>شوفي النتيجة</strong><small>المعاينة بتتحدث فوراً — شوفي الشكل قبل الحفظ</small></div></div>
-            <div className="sc__step"><span>4</span><div><strong>احفظي التغييرات</strong><small>اضغطي "حفظ" وبيتطبق على الموقع مباشرة</small></div></div>
+            <div className="sc__step"><span>1</span><div><strong>{t('اختاري اللون')}</strong><small>{t('اضغطي على المربع الملون لفتح منتقي الألوان')}</small></div></div>
+            <div className="sc__step"><span>2</span><div><strong>{t('أو الصقي كود')}</strong><small>{t('انسخي كود HEX من أي موقع والصقيه بالحقل')}</small></div></div>
+            <div className="sc__step"><span>3</span><div><strong>{t('شوفي النتيجة')}</strong><small>{t('المعاينة بتتحدث فوراً — شوفي الشكل قبل الحفظ')}</small></div></div>
+            <div className="sc__step"><span>4</span><div><strong>{t('احفظي التغييرات')}</strong><small>{t('اضغطي "حفظ" وبيتطبق على الموقع مباشرة')}</small></div></div>
           </div>
         </div>
 
         <div className="sc__banner-divider" />
 
         <div className="sc__banner-section">
-          <h4><Info size={14} /> نصائح مهمة</h4>
+          <h4><Info size={14} /> {t('نصائح مهمة')}</h4>
           <div className="sc__tips">
-            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--green" />الألوان بتتغير على كل صفحات الموقع تلقائياً</div>
-            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--blue" />جرّبي ألوان متناسقة — المواقع المقترحة تحت بتساعدك</div>
-            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--orange" />إذا مش عاجبك النتيجة، اضغطي "الافتراضي" لإرجاع كل شي</div>
-            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--pink" />اللون الرئيسي هو الأهم — بيأثر على الأزرار والعناوين المميزة</div>
+            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--green" />{t('الألوان بتتغير على كل صفحات الموقع تلقائياً')}</div>
+            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--blue" />{t('جرّبي ألوان متناسقة — المواقع المقترحة تحت بتساعدك')}</div>
+            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--orange" />{t('إذا مش عاجبك النتيجة، اضغطي "الافتراضي" لإرجاع كل شي')}</div>
+            <div className="sc__tip"><span className="sc__tip-dot sc__tip-dot--pink" />{t('اللون الرئيسي هو الأهم — بيأثر على الأزرار والعناوين المميزة')}</div>
           </div>
         </div>
         <div className="sc__banner-divider" />
 
         <div className="sc__banner-section">
-          <h4><Globe size={14} /> مواقع مقترحة لاختيار الألوان</h4>
-          <p className="sc__banner-sites-hint">انسخي أي لون عجبك من هالمواقع والصقيه بالحقل مباشرة</p>
+          <h4><Globe size={14} /> {t('مواقع مقترحة لاختيار الألوان')}</h4>
+          <p className="sc__banner-sites-hint">{t('انسخي أي لون عجبك من هالمواقع والصقيه بالحقل مباشرة')}</p>
           <div className="sc__sites-grid">
             {SUGGESTED_SITES.map(s => (
               <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="sc__site-chip">
@@ -343,7 +344,7 @@ const SiteColors = () => {
 
         {/* Colors */}
         <motion.div className="sc__colors" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="sc__section-head"><Palette size={16} /><span>اختيار الألوان</span></div>
+          <div className="sc__section-head"><Palette size={16} /><span>{t('اختيار الألوان')}</span></div>
           <div className="sc__colors-grid">
             {COLOR_ITEMS.map(ci => (
               <ColorCard key={ci.key} colorKey={ci.key} label={ci.label} hint={ci.hint} value={colors[ci.key] || '#000'} onChange={handleChange} onCopy={handleCopy} />
@@ -353,7 +354,7 @@ const SiteColors = () => {
 
         {/* Preview */}
         <motion.div className="sc__preview-wrap" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-          <div className="sc__section-head"><Eye size={16} /><span>المعاينة المباشرة</span></div>
+          <div className="sc__section-head"><Eye size={16} /><span>{t('المعاينة المباشرة')}</span></div>
           <SitePreview c={colors} />
         </motion.div>
       </div>
@@ -362,11 +363,11 @@ const SiteColors = () => {
       {/* Floating save */}
       {hasChanges && (
         <motion.div className="sc__float" initial={{ y: 80, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-          <span>لديك تغييرات غير محفوظة</span>
+          <span>{t('لديك تغييرات غير محفوظة')}</span>
           <div className="sc__float-btns">
-            <button className="sc-btn sc-btn--ghost" onClick={handleDiscard}>تراجع</button>
+            <button className="sc-btn sc-btn--ghost" onClick={handleDiscard}>{t('تراجع')}</button>
             <button className="sc-btn sc-btn--primary" onClick={handleSave} disabled={isSaving}>
-              {isSaving ? <RefreshCw size={14} className="sc-spin" /> : <Save size={14} />} حفظ
+              {isSaving ? <RefreshCw size={14} className="sc-spin" /> : <Save size={14} />} {t('حفظ')}
             </button>
           </div>
         </motion.div>

@@ -2,13 +2,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { AlertCircle, Clock, Users, Calendar } from 'lucide-react';
 import './AlertsPanel.scss';
+import { t } from '../../../i18n';
 
 const AlertsPanel = ({ alerts = [] }) => {
   const defaultAlerts = alerts.length > 0 ? alerts : [
     {
       id: 1,
       type: 'warning',
-      title: 'اشتراكات تنتهي خلال 3 أيام',
+      title: t('اشتراكات تنتهي خلال 3 أيام'),
       count: 8,
       icon: 'Clock',
       color: '#ff9800'
@@ -16,7 +17,7 @@ const AlertsPanel = ({ alerts = [] }) => {
     {
       id: 2,
       type: 'info',
-      title: 'اشتراكات تنتهي خلال 7 أيام',
+      title: t('اشتراكات تنتهي خلال 7 أيام'),
       count: 15,
       icon: 'Calendar',
       color: '#2196f3'
@@ -24,7 +25,7 @@ const AlertsPanel = ({ alerts = [] }) => {
     {
       id: 3,
       type: 'danger',
-      title: 'مدفوعات متأخرة',
+      title: t('مدفوعات متأخرة'),
       count: 5,
       icon: 'AlertCircle',
       color: '#f44336'
@@ -32,7 +33,7 @@ const AlertsPanel = ({ alerts = [] }) => {
     {
       id: 4,
       type: 'success',
-      title: 'تجديدات هذا الشهر',
+      title: t('تجديدات هذا الشهر'),
       count: 23,
       icon: 'Users',
       color: '#4caf50'
@@ -54,7 +55,7 @@ const AlertsPanel = ({ alerts = [] }) => {
     <div className="alerts-panel">
       <div className="alerts-panel__header">
         <AlertCircle size={24} />
-        <h3>التنبيهات والإشعارات</h3>
+        <h3>{t('التنبيهات والإشعارات')}</h3>
       </div>
       
       <div className="alerts-panel__list">
@@ -74,10 +75,10 @@ const AlertsPanel = ({ alerts = [] }) => {
               
               <div className="alert-item__content">
                 <h4 className="alert-item__title">{alert.title}</h4>
-                <div className="alert-item__count">{alert.count} متدربة</div>
+                <div className="alert-item__count">{alert.count} {t('متدربة')}</div>
               </div>
               
-              <button className="alert-item__action">عرض</button>
+              <button className="alert-item__action">{t('عرض')}</button>
             </motion.div>
           );
         })}

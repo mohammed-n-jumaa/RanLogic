@@ -26,7 +26,7 @@
 }
 
 html {
-  direction: rtl;
+  // direction follows <html dir>
   scroll-behavior: smooth;
   // Prevent text size adjustment on orientation change
   -webkit-text-size-adjust: 100%;
@@ -215,11 +215,11 @@ select {
 }
 
 .text-right {
-  text-align: right;
+  text-align: start;
 }
 
 .text-left {
-  text-align: left;
+  text-align: end;
 }
 
 .d-flex {

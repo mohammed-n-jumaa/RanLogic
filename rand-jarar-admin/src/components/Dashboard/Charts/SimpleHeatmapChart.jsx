@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const SimpleHeatmapChart = ({ height = 250 }) => {
   const [isMobile, setIsMobile] = useState(false);
-  const days = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
-  const hours = ['6ص', '8ص', '10ص', '12م', '2م', '4م', '6م', '8م', '10م'];
+  const days = [t('السبت'), t('الأحد'), t('الإثنين'), t('الثلاثاء'), t('الأربعاء'), t('الخميس'), t('الجمعة')];
+  const hours = [t('6ص'), t('8ص'), t('10ص'), t('12م'), t('2م'), t('4م'), t('6م'), t('8م'), t('10م')];
 
   useEffect(() => {
     const checkMobile = () => {
@@ -54,26 +55,26 @@ const SimpleHeatmapChart = ({ height = 250 }) => {
     <div className="simple-heatmap" style={{ height: `${height}px` }}>
       <div className="heatmap-container">
         <div className="heatmap-header">
-          <div className="heatmap-title">حرارة الالتزام خلال الأسبوع</div>
+          <div className="heatmap-title">{t('حرارة الالتزام خلال الأسبوع')}</div>
           <div className="heatmap-legend">
             <div className="legend-item">
               <div className="legend-color" style={{ background: '#f0f0f0' }} />
-              <span>منخفض</span>
+              <span>{t('منخفض')}</span>
             </div>
             <div className="legend-item">
               <div className="legend-color" style={{ background: '#90caf9' }} />
-              <span>متوسط</span>
+              <span>{t('متوسط')}</span>
             </div>
             <div className="legend-item">
               <div className="legend-color" style={{ background: '#42a5f5' }} />
-              <span>جيد</span>
+              <span>{t('جيد')}</span>
             </div>
           </div>
         </div>
         
         <div className="heatmap-grid">
           <div className="days-axis">
-            <div className="day-label">اليوم/الوقت</div>
+            <div className="day-label">{t('اليوم/الوقت')}</div>
             {days.map(day => (
               <div key={day} className="day-label">{isMobile ? day.substring(0, 3) : day}</div>
             ))}

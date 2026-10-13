@@ -66,7 +66,7 @@ const NutritionTab = () => {
 
   const handleDownloadMonthlyPDF = () => {
     if (nutritionPlan?.plan?.pdf_file) {
-      const pdfUrl = `${import.meta.env.VITE_API_URL || ''}}/storage/${nutritionPlan.plan.pdf_file}`;
+      const pdfUrl = `${import.meta.env.VITE_API_URL || 'https://api.ranlogic.com'}/storage/${nutritionPlan.plan.pdf_file}`;
       window.open(pdfUrl, '_blank');
     } else {
       Swal.fire({

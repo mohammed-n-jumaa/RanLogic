@@ -161,7 +161,7 @@
     border-radius: 14px; padding: 10px 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); z-index: 100;
     span { font-size: 0.82rem; color: var(--text-secondary); white-space: nowrap; }
     &-btns { display: flex; gap: 8px; }
-    @include mobile { left: 12px; right: 12px; transform: none; flex-direction: column; gap: 10px; padding: 14px; .sc-btn { flex: 1; justify-content: center; } }
+    @include mobile { inset-inline-end: 12px; inset-inline-start: 12px; transform: none; flex-direction: column; gap: 10px; padding: 14px; .sc-btn { flex: 1; justify-content: center; } }
   }
 }
 
@@ -215,7 +215,7 @@
   font-family: 'Segoe UI', system-ui, sans-serif; direction: rtl; position: relative;
 
   &__label {
-    position: absolute; top: 8px; right: 8px; z-index: 10;
+    position: absolute; top: 8px; inset-inline-start: 8px; z-index: 10;
     display: flex; align-items: center; gap: 4px;
     background: rgba(0,0,0,0.5); color: #fff; padding: 4px 10px;
     border-radius: 8px; font-size: 9px; font-weight: 600;

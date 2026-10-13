@@ -27,6 +27,7 @@ import {
 } from '../../../api/chatApi';
 import { getEcho } from '../../../lib/echo';
 import './ChatList.scss';
+import { t } from '../../../i18n';
 
 const ChatList = () => {
   const navigate = useNavigate();
@@ -97,7 +98,7 @@ const ChatList = () => {
         setChats(response.data || []);
       }
     } catch (err) {
-      setError('حدث خطأ أثناء جلب المحادثات');
+      setError(t('حدث خطأ أثناء جلب المحادثات'));
       console.error('Error fetching conversations:', err);
     }
   }, []);
@@ -110,7 +111,7 @@ const ChatList = () => {
         setChats(response.data || []);
       }
     } catch (err) {
-      setError('حدث خطأ أثناء جلب المحادثات المؤرشفة');
+      setError(t('حدث خطأ أثناء جلب المحادثات المؤرشفة'));
       console.error('Error fetching archived conversations:', err);
     }
   }, []);
@@ -258,7 +259,7 @@ const ChatList = () => {
     e.stopPropagation();
     setOpenItemMenu(null);
 
-    if (!window.confirm('هل أنت متأكد من حذف هذه المحادثة؟')) return;
+    if (!window.confirm(t('هل أنت متأكد من حذف هذه المحادثة؟'))) return;
 
     try {
       const response = await deleteConversation(conversationId);
@@ -322,13 +323,13 @@ const ChatList = () => {
   const getStatusLabel = (status) => {
     switch (status) {
       case 'active':
-        return 'نشط';
+        return t('نشط');
       case 'expired':
-        return 'منتهي';
+        return t('منتهي');
       case 'pending':
-        return 'معلّق';
+        return t('معلّق');
       default:
-        return 'غير محدد';
+        return t('غير محدد');
     }
   };
 
@@ -337,7 +338,7 @@ const ChatList = () => {
       <div className="chat-list chat-list--loading">
         <div className="chat-list__loader">
           <Loader2 size={48} className="spinner" />
-          <p>جاري تحميل المحادثات...</p>
+          <p>{t('جاري تحميل المحادثات...')}</p>
         </div>
       </div>
     );
@@ -350,10 +351,10 @@ const ChatList = () => {
           <div className="chat-list__title-section">
             <h1 className="chat-list__title">
               <MessageSquareMore size={32} />
-              {showingArchived ? 'المحادثات المؤرشفة' : 'محادثات المتدربين'}
+              {showingArchived ? t('المحادثات المؤرشفة') : t('محادثات المتدربين')}
             </h1>
             <p className="chat-list__subtitle">
-              {showingArchived ? 'عرض المحادثات المؤرشفة' : 'تواصل مع المتدربين ومتابعة المحادثات'}
+              {showingArchived ? t('عرض المحادثات المؤرشفة') : t('تواصل مع المتدربين ومتابعة المحادثات')}
             </p>
           </div>
 
@@ -366,7 +367,7 @@ const ChatList = () => {
                 whileTap={{ scale: 0.95 }}
               >
                 <ChevronRight size={18} />
-                العودة للمحادثات
+                {t('العودة للمحادثات')}
               </motion.button>
             )}
 
@@ -378,7 +379,7 @@ const ChatList = () => {
               whileTap={{ scale: 0.95 }}
             >
               <RefreshCw size={20} className={refreshing ? 'spinning' : ''} />
-              تحديث
+              {t('تحديث')}
             </motion.button>
           </div>
         </div>
@@ -396,7 +397,7 @@ const ChatList = () => {
               <MessageSquare size={24} />
             </div>
             <div className="chat-stat-card__content">
-              <span className="chat-stat-card__label">إجمالي المحادثات</span>
+              <span className="chat-stat-card__label">{t('إجمالي المحادثات')}</span>
               <span className="chat-stat-card__value">{stats.total_conversations}</span>
             </div>
           </div>
@@ -406,7 +407,7 @@ const ChatList = () => {
               <MessageSquare size={24} />
             </div>
             <div className="chat-stat-card__content">
-              <span className="chat-stat-card__label">غير مقروء</span>
+              <span className="chat-stat-card__label">{t('غير مقروء')}</span>
               <span className="chat-stat-card__value">{stats.unread_messages}</span>
             </div>
           </div>
@@ -416,7 +417,7 @@ const ChatList = () => {
               <CheckCircle size={24} />
             </div>
             <div className="chat-stat-card__content">
-              <span className="chat-stat-card__label">متصل الآن</span>
+              <span className="chat-stat-card__label">{t('متصل الآن')}</span>
               <span className="chat-stat-card__value">{stats.online_count}</span>
             </div>
           </div>
@@ -426,7 +427,7 @@ const ChatList = () => {
               <Users size={24} />
             </div>
             <div className="chat-stat-card__content">
-              <span className="chat-stat-card__label">متدربين نشطين</span>
+              <span className="chat-stat-card__label">{t('متدربين نشطين')}</span>
               <span className="chat-stat-card__value">{stats.active_trainees}</span>
             </div>
           </div>
@@ -443,7 +444,7 @@ const ChatList = () => {
           <Search size={20} />
           <input
             type="text"
-            placeholder="ابحث عن محادثة..."
+            placeholder={t('ابحث عن محادثة...')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -452,11 +453,11 @@ const ChatList = () => {
         <div className="chat-filter-box">
           <Filter size={20} />
           <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-            <option value="all">جميع المحادثات</option>
-            <option value="unread">غير مقروءة</option>
-            <option value="active">نشط</option>
-            <option value="expired">منتهي</option>
-            <option value="pending">معلّق</option>
+            <option value="all">{t('جميع المحادثات')}</option>
+            <option value="unread">{t('غير مقروءة')}</option>
+            <option value="active">{t('نشط')}</option>
+            <option value="expired">{t('منتهي')}</option>
+            <option value="pending">{t('معلّق')}</option>
           </select>
         </div>
 
@@ -468,7 +469,7 @@ const ChatList = () => {
               onClick={() => setShowGlobalMenu((prev) => !prev)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              title="خيارات إضافية"
+              title={t('خيارات إضافية')}
             >
               <MoreVertical size={20} />
             </motion.button>
@@ -487,7 +488,7 @@ const ChatList = () => {
                     onClick={handleShowArchived}
                   >
                     <Archive size={16} />
-                    المحادثات المؤرشفة
+                    {t('المحادثات المؤرشفة')}
                   </button>
                 </motion.div>
               )}
@@ -499,7 +500,7 @@ const ChatList = () => {
       {error && (
         <motion.div className="chat-list__error" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <p>{error}</p>
-          <button onClick={handleRefresh}>إعادة المحاولة</button>
+          <button onClick={handleRefresh}>{t('إعادة المحاولة')}</button>
         </motion.div>
       )}
 
@@ -535,14 +536,14 @@ const ChatList = () => {
                   </div>
 
                   <div className="chat-item__info">
-                    <h4 className="chat-item__name">{chat.client?.name || 'مجهول'}</h4>
-                    <div className="chat-item__goal">{chat.client?.goal || 'غير محدد'}</div>
+                    <h4 className="chat-item__name">{chat.client?.name || t('مجهول')}</h4>
+                    <div className="chat-item__goal">{chat.client?.goal || t('غير محدد')}</div>
                   </div>
                 </div>
 
                 <div className="chat-item__right">
                   <div className="chat-item__message-preview">
-                    <p className="chat-item__last-message">{chat.last_message || 'لا توجد رسائل'}</p>
+                    <p className="chat-item__last-message">{chat.last_message || t('لا توجد رسائل')}</p>
                     <div className="chat-item__meta">
                       <span className="chat-item__time">
                         <Clock size={12} />
@@ -564,7 +565,7 @@ const ChatList = () => {
                       onClick={(e) => handleDeleteConversation(e, chat.id)}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      title="حذف المحادثة"
+                      title={t('حذف المحادثة')}
                     >
                       <Trash2 size={16} />
                     </motion.button>
@@ -579,7 +580,7 @@ const ChatList = () => {
                         onClick={(e) => toggleItemMenu(e, chat.id)}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
-                        title="خيارات"
+                        title={t('خيارات')}
                       >
                         <MoreVertical size={16} />
                       </motion.button>
@@ -600,7 +601,7 @@ const ChatList = () => {
                                 onClick={(e) => handleUnarchiveConversation(e, chat.id)}
                               >
                                 <ArchiveRestore size={15} />
-                                إلغاء الأرشفة
+                                {t('إلغاء الأرشفة')}
                               </button>
                             ) : (
                               <button
@@ -608,7 +609,7 @@ const ChatList = () => {
                                 onClick={(e) => handleArchiveConversation(e, chat.id)}
                               >
                                 <Archive size={15} />
-                                أرشفة المحادثة
+                                {t('أرشفة المحادثة')}
                               </button>
                             )}
                           </motion.div>
@@ -628,8 +629,8 @@ const ChatList = () => {
       {filteredChats.length === 0 && !loading && (
         <motion.div className="chat-list__empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <MessageSquare size={64} />
-          <h3>{showingArchived ? 'لا توجد محادثات مؤرشفة' : 'لا توجد محادثات'}</h3>
-          <p>{searchTerm ? 'لم يتم العثور على نتائج للبحث' : showingArchived ? 'لم تقم بأرشفة أي محادثة بعد' : 'ابدأ محادثة جديدة مع أحد المتدربين'}</p>
+          <h3>{showingArchived ? t('لا توجد محادثات مؤرشفة') : t('لا توجد محادثات')}</h3>
+          <p>{searchTerm ? t('لم يتم العثور على نتائج للبحث') : showingArchived ? t('لم تقم بأرشفة أي محادثة بعد') : t('ابدأ محادثة جديدة مع أحد المتدربين')}</p>
         </motion.div>
       )}
     </div>

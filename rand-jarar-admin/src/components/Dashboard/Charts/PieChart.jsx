@@ -8,6 +8,7 @@ import {
   Legend
 } from 'recharts';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const PieChart = ({ data = [], height = 300 }) => {
   const [chartData, setChartData] = useState([]);
@@ -18,10 +19,10 @@ const PieChart = ({ data = [], height = 300 }) => {
       setChartData(data);
     } else {
       setChartData([
-        { name: 'مدفوع', value: 156, color: '#4caf50' },
-        { name: 'قيد الانتظار', value: 24, color: '#ff9800' },
-        { name: 'منتهي', value: 12, color: '#f44336' },
-        { name: 'ملغي', value: 8, color: '#9e9e9e' },
+        { name: t('مدفوع'), value: 156, color: '#4caf50' },
+        { name: t('قيد الانتظار'), value: 24, color: '#ff9800' },
+        { name: t('منتهي'), value: 12, color: '#f44336' },
+        { name: t('ملغي'), value: 8, color: '#9e9e9e' },
       ]);
     }
   }, [data]);
@@ -61,7 +62,7 @@ const PieChart = ({ data = [], height = 300 }) => {
               borderColor: 'var(--border-color)',
               color: 'var(--text-primary)'
             }}
-            formatter={(value) => [`${value} عملية`, 'العدد']}
+            formatter={(value) => [t('{0} عملية', value), t('العدد')]}
           />
           <Legend />
         </RechartsPieChart>

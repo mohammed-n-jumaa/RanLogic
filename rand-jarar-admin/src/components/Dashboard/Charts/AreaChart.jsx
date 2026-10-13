@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { AlertTriangle } from 'lucide-react';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const AreaChart = ({ data = [], height = 300 }) => {
   const [chartData, setChartData] = useState([]);
@@ -47,7 +48,7 @@ const AreaChart = ({ data = [], height = 300 }) => {
       >
         <div className="no-data-message">
           <AlertTriangle size={24} />
-          <p>لا توجد بيانات متاحة</p>
+          <p>{t('لا توجد بيانات متاحة')}</p>
         </div>
       </div>
     );
@@ -75,7 +76,7 @@ const AreaChart = ({ data = [], height = 300 }) => {
           <YAxis 
             stroke="var(--text-secondary)"
             tick={{ fill: 'var(--text-secondary)' }}
-            tickFormatter={(value) => `${value} د.ع`}
+            tickFormatter={(value) => t('{0} د.ع', value)}
           />
           <Tooltip 
             contentStyle={{
@@ -83,8 +84,8 @@ const AreaChart = ({ data = [], height = 300 }) => {
               borderColor: 'var(--border-color)',
               color: 'var(--text-primary)'
             }}
-            formatter={(value) => [`${value} $`, 'الدخل']}
-            labelFormatter={(label) => `التاريخ: ${label}`}
+            formatter={(value) => [`${value} $`, t('الدخل')]}
+            labelFormatter={(label) => t('التاريخ: {0}', label)}
           />
           <Legend />
           <Area 

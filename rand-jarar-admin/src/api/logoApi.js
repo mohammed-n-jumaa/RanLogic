@@ -1,4 +1,5 @@
 import apiClient from './apiClient';
+import { t } from '../i18n';
 
 /**
  * Logo API Service
@@ -24,7 +25,7 @@ const logoApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل في جلب الشعار',
+        message: error.response?.data?.message || t('فشل في جلب الشعار'),
         error: error.response?.data?.error,
       };
     }
@@ -67,7 +68,7 @@ const logoApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل في رفع الشعار',
+        message: error.response?.data?.message || t('فشل في رفع الشعار'),
         errors: error.response?.data?.errors,
         error: error.response?.data?.error,
       };
@@ -99,7 +100,7 @@ const logoApi = {
         success: false,
         data: null,
         pagination: null,
-        message: error.response?.data?.message || 'فشل في جلب الشعارات',
+        message: error.response?.data?.message || t('فشل في جلب الشعارات'),
         error: error.response?.data?.error,
       };
     }
@@ -125,7 +126,7 @@ const logoApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل في تفعيل الشعار',
+        message: error.response?.data?.message || t('فشل في تفعيل الشعار'),
         error: error.response?.data?.error,
       };
     }
@@ -149,7 +150,7 @@ const logoApi = {
     } catch (error) {
       return {
         success: false,
-        message: error.response?.data?.message || 'فشل في حذف الشعار',
+        message: error.response?.data?.message || t('فشل في حذف الشعار'),
         error: error.response?.data?.error,
       };
     }
@@ -170,7 +171,7 @@ const logoApi = {
     if (!file) {
       return {
         isValid: false,
-        error: 'الرجاء اختيار ملف',
+        error: t('الرجاء اختيار ملف'),
       };
     }
 
@@ -178,7 +179,7 @@ const logoApi = {
     if (file.size > MAX_SIZE) {
       return {
         isValid: false,
-        error: 'حجم الملف يجب أن لا يتجاوز 5 ميجابايت',
+        error: t('حجم الملف يجب أن لا يتجاوز 5 ميجابايت'),
       };
     }
 
@@ -186,7 +187,7 @@ const logoApi = {
     if (!ALLOWED_TYPES.includes(file.type)) {
       return {
         isValid: false,
-        error: 'نوع الملف غير مدعوم. الصيغ المدعومة: PNG, JPG, JPEG, SVG, WEBP',
+        error: t('نوع الملف غير مدعوم. الصيغ المدعومة: PNG, JPG, JPEG, SVG, WEBP'),
       };
     }
 
@@ -195,7 +196,7 @@ const logoApi = {
     if (!ALLOWED_EXTENSIONS.includes(extension)) {
       return {
         isValid: false,
-        error: 'امتداد الملف غير صالح',
+        error: t('امتداد الملف غير صالح'),
       };
     }
 

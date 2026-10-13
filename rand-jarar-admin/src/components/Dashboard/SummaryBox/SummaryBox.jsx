@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FileText, TrendingUp, Target, Activity } from 'lucide-react';
 import './SummaryBox.scss';
+import { t, loc } from '../../../i18n';
 
 const SummaryBox = ({ metrics, alerts }) => {
   // Generate insights based on real data
@@ -14,7 +15,7 @@ const SummaryBox = ({ metrics, alerts }) => {
         insights.push({
           id: 1,
           icon: TrendingUp,
-          text: `هذا الشهر شهد زيادة ${metrics.previousPeriodChange.subscriptions}% في الاشتراكات`
+          text: t('هذا الشهر شهد زيادة {0}% في الاشتراكات', metrics.previousPeriodChange.subscriptions)
         });
       }
 
@@ -23,7 +24,7 @@ const SummaryBox = ({ metrics, alerts }) => {
         insights.push({
           id: 2,
           icon: Activity,
-          text: `نمو الدخل بنسبة ${metrics.previousPeriodChange.revenue}% مقارنة بالفترة السابقة`
+          text: t('نمو الدخل بنسبة {0}% مقارنة بالفترة السابقة', metrics.previousPeriodChange.revenue)
         });
       }
 
@@ -32,13 +33,13 @@ const SummaryBox = ({ metrics, alerts }) => {
         insights.push({
           id: 3,
           icon: Target,
-          text: `معدل الإنجاز ممتاز يبلغ ${metrics.completionRate}%`
+          text: t('معدل الإنجاز ممتاز يبلغ {0}%', metrics.completionRate)
         });
       } else if (metrics.completionRate >= 50) {
         insights.push({
           id: 3,
           icon: Target,
-          text: `معدل الإنجاز جيد يبلغ ${metrics.completionRate}%`
+          text: t('معدل الإنجاز جيد يبلغ {0}%', metrics.completionRate)
         });
       }
     }
@@ -50,7 +51,7 @@ const SummaryBox = ({ metrics, alerts }) => {
         insights.push({
           id: 4,
           icon: TrendingUp,
-          text: `${renewals.count} تجديد اشتراك هذا الشهر`
+          text: t('{0} تجديد اشتراك هذا الشهر', renewals.count)
         });
       }
     }
@@ -61,7 +62,7 @@ const SummaryBox = ({ metrics, alerts }) => {
         {
           id: 1,
           icon: TrendingUp,
-          text: 'جاري تحميل البيانات...'
+          text: t('جاري تحميل البيانات...')
         }
       ];
     }
@@ -74,15 +75,15 @@ const SummaryBox = ({ metrics, alerts }) => {
   // Calculate stats from metrics
   const stats = metrics ? [
     {
-      label: 'متوسط مدة الاشتراك',
-      value: `${metrics.avgSubscriptionDuration} شهر`
+      label: t('متوسط مدة الاشتراك'),
+      value: t('{0} شهر', metrics.avgSubscriptionDuration)
     },
     {
-      label: 'نسبة الاحتفاظ',
+      label: t('نسبة الاحتفاظ'),
       value: `${Math.round(82)}%` // This could be calculated from renewals
     },
     {
-      label: 'معدل النمو الشهري',
+      label: t('معدل النمو الشهري'),
       value: `${metrics.previousPeriodChange.subscriptions}%`
     }
   ] : [];
@@ -95,7 +96,7 @@ const SummaryBox = ({ metrics, alerts }) => {
     >
       <div className="summary-box__header">
         <FileText size={24} />
-        <h3>ملخص الأداء</h3>
+        <h3>{t('ملخص الأداء')}</h3>
       </div>
       
       <div className="summary-box__content">
@@ -130,7 +131,7 @@ const SummaryBox = ({ metrics, alerts }) => {
       
       <div className="summary-box__footer">
         <span className="update-time">
-          آخر تحديث: {new Date().toLocaleString('ar-EG', { 
+          {t('آخر تحديث:')} {new Date().toLocaleString(loc('ar-EG'), { 
             hour: '2-digit', 
             minute: '2-digit',
             hour12: true 

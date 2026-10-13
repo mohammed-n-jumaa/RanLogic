@@ -148,8 +148,8 @@
       content: '';
       position: absolute;
       top: 0;
-      left: 0;
-      right: 0;
+      inset-inline-end: 0;
+      inset-inline-start: 0;
       height: 3px;
     }
 
@@ -226,7 +226,7 @@
     font-weight: 700;
     padding: 0.15rem 0.45rem;
     border-radius: 50px;
-    margin-right: auto;
+    margin-inline-start: auto;
 
     &--green {
       background: rgba($success, 0.1);

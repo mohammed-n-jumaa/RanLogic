@@ -10,6 +10,7 @@ import {
 import apiClient from '../../../api/apiClient';
 import Swal from 'sweetalert2';
 import './AllUsersList.scss';
+import { t, loc } from '../../../i18n';
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -21,16 +22,16 @@ const getSubStatus = (user) => {
 };
 
 const STATUS_META = {
-  active:  { label: 'اشتراك نشط',   cls: 'active',  Icon: UserCheck },
-  expired: { label: 'اشتراك منتهي', cls: 'expired', Icon: UserX    },
-  none:    { label: 'بدون اشتراك',  cls: 'none',    Icon: Clock    },
+  active:  { label: t('اشتراك نشط'),   cls: 'active',  Icon: UserCheck },
+  expired: { label: t('اشتراك منتهي'), cls: 'expired', Icon: UserX    },
+  none:    { label: t('بدون اشتراك'),  cls: 'none',    Icon: Clock    },
 };
 
 const GOAL_MAP = {
-  'weight-loss': 'خسارة وزن',
-  'muscle-gain': 'بناء عضلات',
-  toning:        'تحسين القوام',
-  fitness:       'لياقة عامة',
+  'weight-loss': t('خسارة وزن'),
+  'muscle-gain': t('بناء عضلات'),
+  toning:        t('تحسين القوام'),
+  fitness:       t('لياقة عامة'),
 };
 
 const PLAN_MAP = {
@@ -41,20 +42,20 @@ const PLAN_MAP = {
 };
 
 const DURATION_MAP = {
-  '1month':  'شهر واحد',
-  '3months': '3 أشهر',
-  '6months': '6 أشهر',
+  '1month':  t('شهر واحد'),
+  '3months': t('3 أشهر'),
+  '6months': t('6 أشهر'),
 };
 
 const PAYMENT_MAP = {
   paypal:        'PayPal',
-  bank_transfer: 'تحويل بنكي',
+  bank_transfer: t('تحويل بنكي'),
 };
 
-const PLACE_MAP = { home: 'المنزل', gym: 'الجيم' };
+const PLACE_MAP = { home: t('المنزل'), gym: t('الجيم') };
 
 const fmtDate = (d) =>
-  d ? new Date(d).toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
+  d ? new Date(d).toLocaleDateString(loc('ar-EG'), { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
 
 const fmtAmount = (amount, currency = 'USD') =>
   amount ? `${parseFloat(amount).toFixed(2)} ${currency}` : '—';
@@ -76,18 +77,18 @@ const ExpandedRow = ({ user }) => {
 
           {/* المعلومات الجسدية */}
           <div className="exp-section">
-            <h4 className="exp-title"><Activity size={14} /> المعلومات الجسدية</h4>
+            <h4 className="exp-title"><Activity size={14} /> {t('المعلومات الجسدية')}</h4>
             <div className="exp-grid">
-              {user.age         && <div className="exp-item"><span className="exp-label">العمر</span><span className="exp-val">{user.age} سنة</span></div>}
-              {user.height      && <div className="exp-item"><span className="exp-label">الطول</span><span className="exp-val">{user.height} سم</span></div>}
-              {user.weight      && <div className="exp-item"><span className="exp-label">الوزن</span><span className="exp-val">{user.weight} كغ</span></div>}
-              {user.waist       && <div className="exp-item"><span className="exp-label">الخصر</span><span className="exp-val">{user.waist} سم</span></div>}
-              {user.hips        && <div className="exp-item"><span className="exp-label">الأرداف</span><span className="exp-val">{user.hips} سم</span></div>}
-              {user.program     && <div className="exp-item"><span className="exp-label">البرنامج</span><span className="exp-val">{user.program}</span></div>}
+              {user.age         && <div className="exp-item"><span className="exp-label">{t('العمر')}</span><span className="exp-val">{user.age} {t('سنة')}</span></div>}
+              {user.height      && <div className="exp-item"><span className="exp-label">{t('الطول')}</span><span className="exp-val">{user.height} {t('سم')}</span></div>}
+              {user.weight      && <div className="exp-item"><span className="exp-label">{t('الوزن')}</span><span className="exp-val">{user.weight} {t('كغ')}</span></div>}
+              {user.waist       && <div className="exp-item"><span className="exp-label">{t('الخصر')}</span><span className="exp-val">{user.waist} {t('سم')}</span></div>}
+              {user.hips        && <div className="exp-item"><span className="exp-label">{t('الأرداف')}</span><span className="exp-val">{user.hips} {t('سم')}</span></div>}
+              {user.program     && <div className="exp-item"><span className="exp-label">{t('البرنامج')}</span><span className="exp-val">{user.program}</span></div>}
             </div>
             {user.health_notes && (
               <div className="exp-notes">
-                <span className="exp-label">ملاحظات صحية:</span>
+                <span className="exp-label">{t('ملاحظات صحية:')}</span>
                 <span>{user.health_notes}</span>
               </div>
             )}
@@ -98,28 +99,28 @@ const ExpandedRow = ({ user }) => {
             <div className="exp-section">
               <h4 className="exp-title">
                 <CreditCard size={14} />
-                {user.active_subscription ? 'الاشتراك النشط' : 'آخر اشتراك'}
+                {user.active_subscription ? t('الاشتراك النشط') : t('آخر اشتراك')}
               </h4>
               <div className="exp-grid">
-                <div className="exp-item"><span className="exp-label">الخطة</span><span className="exp-val plan">{PLAN_MAP[sub.plan_type] ?? sub.plan_type}</span></div>
-                <div className="exp-item"><span className="exp-label">المدة</span><span className="exp-val">{DURATION_MAP[sub.duration] ?? sub.duration}</span></div>
-                <div className="exp-item"><span className="exp-label">المبلغ</span><span className="exp-val amount">{fmtAmount(sub.amount, sub.currency)}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('الخطة')}</span><span className="exp-val plan">{PLAN_MAP[sub.plan_type] ?? sub.plan_type}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('المدة')}</span><span className="exp-val">{DURATION_MAP[sub.duration] ?? sub.duration}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('المبلغ')}</span><span className="exp-val amount">{fmtAmount(sub.amount, sub.currency)}</span></div>
                 {sub.original_amount && sub.original_amount !== sub.amount && (
-                  <div className="exp-item"><span className="exp-label">قبل الخصم</span><span className="exp-val original">{fmtAmount(sub.original_amount, sub.currency)}</span></div>
+                  <div className="exp-item"><span className="exp-label">{t('قبل الخصم')}</span><span className="exp-val original">{fmtAmount(sub.original_amount, sub.currency)}</span></div>
                 )}
                 {sub.discount_percentage > 0 && (
-                  <div className="exp-item"><span className="exp-label">الخصم</span><span className="exp-val discount">{sub.discount_percentage}%</span></div>
+                  <div className="exp-item"><span className="exp-label">{t('الخصم')}</span><span className="exp-val discount">{sub.discount_percentage}%</span></div>
                 )}
-                <div className="exp-item"><span className="exp-label">طريقة الدفع</span><span className="exp-val">{PAYMENT_MAP[sub.payment_method] ?? sub.payment_method}</span></div>
-                <div className="exp-item"><span className="exp-label">يبدأ</span><span className="exp-val">{fmtDate(sub.starts_at)}</span></div>
-                <div className="exp-item"><span className="exp-label">ينتهي</span><span className="exp-val">{fmtDate(sub.ends_at)}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('طريقة الدفع')}</span><span className="exp-val">{PAYMENT_MAP[sub.payment_method] ?? sub.payment_method}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('يبدأ')}</span><span className="exp-val">{fmtDate(sub.starts_at)}</span></div>
+                <div className="exp-item"><span className="exp-label">{t('ينتهي')}</span><span className="exp-val">{fmtDate(sub.ends_at)}</span></div>
                 {sub.bank_transfer_number && (
-                  <div className="exp-item"><span className="exp-label">رقم التحويل</span><span className="exp-val">{sub.bank_transfer_number}</span></div>
+                  <div className="exp-item"><span className="exp-label">{t('رقم التحويل')}</span><span className="exp-val">{sub.bank_transfer_number}</span></div>
                 )}
               </div>
               {sub.notes && (
                 <div className="exp-notes">
-                  <span className="exp-label">ملاحظات:</span>
+                  <span className="exp-label">{t('ملاحظات:')}</span>
                   <span>{sub.notes}</span>
                 </div>
               )}
@@ -127,7 +128,7 @@ const ExpandedRow = ({ user }) => {
           )}
 
           <div className="exp-meta">
-            <span><Hash size={12} /> إجمالي الاشتراكات: {user.subscriptions_count}</span>
+            <span><Hash size={12} /> {t('إجمالي الاشتراكات:')} {user.subscriptions_count}</span>
           </div>
 
         </div>
@@ -176,7 +177,7 @@ const UserRow = ({ user, index }) => {
         </td>
         <td className="col-tags">
           <div className="tag-row">
-            {user.gender && <span className={`tag gender-${user.gender}`}>{user.gender === 'female' ? 'أنثى' : 'ذكر'}</span>}
+            {user.gender && <span className={`tag gender-${user.gender}`}>{user.gender === 'female' ? t('أنثى') : t('ذكر')}</span>}
             {user.goal && <span className="tag goal">{GOAL_MAP[user.goal] ?? user.goal}</span>}
             {user.workout_place && <span className="tag place">{PLACE_MAP[user.workout_place] ?? user.workout_place}</span>}
           </div>
@@ -186,7 +187,7 @@ const UserRow = ({ user, index }) => {
           {sub && (
             <>
               {sub.plan_type && <div className="sub-plan">{PLAN_MAP[sub.plan_type] ?? sub.plan_type}</div>}
-              <div className="sub-end">ينتهي: {fmtDate(sub.ends_at)}</div>
+              <div className="sub-end">{t('ينتهي:')} {fmtDate(sub.ends_at)}</div>
             </>
           )}
         </td>
@@ -250,16 +251,16 @@ const UserCard = ({ user, index }) => {
             <CreditCard size={13} />
             <span>
               {PLAN_MAP[sub.plan_type] ?? sub.plan_type}
-              {sub.ends_at ? ` · ينتهي ${fmtDate(sub.ends_at)}` : ''}
+              {sub.ends_at ? t(' · ينتهي {0}', fmtDate(sub.ends_at)) : ''}
             </span>
           </div>
         )}
-        <div className="uc-row"><Calendar size={13} /><span>تاريخ التسجيل: {fmtDate(user.created_at)}</span></div>
+        <div className="uc-row"><Calendar size={13} /><span>{t('تاريخ التسجيل:')} {fmtDate(user.created_at)}</span></div>
       </div>
 
       {/* Tags */}
       <div className="uc-tags">
-        {user.gender && <span className={`tag gender-${user.gender}`}>{user.gender === 'female' ? 'أنثى' : 'ذكر'}</span>}
+        {user.gender && <span className={`tag gender-${user.gender}`}>{user.gender === 'female' ? t('أنثى') : t('ذكر')}</span>}
         {user.goal && <span className="tag goal"><Target size={10} />{GOAL_MAP[user.goal] ?? user.goal}</span>}
         {user.workout_place && <span className="tag place"><MapPin size={10} />{PLACE_MAP[user.workout_place] ?? user.workout_place}</span>}
       </div>
@@ -277,13 +278,13 @@ const UserCard = ({ user, index }) => {
             {/* المعلومات الجسدية */}
             {(user.age || user.height || user.weight || user.waist || user.hips) && (
               <div className="uce-section">
-                <span className="uce-label"><Activity size={12} /> المعلومات الجسدية</span>
+                <span className="uce-label"><Activity size={12} /> {t('المعلومات الجسدية')}</span>
                 <div className="uce-grid">
-                  {user.age    && <div className="uce-item"><span>العمر</span><strong>{user.age} سنة</strong></div>}
-                  {user.height && <div className="uce-item"><span>الطول</span><strong>{user.height} سم</strong></div>}
-                  {user.weight && <div className="uce-item"><span>الوزن</span><strong>{user.weight} كغ</strong></div>}
-                  {user.waist  && <div className="uce-item"><span>الخصر</span><strong>{user.waist} سم</strong></div>}
-                  {user.hips   && <div className="uce-item"><span>الأرداف</span><strong>{user.hips} سم</strong></div>}
+                  {user.age    && <div className="uce-item"><span>{t('العمر')}</span><strong>{user.age} {t('سنة')}</strong></div>}
+                  {user.height && <div className="uce-item"><span>{t('الطول')}</span><strong>{user.height} {t('سم')}</strong></div>}
+                  {user.weight && <div className="uce-item"><span>{t('الوزن')}</span><strong>{user.weight} {t('كغ')}</strong></div>}
+                  {user.waist  && <div className="uce-item"><span>{t('الخصر')}</span><strong>{user.waist} {t('سم')}</strong></div>}
+                  {user.hips   && <div className="uce-item"><span>{t('الأرداف')}</span><strong>{user.hips} {t('سم')}</strong></div>}
                 </div>
                 {user.health_notes && (
                   <div className="uce-notes"><FileText size={12} /> {user.health_notes}</div>
@@ -296,18 +297,18 @@ const UserCard = ({ user, index }) => {
               <div className="uce-section">
                 <span className="uce-label">
                   <CreditCard size={12} />
-                  {user.active_subscription ? 'الاشتراك النشط' : 'آخر اشتراك'}
+                  {user.active_subscription ? t('الاشتراك النشط') : t('آخر اشتراك')}
                 </span>
                 <div className="uce-grid">
-                  <div className="uce-item"><span>الخطة</span><strong>{PLAN_MAP[sub.plan_type] ?? sub.plan_type}</strong></div>
-                  <div className="uce-item"><span>المدة</span><strong>{DURATION_MAP[sub.duration] ?? sub.duration}</strong></div>
-                  <div className="uce-item"><span>المبلغ</span><strong>{fmtAmount(sub.amount, sub.currency)}</strong></div>
-                  <div className="uce-item"><span>الدفع</span><strong>{PAYMENT_MAP[sub.payment_method] ?? sub.payment_method}</strong></div>
+                  <div className="uce-item"><span>{t('الخطة')}</span><strong>{PLAN_MAP[sub.plan_type] ?? sub.plan_type}</strong></div>
+                  <div className="uce-item"><span>{t('المدة')}</span><strong>{DURATION_MAP[sub.duration] ?? sub.duration}</strong></div>
+                  <div className="uce-item"><span>{t('المبلغ')}</span><strong>{fmtAmount(sub.amount, sub.currency)}</strong></div>
+                  <div className="uce-item"><span>{t('الدفع')}</span><strong>{PAYMENT_MAP[sub.payment_method] ?? sub.payment_method}</strong></div>
                   {sub.discount_percentage > 0 && (
-                    <div className="uce-item"><span>الخصم</span><strong>{sub.discount_percentage}%</strong></div>
+                    <div className="uce-item"><span>{t('الخصم')}</span><strong>{sub.discount_percentage}%</strong></div>
                   )}
                   {sub.bank_transfer_number && (
-                    <div className="uce-item"><span>رقم التحويل</span><strong>{sub.bank_transfer_number}</strong></div>
+                    <div className="uce-item"><span>{t('رقم التحويل')}</span><strong>{sub.bank_transfer_number}</strong></div>
                   )}
                 </div>
                 {sub.notes && <div className="uce-notes"><FileText size={12} /> {sub.notes}</div>}
@@ -315,7 +316,7 @@ const UserCard = ({ user, index }) => {
             )}
 
             <div className="uce-footer">
-              <Hash size={11} /> إجمالي الاشتراكات: {user.subscriptions_count}
+              <Hash size={11} /> {t('إجمالي الاشتراكات:')} {user.subscriptions_count}
             </div>
           </motion.div>
         )}
@@ -355,15 +356,15 @@ const AllUsersList = () => {
       }
     } catch (err) {
       console.error(err);
-      Swal.fire({ icon: 'error', title: 'خطأ', text: 'حدث خطأ أثناء جلب البيانات', confirmButtonText: 'حسناً' });
+      Swal.fire({ icon: 'error', title: t('خطأ'), text: t('حدث خطأ أثناء جلب البيانات'), confirmButtonText: t('حسناً') });
     } finally {
       setIsLoading(false);
     }
   }, [searchTerm, filterGender, filterGoal, filterStatus]);
 
   useEffect(() => {
-    const t = setTimeout(() => { setPage(1); fetchUsers(1); }, 400);
-    return () => clearTimeout(t);
+    const tItem = setTimeout(() => { setPage(1); fetchUsers(1); }, 400);
+    return () => clearTimeout(tItem);
   }, [searchTerm, filterGender, filterGoal, filterStatus]);
 
   useEffect(() => { fetchUsers(page); }, [page]); // eslint-disable-line
@@ -396,11 +397,11 @@ const AllUsersList = () => {
   };
 
   const listContent = isLoading ? (
-    <div className="loading-state"><Loader size={34} className="spinner" /><p>جاري التحميل...</p></div>
+    <div className="loading-state"><Loader size={34} className="spinner" /><p>{t('جاري التحميل...')}</p></div>
   ) : users.length === 0 ? (
     <div className="empty-state">
-      <Users size={52} /><h3>لا يوجد مستخدمون</h3><p>لم يتم العثور على نتائج مطابقة</p>
-      {hasFilters && <button className="btn-outline" onClick={clearFilters}>مسح الفلاتر</button>}
+      <Users size={52} /><h3>{t('لا يوجد مستخدمون')}</h3><p>{t('لم يتم العثور على نتائج مطابقة')}</p>
+      {hasFilters && <button className="btn-outline" onClick={clearFilters}>{t('مسح الفلاتر')}</button>}
     </div>
   ) : null;
 
@@ -413,15 +414,15 @@ const AllUsersList = () => {
           <div className="header-content">
             <div className="title-section">
               <div className="breadcrumb">
-                <ChevronLeft size={15} /><span>لوحة التحكم</span>
-                <span className="sep">/</span><span className="active-crumb">جميع المستخدمين</span>
+                <ChevronLeft size={15} /><span>{t('لوحة التحكم')}</span>
+                <span className="sep">/</span><span className="active-crumb">{t('جميع المستخدمين')}</span>
               </div>
-              <h1 className="page-title"><Users size={26} />جميع المستخدمين</h1>
-              <p className="page-sub">عرض كامل لجميع المسجلين — اضغط على أي صف لرؤية التفاصيل الكاملة</p>
+              <h1 className="page-title"><Users size={26} />{t('جميع المستخدمين')}</h1>
+              <p className="page-sub">{t('عرض كامل لجميع المسجلين — اضغط على أي صف لرؤية التفاصيل الكاملة')}</p>
             </div>
             <motion.button className="btn-refresh" onClick={() => fetchUsers(page)}
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <RefreshCw size={15} />تحديث
+              <RefreshCw size={15} />{t('تحديث')}
             </motion.button>
           </div>
         </div>
@@ -432,10 +433,10 @@ const AllUsersList = () => {
         <motion.div className="stats-grid"
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           {[
-            { label: 'إجمالي المستخدمين', value: stats.total,   mod: 'primary', Icon: Users     },
-            { label: 'اشتراك نشط',         value: stats.active,  mod: 'success', Icon: UserCheck },
-            { label: 'اشتراك منتهي',       value: stats.expired, mod: 'danger',  Icon: UserX     },
-            { label: 'بدون اشتراك',        value: stats.none,    mod: 'warning', Icon: Clock     },
+            { label: t('إجمالي المستخدمين'), value: stats.total,   mod: 'primary', Icon: Users     },
+            { label: t('اشتراك نشط'),         value: stats.active,  mod: 'success', Icon: UserCheck },
+            { label: t('اشتراك منتهي'),       value: stats.expired, mod: 'danger',  Icon: UserX     },
+            { label: t('بدون اشتراك'),        value: stats.none,    mod: 'warning', Icon: Clock     },
           ].map(({ label, value, mod, Icon }) => (
             <div key={label} className={`stat-card stat-card--${mod}`}>
               <div className="stat-icon"><Icon size={20} /></div>
@@ -455,18 +456,18 @@ const AllUsersList = () => {
           <div className="toolbar-row">
             <div className="search-box">
               <Search size={16} className="search-ico" />
-              <input type="text" placeholder="ابحث بالاسم أو البريد أو الهاتف..."
+              <input type="text" placeholder={t('ابحث بالاسم أو البريد أو الهاتف...')}
                 value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
               {searchTerm && <button className="clear-btn" onClick={() => setSearchTerm('')}><X size={13} /></button>}
             </div>
             <button className={`filter-toggle ${isFiltersOpen ? 'open' : ''}`}
               onClick={() => setIsFiltersOpen((v) => !v)}>
-              <Filter size={15} />تصفية
+              <Filter size={15} />{t('تصفية')}
               {hasFilters && <span className="filter-dot" />}
               <ChevronDown size={13} className={`chevron ${isFiltersOpen ? 'open' : ''}`} />
             </button>
             {hasFilters && (
-              <button className="clear-filters-btn" onClick={clearFilters}><X size={13} />مسح</button>
+              <button className="clear-filters-btn" onClick={clearFilters}><X size={13} />{t('مسح')}</button>
             )}
           </div>
 
@@ -477,28 +478,28 @@ const AllUsersList = () => {
                 exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }}>
                 <div className="filters-row">
                   <div className="filter-item">
-                    <label>الجنس</label>
+                    <label>{t('الجنس')}</label>
                     <select value={filterGender} onChange={(e) => setFilterGender(e.target.value)}>
-                      <option value="">الكل</option><option value="female">أنثى</option><option value="male">ذكر</option>
+                      <option value="">{t('الكل')}</option><option value="female">{t('أنثى')}</option><option value="male">{t('ذكر')}</option>
                     </select>
                   </div>
                   <div className="filter-item">
-                    <label>الهدف</label>
+                    <label>{t('الهدف')}</label>
                     <select value={filterGoal} onChange={(e) => setFilterGoal(e.target.value)}>
-                      <option value="">الكل</option>
-                      <option value="weight-loss">خسارة وزن</option>
-                      <option value="muscle-gain">بناء عضلات</option>
-                      <option value="toning">تحسين القوام</option>
-                      <option value="fitness">لياقة عامة</option>
+                      <option value="">{t('الكل')}</option>
+                      <option value="weight-loss">{t('خسارة وزن')}</option>
+                      <option value="muscle-gain">{t('بناء عضلات')}</option>
+                      <option value="toning">{t('تحسين القوام')}</option>
+                      <option value="fitness">{t('لياقة عامة')}</option>
                     </select>
                   </div>
                   <div className="filter-item">
-                    <label>حالة الاشتراك</label>
+                    <label>{t('حالة الاشتراك')}</label>
                     <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-                      <option value="">الكل</option>
-                      <option value="active">نشط</option>
-                      <option value="expired">منتهي</option>
-                      <option value="none">بدون اشتراك</option>
+                      <option value="">{t('الكل')}</option>
+                      <option value="active">{t('نشط')}</option>
+                      <option value="expired">{t('منتهي')}</option>
+                      <option value="none">{t('بدون اشتراك')}</option>
                     </select>
                   </div>
                 </div>
@@ -507,7 +508,7 @@ const AllUsersList = () => {
           </AnimatePresence>
 
           <div className="results-line">
-            عرض <strong>{users.length}</strong> من أصل <strong>{meta.total}</strong> مستخدم
+            {t('عرض')} <strong>{users.length}</strong> {t('من أصل')} <strong>{meta.total}</strong> {t('مستخدم')}
           </div>
         </motion.div>
       </div>
@@ -520,8 +521,8 @@ const AllUsersList = () => {
             <table className="users-table">
               <thead>
                 <tr>
-                  <th>المستخدم</th><th>التواصل</th><th>التفاصيل</th>
-                  <th>الاشتراك</th><th>تاريخ التسجيل</th><th></th>
+                  <th>{t('المستخدم')}</th><th>{t('التواصل')}</th><th>{t('التفاصيل')}</th>
+                  <th>{t('الاشتراك')}</th><th>{t('تاريخ التسجيل')}</th><th></th>
                 </tr>
               </thead>
               <tbody>
@@ -554,7 +555,7 @@ const AllUsersList = () => {
           <motion.div className="pagination"
             initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}>
             <button className="pag-btn" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-              <ChevronRight size={15} /> السابق
+              <ChevronRight size={15} /> {t('السابق')}
             </button>
             <div className="pag-pages">
               {pageNumbers().map((p, i) =>
@@ -565,7 +566,7 @@ const AllUsersList = () => {
               )}
             </div>
             <button className="pag-btn" disabled={page >= meta.last_page} onClick={() => setPage((p) => p + 1)}>
-              التالي <ChevronPrev size={15} />
+              {t('التالي')} <ChevronPrev size={15} />
             </button>
           </motion.div>
         </div>

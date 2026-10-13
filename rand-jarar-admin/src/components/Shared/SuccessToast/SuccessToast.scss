@@ -3,7 +3,7 @@
 .success-toast {
   position: fixed;
   bottom: 2rem;
-  left: 2rem;
+  inset-inline-end: 2rem;
   background: #4caf50;
   color: #ffffff;
   padding: 1rem 1.5rem;
@@ -18,8 +18,8 @@
   max-width: 400px;
 
   @media (max-width: 768px) {
-    left: 1rem;
-    right: 1rem;
+    inset-inline-end: 1rem;
+    inset-inline-start: 1rem;
     max-width: none;
     bottom: 1rem;
   }

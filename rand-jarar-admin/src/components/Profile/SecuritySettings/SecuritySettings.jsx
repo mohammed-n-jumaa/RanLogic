@@ -8,6 +8,7 @@ import {
     Save
 } from 'lucide-react';
 import './SecuritySettings.scss';
+import { t } from '../../../i18n';
 
 const SecuritySettings = ({ onSave, isLoading }) => {
     const [formData, setFormData] = useState({
@@ -41,19 +42,19 @@ const SecuritySettings = ({ onSave, isLoading }) => {
         const newErrors = {};
 
         if (!formData.currentPassword) {
-            newErrors.currentPassword = 'كلمة المرور الحالية مطلوبة';
+            newErrors.currentPassword = t('كلمة المرور الحالية مطلوبة');
         }
 
         if (!formData.newPassword) {
-            newErrors.newPassword = 'كلمة المرور الجديدة مطلوبة';
+            newErrors.newPassword = t('كلمة المرور الجديدة مطلوبة');
         } else if (formData.newPassword.length < 8) {
-            newErrors.newPassword = 'كلمة المرور يجب أن تكون 8 أحرف على الأقل';
+            newErrors.newPassword = t('كلمة المرور يجب أن تكون 8 أحرف على الأقل');
         }
 
         if (!formData.confirmPassword) {
-            newErrors.confirmPassword = 'تأكيد كلمة المرور مطلوب';
+            newErrors.confirmPassword = t('تأكيد كلمة المرور مطلوب');
         } else if (formData.newPassword !== formData.confirmPassword) {
-            newErrors.confirmPassword = 'كلمات المرور غير متطابقة';
+            newErrors.confirmPassword = t('كلمات المرور غير متطابقة');
         }
 
         setErrors(newErrors);
@@ -83,10 +84,10 @@ const SecuritySettings = ({ onSave, isLoading }) => {
     };
 
     const passwordRequirements = [
-        { label: '8 أحرف على الأقل', test: val => val.length >= 8 },
-        { label: 'حرف كبير واحد على الأقل', test: val => /[A-Z]/.test(val) },
-        { label: 'حرف صغير واحد على الأقل', test: val => /[a-z]/.test(val) },
-        { label: 'رقم واحد على الأقل', test: val => /\d/.test(val) }
+        { label: t('8 أحرف على الأقل'), test: val => val.length >= 8 },
+        { label: t('حرف كبير واحد على الأقل'), test: val => /[A-Z]/.test(val) },
+        { label: t('حرف صغير واحد على الأقل'), test: val => /[a-z]/.test(val) },
+        { label: t('رقم واحد على الأقل'), test: val => /\d/.test(val) }
     ];
 
     const hasAnyInput = formData.currentPassword || formData.newPassword || formData.confirmPassword;
@@ -96,8 +97,8 @@ const SecuritySettings = ({ onSave, isLoading }) => {
             <div className="security-header-section">
                 <Lock className="header-icon" />
                 <div className="header-text">
-                    <h2 className="header-title">تغيير كلمة المرور</h2>
-                    <p className="header-subtitle">قم بتحديث كلمة المرور لتعزيز أمان حسابك</p>
+                    <h2 className="header-title">{t('تغيير كلمة المرور')}</h2>
+                    <p className="header-subtitle">{t('قم بتحديث كلمة المرور لتعزيز أمان حسابك')}</p>
                 </div>
             </div>
 
@@ -107,7 +108,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                     <div className="password-fields">
                         {/* كلمة المرور الحالية */}
                         <div className="input-group">
-                            <label className="input-label">كلمة المرور الحالية</label>
+                            <label className="input-label">{t('كلمة المرور الحالية')}</label>
                             <div className="password-input-container">
                                 <input
                                     type={showPasswords.current ? 'text' : 'password'}
@@ -115,7 +116,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                                     className={`input-field password-field ${errors.currentPassword ? 'error' : ''}`}
                                     value={formData.currentPassword}
                                     onChange={handleChange}
-                                    placeholder="أدخل كلمة المرور الحالية"
+                                    placeholder={t('أدخل كلمة المرور الحالية')}
                                 />
                                 <button
                                     type="button"
@@ -136,7 +137,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
 
                         {/* كلمة المرور الجديدة */}
                         <div className="input-group">
-                            <label className="input-label">كلمة المرور الجديدة</label>
+                            <label className="input-label">{t('كلمة المرور الجديدة')}</label>
                             <div className="password-input-container">
                                 <input
                                     type={showPasswords.new ? 'text' : 'password'}
@@ -144,7 +145,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                                     className={`input-field password-field ${errors.newPassword ? 'error' : ''}`}
                                     value={formData.newPassword}
                                     onChange={handleChange}
-                                    placeholder="أدخل كلمة المرور الجديدة"
+                                    placeholder={t('أدخل كلمة المرور الجديدة')}
                                 />
                                 <button
                                     type="button"
@@ -165,7 +166,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
 
                         {/* تأكيد كلمة المرور */}
                         <div className="input-group">
-                            <label className="input-label">تأكيد كلمة المرور</label>
+                            <label className="input-label">{t('تأكيد كلمة المرور')}</label>
                             <div className="password-input-container">
                                 <input
                                     type={showPasswords.confirm ? 'text' : 'password'}
@@ -173,7 +174,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                                     className={`input-field password-field ${errors.confirmPassword ? 'error' : ''}`}
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
-                                    placeholder="أعد إدخال كلمة المرور الجديدة"
+                                    placeholder={t('أعد إدخال كلمة المرور الجديدة')}
                                 />
                                 <button
                                     type="button"
@@ -195,7 +196,7 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                         {/* متطلبات كلمة المرور */}
                         {formData.newPassword && (
                             <div className="requirements-box">
-                                <p className="requirements-heading">متطلبات كلمة المرور:</p>
+                                <p className="requirements-heading">{t('متطلبات كلمة المرور:')}</p>
                                 <ul className="requirements-list">
                                     {passwordRequirements.map((req, i) => {
                                         const valid = req.test(formData.newPassword);
@@ -225,12 +226,12 @@ const SecuritySettings = ({ onSave, isLoading }) => {
                         {isLoading ? (
                             <>
                                 <div className="spinner-btn"></div>
-                                جاري الحفظ...
+                                {t('جاري الحفظ...')}
                             </>
                         ) : (
                             <>
                                 <Save className="btn-icon" />
-                                حفظ التغييرات
+                                {t('حفظ التغييرات')}
                             </>
                         )}
                     </button>

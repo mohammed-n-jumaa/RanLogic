@@ -42,8 +42,8 @@
   &__progress {
     position: fixed;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     height: 3px;
     background: var(--bg-hover);
     z-index: 998;
@@ -250,7 +250,7 @@
   &__current-actions {
     position: absolute;
     top: 0.6rem;
-    left: 0.6rem;
+    inset-inline-end: 0.6rem;
     display: flex;
     gap: 0.3rem;
   }
@@ -288,10 +288,10 @@
     flex: 1;
     padding: 0.6rem 0.7rem;
     text-align: center;
-    border-left: 1px solid var(--border-color);
+    border-inline-end: 1px solid var(--border-color);
 
     &:last-child {
-      border-left: none;
+      border-inline-end: none;
     }
   }
 

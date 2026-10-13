@@ -1,4 +1,5 @@
 import apiClient from './apiClient';
+import { t } from '../i18n';
 
 /**
  * Authentication API Service
@@ -40,7 +41,7 @@ const authApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل تسجيل الدخول',
+        message: error.response?.data?.message || t('فشل تسجيل الدخول'),
         errors: error.response?.data?.errors,
       };
     }
@@ -63,7 +64,7 @@ const authApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل جلب معلومات المستخدم',
+        message: error.response?.data?.message || t('فشل جلب معلومات المستخدم'),
       };
     }
   },
@@ -90,7 +91,7 @@ const authApi = {
       
       return {
         success: false,
-        message: error.response?.data?.message || 'فشل تسجيل الخروج',
+        message: error.response?.data?.message || t('فشل تسجيل الخروج'),
       };
     }
   },
@@ -117,7 +118,7 @@ const authApi = {
       
       return {
         success: false,
-        message: error.response?.data?.message || 'فشل تسجيل الخروج',
+        message: error.response?.data?.message || t('فشل تسجيل الخروج'),
       };
     }
   },
@@ -145,7 +146,7 @@ const authApi = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || 'فشل تحديث الجلسة',
+        message: error.response?.data?.message || t('فشل تحديث الجلسة'),
       };
     }
   },

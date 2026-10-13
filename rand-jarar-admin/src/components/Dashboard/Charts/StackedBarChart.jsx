@@ -10,6 +10,7 @@ import {
   Legend
 } from 'recharts';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const StackedBarChart = ({ data = [], height = 300 }) => {
   const [chartData, setChartData] = useState([]);
@@ -20,12 +21,12 @@ const StackedBarChart = ({ data = [], height = 300 }) => {
       setChartData(data);
     } else {
       setChartData([
-        { month: 'يناير', workout: 75, nutrition: 82 },
-        { month: 'فبراير', workout: 78, nutrition: 85 },
-        { month: 'مارس', workout: 72, nutrition: 80 },
-        { month: 'أبريل', workout: 80, nutrition: 88 },
-        { month: 'مايو', workout: 85, nutrition: 90 },
-        { month: 'يونيو', workout: 82, nutrition: 87 },
+        { month: t('يناير'), workout: 75, nutrition: 82 },
+        { month: t('فبراير'), workout: 78, nutrition: 85 },
+        { month: t('مارس'), workout: 72, nutrition: 80 },
+        { month: t('أبريل'), workout: 80, nutrition: 88 },
+        { month: t('مايو'), workout: 85, nutrition: 90 },
+        { month: t('يونيو'), workout: 82, nutrition: 87 },
       ]);
     }
   }, [data]);
@@ -62,27 +63,27 @@ const StackedBarChart = ({ data = [], height = 300 }) => {
               color: 'var(--text-primary)'
             }}
             formatter={(value, name) => {
-              const label = name === 'workout' ? 'التمارين' : 'التغذية';
+              const label = name === 'workout' ? t('التمارين') : t('التغذية');
               return [`${value}%`, label];
             }}
-            labelFormatter={(label) => `الشهر: ${label}`}
+            labelFormatter={(label) => t('الشهر: {0}', label)}
           />
           <Legend 
-            formatter={(value) => value === 'workout' ? 'التمارين' : 'التغذية'}
+            formatter={(value) => value === 'workout' ? t('التمارين') : t('التغذية')}
           />
           <Bar 
             dataKey="workout" 
             stackId="a" 
             fill="#2196f3"
             radius={[4, 4, 0, 0]}
-            name="التمارين"
+            name={t('التمارين')}
           />
           <Bar 
             dataKey="nutrition" 
             stackId="a" 
             fill="#4caf50"
             radius={[4, 4, 0, 0]}
-            name="التغذية"
+            name={t('التغذية')}
           />
         </RechartsBarChart>
       </ResponsiveContainer>

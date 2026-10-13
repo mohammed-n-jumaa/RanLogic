@@ -210,7 +210,7 @@
     height: 100%;
     overflow-y: auto;
     @include custom-scrollbar;
-    padding-right: $spacing-xs;
+    padding-inline-start: $spacing-xs;
   }
 
   // ── Empty ──
@@ -421,7 +421,7 @@
   position: relative;
 
   &--unread {
-    border-right: 3px solid $primary-pink;
+    border-inline-start: 3px solid $primary-pink;
     background: rgba($primary-pink, 0.02);
   }
 
@@ -497,7 +497,7 @@
   &__online-dot {
     position: absolute;
     bottom: 1px;
-    right: 1px;
+    inset-inline-start: 1px;
     width: 10px;
     height: 10px;
     background: $success;
@@ -695,7 +695,7 @@
 .chat-dropdown {
   position: absolute;
   top: calc(100% + 4px);
-  left: 0;
+  inset-inline-end: 0;
   min-width: 160px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -705,8 +705,8 @@
   overflow: hidden;
 
   &--item {
-    left: auto;
-    right: 0;
+    inset-inline-end: auto;
+    inset-inline-start: 0;
   }
 
   &__item {
@@ -721,8 +721,8 @@
     font-size: 0.8rem;
     cursor: pointer;
     transition: all $transition-normal;
-    text-align: right;
-    direction: rtl;
+    text-align: start;
+    // direction follows <html dir>
 
     &:hover {
       background: var(--bg-hover);

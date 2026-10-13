@@ -98,7 +98,7 @@
   &__btn-dot {
     position: absolute;
     top: 6px;
-    right: 6px;
+    inset-inline-start: 6px;
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -156,8 +156,8 @@
 
     @include mobile {
       width: 280px;
-      left: auto;
-      right: -40px;
+      inset-inline-end: auto;
+      inset-inline-start: -40px;
       transform: none;
     }
   }

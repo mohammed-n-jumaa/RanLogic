@@ -1,3 +1,4 @@
+import { t } from '../i18n';
 // بيانات تجريبية للداشبورد
 export const generateMockData = (timeFilter) => {
   const data = {
@@ -73,67 +74,67 @@ export const generateMockData = (timeFilter) => {
 
   // بيانات النمو
   data.growthData = [
-    { month: 'يناير', subscriptions: 120 },
-    { month: 'فبراير', subscriptions: 135 },
-    { month: 'مارس', subscriptions: 148 },
-    { month: 'أبريل', subscriptions: 142 },
-    { month: 'مايو', subscriptions: 156 },
-    { month: 'يونيو', subscriptions: 162 },
+    { month: t('يناير'), subscriptions: 120 },
+    { month: t('فبراير'), subscriptions: 135 },
+    { month: t('مارس'), subscriptions: 148 },
+    { month: t('أبريل'), subscriptions: 142 },
+    { month: t('مايو'), subscriptions: 156 },
+    { month: t('يونيو'), subscriptions: 162 },
   ];
 
   // بيانات الدخل
   data.revenueData = [
-    { day: 'السبت', revenue: 1200 },
-    { day: 'الأحد', revenue: 1800 },
-    { day: 'الإثنين', revenue: 1500 },
-    { day: 'الثلاثاء', revenue: 2200 },
-    { day: 'الأربعاء', revenue: 1900 },
-    { day: 'الخميس', revenue: 2500 },
-    { day: 'الجمعة', revenue: 2100 },
+    { day: t('السبت'), revenue: 1200 },
+    { day: t('الأحد'), revenue: 1800 },
+    { day: t('الإثنين'), revenue: 1500 },
+    { day: t('الثلاثاء'), revenue: 2200 },
+    { day: t('الأربعاء'), revenue: 1900 },
+    { day: t('الخميس'), revenue: 2500 },
+    { day: t('الجمعة'), revenue: 2100 },
   ];
 
   // بيانات حالات الدفع
   data.paymentStatusData = [
-    { name: 'مدفوع', value: 156, color: '#4caf50' },
-    { name: 'قيد الانتظار', value: 24, color: '#ff9800' },
-    { name: 'منتهي', value: 12, color: '#f44336' },
-    { name: 'ملغي', value: 8, color: '#9e9e9e' },
+    { name: t('مدفوع'), value: 156, color: '#4caf50' },
+    { name: t('قيد الانتظار'), value: 24, color: '#ff9800' },
+    { name: t('منتهي'), value: 12, color: '#f44336' },
+    { name: t('ملغي'), value: 8, color: '#9e9e9e' },
   ];
 
   // بيانات أنواع البرامج
   data.programTypeData = [
-    { name: 'تنشيف', value: 65, color: '#e91e63' },
-    { name: 'نحت', value: 45, color: '#9c27b0' },
-    { name: 'زيادة عضل', value: 30, color: '#2196f3' },
-    { name: 'لياقة عامة', value: 25, color: '#4caf50' },
-    { name: 'تغذية', value: 15, color: '#ff9800' },
+    { name: t('تنشيف'), value: 65, color: '#e91e63' },
+    { name: t('نحت'), value: 45, color: '#9c27b0' },
+    { name: t('زيادة عضل'), value: 30, color: '#2196f3' },
+    { name: t('لياقة عامة'), value: 25, color: '#4caf50' },
+    { name: t('تغذية'), value: 15, color: '#ff9800' },
   ];
 
   // بيانات إنجاز البرامج
   data.programCompletionData = [
-    { program: 'تنشيف', completion: 82 },
-    { program: 'نحت', completion: 75 },
-    { program: 'زيادة عضل', completion: 68 },
-    { program: 'لياقة عامة', completion: 88 },
-    { program: 'تغذية', completion: 92 },
+    { program: t('تنشيف'), completion: 82 },
+    { program: t('نحت'), completion: 75 },
+    { program: t('زيادة عضل'), completion: 68 },
+    { program: t('لياقة عامة'), completion: 88 },
+    { program: t('تغذية'), completion: 92 },
   ];
 
   // بيانات التفاعل
   data.engagementData = [
-    { month: 'يناير', workout: 75, nutrition: 82 },
-    { month: 'فبراير', workout: 78, nutrition: 85 },
-    { month: 'مارس', workout: 72, nutrition: 80 },
-    { month: 'أبريل', workout: 80, nutrition: 88 },
-    { month: 'مايو', workout: 85, nutrition: 90 },
-    { month: 'يونيو', workout: 82, nutrition: 87 },
+    { month: t('يناير'), workout: 75, nutrition: 82 },
+    { month: t('فبراير'), workout: 78, nutrition: 85 },
+    { month: t('مارس'), workout: 72, nutrition: 80 },
+    { month: t('أبريل'), workout: 80, nutrition: 88 },
+    { month: t('مايو'), workout: 85, nutrition: 90 },
+    { month: t('يونيو'), workout: 82, nutrition: 87 },
   ];
 
   // بيانات المسار
   data.funnelData = [
-    { stage: 'التسجيلات', value: 200, fill: '#e91e63' },
-    { stage: 'اشتراكات نشطة', value: 156, fill: '#9c27b0' },
-    { stage: 'التجديدات', value: 120, fill: '#2196f3' },
-    { stage: 'منتهية', value: 45, fill: '#4caf50' },
+    { stage: t('التسجيلات'), value: 200, fill: '#e91e63' },
+    { stage: t('اشتراكات نشطة'), value: 156, fill: '#9c27b0' },
+    { stage: t('التجديدات'), value: 120, fill: '#2196f3' },
+    { stage: t('منتهية'), value: 45, fill: '#4caf50' },
   ];
 
   // بيانات التنبيهات
@@ -141,7 +142,7 @@ export const generateMockData = (timeFilter) => {
     {
       id: 1,
       type: 'warning',
-      title: 'اشتراكات تنتهي خلال 3 أيام',
+      title: t('اشتراكات تنتهي خلال 3 أيام'),
       count: 8,
       icon: 'Clock',
       color: '#ff9800'
@@ -149,7 +150,7 @@ export const generateMockData = (timeFilter) => {
     {
       id: 2,
       type: 'info',
-      title: 'اشتراكات تنتهي خلال 7 أيام',
+      title: t('اشتراكات تنتهي خلال 7 أيام'),
       count: 15,
       icon: 'Calendar',
       color: '#2196f3'
@@ -157,7 +158,7 @@ export const generateMockData = (timeFilter) => {
     {
       id: 3,
       type: 'danger',
-      title: 'مدفوعات متأخرة',
+      title: t('مدفوعات متأخرة'),
       count: 5,
       icon: 'AlertCircle',
       color: '#f44336'
@@ -165,7 +166,7 @@ export const generateMockData = (timeFilter) => {
     {
       id: 4,
       type: 'success',
-      title: 'تجديدات هذا الشهر',
+      title: t('تجديدات هذا الشهر'),
       count: 23,
       icon: 'Users',
       color: '#4caf50'
@@ -177,22 +178,22 @@ export const generateMockData = (timeFilter) => {
     {
       id: 1,
       icon: 'TrendingUp',
-      text: 'هذا الشهر شهد زيادة 18% في الاشتراكات'
+      text: t('هذا الشهر شهد زيادة 18% في الاشتراكات')
     },
     {
       id: 2,
       icon: 'Target',
-      text: 'برامج التنشيف هي الأكثر طلبًا'
+      text: t('برامج التنشيف هي الأكثر طلبًا')
     },
     {
       id: 3,
       icon: 'Activity',
-      text: 'الالتزام الغذائي أعلى من الالتزام الرياضي'
+      text: t('الالتزام الغذائي أعلى من الالتزام الرياضي')
     },
     {
       id: 4,
       icon: 'TrendingUp',
-      text: 'نسبة تجديد الاشتراكات 75%'
+      text: t('نسبة تجديد الاشتراكات 75%')
     }
   ];
 

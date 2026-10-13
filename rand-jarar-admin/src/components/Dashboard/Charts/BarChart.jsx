@@ -10,6 +10,7 @@ import {
   Legend
 } from 'recharts';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const BarChart = ({ data = [], height = 300 }) => {
   const [chartData, setChartData] = useState([]);
@@ -20,11 +21,11 @@ const BarChart = ({ data = [], height = 300 }) => {
       setChartData(data);
     } else {
       setChartData([
-        { program: 'تنشيف', completion: 82 },
-        { program: 'نحت', completion: 75 },
-        { program: 'زيادة عضل', completion: 68 },
-        { program: 'لياقة عامة', completion: 88 },
-        { program: 'تغذية', completion: 92 },
+        { program: t('تنشيف'), completion: 82 },
+        { program: t('نحت'), completion: 75 },
+        { program: t('زيادة عضل'), completion: 68 },
+        { program: t('لياقة عامة'), completion: 88 },
+        { program: t('تغذية'), completion: 92 },
       ]);
     }
   }, [data]);
@@ -60,15 +61,15 @@ const BarChart = ({ data = [], height = 300 }) => {
               borderColor: 'var(--border-color)',
               color: 'var(--text-primary)'
             }}
-            formatter={(value) => [`${value}%`, 'نسبة الإنجاز']}
-            labelFormatter={(label) => `البرنامج: ${label}`}
+            formatter={(value) => [`${value}%`, t('نسبة الإنجاز')]}
+            labelFormatter={(label) => t('البرنامج: {0}', label)}
           />
           <Legend />
           <Bar 
             dataKey="completion" 
             fill="#e91e63"
             radius={[4, 4, 0, 0]}
-            name="نسبة الإنجاز"
+            name={t('نسبة الإنجاز')}
           />
         </RechartsBarChart>
       </ResponsiveContainer>

@@ -21,8 +21,8 @@
   // ── Mobile: bottom sheet ──
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  inset-inline-end: 0;
+  inset-inline-start: 0;
   z-index: 200;
   background: var(--bg-card);
   border-top: 1px solid var(--border-color);
@@ -36,8 +36,8 @@
   @media (min-width: $tablet) {
     position: relative;
     bottom: auto;
-    left: auto;
-    right: auto;
+    inset-inline-end: auto;
+    inset-inline-start: auto;
     z-index: auto;
     width: min(580px, calc(100vw - 2rem));
     max-height: min(85vh, 700px);
@@ -152,7 +152,7 @@
 
   &__notes {
     background: var(--bg-hover);
-    border-right: 3px solid $primary-pink;
+    border-inline-start: 3px solid $primary-pink;
     border-radius: 0 $radius-md $radius-md 0;
     padding: 0.75rem 0.875rem;
   }

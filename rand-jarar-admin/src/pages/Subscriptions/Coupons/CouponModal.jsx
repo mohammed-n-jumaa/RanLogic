@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Ticket, Percent, DollarSign } from 'lucide-react';
+import { t } from '../../../i18n';
 
 const PLANS = [
     { key: 'basic', label: 'Basic' },
@@ -10,9 +11,9 @@ const PLANS = [
 ];
 
 const DURATIONS = [
-    { key: '1month', label: '1 شهر' },
-    { key: '3months', label: '3 أشهر' },
-    { key: '6months', label: '6 أشهر' },
+    { key: '1month', label: t('1 شهر') },
+    { key: '3months', label: t('3 أشهر') },
+    { key: '6months', label: t('6 أشهر') },
 ];
 
 const EMPTY_FORM = {
@@ -104,7 +105,7 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                         <div className="coupon-modal__header">
                             <div className="coupon-modal__header-left">
                                 <Ticket size={20} />
-                                <span>{isEdit ? 'تعديل كود الخصم' : 'إنشاء كود خصم جديد'}</span>
+                                <span>{isEdit ? t('تعديل كود الخصم') : t('إنشاء كود خصم جديد')}</span>
                             </div>
                             <button className="coupon-modal__close" onClick={onClose}>
                                 <X size={18} />
@@ -115,7 +116,7 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                         <div className="coupon-modal__body" onSubmit={handleSubmit}>
                             {/* Code */}
                             <div className="coupon-modal__field">
-                                <label>كود الخصم</label>
+                                <label>{t('كود الخصم')}</label>
                                 <input
                                     type="text"
                                     value={form.code}
@@ -128,27 +129,27 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                             {/* Discount type + value */}
                             <div className="coupon-modal__row">
                                 <div className="coupon-modal__field">
-                                    <label>نوع الخصم</label>
+                                    <label>{t('نوع الخصم')}</label>
                                     <div className="coupon-modal__type-toggle">
                                         <button
                                             type="button"
                                             className={form.discount_type === 'percentage' ? 'active' : ''}
                                             onClick={() => handleChange('discount_type', 'percentage')}
                                         >
-                                            <Percent size={14} /> نسبة %
+                                            <Percent size={14} /> {t('نسبة %')}
                                         </button>
                                         <button
                                             type="button"
                                             className={form.discount_type === 'fixed' ? 'active' : ''}
                                             onClick={() => handleChange('discount_type', 'fixed')}
                                         >
-                                            <DollarSign size={14} /> مبلغ ثابت
+                                            <DollarSign size={14} /> {t('مبلغ ثابت')}
                                         </button>
                                     </div>
                                 </div>
                                 <div className="coupon-modal__field">
                                     <label>
-                                        {form.discount_type === 'percentage' ? 'النسبة (%)' : 'المبلغ ($)'}
+                                        {form.discount_type === 'percentage' ? t('النسبة (%)') : t('المبلغ ($)')}
                                     </label>
                                     <input
                                         type="number"
@@ -166,31 +167,31 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                             {/* Min amount + Max uses */}
                             <div className="coupon-modal__row">
                                 <div className="coupon-modal__field">
-                                    <label>الحد الأدنى للمبلغ ($)</label>
+                                    <label>{t('الحد الأدنى للمبلغ ($)')}</label>
                                     <input
                                         type="number"
                                         step="0.01"
                                         min="0"
                                         value={form.min_amount}
                                         onChange={(e) => handleChange('min_amount', e.target.value)}
-                                        placeholder="اختياري"
+                                        placeholder={t('اختياري')}
                                     />
                                 </div>
                                 <div className="coupon-modal__field">
-                                    <label>الحد الأقصى للاستخدام</label>
+                                    <label>{t('الحد الأقصى للاستخدام')}</label>
                                     <input
                                         type="number"
                                         min="1"
                                         value={form.max_uses}
                                         onChange={(e) => handleChange('max_uses', e.target.value)}
-                                        placeholder="غير محدود"
+                                        placeholder={t('غير محدود')}
                                     />
                                 </div>
                             </div>
 
                             {/* Allowed plans */}
                             <div className="coupon-modal__field">
-                                <label>الخطط المسموحة <span className="coupon-modal__hint">(اتركها فارغة = كل الخطط)</span></label>
+                                <label>{t('الخطط المسموحة')} <span className="coupon-modal__hint">{t('(اتركها فارغة = كل الخطط)')}</span></label>
                                 <div className="coupon-modal__chips">
                                     {PLANS.map(p => (
                                         <button
@@ -207,7 +208,7 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
 
                             {/* Allowed durations */}
                             <div className="coupon-modal__field">
-                                <label>المدد المسموحة <span className="coupon-modal__hint">(اتركها فارغة = كل المدد)</span></label>
+                                <label>{t('المدد المسموحة')} <span className="coupon-modal__hint">{t('(اتركها فارغة = كل المدد)')}</span></label>
                                 <div className="coupon-modal__chips">
                                     {DURATIONS.map(d => (
                                         <button
@@ -225,7 +226,7 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                             {/* Dates */}
                             <div className="coupon-modal__row">
                                 <div className="coupon-modal__field">
-                                    <label>تاريخ البداية</label>
+                                    <label>{t('تاريخ البداية')}</label>
                                     <input
                                         type="datetime-local"
                                         value={form.starts_at}
@@ -233,7 +234,7 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                                     />
                                 </div>
                                 <div className="coupon-modal__field">
-                                    <label>تاريخ الانتهاء</label>
+                                    <label>{t('تاريخ الانتهاء')}</label>
                                     <input
                                         type="datetime-local"
                                         value={form.expires_at}
@@ -244,13 +245,13 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
 
                             {/* Active toggle */}
                             <div className="coupon-modal__field coupon-modal__toggle-row">
-                                <label>الحالة</label>
+                                <label>{t('الحالة')}</label>
                                 <button
                                     type="button"
                                     className={`coupon-modal__status-btn ${form.is_active ? 'active' : 'inactive'}`}
                                     onClick={() => handleChange('is_active', !form.is_active)}
                                 >
-                                    {form.is_active ? 'مفعل' : 'معطل'}
+                                    {form.is_active ? t('مفعل') : t('معطل')}
                                 </button>
                             </div>
                         </div>
@@ -258,10 +259,10 @@ const CouponModal = ({ isOpen, onClose, onSubmit, coupon, isSaving }) => {
                         {/* Footer */}
                         <div className="coupon-modal__footer">
                             <button className="coupon-modal__btn coupon-modal__btn--cancel" onClick={onClose} disabled={isSaving}>
-                                إلغاء
+                                {t('إلغاء')}
                             </button>
                             <button className="coupon-modal__btn coupon-modal__btn--save" onClick={handleSubmit} disabled={isSaving}>
-                                {isSaving ? 'جاري الحفظ...' : isEdit ? 'تحديث' : 'إنشاء'}
+                                {isSaving ? t('جاري الحفظ...') : isEdit ? t('تحديث') : t('إنشاء')}
                             </button>
                         </div>
                     </motion.div>

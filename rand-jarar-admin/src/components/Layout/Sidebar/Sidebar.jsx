@@ -6,7 +6,9 @@ import Swal from 'sweetalert2';
 import { sidebarSections } from '../../../data/sidebarData';
 import aboutCoachApi from '../../../api/aboutCoachApi';
 import authApi from '../../../api/authApi';
+import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import './Sidebar.scss';
+import { t } from '../../../i18n';
 
 // ─── Section Accordion ───────────────────────────────────────────────────────
 
@@ -111,14 +113,14 @@ const Sidebar = () => {
   // Logout
   const handleLogout = async () => {
     const result = await Swal.fire({
-      title: 'تسجيل الخروج',
-      text: 'هل أنت متأكد من تسجيل الخروج؟',
+      title: t('تسجيل الخروج'),
+      text: t('هل أنت متأكد من تسجيل الخروج؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#f44336',
       cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، تسجيل الخروج',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، تسجيل الخروج'),
+      cancelButtonText: t('إلغاء'),
       reverseButtons: true,
     });
     if (!result.isConfirmed) return;
@@ -149,7 +151,7 @@ const Sidebar = () => {
       <button
         className={`sb-orb ${isOpen ? 'sb-orb--open' : ''}`}
         onClick={isOpen ? handleClose : handleOpen}
-        aria-label={isOpen ? 'إغلاق القائمة' : 'فتح القائمة'}
+        aria-label={isOpen ? t('إغلاق القائمة') : t('فتح القائمة')}
       >
         {!isOpen && <span className="sb-orb__glow" />}
         <LayoutPanelLeft size={isOpen ? 17 : 21} className="sb-orb__icon" />
@@ -177,6 +179,11 @@ const Sidebar = () => {
             {coach.role && <div className="sb-profile__role">{coach.role}</div>}
           </div>
 
+          {/* Language */}
+
+          <LanguageSwitcher variant="sidebar" />
+
+
           {/* Navigation */}
           <nav className="sb-nav">
             {navSections.map((section, i) => (
@@ -200,7 +207,7 @@ const Sidebar = () => {
               disabled={isLoggingOut}
             >
               <LogOut size={17} />
-              <span>{isLoggingOut ? 'جاري الخروج...' : 'تسجيل الخروج'}</span>
+              <span>{isLoggingOut ? t('جاري الخروج...') : t('تسجيل الخروج')}</span>
             </button>
             <div className="sb-version">v1.0.0 — © 2025 Rand Jarar</div>
           </div>

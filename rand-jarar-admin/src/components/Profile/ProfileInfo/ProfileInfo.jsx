@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, User, Phone, Save } from 'lucide-react';
 import './ProfileInfo.scss';
+import { t } from '../../../i18n';
 
 const ProfileInfo = ({ userData, onSave, isLoading }) => {
   const [formData, setFormData] = useState({
@@ -48,19 +49,19 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'الاسم مطلوب';
+      newErrors.name = t('الاسم مطلوب');
     } else if (formData.name.length > 255) {
-      newErrors.name = 'الاسم يجب أن لا يتجاوز 255 حرف';
+      newErrors.name = t('الاسم يجب أن لا يتجاوز 255 حرف');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'البريد الإلكتروني مطلوب';
+      newErrors.email = t('البريد الإلكتروني مطلوب');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'البريد الإلكتروني غير صالح';
+      newErrors.email = t('البريد الإلكتروني غير صالح');
     }
 
     if (formData.phone && formData.phone.length > 20) {
-      newErrors.phone = 'رقم الهاتف يجب أن لا يتجاوز 20 حرف';
+      newErrors.phone = t('رقم الهاتف يجب أن لا يتجاوز 20 حرف');
     }
 
     setErrors(newErrors);
@@ -92,8 +93,8 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
       <div className="info-header">
         <User size={24} />
         <div className="header-text">
-          <h2>المعلومات الشخصية</h2>
-          <p>تحديث بياناتك الأساسية</p>
+          <h2>{t('المعلومات الشخصية')}</h2>
+          <p>{t('تحديث بياناتك الأساسية')}</p>
         </div>
       </div>
 
@@ -103,7 +104,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
           <div className="field-wrapper">
             <label className="field-label">
               <User size={16} />
-              الاسم الكامل
+              {t('الاسم الكامل')}
             </label>
             <input
               type="text"
@@ -111,7 +112,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
               className={`field-input ${errors.name ? 'error' : ''}`}
               value={formData.name}
               onChange={handleChange}
-              placeholder="أدخل اسمك الكامل"
+              placeholder={t('أدخل اسمك الكامل')}
             />
             {errors.name && (
               <span className="error-text">{errors.name}</span>
@@ -122,7 +123,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
           <div className="field-wrapper">
             <label className="field-label">
               <Mail size={16} />
-              البريد الإلكتروني
+              {t('البريد الإلكتروني')}
             </label>
             <input
               type="email"
@@ -130,7 +131,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
               className={`field-input ${errors.email ? 'error' : ''}`}
               value={formData.email}
               onChange={handleChange}
-              placeholder="أدخل بريدك الإلكتروني"
+              placeholder={t('أدخل بريدك الإلكتروني')}
             />
             {errors.email && (
               <span className="error-text">{errors.email}</span>
@@ -141,7 +142,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
           <div className="field-wrapper">
             <label className="field-label">
               <Phone size={16} />
-              رقم الهاتف
+              {t('رقم الهاتف')}
             </label>
             <input
               type="tel"
@@ -149,7 +150,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
               className={`field-input ${errors.phone ? 'error' : ''}`}
               value={formData.phone}
               onChange={handleChange}
-              placeholder="أدخل رقم هاتفك (اختياري)"
+              placeholder={t('أدخل رقم هاتفك (اختياري)')}
             />
             {errors.phone && (
               <span className="error-text">{errors.phone}</span>
@@ -165,7 +166,7 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
             onClick={handleReset}
             disabled={!hasChanges || isLoading}
           >
-            إلغاء
+            {t('إلغاء')}
           </button>
           <button
             type="submit"
@@ -175,12 +176,12 @@ const ProfileInfo = ({ userData, onSave, isLoading }) => {
             {isLoading ? (
               <>
                 <div className="spinner"></div>
-                جاري الحفظ...
+                {t('جاري الحفظ...')}
               </>
             ) : (
               <>
                 <Save size={18} />
-                حفظ التغييرات
+                {t('حفظ التغييرات')}
               </>
             )}
           </button>

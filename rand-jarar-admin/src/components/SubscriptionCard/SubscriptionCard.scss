@@ -14,8 +14,8 @@
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
     height: 4px;
     background: linear-gradient(135deg, $primary-pink 0%, $primary-pink-dark 100%);
   }
@@ -255,7 +255,7 @@
   &__discount {
     color: $success;
     font-size: 0.85rem;
-    margin-right: $spacing-xs;
+    margin-inline-start: $spacing-xs;
   }
   
   &__expired-badge {
@@ -266,7 +266,7 @@
     border-radius: $radius-sm;
     font-size: 0.75rem;
     font-weight: 600;
-    margin-right: $spacing-xs;
+    margin-inline-start: $spacing-xs;
   }
   
   &__receipt {
@@ -301,7 +301,7 @@
     padding: $spacing-sm;
     background: var(--bg-hover);
     border-radius: $radius-sm;
-    border-right: 3px solid $primary-pink;
+    border-inline-start: 3px solid $primary-pink;
     
     p {
       margin: 0;

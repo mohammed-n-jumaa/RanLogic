@@ -8,7 +8,7 @@
 .sb-orb {
   position: fixed;
   top: 16px;
-  right: 16px;
+  inset-inline-start: 16px;
   width: 50px;
   height: 50px;
   border-radius: 14px;
@@ -21,7 +21,7 @@
   background: linear-gradient(135deg, $primary-pink 0%, $primary-purple 50%, #6366f1 100%);
   box-shadow: 0 4px 24px rgba($primary-pink, 0.4), inset 0 1px 0 rgba(#fff, 0.15);
   transition:
-    right 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+    inset-inline-start 0.9s cubic-bezier(0.4, 0, 0.2, 1),
     border-radius 0.6s,
     width 0.5s,
     height 0.5s,
@@ -48,7 +48,7 @@
 
   // ── Open state: becomes close button ────────────────────────────────────
   &--open {
-    right: calc(270px + 8px);
+    inset-inline-start: calc(270px + 8px);
     border-radius: 10px;
     width: 40px;
     height: 40px;
@@ -95,7 +95,7 @@
 .sb-drawer {
   position: fixed;
   top: 0;
-  right: 0;
+  inset-inline-start: 0;
   width: 270px;
   height: 100vh;
   z-index: 1050;
@@ -105,7 +105,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, #0e1235 0%, #080b1e 100%);
-    border-left: 0.5px solid rgba(#fff, 0.06);
+    border-inline-end: 0.5px solid rgba(#fff, 0.06);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -154,8 +154,8 @@
     content: '';
     position: absolute;
     bottom: 0;
-    right: 20px;
-    left: 20px;
+    inset-inline-start: 20px;
+    inset-inline-end: 20px;
     height: 0.5px;
     background: linear-gradient(90deg, transparent, rgba($primary-pink, 0.2), transparent);
   }
@@ -200,14 +200,14 @@
     border-radius: 50%;
     border: 2px solid transparent;
     border-top-color: $primary-pink;
-    border-right-color: $primary-purple;
+    border-inline-start-color: $primary-purple;
     animation: sb-ring-spin 3s linear infinite;
   }
 
   &__online {
     position: absolute;
     bottom: 2px;
-    left: 2px;
+    inset-inline-end: 2px;
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -270,7 +270,7 @@
     letter-spacing: 0.8px;
     font-weight: 600;
     gap: 7px;
-    direction: rtl;
+    // direction follows <html dir>
     border-radius: 8px;
     transition: all 0.15s;
 
@@ -286,12 +286,12 @@
 
   &__title {
     flex: 1;
-    text-align: right;
+    text-align: start;
   }
 
   &__arrow {
-    margin-right: auto;
-    margin-left: 0;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-muted);
 
@@ -338,8 +338,8 @@
   }
 
   &__dot {
-    margin-right: auto;
-    margin-left: 0;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
     width: 7px;
     height: 7px;
     border-radius: 50%;
@@ -356,7 +356,7 @@
     &::before {
       content: '';
       position: absolute;
-      right: -8px;
+      inset-inline-start: -8px;
       top: 6px;
       bottom: 6px;
       width: 3px;
@@ -397,7 +397,7 @@
   background: none;
   width: 100%;
   font-family: inherit;
-  direction: rtl;
+  // direction follows <html dir>
   transition: all 0.2s;
 
   &:hover {

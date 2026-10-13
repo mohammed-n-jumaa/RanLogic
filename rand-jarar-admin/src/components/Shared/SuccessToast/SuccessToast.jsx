@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { CheckCircle, X } from 'lucide-react';
 import './SuccessToast.scss';
+import { t } from '../../../i18n';
 
 const SuccessToast = ({ message, isVisible, onClose }) => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const SuccessToast = ({ message, isVisible, onClose }) => {
       <div className="toast-content">
         <CheckCircle size={24} />
         <div className="toast-message">
-          <strong>تم!</strong>
+          <strong>{t('تم!')}</strong>
           <p>{message}</p>
         </div>
       </div>

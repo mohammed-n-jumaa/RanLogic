@@ -13,6 +13,7 @@ import {
 import Swal from 'sweetalert2';
 import subscriptionsApi from '../../api/subscriptionsApi';
 import './SubscriptionFormModal.scss';
+import { t, lang } from '../../i18n';
 
 const SubscriptionFormModal = ({ 
   isOpen, 
@@ -110,7 +111,7 @@ const SubscriptionFormModal = ({
   const fetchPlans = async () => {
     setIsLoadingPlans(true);
     try {
-      const response = await subscriptionsApi.getPlans('ar');
+      const response = await subscriptionsApi.getPlans(lang);
       if (response.success) {
         setPlans(response.data || []);
       }
@@ -171,8 +172,8 @@ const SubscriptionFormModal = ({
 
     if (!formData.user_id) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى اختيار المستخدم',
+        title: t('تنبيه'),
+        text: t('يرجى اختيار المستخدم'),
         icon: 'warning',
         confirmButtonColor: '#e91e63'
       });
@@ -181,8 +182,8 @@ const SubscriptionFormModal = ({
 
     if (!formData.starts_at || !formData.ends_at) {
       Swal.fire({
-        title: 'تنبيه',
-        text: 'يرجى تحديد تاريخ البداية والانتهاء',
+        title: t('تنبيه'),
+        text: t('يرجى تحديد تاريخ البداية والانتهاء'),
         icon: 'warning',
         confirmButtonColor: '#e91e63'
       });
@@ -206,8 +207,8 @@ const SubscriptionFormModal = ({
 
       if (response.success) {
         Swal.fire({
-          title: 'نجح',
-          text: subscription ? 'تم تحديث الاشتراك بنجاح' : 'تم إضافة الاشتراك بنجاح',
+          title: t('نجح'),
+          text: subscription ? t('تم تحديث الاشتراك بنجاح') : t('تم إضافة الاشتراك بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false
@@ -219,8 +220,8 @@ const SubscriptionFormModal = ({
     } catch (error) {
       console.error('Error saving subscription:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: error.response?.data?.message || 'فشل حفظ الاشتراك',
+        title: t('خطأ'),
+        text: error.response?.data?.message || t('فشل حفظ الاشتراك'),
         icon: 'error',
         confirmButtonColor: '#e91e63'
       });
@@ -256,7 +257,7 @@ const SubscriptionFormModal = ({
           <div className="subscription-modal__header">
             <h2 className="subscription-modal__title">
               <CreditCard size={24} />
-              {subscription ? 'تعديل الاشتراك' : 'إضافة اشتراك جديد'}
+              {subscription ? t('تعديل الاشتراك') : t('إضافة اشتراك جديد')}
             </h2>
             <button className="subscription-modal__close" onClick={onClose}>
               <X size={24} />
@@ -269,7 +270,7 @@ const SubscriptionFormModal = ({
             <div className="form-group">
               <label className="form-label">
                 <User size={16} />
-                اختر المتدرب *
+                {t('اختر المتدرب *')}
               </label>
               
               {selectedUser ? (
@@ -307,7 +308,7 @@ const SubscriptionFormModal = ({
                     <Search size={18} />
                     <input
                       type="text"
-                      placeholder="ابحث عن متدرب..."
+                      placeholder={t('ابحث عن متدرب...')}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -318,7 +319,7 @@ const SubscriptionFormModal = ({
                       {isLoadingUsers ? (
                         <div className="user-search__loading">
                           <Loader className="spinner" size={20} />
-                          <span>جاري البحث...</span>
+                          <span>{t('جاري البحث...')}</span>
                         </div>
                       ) : filteredUsers.length > 0 ? (
                         filteredUsers.map(user => (
@@ -345,7 +346,7 @@ const SubscriptionFormModal = ({
                         ))
                       ) : (
                         <div className="user-search__empty">
-                          لا توجد نتائج
+                          {t('لا توجد نتائج')}
                         </div>
                       )}
                     </div>
@@ -356,7 +357,7 @@ const SubscriptionFormModal = ({
 
             {/* Plan Type */}
             <div className="form-group">
-              <label className="form-label">نوع الخطة *</label>
+              <label className="form-label">{t('نوع الخطة *')}</label>
               <select
                 className="form-select"
                 value={formData.plan_type}
@@ -373,16 +374,16 @@ const SubscriptionFormModal = ({
 
             {/* Duration */}
             <div className="form-group">
-              <label className="form-label">المدة *</label>
+              <label className="form-label">{t('المدة *')}</label>
               <select
                 className="form-select"
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 required
               >
-                <option value="1month">شهر واحد</option>
-                <option value="3months">3 أشهر</option>
-                <option value="6months">6 أشهر</option>
+                <option value="1month">{t('شهر واحد')}</option>
+                <option value="3months">{t('3 أشهر')}</option>
+                <option value="6months">{t('6 أشهر')}</option>
               </select>
             </div>
 
@@ -391,7 +392,7 @@ const SubscriptionFormModal = ({
               <div className="form-group">
                 <label className="form-label">
                   <DollarSign size={16} />
-                  المبلغ *
+                  {t('المبلغ *')}
                 </label>
                 <input
                   type="number"
@@ -405,7 +406,7 @@ const SubscriptionFormModal = ({
               </div>
 
               <div className="form-group">
-                <label className="form-label">المبلغ الأصلي</label>
+                <label className="form-label">{t('المبلغ الأصلي')}</label>
                 <input
                   type="number"
                   className="form-input"
@@ -417,7 +418,7 @@ const SubscriptionFormModal = ({
               </div>
 
               <div className="form-group">
-                <label className="form-label">نسبة الخصم %</label>
+                <label className="form-label">{t('نسبة الخصم %')}</label>
                 <input
                   type="number"
                   className="form-input"
@@ -434,7 +435,7 @@ const SubscriptionFormModal = ({
               <div className="form-group">
                 <label className="form-label">
                   <Calendar size={16} />
-                  تاريخ البداية *
+                  {t('تاريخ البداية *')}
                 </label>
                 <input
                   type="date"
@@ -448,7 +449,7 @@ const SubscriptionFormModal = ({
               <div className="form-group">
                 <label className="form-label">
                   <Calendar size={16} />
-                  تاريخ الانتهاء *
+                  {t('تاريخ الانتهاء *')}
                 </label>
                 <input
                   type="date"
@@ -464,14 +465,14 @@ const SubscriptionFormModal = ({
             <div className="form-group">
               <label className="form-label">
                 <FileText size={16} />
-                ملاحظات (اختياري)
+                {t('ملاحظات (اختياري)')}
               </label>
               <textarea
                 className="form-textarea"
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                 rows="3"
-                placeholder="أضف أي ملاحظات..."
+                placeholder={t('أضف أي ملاحظات...')}
               />
             </div>
 
@@ -483,7 +484,7 @@ const SubscriptionFormModal = ({
                 onClick={onClose}
                 disabled={isSaving}
               >
-                إلغاء
+                {t('إلغاء')}
               </button>
               <button
                 type="submit"
@@ -493,10 +494,10 @@ const SubscriptionFormModal = ({
                 {isSaving ? (
                   <>
                     <Loader className="spinner" size={18} />
-                    <span>جاري الحفظ...</span>
+                    <span>{t('جاري الحفظ...')}</span>
                   </>
                 ) : (
-                  <span>{subscription ? 'تحديث' : 'إضافة'}</span>
+                  <span>{subscription ? t('تحديث') : t('إضافة')}</span>
                 )}
               </button>
             </div>

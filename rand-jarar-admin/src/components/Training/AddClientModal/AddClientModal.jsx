@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Save, Loader } from 'lucide-react';
 import './AddClientModal.scss';
+import { t } from '../../../i18n';
 
 const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
   const [formData, setFormData] = useState({
@@ -90,14 +91,14 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
     if (file) {
       // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('حجم الصورة يجب ألا يتجاوز 5MB');
+        alert(t('حجم الصورة يجب ألا يتجاوز 5MB'));
         e.target.value = null;
         return;
       }
       
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert('يجب اختيار ملف صورة');
+        alert(t('يجب اختيار ملف صورة'));
         e.target.value = null;
         return;
       }
@@ -207,7 +208,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
         >
           <div className="add-client-modal__header">
             <h2 className="add-client-modal__title">
-              {editClient ? 'تعديل بيانات المتدرب' : 'إضافة متدرب جديد'}
+              {editClient ? t('تعديل بيانات المتدرب') : t('إضافة متدرب جديد')}
             </h2>
             <button 
               className="add-client-modal__close" 
@@ -254,8 +255,8 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                 ) : (
                   <div className="add-client-modal__image-placeholder">
                     <Upload size={40} />
-                    <span>انقر لرفع الصورة</span>
-                    <span className="add-client-modal__image-hint">PNG, JPG حتى 5MB</span>
+                    <span>{t('انقر لرفع الصورة')}</span>
+                    <span className="add-client-modal__image-hint">{t('PNG, JPG حتى 5MB')}</span>
                   </div>
                 )}
               </div>
@@ -264,7 +265,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
             {/* Form Grid */}
             <div className="add-client-modal__grid">
               <div className="form-group">
-                <label className="form-label">الاسم الكامل *</label>
+                <label className="form-label">{t('الاسم الكامل *')}</label>
                 <input
                   type="text"
                   name="name"
@@ -277,7 +278,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group">
-                <label className="form-label">البريد الإلكتروني *</label>
+                <label className="form-label">{t('البريد الإلكتروني *')}</label>
                 <input
                   type="email"
                   name="email"
@@ -291,7 +292,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               
               <div className="form-group">
                 <label className="form-label">
-                  كلمة المرور {editClient ? '(اتركها فارغة إذا لم تريد التغيير)' : '*'}
+                  {t('كلمة المرور')} {editClient ? t('(اتركها فارغة إذا لم تريد التغيير)') : '*'}
                 </label>
                 <input
                   type="password"
@@ -302,12 +303,12 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                   required={!editClient}
                   minLength={8}
                   disabled={isSubmitting}
-                  placeholder={editClient ? 'اترك فارغاً للإبقاء على كلمة المرور الحالية' : ''}
+                  placeholder={editClient ? t('اترك فارغاً للإبقاء على كلمة المرور الحالية') : ''}
                 />
               </div>
               
               <div className="form-group">
-                <label className="form-label">رقم الهاتف</label>
+                <label className="form-label">{t('رقم الهاتف')}</label>
                 <input
                   type="tel"
                   name="phone"
@@ -319,7 +320,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group">
-                <label className="form-label">الجنس</label>
+                <label className="form-label">{t('الجنس')}</label>
                 <select
                   name="gender"
                   className="form-input"
@@ -327,14 +328,14 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                   onChange={handleChange}
                   disabled={isSubmitting}
                 >
-                  <option value="">اختر الجنس</option>
-                  <option value="male">ذكر</option>
-                  <option value="female">أنثى</option>
+                  <option value="">{t('اختر الجنس')}</option>
+                  <option value="male">{t('ذكر')}</option>
+                  <option value="female">{t('أنثى')}</option>
                 </select>
               </div>
               
               <div className="form-group">
-                <label className="form-label">العمر</label>
+                <label className="form-label">{t('العمر')}</label>
                 <input
                   type="number"
                   name="age"
@@ -348,7 +349,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group">
-                <label className="form-label">الطول (سم)</label>
+                <label className="form-label">{t('الطول (سم)')}</label>
                 <input
                   type="number"
                   name="height"
@@ -362,7 +363,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group">
-                <label className="form-label">الوزن (كغ)</label>
+                <label className="form-label">{t('الوزن (كغ)')}</label>
                 <input
                   type="number"
                   name="weight"
@@ -376,7 +377,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group">
-                <label className="form-label">محيط الخصر (سم)</label>
+                <label className="form-label">{t('محيط الخصر (سم)')}</label>
                 <input
                   type="number"
                   name="waist"
@@ -391,7 +392,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               
               {formData.gender === 'female' && (
                 <div className="form-group">
-                  <label className="form-label">محيط الأرداف (سم)</label>
+                  <label className="form-label">{t('محيط الأرداف (سم)')}</label>
                   <input
                     type="number"
                     name="hips"
@@ -406,7 +407,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               )}
               
               <div className="form-group">
-                <label className="form-label">الهدف</label>
+                <label className="form-label">{t('الهدف')}</label>
                 <select
                   name="goal"
                   className="form-input"
@@ -414,16 +415,16 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                   onChange={handleChange}
                   disabled={isSubmitting}
                 >
-                  <option value="">اختر الهدف</option>
-                  <option value="weight-loss">إنقاص الوزن</option>
-                  <option value="muscle-gain">بناء العضلات</option>
-                  <option value="toning">تنشيف</option>
-                  <option value="fitness">لياقة عامة</option>
+                  <option value="">{t('اختر الهدف')}</option>
+                  <option value="weight-loss">{t('إنقاص الوزن')}</option>
+                  <option value="muscle-gain">{t('بناء العضلات')}</option>
+                  <option value="toning">{t('تنشيف')}</option>
+                  <option value="fitness">{t('لياقة عامة')}</option>
                 </select>
               </div>
               
               <div className="form-group">
-                <label className="form-label">مكان التدريب</label>
+                <label className="form-label">{t('مكان التدريب')}</label>
                 <select
                   name="workout_place"
                   className="form-input"
@@ -431,14 +432,14 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                   onChange={handleChange}
                   disabled={isSubmitting}
                 >
-                  <option value="">اختر المكان</option>
-                  <option value="home">منزل</option>
-                  <option value="gym">جيم</option>
+                  <option value="">{t('اختر المكان')}</option>
+                  <option value="home">{t('منزل')}</option>
+                  <option value="gym">{t('جيم')}</option>
                 </select>
               </div>
               
               <div className="form-group">
-                <label className="form-label">البرنامج المختار</label>
+                <label className="form-label">{t('البرنامج المختار')}</label>
                 <input
                   type="text"
                   name="program"
@@ -450,14 +451,14 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
               </div>
               
               <div className="form-group" style={{ gridColumn: '1 / -1' }}>
-                <label className="form-label">ملاحظات صحية</label>
+                <label className="form-label">{t('ملاحظات صحية')}</label>
                 <textarea
                   name="health_notes"
                   className="form-input"
                   value={formData.health_notes}
                   onChange={handleChange}
                   rows="3"
-                  placeholder="إصابات، حساسية، أدوية، إلخ..."
+                  placeholder={t('إصابات، حساسية، أدوية، إلخ...')}
                   disabled={isSubmitting}
                 />
               </div>
@@ -471,7 +472,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                 onClick={onClose}
                 disabled={isSubmitting}
               >
-                إلغاء
+                {t('إلغاء')}
               </button>
               <button 
                 type="submit" 
@@ -481,12 +482,12 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
                 {isSubmitting ? (
                   <>
                     <Loader size={18} className="spinner" />
-                    <span>جاري الحفظ...</span>
+                    <span>{t('جاري الحفظ...')}</span>
                   </>
                 ) : (
                   <>
                     <Save size={18} />
-                    <span>{editClient ? 'حفظ التعديلات' : 'إضافة المتدرب'}</span>
+                    <span>{editClient ? t('حفظ التعديلات') : t('إضافة المتدرب')}</span>
                   </>
                 )}
               </button>

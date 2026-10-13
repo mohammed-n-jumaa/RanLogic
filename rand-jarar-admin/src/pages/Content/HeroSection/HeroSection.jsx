@@ -8,27 +8,28 @@ import {
 import Swal from 'sweetalert2';
 import heroApi from '../../../api/heroApi';
 import './HeroSection.scss';
+import { t } from '../../../i18n';
 
 const DESIGN_TABS = [
-  { key: 'classic',   label: 'الكلاسيكي',   labelEn: 'Classic',   icon: Monitor,  desc: 'فيديو خلفية' },
-  { key: 'cinematic', label: 'السينمائي',    labelEn: 'Cinematic', icon: Sparkles, desc: 'سلايدر صور' },
-  { key: 'split',     label: 'Card Stack',   labelEn: 'Card Stack',icon: Columns,  desc: 'كاردات متراصة' },
-  { key: 'mosaic',    label: 'الموزاييك',    labelEn: 'Mosaic',    icon: Sparkles, desc: 'صور متفتتة' },
-  { key: 'cube',      label: 'المكعب',       labelEn: '3D Cube',   icon: Columns,  desc: 'مكعب ثلاثي الأبعاد' },
-  { key: 'filmreel',  label: 'الشريط',       labelEn: 'Film Reel', icon: Monitor,  desc: 'شريط سينمائي' },
+  { key: 'classic',   label: t('الكلاسيكي'),   labelEn: 'Classic',   icon: Monitor,  desc: t('فيديو خلفية') },
+  { key: 'cinematic', label: t('السينمائي'),    labelEn: 'Cinematic', icon: Sparkles, desc: t('سلايدر صور') },
+  { key: 'split',     label: 'Card Stack',   labelEn: 'Card Stack',icon: Columns,  desc: t('كاردات متراصة') },
+  { key: 'mosaic',    label: t('الموزاييك'),    labelEn: 'Mosaic',    icon: Sparkles, desc: t('صور متفتتة') },
+  { key: 'cube',      label: t('المكعب'),       labelEn: '3D Cube',   icon: Columns,  desc: t('مكعب ثلاثي الأبعاد') },
+  { key: 'filmreel',  label: t('الشريط'),       labelEn: 'Film Reel', icon: Monitor,  desc: t('شريط سينمائي') },
 ];
 
 const TARGET_OPTIONS = [
-  { type: 'page', value: '/auth',              label: 'تسجيل / Login' },
-  { type: 'page', value: '/faq',               label: 'الأسئلة / FAQ' },
-  { type: 'page', value: '/calorie-calculator', label: 'حاسبة السعرات' },
-  { type: 'page', value: '/meal-calculator',    label: 'حاسبة الوجبات' },
-  { type: 'page', value: '/contact',            label: 'اتصل بنا' },
-  { type: 'section', value: 'about',            label: '⬇ عن المدرب' },
-  { type: 'section', value: 'certifications',   label: '⬇ الشهادات' },
-  { type: 'section', value: 'testimonials',     label: '⬇ آراء المتدربين' },
-  { type: 'section', value: 'faq',              label: '⬇ الأسئلة' },
-  { type: 'section', value: 'cta',              label: '⬇ ابدأ الآن' },
+  { type: 'page', value: '/auth',              label: t('تسجيل / Login') },
+  { type: 'page', value: '/faq',               label: t('الأسئلة / FAQ') },
+  { type: 'page', value: '/calorie-calculator', label: t('حاسبة السعرات') },
+  { type: 'page', value: '/meal-calculator',    label: t('حاسبة الوجبات') },
+  { type: 'page', value: '/contact',            label: t('اتصل بنا') },
+  { type: 'section', value: 'about',            label: t('⬇ عن المدرب') },
+  { type: 'section', value: 'certifications',   label: t('⬇ الشهادات') },
+  { type: 'section', value: 'testimonials',     label: t('⬇ آراء المتدربين') },
+  { type: 'section', value: 'faq',              label: t('⬇ الأسئلة') },
+  { type: 'section', value: 'cta',              label: t('⬇ ابدأ الآن') },
 ];
 
 const emptyContent = () => ({
@@ -111,13 +112,13 @@ const [designs, setDesigns] = useState({
       };
       const res = await heroApi.updateHeroSection(payload);
       if (res.success) {
-        Swal.fire({ title: 'نجح', text: 'تم الحفظ بنجاح', icon: 'success', timer: 2000, showConfirmButton: false });
+        Swal.fire({ title: t('نجح'), text: t('تم الحفظ بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
         await fetchData();
         setEditingStat(null);
         setEditingCta(null);
       }
     } catch (e) {
-      Swal.fire({ title: 'خطأ', text: e.response?.data?.message || 'فشل الحفظ', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: e.response?.data?.message || t('فشل الحفظ'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setIsSaving(false); }
   };
 
@@ -130,21 +131,21 @@ const [designs, setDesigns] = useState({
       const res = await heroApi.uploadVideo(file, (p) => setUploadProgress(p));
       if (res.success) {
         setVideoPreview(res.data.video_url);
-        Swal.fire({ title: 'نجح', text: 'تم رفع الفيديو', icon: 'success', timer: 2000, showConfirmButton: false });
+        Swal.fire({ title: t('نجح'), text: t('تم رفع الفيديو'), icon: 'success', timer: 2000, showConfirmButton: false });
       }
     } catch (e) {
-      Swal.fire({ title: 'خطأ', text: 'فشل رفع الفيديو', icon: 'error', confirmButtonColor: '#e91e63' });
+      Swal.fire({ title: t('خطأ'), text: t('فشل رفع الفيديو'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setUploadProgress(0); }
   };
 
   const handleDeleteVideo = async () => {
-    const r = await Swal.fire({ title: 'تأكيد', text: 'حذف الفيديو؟', icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: 'احذف', cancelButtonText: 'إلغاء' });
+    const r = await Swal.fire({ title: t('تأكيد'), text: t('حذف الفيديو؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
     if (!r.isConfirmed) return;
     try {
       await heroApi.deleteVideo();
       setVideoPreview(null);
-      Swal.fire({ title: 'تم', icon: 'success', timer: 1500, showConfirmButton: false });
-    } catch (e) { Swal.fire({ title: 'خطأ', icon: 'error' }); }
+      Swal.fire({ title: t('تم'), icon: 'success', timer: 1500, showConfirmButton: false });
+    } catch (e) { Swal.fire({ title: t('خطأ'), icon: 'error' }); }
   };
 
   // ── Slides ──
@@ -155,16 +156,16 @@ const [designs, setDesigns] = useState({
       const res = await heroApi.uploadSlide(activeDesignTab, file);
       if (res.success) {
         await fetchData();
-        Swal.fire({ title: 'نجح', text: 'تم رفع الصورة', icon: 'success', timer: 1500, showConfirmButton: false });
+        Swal.fire({ title: t('نجح'), text: t('تم رفع الصورة'), icon: 'success', timer: 1500, showConfirmButton: false });
       }
     } catch (e) {
-      Swal.fire({ title: 'خطأ', text: 'فشل رفع الصورة', icon: 'error' });
+      Swal.fire({ title: t('خطأ'), text: t('فشل رفع الصورة'), icon: 'error' });
     }
     if (slideInputRef.current) slideInputRef.current.value = '';
   };
 
   const handleDeleteSlide = async (id) => {
-    const r = await Swal.fire({ title: 'تأكيد', text: 'حذف السلايد؟', icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: 'احذف', cancelButtonText: 'إلغاء' });
+    const r = await Swal.fire({ title: t('تأكيد'), text: t('حذف السلايد؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
     if (!r.isConfirmed) return;
     try {
       await heroApi.deleteSlide(id);
@@ -182,7 +183,7 @@ const [designs, setDesigns] = useState({
         description_en: slide.description_en, description_ar: slide.description_ar,
       });
       setEditingSlide(null);
-      Swal.fire({ title: 'نجح', icon: 'success', timer: 1500, showConfirmButton: false });
+      Swal.fire({ title: t('نجح'), icon: 'success', timer: 1500, showConfirmButton: false });
     } catch (e) { console.error(e); }
   };
 
@@ -195,13 +196,13 @@ const [designs, setDesigns] = useState({
 
   // ── Content fields for current lang ──
   const contentFields = [
-    { key: `badge_${langTab}`,      label: isAr ? 'الشارة العلوية'    : 'Top Badge',   ph: isAr ? 'برنامج تدريبي' : 'Training Program' },
-    { key: `main_title_${langTab}`, label: isAr ? 'العنوان الرئيسي'   : 'Main Title',  ph: isAr ? 'درّب جسمك بثقة' : 'Train Your Body' },
-    { key: `sub_title_${langTab}`,  label: isAr ? 'العنوان الفرعي'    : 'Sub Title',   ph: isAr ? 'برنامج مصمم لك'  : 'Designed for you', accent: true },
+    { key: `badge_${langTab}`,      label: isAr ? t('الشارة العلوية')    : 'Top Badge',   ph: isAr ? t('برنامج تدريبي') : 'Training Program' },
+    { key: `main_title_${langTab}`, label: isAr ? t('العنوان الرئيسي')   : 'Main Title',  ph: isAr ? t('درّب جسمك بثقة') : 'Train Your Body' },
+    { key: `sub_title_${langTab}`,  label: isAr ? t('العنوان الفرعي')    : 'Sub Title',   ph: isAr ? t('برنامج مصمم لك')  : 'Designed for you', accent: true },
   ];
 
   if (isLoading) {
-    return <div className="hs"><div className="hs__loader"><div className="hs__loader-spin" /><span>جاري التحميل...</span></div></div>;
+    return <div className="hs"><div className="hs__loader"><div className="hs__loader-spin" /><span>{t('جاري التحميل...')}</span></div></div>;
   }
 
   return (
@@ -209,11 +210,11 @@ const [designs, setDesigns] = useState({
       {/* ── Top Bar ── */}
       <div className="hs__topbar">
         <div>
-          <h1 className="hs__title">إدارة الهيرو سيكشن</h1>
-          <p className="hs__desc">إدارة 3 تصاميم مختلفة — التصميم النشط هو الظاهر بالموقع</p>
+          <h1 className="hs__title">{t('إدارة الهيرو سيكشن')}</h1>
+          <p className="hs__desc">{t('إدارة 3 تصاميم مختلفة — التصميم النشط هو الظاهر بالموقع')}</p>
         </div>
         <motion.button className="hs__save" onClick={handleSave} disabled={isSaving} whileTap={{ scale: 0.97 }}>
-          {isSaving ? <><div className="hs__spinner" /><span>جاري الحفظ...</span></> : <><Save size={16} /><span>حفظ التغييرات</span></>}
+          {isSaving ? <><div className="hs__spinner" /><span>{t('جاري الحفظ...')}</span></> : <><Save size={16} /><span>{t('حفظ التغييرات')}</span></>}
         </motion.button>
       </div>
 
@@ -257,7 +258,7 @@ const [designs, setDesigns] = useState({
           onClick={() => setActiveDesignType(activeDesignTab)}
         >
           <Sparkles size={14} />
-          تفعيل هذا التصميم كالتصميم الرئيسي
+          {t('تفعيل هذا التصميم كالتصميم الرئيسي')}
         </motion.button>
       )}
 
@@ -269,7 +270,7 @@ const [designs, setDesigns] = useState({
           {/* Language Tabs */}
           <div className="hs__lang">
             <button className={`hs__lang-tab ${langTab === 'ar' ? 'hs__lang-tab--on' : ''}`} onClick={() => setLangTab('ar')}>
-              <Globe size={15} /> العربية
+              <Globe size={15} /> {t('العربية')}
             </button>
             <button className={`hs__lang-tab ${langTab === 'en' ? 'hs__lang-tab--on' : ''}`} onClick={() => setLangTab('en')}>
               <Languages size={15} /> English
@@ -291,12 +292,12 @@ const [designs, setDesigns] = useState({
               </div>
             ))}
             <div className="hs__field">
-              <label className="hs__label">{isAr ? 'الوصف' : 'Description'}</label>
+              <label className="hs__label">{isAr ? t('الوصف') : 'Description'}</label>
               <textarea
                 className="hs__textarea"
                 value={curDesign.content[`description_${langTab}`] || ''}
                 onChange={(e) => updateContent(`description_${langTab}`, e.target.value)}
-                placeholder={isAr ? 'أدخل الوصف...' : 'Enter description...'}
+                placeholder={isAr ? t('أدخل الوصف...') : 'Enter description...'}
                 rows="3"
               />
             </div>
@@ -305,12 +306,12 @@ const [designs, setDesigns] = useState({
           {/* ── Stats ── */}
           <div className="hs__stats">
             <div className="hs__stats-head">
-              <span className="hs__stats-title">الإحصائيات</span>
+              <span className="hs__stats-title">{t('الإحصائيات')}</span>
               <button className="hs__stats-add" onClick={() => {
                 setCurDesign(d => ({ ...d, stats: [...(d.stats || []), { id: null, value: '', label_en: '', label_ar: '' }] }));
                 setEditingStat((curDesign.stats || []).length);
               }}>
-                <Plus size={15} /> إضافة
+                <Plus size={15} /> {t('إضافة')}
               </button>
             </div>
             <div className="hs__stats-list">
@@ -319,7 +320,7 @@ const [designs, setDesigns] = useState({
                   {editingStat === i ? (
                     <div className="hs__stat-form">
                       <input className="hs__stat-val-input" value={stat.value} onChange={(e) => { const u = [...curDesign.stats]; u[i] = { ...u[i], value: e.target.value }; setCurDesign(d => ({ ...d, stats: u })); }} placeholder="500+" />
-                      <input className="hs__stat-lbl-input" value={stat.label_ar} onChange={(e) => { const u = [...curDesign.stats]; u[i] = { ...u[i], label_ar: e.target.value }; setCurDesign(d => ({ ...d, stats: u })); }} placeholder="عربي" dir="rtl" />
+                      <input className="hs__stat-lbl-input" value={stat.label_ar} onChange={(e) => { const u = [...curDesign.stats]; u[i] = { ...u[i], label_ar: e.target.value }; setCurDesign(d => ({ ...d, stats: u })); }} placeholder={t('عربي')} dir="rtl" />
                       <input className="hs__stat-lbl-input" value={stat.label_en} onChange={(e) => { const u = [...curDesign.stats]; u[i] = { ...u[i], label_en: e.target.value }; setCurDesign(d => ({ ...d, stats: u })); }} placeholder="English" dir="ltr" />
                       <button className="hs__stat-ok" onClick={() => setEditingStat(null)}><Check size={16} /></button>
                     </div>
@@ -335,19 +336,19 @@ const [designs, setDesigns] = useState({
                   )}
                 </div>
               ))}
-              {(curDesign.stats || []).length === 0 && <div className="hs__stats-empty"><p>لا توجد إحصائيات</p></div>}
+              {(curDesign.stats || []).length === 0 && <div className="hs__stats-empty"><p>{t('لا توجد إحصائيات')}</p></div>}
             </div>
           </div>
 
           {/* ── CTA Buttons ── */}
           <div className="hs__cta">
             <div className="hs__stats-head">
-              <span className="hs__stats-title"><MousePointerClick size={14} /> أزرار CTA</span>
+              <span className="hs__stats-title"><MousePointerClick size={14} /> {t('أزرار CTA')}</span>
               <button className="hs__stats-add" onClick={() => {
                 setCurDesign(d => ({ ...d, cta_buttons: [...(d.cta_buttons || []), { id: null, label_en: '', label_ar: '', style: 'primary', target_type: 'page', target_value: '/auth' }] }));
                 setEditingCta((curDesign.cta_buttons || []).length);
               }}>
-                <Plus size={15} /> إضافة
+                <Plus size={15} /> {t('إضافة')}
               </button>
             </div>
             <div className="hs__stats-list">
@@ -356,7 +357,7 @@ const [designs, setDesigns] = useState({
                   {editingCta === i ? (
                     <div className="hs__cta-form">
                       <div className="hs__cta-row">
-                        <input className="hs__stat-lbl-input" value={btn.label_ar} onChange={(e) => { const u = [...curDesign.cta_buttons]; u[i] = { ...u[i], label_ar: e.target.value }; setCurDesign(d => ({ ...d, cta_buttons: u })); }} placeholder="عربي: ابدأ الآن" dir="rtl" />
+                        <input className="hs__stat-lbl-input" value={btn.label_ar} onChange={(e) => { const u = [...curDesign.cta_buttons]; u[i] = { ...u[i], label_ar: e.target.value }; setCurDesign(d => ({ ...d, cta_buttons: u })); }} placeholder={t('عربي: ابدأ الآن')} dir="rtl" />
                         <input className="hs__stat-lbl-input" value={btn.label_en} onChange={(e) => { const u = [...curDesign.cta_buttons]; u[i] = { ...u[i], label_en: e.target.value }; setCurDesign(d => ({ ...d, cta_buttons: u })); }} placeholder="EN: Start Now" dir="ltr" />
                       </div>
                       <div className="hs__cta-row">
@@ -364,8 +365,8 @@ const [designs, setDesigns] = useState({
                           <option value="primary">Primary</option>
                           <option value="secondary">Secondary</option>
                         </select>
-                        <select className="hs__cta-select" value={`${btn.target_type}::${btn.target_value}`} onChange={(e) => { const [t, v] = e.target.value.split('::'); const u = [...curDesign.cta_buttons]; u[i] = { ...u[i], target_type: t, target_value: v }; setCurDesign(d => ({ ...d, cta_buttons: u })); }}>
-                          {TARGET_OPTIONS.map(t => <option key={`${t.type}::${t.value}`} value={`${t.type}::${t.value}`}>{t.label}</option>)}
+                        <select className="hs__cta-select" value={`${btn.target_type}::${btn.target_value}`} onChange={(e) => { const [tItem, v] = e.target.value.split('::'); const u = [...curDesign.cta_buttons]; u[i] = { ...u[i], target_type: tItem, target_value: v }; setCurDesign(d => ({ ...d, cta_buttons: u })); }}>
+                          {TARGET_OPTIONS.map(tItem => <option key={`${tItem.type}::${tItem.value}`} value={`${tItem.type}::${tItem.value}`}>{tItem.label}</option>)}
                         </select>
                       </div>
                       <button className="hs__stat-ok" onClick={() => setEditingCta(null)}><Check size={16} /></button>
@@ -388,7 +389,7 @@ const [designs, setDesigns] = useState({
                   )}
                 </div>
               ))}
-              {(curDesign.cta_buttons || []).length === 0 && <div className="hs__stats-empty"><p>لا توجد أزرار — سيتم استخدام الافتراضية</p></div>}
+              {(curDesign.cta_buttons || []).length === 0 && <div className="hs__stats-empty"><p>{t('لا توجد أزرار — سيتم استخدام الافتراضية')}</p></div>}
             </div>
           </div>
 
@@ -400,13 +401,13 @@ const [designs, setDesigns] = useState({
           {/* Classic → Video */}
           {activeDesignTab === 'classic' && (
             <>
-              <div className="hs__vid-label"><Video size={15} /> فيديو الخلفية</div>
+              <div className="hs__vid-label"><Video size={15} /> {t('فيديو الخلفية')}</div>
               {!videoPreview ? (
                 <div className="hs__dropzone" onClick={() => fileInputRef.current?.click()}>
                   <input ref={fileInputRef} type="file" accept="video/*" onChange={handleVideoSelect} hidden />
                   <Upload size={28} />
-                  <p className="hs__dropzone-txt">اسحب الفيديو أو <span>تصفح</span></p>
-                  <div className="hs__dropzone-meta"><span>MP4, WEBM</span><span className="hs__dot" /><span>أقصى 50MB</span></div>
+                  <p className="hs__dropzone-txt">{t('اسحب الفيديو أو')} <span>{t('تصفح')}</span></p>
+                  <div className="hs__dropzone-meta"><span>MP4, WEBM</span><span className="hs__dot" /><span>{t('أقصى 50MB')}</span></div>
                 </div>
               ) : (
                 <div className="hs__player">
@@ -417,8 +418,8 @@ const [designs, setDesigns] = useState({
                     </div>
                   </div>
                   <div className="hs__player-bar">
-                    <button className="hs__player-act" onClick={() => fileInputRef.current?.click()}><Upload size={15} /> تغيير</button>
-                    <button className="hs__player-act hs__player-act--del" onClick={handleDeleteVideo}><Trash2 size={15} /> حذف</button>
+                    <button className="hs__player-act" onClick={() => fileInputRef.current?.click()}><Upload size={15} /> {t('تغيير')}</button>
+                    <button className="hs__player-act hs__player-act--del" onClick={handleDeleteVideo}><Trash2 size={15} /> {t('حذف')}</button>
                     <input ref={fileInputRef} type="file" accept="video/*" onChange={handleVideoSelect} hidden />
                   </div>
                 </div>
@@ -429,11 +430,11 @@ const [designs, setDesigns] = useState({
           {/* Cinematic / Split → Slide Manager */}
           {activeDesignTab !== 'classic' && (
             <>
-              <div className="hs__vid-label"><Image size={15} /> سلايدر الصور</div>
+              <div className="hs__vid-label"><Image size={15} /> {t('سلايدر الصور')}</div>
               <div className="hs__slides">
                 <button className="hs__slide-add" onClick={() => slideInputRef.current?.click()}>
                   <Plus size={18} />
-                  <span>إضافة صورة</span>
+                  <span>{t('إضافة صورة')}</span>
                 </button>
                 <input ref={slideInputRef} type="file" accept="image/*" onChange={handleSlideUpload} hidden />
 
@@ -446,29 +447,29 @@ const [designs, setDesigns] = useState({
 
                     {editingSlide === slide.id ? (
                       <div className="hs__slide-edit">
-                        <input className="hs__stat-lbl-input" value={slide.main_title_ar || ''} onChange={(e) => updateSlideField(slide.id, 'main_title_ar', e.target.value)} placeholder="العنوان بالعربي" dir="rtl" />
+                        <input className="hs__stat-lbl-input" value={slide.main_title_ar || ''} onChange={(e) => updateSlideField(slide.id, 'main_title_ar', e.target.value)} placeholder={t('العنوان بالعربي')} dir="rtl" />
                         <input className="hs__stat-lbl-input" value={slide.main_title_en || ''} onChange={(e) => updateSlideField(slide.id, 'main_title_en', e.target.value)} placeholder="Title EN" dir="ltr" />
-                        <input className="hs__stat-lbl-input" value={slide.sub_title_ar || ''} onChange={(e) => updateSlideField(slide.id, 'sub_title_ar', e.target.value)} placeholder="الفرعي بالعربي" dir="rtl" />
+                        <input className="hs__stat-lbl-input" value={slide.sub_title_ar || ''} onChange={(e) => updateSlideField(slide.id, 'sub_title_ar', e.target.value)} placeholder={t('الفرعي بالعربي')} dir="rtl" />
                         <input className="hs__stat-lbl-input" value={slide.sub_title_en || ''} onChange={(e) => updateSlideField(slide.id, 'sub_title_en', e.target.value)} placeholder="Subtitle EN" dir="ltr" />
-                        <textarea className="hs__textarea" value={slide.description_ar || ''} onChange={(e) => updateSlideField(slide.id, 'description_ar', e.target.value)} placeholder="الوصف بالعربي" dir="rtl" rows="2" />
+                        <textarea className="hs__textarea" value={slide.description_ar || ''} onChange={(e) => updateSlideField(slide.id, 'description_ar', e.target.value)} placeholder={t('الوصف بالعربي')} dir="rtl" rows="2" />
                         <textarea className="hs__textarea" value={slide.description_en || ''} onChange={(e) => updateSlideField(slide.id, 'description_en', e.target.value)} placeholder="Description EN" dir="ltr" rows="2" />
                         <div className="hs__slide-actions">
-                          <button className="hs__stat-ok" onClick={() => handleUpdateSlide(slide.id)}><Check size={14} /> حفظ</button>
+                          <button className="hs__stat-ok" onClick={() => handleUpdateSlide(slide.id)}><Check size={14} /> {t('حفظ')}</button>
                           <button className="hs__stat-btn" onClick={() => setEditingSlide(null)}><X size={14} /></button>
                         </div>
                       </div>
                     ) : (
                       <div className="hs__slide-info" onClick={() => setEditingSlide(slide.id)}>
-                        <div className="hs__slide-title">{slide.main_title_ar || slide.main_title_en || 'بدون عنوان'}</div>
+                        <div className="hs__slide-title">{slide.main_title_ar || slide.main_title_en || t('بدون عنوان')}</div>
                         <div className="hs__slide-sub">{slide.sub_title_ar || slide.sub_title_en || ''}</div>
-                        <span className="hs__slide-edit-hint"><Edit2 size={11} /> تعديل النصوص</span>
+                        <span className="hs__slide-edit-hint"><Edit2 size={11} /> {t('تعديل النصوص')}</span>
                       </div>
                     )}
                   </div>
                 ))}
 
                 {(curDesign.slides || []).length === 0 && (
-                  <div className="hs__stats-empty"><p>لا توجد صور — أضف صور للسلايدر</p></div>
+                  <div className="hs__stats-empty"><p>{t('لا توجد صور — أضف صور للسلايدر')}</p></div>
                 )}
               </div>
             </>

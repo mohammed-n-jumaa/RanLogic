@@ -19,18 +19,19 @@ import {
   Ticket,
   Palette 
 } from 'lucide-react';
+import { t } from '../i18n';
 
 export const sidebarSections = [
 
   {
     id: 'dashboard',
-    title: 'لوحة التحكم',
+    title: t('لوحة التحكم'),
     icon: LayoutDashboard,
     color: '#e91e63',
     items: [
       {
         id: 'dashboard-home',
-        label: 'تحليلات الموقع ',
+        label: t('تحليلات الموقع '),
         icon: LayoutDashboard,
         path: '/dashboard'
       }
@@ -40,18 +41,18 @@ export const sidebarSections = [
   // إدارة المحتوى
   {
     id: 'content',
-    title: 'إدارة المحتوى',
+    title: t('إدارة المحتوى'),
     icon: LayoutDashboard,
     color: '#9c27b0',
     items: [
-      { id: 'site-colors', label: 'ألوان الموقع', icon: Palette, path: '/site-colors' },
-      { id: 'logo', label: 'الشعار والعلامة', icon: Image, path: '/content/logo' },
-      { id: 'hero', label: 'واجهة الموقع', icon: Video, path: '/content/hero' },
-      { id: 'AboutCoach', label: 'عن المدربة', icon: Star, path: '/content/AboutCoach' },
-      { id: 'certifications', label: 'الشهادات والدورات', icon: Medal, path: '/content/certifications' },
-      { id: 'testimonials', label: 'آراء العملاء', icon: MessageSquare, path: '/content/testimonials' },
-      { id: 'faq', label: 'الأسئلة الشائعة', icon: HelpCircle, path: '/content/faq' },
-      { id: 'footer', label: 'إدارة الفوتر', icon: Globe, path: '/content/footer' }
+      { id: 'site-colors', label: t('ألوان الموقع'), icon: Palette, path: '/site-colors' },
+      { id: 'logo', label: t('الشعار والعلامة'), icon: Image, path: '/content/logo' },
+      { id: 'hero', label: t('واجهة الموقع'), icon: Video, path: '/content/hero' },
+      { id: 'AboutCoach', label: t('عن المدربة'), icon: Star, path: '/content/AboutCoach' },
+      { id: 'certifications', label: t('الشهادات والدورات'), icon: Medal, path: '/content/certifications' },
+      { id: 'testimonials', label: t('آراء العملاء'), icon: MessageSquare, path: '/content/testimonials' },
+      { id: 'faq', label: t('الأسئلة الشائعة'), icon: HelpCircle, path: '/content/faq' },
+      { id: 'footer', label: t('إدارة الفوتر'), icon: Globe, path: '/content/footer' }
 
       
     ]
@@ -60,14 +61,14 @@ export const sidebarSections = [
   // إدارة التدريب
   {
     id: 'training',
-    title: 'إدارة التدريب',
+    title: t('إدارة التدريب'),
     icon: Dumbbell,
     color: '#3f51b5',
     items: [
-      { id: 'clients-list', label: 'قائمة المتدربين', icon: Users, path: '/training/clients' },
-      { id: 'chat', label: 'محادثات المتدربين', icon: MessageCircleMore, path: '/chat' },
-      { id: 'exercise-library', label: 'مكتبة التمارين', icon: BookOpen, path: '/training/exercise-library' },
-      { id: 'all-users', label: 'جميع المستخدمين', icon: UserCircle, path: '/training/all-users' }
+      { id: 'clients-list', label: t('قائمة المتدربين'), icon: Users, path: '/training/clients' },
+      { id: 'chat', label: t('محادثات المتدربين'), icon: MessageCircleMore, path: '/chat' },
+      { id: 'exercise-library', label: t('مكتبة التمارين'), icon: BookOpen, path: '/training/exercise-library' },
+      { id: 'all-users', label: t('جميع المستخدمين'), icon: UserCircle, path: '/training/all-users' }
       
     ]
   },
@@ -75,31 +76,31 @@ export const sidebarSections = [
   // المدفوعات
   {
     id: 'subscriptions',
-    title: 'المدفوعات',
+    title: t('المدفوعات'),
     icon: Users,
     color: '#ff9800',
     items: [
-      { id: 'bank-transfer', label: 'التحويلات البنكية', icon: UserCheck, path: '/BankTransferSubscriptions' },
-      { id: 'paypal', label: 'باي بال', icon: UserCheck, path: '/PayPalSubscriptions' },
-      { id: 'plans', label: 'إدارة الخطط', icon: LayoutGrid, path: '/plans' },
-      { id: 'coupons', label: 'أكواد الخصم', icon: Ticket, path: '/coupons' }
+      { id: 'bank-transfer', label: t('التحويلات البنكية'), icon: UserCheck, path: '/BankTransferSubscriptions' },
+      { id: 'paypal', label: t('باي بال'), icon: UserCheck, path: '/PayPalSubscriptions' },
+      { id: 'plans', label: t('إدارة الخطط'), icon: LayoutGrid, path: '/plans' },
+      { id: 'coupons', label: t('أكواد الخصم'), icon: Ticket, path: '/coupons' }
     ]
   },
 
   // الإعدادات
   {
     id: 'settings',
-    title: 'الإعدادات',
+    title: t('الإعدادات'),
     icon: Settings,
     color: '#607d8b',
     items: [
-      { id: 'profile', label: 'الملف الشخصي', icon: UserCircle, path: '/settings/profile' }
+      { id: 'profile', label: t('الملف الشخصي'), icon: UserCircle, path: '/settings/profile' }
     ]
   },
 
  {
   id: 'logout',
-  title: 'تسجيل الخروج',
+  title: t('تسجيل الخروج'),
   icon: LogOut,
   color: '#f44336',
   items: [],

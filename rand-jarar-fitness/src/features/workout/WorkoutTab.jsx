@@ -60,7 +60,7 @@ const WorkoutTab = () => {
   // ✅ دالة عرض PDF
   const handleViewPdf = () => {
     if (workoutPlan?.plan?.pdf_file) {
-      const pdfUrl = `${import.meta.env.VITE_API_URL || ''}}/storage/${workoutPlan.plan.pdf_file}`;
+      const pdfUrl = `${import.meta.env.VITE_API_URL || 'https://api.ranlogic.com'}/storage/${workoutPlan.plan.pdf_file}`;
       window.open(pdfUrl, '_blank');
     } else {
       Swal.fire({
@@ -171,6 +171,33 @@ const WorkoutTab = () => {
         <div className="loading-container">
           <Loader2 className="spinner" />
           <p>{t('جاري تحميل خطة التمارين...', 'Loading workout plan...')}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (workoutPlan?.plan?.pdf_file && (!workoutPlan.exercises || workoutPlan.exercises.length === 0)) {
+    return (
+      <div className="workout-tab empty">
+        <div className="empty-state">
+          <FileDown className="workout-empty-icon" />
+          <h3>{t('خطة التمارين متوفرة بصيغة PDF', 'Workout Plan Available as PDF')}</h3>
+          <p>
+            {t(
+              'لا توجد تمارين مضافة داخل النظام حالياً، يمكنك عرض أو تحميل ملف الخطة الشهرية.',
+              'There are no exercises added in the system currently, but you can view or download the monthly plan PDF.'
+            )}
+          </p>
+
+          <button
+            className="workout-pdf-btn"
+            onClick={handleViewPdf}
+            style={{ marginTop: '1rem' }}
+          >
+            <FileDown />
+            <span>{t('عرض PDF', 'View PDF')}</span>
+            <Download />
+          </button>
         </div>
       </div>
     );

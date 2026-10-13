@@ -14,6 +14,7 @@ import {
   FileText
 } from 'lucide-react';
 import './SubscriptionCard.scss';
+import { t, loc } from '../../i18n';
 
 const SubscriptionCard = ({ 
   subscription, 
@@ -55,13 +56,13 @@ const SubscriptionCard = ({
   const getStatusLabel = (status) => {
     switch (status) {
       case 'approved':
-        return 'نشط';
+        return t('نشط');
       case 'pending':
-        return 'قيد الانتظار';
+        return t('قيد الانتظار');
       case 'rejected':
-        return 'مرفوض';
+        return t('مرفوض');
       case 'cancelled':
-        return 'ملغي';
+        return t('ملغي');
       default:
         return status;
     }
@@ -85,7 +86,7 @@ const SubscriptionCard = ({
   const formatDate = (date) => {
   if (!date) return '-';
 
-  return new Date(date).toLocaleDateString('ar-SA-u-ca-gregory', {
+  return new Date(date).toLocaleDateString(loc('ar-SA-u-ca-gregory'), {
     calendar: 'gregory',
     year: 'numeric',
     month: 'long',
@@ -142,7 +143,7 @@ const SubscriptionCard = ({
           <div className="subscription-card__user-info">
             <h3 className="subscription-card__user-name">
               <User size={16} />
-              {subscription.user?.name || 'غير محدد'}
+              {subscription.user?.name || t('غير محدد')}
             </h3>
             <p className="subscription-card__user-email">{subscription.user?.email}</p>
           </div>
@@ -168,12 +169,12 @@ const SubscriptionCard = ({
       <div className="subscription-card__details">
         <div className="subscription-card__detail">
           <DollarSign size={16} />
-          <span className="subscription-card__detail-label">المبلغ:</span>
+          <span className="subscription-card__detail-label">{t('المبلغ:')}</span>
           <span className="subscription-card__detail-value">
             ${subscription.amount}
             {subscription.discount_percentage > 0 && (
               <span className="subscription-card__discount">
-                ({subscription.discount_percentage}% خصم)
+                ({subscription.discount_percentage}{t('% خصم)')}
               </span>
             )}
           </span>
@@ -181,7 +182,7 @@ const SubscriptionCard = ({
 
         <div className="subscription-card__detail">
           <CreditCard size={16} />
-          <span className="subscription-card__detail-label">طريقة الدفع:</span>
+          <span className="subscription-card__detail-label">{t('طريقة الدفع:')}</span>
           <span className="subscription-card__detail-value">
             {subscription.payment_method_name}
           </span>
@@ -190,7 +191,7 @@ const SubscriptionCard = ({
         {subscription.starts_at && (
           <div className="subscription-card__detail">
             <Calendar size={16} />
-            <span className="subscription-card__detail-label">تاريخ البداية:</span>
+            <span className="subscription-card__detail-label">{t('تاريخ البداية:')}</span>
             <span className="subscription-card__detail-value">
               {formatDate(subscription.starts_at)}
             </span>
@@ -200,10 +201,10 @@ const SubscriptionCard = ({
         {subscription.ends_at && (
           <div className="subscription-card__detail">
             <Calendar size={16} />
-            <span className="subscription-card__detail-label">تاريخ الانتهاء:</span>
+            <span className="subscription-card__detail-label">{t('تاريخ الانتهاء:')}</span>
             <span className="subscription-card__detail-value">
               {formatDate(subscription.ends_at)}
-              {isExpired && <span className="subscription-card__expired-badge">منتهي</span>}
+              {isExpired && <span className="subscription-card__expired-badge">{t('منتهي')}</span>}
             </span>
           </div>
         )}
@@ -211,7 +212,7 @@ const SubscriptionCard = ({
         {subscription.bank_transfer_number && (
           <div className="subscription-card__detail">
             <FileText size={16} />
-            <span className="subscription-card__detail-label">رقم التحويل:</span>
+            <span className="subscription-card__detail-label">{t('رقم التحويل:')}</span>
             <span className="subscription-card__detail-value">
               {subscription.bank_transfer_number}
             </span>
@@ -227,7 +228,7 @@ const SubscriptionCard = ({
               className="subscription-card__receipt-link"
             >
               <ImageIcon size={16} />
-              <span>عرض إيصال التحويل</span>
+              <span>{t('عرض إيصال التحويل')}</span>
             </a>
           </div>
         )}
@@ -249,14 +250,14 @@ const SubscriptionCard = ({
                 onClick={() => onApprove?.(subscription)}
               >
                 <CheckCircle size={16} />
-                <span>تفعيل</span>
+                <span>{t('تفعيل')}</span>
               </button>
               <button
                 className="subscription-card__action-btn subscription-card__action-btn--danger"
                 onClick={() => onReject?.(subscription)}
               >
                 <XCircle size={16} />
-                <span>رفض</span>
+                <span>{t('رفض')}</span>
               </button>
             </>
           )}
@@ -266,7 +267,7 @@ const SubscriptionCard = ({
             onClick={() => onEdit?.(subscription)}
           >
             <Edit2 size={16} />
-            <span>تعديل</span>
+            <span>{t('تعديل')}</span>
           </button>
           
           <button
@@ -274,7 +275,7 @@ const SubscriptionCard = ({
             onClick={() => onDelete?.(subscription)}
           >
             <Trash2 size={16} />
-            <span>حذف</span>
+            <span>{t('حذف')}</span>
           </button>
         </div>
       )}

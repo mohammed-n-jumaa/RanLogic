@@ -18,12 +18,13 @@ import {
 import Swal from 'sweetalert2';
 import aboutCoachApi from '../../../api/aboutCoachApi';
 import './AboutCoach.scss';
+import { t } from '../../../i18n';
 
 const DESIGN_TABS = [
-  { key: 'classic',   label: 'الكلاسيكي', labelEn: 'Classic',   icon: Monitor,  desc: 'التصميم الأصلي' },
-  { key: 'editorial', label: 'المجلة',    labelEn: 'Editorial', icon: Sparkles, desc: 'تصميم المجلة' },
-  { key: 'bento',     label: 'البينتو',   labelEn: 'Bento',     icon: Columns,  desc: 'شبكة البينتو' },
-  { key: 'spotlight', label: 'الأضواء',   labelEn: 'Spotlight', icon: Layout,   desc: 'تصميم الأضواء' },
+  { key: 'classic',   label: t('الكلاسيكي'), labelEn: 'Classic',   icon: Monitor,  desc: t('التصميم الأصلي') },
+  { key: 'editorial', label: t('المجلة'),    labelEn: 'Editorial', icon: Sparkles, desc: t('تصميم المجلة') },
+  { key: 'bento',     label: t('البينتو'),   labelEn: 'Bento',     icon: Columns,  desc: t('شبكة البينتو') },
+  { key: 'spotlight', label: t('الأضواء'),   labelEn: 'Spotlight', icon: Layout,   desc: t('تصميم الأضواء') },
 ];
 
 const emptyContent = () => ({
@@ -82,8 +83,8 @@ const AboutCoach = () => {
     } catch (error) {
       console.error('Error fetching about coach:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل تحميل البيانات',
+        title: t('خطأ'),
+        text: t('فشل تحميل البيانات'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -137,14 +138,14 @@ const AboutCoach = () => {
 
   const handleDeleteFeature = async (index) => {
     const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف هذه الميزة؟',
+      title: t('تأكيد الحذف'),
+      text: t('هل أنت متأكد من حذف هذه الميزة؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
 
     if (!result.isConfirmed) return;
@@ -155,8 +156,8 @@ const AboutCoach = () => {
     }));
 
     Swal.fire({
-      title: 'تم الحذف',
-      text: 'تم حذف الميزة بنجاح',
+      title: t('تم الحذف'),
+      text: t('تم حذف الميزة بنجاح'),
       icon: 'success',
       timer: 2000,
       showConfirmButton: false,
@@ -172,8 +173,8 @@ const AboutCoach = () => {
   const processImage = async (file) => {
     if (!file.type.startsWith('image/')) {
       Swal.fire({
-        title: 'خطأ',
-        text: 'يرجى اختيار ملف صورة صالح',
+        title: t('خطأ'),
+        text: t('يرجى اختيار ملف صورة صالح'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -182,8 +183,8 @@ const AboutCoach = () => {
 
     if (file.size > 5 * 1024 * 1024) {
       Swal.fire({
-        title: 'خطأ',
-        text: 'حجم الصورة يجب أن لا يتجاوز 5MB',
+        title: t('خطأ'),
+        text: t('حجم الصورة يجب أن لا يتجاوز 5MB'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -205,8 +206,8 @@ const AboutCoach = () => {
       if (response.success) {
         setImagePreview(response.data.image_url);
         Swal.fire({
-          title: 'نجح',
-          text: 'تم رفع الصورة بنجاح',
+          title: t('نجح'),
+          text: t('تم رفع الصورة بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false,
@@ -215,8 +216,8 @@ const AboutCoach = () => {
     } catch (error) {
       console.error('Error uploading image:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: error.response?.data?.message || 'فشل رفع الصورة',
+        title: t('خطأ'),
+        text: error.response?.data?.message || t('فشل رفع الصورة'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -227,14 +228,14 @@ const AboutCoach = () => {
 
   const handleDeleteImage = async () => {
     const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف الصورة؟',
+      title: t('تأكيد الحذف'),
+      text: t('هل أنت متأكد من حذف الصورة؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
 
     if (!result.isConfirmed) return;
@@ -244,8 +245,8 @@ const AboutCoach = () => {
       if (response.success) {
         setImagePreview(null);
         Swal.fire({
-          title: 'تم الحذف',
-          text: 'تم حذف الصورة بنجاح',
+          title: t('تم الحذف'),
+          text: t('تم حذف الصورة بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false,
@@ -254,8 +255,8 @@ const AboutCoach = () => {
     } catch (error) {
       console.error('Error deleting image:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل حذف الصورة',
+        title: t('خطأ'),
+        text: t('فشل حذف الصورة'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -288,8 +289,8 @@ const AboutCoach = () => {
 
       if (response.success) {
         Swal.fire({
-          title: 'نجح',
-          text: 'تم حفظ جميع التغييرات بنجاح',
+          title: t('نجح'),
+          text: t('تم حفظ جميع التغييرات بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false,
@@ -301,8 +302,8 @@ const AboutCoach = () => {
     } catch (error) {
       console.error('Error saving changes:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: error.response?.data?.message || 'فشل حفظ التغييرات',
+        title: t('خطأ'),
+        text: error.response?.data?.message || t('فشل حفظ التغييرات'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -318,7 +319,7 @@ const AboutCoach = () => {
       <div className="ac">
         <div className="ac__loader">
           <div className="ac__loader-spin" />
-          <span>جاري تحميل البيانات...</span>
+          <span>{t('جاري تحميل البيانات...')}</span>
         </div>
       </div>
     );
@@ -329,9 +330,9 @@ const AboutCoach = () => {
 
       <div className="ac__topbar">
         <div>
-          <h1 className="ac__title">إدارة قسم عن المدربة</h1>
+          <h1 className="ac__title">{t('إدارة قسم عن المدربة')}</h1>
           <p className="ac__desc">
-            إدارة 4 تصاميم مختلفة — التصميم النشط هو الظاهر بالموقع
+            {t('إدارة 4 تصاميم مختلفة — التصميم النشط هو الظاهر بالموقع')}
           </p>
         </div>
         <motion.button
@@ -343,12 +344,12 @@ const AboutCoach = () => {
           {isSaving ? (
             <>
               <div className="ac__spinner" />
-              <span>جاري الحفظ...</span>
+              <span>{t('جاري الحفظ...')}</span>
             </>
           ) : (
             <>
               <Save size={16} />
-              <span>حفظ التغييرات</span>
+              <span>{t('حفظ التغييرات')}</span>
             </>
           )}
         </motion.button>
@@ -385,24 +386,24 @@ const AboutCoach = () => {
           onClick={() => setActiveDesignType(activeDesignTab)}
         >
           <Sparkles size={14} />
-          تفعيل هذا التصميم كالتصميم الرئيسي
+          {t('تفعيل هذا التصميم كالتصميم الرئيسي')}
         </motion.button>
       )}
 
       <div className="ac__bg-toggle">
-        <span className="ac__bg-label">خلفية السيكشن:</span>
+        <span className="ac__bg-label">{t('خلفية السيكشن:')}</span>
         <div className="ac__bg-options">
           <button
             className={`ac__bg-opt ${bgStyle === 'dark' ? 'ac__bg-opt--on' : ''}`}
             onClick={() => setBgStyle('dark')}
           >
-            داكنة
+            {t('داكنة')}
           </button>
           <button
             className={`ac__bg-opt ${bgStyle === 'transparent' ? 'ac__bg-opt--on' : ''}`}
             onClick={() => setBgStyle('transparent')}
           >
-            شفافة (نفس الأصلي)
+            {t('شفافة (نفس الأصلي)')}
           </button>
         </div>
       </div>
@@ -420,7 +421,7 @@ const AboutCoach = () => {
               className={`ac__lang-tab ${langTab === 'ar' ? 'ac__lang-tab--on' : ''}`}
               onClick={() => setLangTab('ar')}
             >
-              <Globe size={15} /> العربية
+              <Globe size={15} /> {t('العربية')}
             </button>
             <button
               className={`ac__lang-tab ${langTab === 'en' ? 'ac__lang-tab--on' : ''}`}
@@ -442,33 +443,33 @@ const AboutCoach = () => {
             >
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'الشارة (اختياري)' : 'Badge (Optional)'}
+                  {isAr ? t('الشارة (اختياري)') : 'Badge (Optional)'}
                 </label>
                 <input
                   type="text"
                   className="ac__input"
                   value={curDesign.content[`badge_${langTab}`] || ''}
                   onChange={(e) => updateContent(`badge_${langTab}`, e.target.value)}
-                  placeholder={isAr ? 'من أنا' : 'Who Am I'}
+                  placeholder={isAr ? t('من أنا') : 'Who Am I'}
                 />
               </div>
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'العنوان الرئيسي' : 'Main Title'}
+                  {isAr ? t('العنوان الرئيسي') : 'Main Title'}
                 </label>
                 <input
                   type="text"
                   className="ac__input"
                   value={curDesign.content[`title_${langTab}`] || ''}
                   onChange={(e) => updateContent(`title_${langTab}`, e.target.value)}
-                  placeholder={isAr ? 'عن المدربة' : 'About the Coach'}
+                  placeholder={isAr ? t('عن المدربة') : 'About the Coach'}
                 />
               </div>
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'الوصف الرئيسي' : 'Main Description'}
+                  {isAr ? t('الوصف الرئيسي') : 'Main Description'}
                 </label>
                 <textarea
                   className="ac__textarea"
@@ -479,7 +480,7 @@ const AboutCoach = () => {
                   rows="4"
                   placeholder={
                     isAr
-                      ? 'مدربة لياقة بدنية معتمدة دولياً...'
+                      ? t('مدربة لياقة بدنية معتمدة دولياً...')
                       : 'An internationally certified fitness coach...'
                   }
                 />
@@ -487,7 +488,7 @@ const AboutCoach = () => {
 
               <div className="ac__field">
                 <label className="ac__label">
-                  {isAr ? 'الاقتباس / النص المميز' : 'Quote / Highlight Text'}
+                  {isAr ? t('الاقتباس / النص المميز') : 'Quote / Highlight Text'}
                 </label>
                 <textarea
                   className="ac__textarea ac__textarea--accent"
@@ -498,7 +499,7 @@ const AboutCoach = () => {
                   rows="3"
                   placeholder={
                     isAr
-                      ? 'ساعدت أكثر من 200 متدربة...'
+                      ? t('ساعدت أكثر من 200 متدربة...')
                       : 'I have helped over 200 trainees...'
                   }
                 />
@@ -509,10 +510,10 @@ const AboutCoach = () => {
           <div className="ac__features">
             <div className="ac__features-head">
               <span className="ac__features-title">
-                المميزات / Features
+                {t('المميزات / Features')}
               </span>
               <button className="ac__features-add" onClick={handleAddFeature}>
-                <Plus size={15} /> إضافة
+                <Plus size={15} /> {t('إضافة')}
               </button>
             </div>
 
@@ -525,8 +526,8 @@ const AboutCoach = () => {
                     animate={{ opacity: 1 }}
                   >
                     <Star size={32} />
-                    <p>لا توجد مميزات حالياً</p>
-                    <span>انقر على "إضافة" للبدء — أو سيتم استخدام الافتراضية</span>
+                    <p>{t('لا توجد مميزات حالياً')}</p>
+                    <span>{t('انقر على "إضافة" للبدء — أو سيتم استخدام الافتراضية')}</span>
                   </motion.div>
                 ) : (
                   (curDesign.features || []).map((feature, index) => (
@@ -568,7 +569,7 @@ const AboutCoach = () => {
                               dir={isAr ? 'rtl' : 'ltr'}
                             >
                               <span className="ac__feat-lang-label">
-                                {isAr ? 'العربية' : 'English'}
+                                {isAr ? t('العربية') : 'English'}
                               </span>
                               <input
                                 className="ac__feat-input"
@@ -583,7 +584,7 @@ const AboutCoach = () => {
                                   )
                                 }
                                 placeholder={
-                                  isAr ? 'عنوان الميزة' : 'Feature title'
+                                  isAr ? t('عنوان الميزة') : 'Feature title'
                                 }
                               />
                               <input
@@ -603,7 +604,7 @@ const AboutCoach = () => {
                                   )
                                 }
                                 placeholder={
-                                  isAr ? 'وصف الميزة' : 'Feature description'
+                                  isAr ? t('وصف الميزة') : 'Feature description'
                                 }
                               />
                             </motion.div>
@@ -654,7 +655,7 @@ const AboutCoach = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="ac__img-label">صورة المدربة</div>
+          <div className="ac__img-label">{t('صورة المدربة')}</div>
 
           {!imagePreview ? (
             <div
@@ -672,12 +673,12 @@ const AboutCoach = () => {
                 <Upload size={28} />
               </div>
               <p className="ac__dropzone-txt">
-                انقر لرفع صورة أو <span>تصفح الملفات</span>
+                {t('انقر لرفع صورة أو')} <span>{t('تصفح الملفات')}</span>
               </p>
               <div className="ac__dropzone-meta">
                 <span>PNG, JPG, WEBP</span>
                 <span className="ac__dot" />
-                <span>أقصى 5MB</span>
+                <span>{t('أقصى 5MB')}</span>
               </div>
             </div>
           ) : (
@@ -705,13 +706,13 @@ const AboutCoach = () => {
                   className="ac__photo-act"
                   onClick={() => fileInputRef.current?.click()}
                 >
-                  <Upload size={15} /> تغيير
+                  <Upload size={15} /> {t('تغيير')}
                 </button>
                 <button
                   className="ac__photo-act ac__photo-act--del"
                   onClick={handleDeleteImage}
                 >
-                  <Trash2 size={15} /> حذف
+                  <Trash2 size={15} /> {t('حذف')}
                 </button>
                 <input
                   ref={fileInputRef}

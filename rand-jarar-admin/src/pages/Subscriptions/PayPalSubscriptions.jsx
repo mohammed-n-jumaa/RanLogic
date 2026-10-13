@@ -22,6 +22,7 @@ import subscriptionsApi from '../../api/subscriptionsApi';
 import SubscriptionCard from '../../components/SubscriptionCard/SubscriptionCard';
 import SubscriptionFormModal from '../../components/SubscriptionFormModal/SubscriptionFormModal';
 import './PayPalSubscriptions.scss';
+import { t } from '../../i18n';
 
 const PayPalSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -60,8 +61,8 @@ const [statusFilter, setStatusFilter] = useState('approved');
     } catch (error) {
       console.error('Error fetching subscriptions:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل تحميل البيانات',
+        title: t('خطأ'),
+        text: t('فشل تحميل البيانات'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -127,14 +128,14 @@ const [statusFilter, setStatusFilter] = useState('approved');
 
   const handleDelete = async (subscription) => {
     const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف هذا الاشتراك؟',
+      title: t('تأكيد الحذف'),
+      text: t('هل أنت متأكد من حذف هذا الاشتراك؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء'),
     });
 
     if (!result.isConfirmed) return;
@@ -145,8 +146,8 @@ const [statusFilter, setStatusFilter] = useState('approved');
       );
       if (response.success) {
         Swal.fire({
-          title: 'تم الحذف',
-          text: 'تم حذف الاشتراك بنجاح',
+          title: t('تم الحذف'),
+          text: t('تم حذف الاشتراك بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false,
@@ -156,8 +157,8 @@ const [statusFilter, setStatusFilter] = useState('approved');
     } catch (error) {
       console.error('Error deleting subscription:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل حذف الاشتراك',
+        title: t('خطأ'),
+        text: t('فشل حذف الاشتراك'),
         icon: 'error',
         confirmButtonColor: '#e91e63',
       });
@@ -180,8 +181,8 @@ const [statusFilter, setStatusFilter] = useState('approved');
 
   const exportData = () => {
     Swal.fire({
-      title: 'قريباً',
-      text: 'ميزة التصدير قيد التطوير',
+      title: t('قريباً'),
+      text: t('ميزة التصدير قيد التطوير'),
       icon: 'info',
       confirmButtonColor: '#e91e63',
     });
@@ -211,11 +212,11 @@ const [statusFilter, setStatusFilter] = useState('approved');
 
   const getPlanName = (type) => {
     const names = {
-      basic: 'الخطة الأساسية',
-      nutrition: 'خطة التغذية',
-      elite: 'الخطة المتميزة',
-      vip: 'الخطة VIP',
-      expired: 'اشتراكات منتهية',
+      basic: t('الخطة الأساسية'),
+      nutrition: t('خطة التغذية'),
+      elite: t('الخطة المتميزة'),
+      vip: t('الخطة VIP'),
+      expired: t('اشتراكات منتهية'),
     };
     return names[type] || type;
   };
@@ -239,7 +240,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
       <div className="pp">
         <div className="pp__loader">
           <div className="pp__loader-spin" />
-          <span>جاري تحميل الاشتراكات...</span>
+          <span>{t('جاري تحميل الاشتراكات...')}</span>
         </div>
       </div>
     );
@@ -254,14 +255,14 @@ const [statusFilter, setStatusFilter] = useState('approved');
       {/* ── Top Bar ── */}
       <div className="pp__topbar">
         <div>
-          <h1 className="pp__title">اشتراكات PayPal</h1>
-          <p className="pp__desc">إدارة الاشتراكات والمدفوعات</p>
+          <h1 className="pp__title">{t('اشتراكات PayPal')}</h1>
+          <p className="pp__desc">{t('إدارة الاشتراكات والمدفوعات')}</p>
         </div>
         <div className="pp__topbar-acts">
-          <button className="pp__icon-btn" onClick={fetchSubscriptions} title="تحديث">
+          <button className="pp__icon-btn" onClick={fetchSubscriptions} title={t('تحديث')}>
             <RefreshCw size={15} />
           </button>
-          <button className="pp__icon-btn" onClick={exportData} title="تصدير">
+          <button className="pp__icon-btn" onClick={exportData} title={t('تصدير')}>
             <Download size={15} />
           </button>
           <motion.button
@@ -270,7 +271,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
             whileTap={{ scale: 0.97 }}
           >
             <Plus size={16} />
-            <span>إضافة اشتراك</span>
+            <span>{t('إضافة اشتراك')}</span>
           </motion.button>
         </div>
       </div>
@@ -280,27 +281,27 @@ const [statusFilter, setStatusFilter] = useState('approved');
         <div className="pp__stat">
           <CreditCard size={18} className="pp__stat-ic pp__stat-ic--blue" />
           <span className="pp__stat-num">{stats.total}</span>
-          <span className="pp__stat-label">إجمالي</span>
+          <span className="pp__stat-label">{t('إجمالي')}</span>
         </div>
         <div className="pp__stat-sep" />
         <div className="pp__stat">
           <CheckCircle size={18} className="pp__stat-ic pp__stat-ic--green" />
           <span className="pp__stat-num">{stats.active}</span>
-          <span className="pp__stat-label">نشط</span>
+          <span className="pp__stat-label">{t('نشط')}</span>
           <span className="pp__stat-pct pp__stat-pct--green">{pct(stats.active)}%</span>
         </div>
         <div className="pp__stat-sep" />
         <div className="pp__stat">
           <Clock size={18} className="pp__stat-ic pp__stat-ic--yellow" />
           <span className="pp__stat-num">{stats.expired}</span>
-          <span className="pp__stat-label">منتهي</span>
+          <span className="pp__stat-label">{t('منتهي')}</span>
           <span className="pp__stat-pct pp__stat-pct--yellow">{pct(stats.expired)}%</span>
         </div>
         <div className="pp__stat-sep" />
         <div className="pp__stat">
           <DollarSign size={18} className="pp__stat-ic pp__stat-ic--pink" />
           <span className="pp__stat-num">${stats.totalRevenue}</span>
-          <span className="pp__stat-label">إيرادات</span>
+          <span className="pp__stat-label">{t('إيرادات')}</span>
         </div>
       </div>
 
@@ -310,7 +311,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
           <Search size={16} className="pp__search-ic" />
           <input
             type="text"
-            placeholder="ابحث بالاسم أو البريد أو رقم الطلب..."
+            placeholder={t('ابحث بالاسم أو البريد أو رقم الطلب...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -326,11 +327,11 @@ const [statusFilter, setStatusFilter] = useState('approved');
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
-          <option value="all">كل الحالات</option>
-          <option value="approved">نشط</option>
-          <option value="pending">قيد الانتظار</option>
-          <option value="expired">منتهي</option>
-          <option value="cancelled">ملغي</option>
+          <option value="all">{t('كل الحالات')}</option>
+          <option value="approved">{t('نشط')}</option>
+          <option value="pending">{t('قيد الانتظار')}</option>
+          <option value="expired">{t('منتهي')}</option>
+          <option value="cancelled">{t('ملغي')}</option>
         </select>
 
         <select
@@ -338,10 +339,10 @@ const [statusFilter, setStatusFilter] = useState('approved');
           value={planFilter}
           onChange={(e) => setPlanFilter(e.target.value)}
         >
-          <option value="all">كل الخطط</option>
-          <option value="basic">الأساسية</option>
-          <option value="nutrition">التغذية</option>
-          <option value="elite">المتميزة</option>
+          <option value="all">{t('كل الخطط')}</option>
+          <option value="basic">{t('الأساسية')}</option>
+          <option value="nutrition">{t('التغذية')}</option>
+          <option value="elite">{t('المتميزة')}</option>
           <option value="vip">VIP</option>
         </select>
 
@@ -354,7 +355,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
               setPlanFilter('all');
             }}
           >
-            <X size={14} /> مسح الفلاتر
+            <X size={14} /> {t('مسح الفلاتر')}
           </button>
         )}
       </div>
@@ -400,10 +401,10 @@ const [statusFilter, setStatusFilter] = useState('approved');
             animate={{ opacity: 1 }}
           >
             <CreditCard size={40} />
-            <h3>لا توجد اشتراكات</h3>
-            <p>لم يتم العثور على اشتراكات مطابقة</p>
+            <h3>{t('لا توجد اشتراكات')}</h3>
+            <p>{t('لم يتم العثور على اشتراكات مطابقة')}</p>
             <button className="pp__empty-btn" onClick={handleAddNew}>
-              <Plus size={16} /> إضافة اشتراك جديد
+              <Plus size={16} /> {t('إضافة اشتراك جديد')}
             </button>
           </motion.div>
         )}

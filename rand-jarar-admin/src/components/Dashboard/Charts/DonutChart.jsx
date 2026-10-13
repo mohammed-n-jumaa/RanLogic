@@ -8,6 +8,7 @@ import {
   Legend
 } from 'recharts';
 import './Charts.scss';
+import { t } from '../../../i18n';
 
 const DonutChart = ({ data = [], height = 300 }) => {
   const [chartData, setChartData] = useState([]);
@@ -18,11 +19,11 @@ const DonutChart = ({ data = [], height = 300 }) => {
     } else {
       // بيانات افتراضية
       setChartData([
-        { name: 'تنشيف', value: 65, color: '#e91e63' },
-        { name: 'نحت', value: 45, color: '#9c27b0' },
-        { name: 'زيادة عضل', value: 30, color: '#2196f3' },
-        { name: 'لياقة عامة', value: 25, color: '#4caf50' },
-        { name: 'تغذية', value: 15, color: '#ff9800' },
+        { name: t('تنشيف'), value: 65, color: '#e91e63' },
+        { name: t('نحت'), value: 45, color: '#9c27b0' },
+        { name: t('زيادة عضل'), value: 30, color: '#2196f3' },
+        { name: t('لياقة عامة'), value: 25, color: '#4caf50' },
+        { name: t('تغذية'), value: 15, color: '#ff9800' },
       ]);
     }
   }, [data]);
@@ -53,7 +54,7 @@ const DonutChart = ({ data = [], height = 300 }) => {
               borderColor: 'var(--border-color)',
               color: 'var(--text-primary)'
             }}
-            formatter={(value) => [`${value} متدربة`, 'العدد']}
+            formatter={(value) => [t('{0} متدربة', value), t('العدد')]}
           />
           <Legend />
         </RechartsPieChart>

@@ -18,6 +18,7 @@ import SubscriptionCard from '../../components/SubscriptionCard/SubscriptionCard
 import SubscriptionFormModal from '../../components/SubscriptionFormModal/SubscriptionFormModal';
 import ApprovalModal from '../../components/ApprovalModal/ApprovalModal';
 import './BankTransferSubscriptions.scss';
+import { t } from '../../i18n';
 
 const BankTransferSubscriptions = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -61,8 +62,8 @@ const BankTransferSubscriptions = () => {
     } catch (error) {
       console.error('Error fetching subscriptions:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل تحميل البيانات',
+        title: t('خطأ'),
+        text: t('فشل تحميل البيانات'),
         icon: 'error',
         confirmButtonColor: '#e91e63'
       });
@@ -146,8 +147,8 @@ const BankTransferSubscriptions = () => {
 
       if (response.success) {
         Swal.fire({
-          title: 'نجح',
-          text: approvalAction === 'approve' ? 'تم تفعيل الاشتراك بنجاح' : 'تم رفض الاشتراك',
+          title: t('نجح'),
+          text: approvalAction === 'approve' ? t('تم تفعيل الاشتراك بنجاح') : t('تم رفض الاشتراك'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false
@@ -159,8 +160,8 @@ const BankTransferSubscriptions = () => {
     } catch (error) {
       console.error('Error processing subscription:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: error.response?.data?.message || 'فشل معالجة الطلب',
+        title: t('خطأ'),
+        text: error.response?.data?.message || t('فشل معالجة الطلب'),
         icon: 'error',
         confirmButtonColor: '#e91e63'
       });
@@ -174,14 +175,14 @@ const BankTransferSubscriptions = () => {
 
   const handleDelete = async (subscription) => {
     const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف هذا الاشتراك؟',
+      title: t('تأكيد الحذف'),
+      text: t('هل أنت متأكد من حذف هذا الاشتراك؟'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#e91e63',
       cancelButtonColor: '#607d8b',
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء'
+      confirmButtonText: t('نعم، احذف'),
+      cancelButtonText: t('إلغاء')
     });
 
     if (!result.isConfirmed) return;
@@ -191,8 +192,8 @@ const BankTransferSubscriptions = () => {
 
       if (response.success) {
         Swal.fire({
-          title: 'تم الحذف',
-          text: 'تم حذف الاشتراك بنجاح',
+          title: t('تم الحذف'),
+          text: t('تم حذف الاشتراك بنجاح'),
           icon: 'success',
           timer: 2000,
           showConfirmButton: false
@@ -203,8 +204,8 @@ const BankTransferSubscriptions = () => {
     } catch (error) {
       console.error('Error deleting subscription:', error);
       Swal.fire({
-        title: 'خطأ',
-        text: 'فشل حذف الاشتراك',
+        title: t('خطأ'),
+        text: t('فشل حذف الاشتراك'),
         icon: 'error',
         confirmButtonColor: '#e91e63'
       });
@@ -222,8 +223,8 @@ const BankTransferSubscriptions = () => {
 
   const exportData = () => {
     Swal.fire({
-      title: 'قريباً',
-      text: 'ميزة التصدير قيد التطوير',
+      title: t('قريباً'),
+      text: t('ميزة التصدير قيد التطوير'),
       icon: 'info',
       confirmButtonColor: '#e91e63'
     });
@@ -253,10 +254,10 @@ const BankTransferSubscriptions = () => {
 
   const getStatusName = (status) => {
     const names = {
-      pending: 'طلبات قيد الانتظار',
-      approved: 'اشتراكات نشطة',
-      rejected: 'طلبات مرفوضة',
-      expired: 'اشتراكات منتهية'
+      pending: t('طلبات قيد الانتظار'),
+      approved: t('اشتراكات نشطة'),
+      rejected: t('طلبات مرفوضة'),
+      expired: t('اشتراكات منتهية')
     };
     return names[status] || status;
   };
@@ -276,7 +277,7 @@ const BankTransferSubscriptions = () => {
       <div className="bank-transfer-subscriptions">
         <div className="bank-transfer-subscriptions__loading">
           <div className="spinner-large"></div>
-          <p>جاري تحميل البيانات...</p>
+          <p>{t('جاري تحميل البيانات...')}</p>
         </div>
       </div>
     );
@@ -296,10 +297,10 @@ const BankTransferSubscriptions = () => {
           <div className="bank-transfer-subscriptions__title-section">
             <h1 className="bank-transfer-subscriptions__title">
               <Building2 size={32} />
-              اشتراكات التحويل البنكي
+              {t('اشتراكات التحويل البنكي')}
             </h1>
             <p className="bank-transfer-subscriptions__subtitle">
-              إدارة طلبات الاشتراك عبر التحويل البنكي والموافقة عليها
+              {t('إدارة طلبات الاشتراك عبر التحويل البنكي والموافقة عليها')}
             </p>
           </div>
 
@@ -309,7 +310,7 @@ const BankTransferSubscriptions = () => {
               onClick={() => fetchSubscriptions()}
             >
               <RefreshCw size={18} />
-              <span>تحديث</span>
+              <span>{t('تحديث')}</span>
             </button>
 
             <button
@@ -317,7 +318,7 @@ const BankTransferSubscriptions = () => {
               onClick={exportData}
             >
               <Download size={18} />
-              <span>تصدير</span>
+              <span>{t('تصدير')}</span>
             </button>
           </div>
         </div>
@@ -336,7 +337,7 @@ const BankTransferSubscriptions = () => {
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.total}</div>
-            <div className="stat-card__label">إجمالي الطلبات</div>
+            <div className="stat-card__label">{t('إجمالي الطلبات')}</div>
           </div>
         </div>
 
@@ -346,7 +347,7 @@ const BankTransferSubscriptions = () => {
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.pending}</div>
-            <div className="stat-card__label">قيد الانتظار</div>
+            <div className="stat-card__label">{t('قيد الانتظار')}</div>
           </div>
         </div>
 
@@ -356,7 +357,7 @@ const BankTransferSubscriptions = () => {
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.approved}</div>
-            <div className="stat-card__label">مفعلة</div>
+            <div className="stat-card__label">{t('مفعلة')}</div>
           </div>
         </div>
 
@@ -366,7 +367,7 @@ const BankTransferSubscriptions = () => {
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.rejected}</div>
-            <div className="stat-card__label">مرفوضة</div>
+            <div className="stat-card__label">{t('مرفوضة')}</div>
           </div>
         </div>
 
@@ -376,7 +377,7 @@ const BankTransferSubscriptions = () => {
           </div>
           <div className="stat-card__content">
             <div className="stat-card__value">{stats.expired}</div>
-            <div className="stat-card__label">منتهية</div>
+            <div className="stat-card__label">{t('منتهية')}</div>
           </div>
         </div>
       </motion.div>
@@ -392,7 +393,7 @@ const BankTransferSubscriptions = () => {
           <Search size={20} />
           <input
             type="text"
-            placeholder="ابحث عن متدرب، بريد إلكتروني، أو رقم تحويل..."
+            placeholder={t('ابحث عن متدرب، بريد إلكتروني، أو رقم تحويل...')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -403,7 +404,7 @@ const BankTransferSubscriptions = () => {
           onClick={() => setShowFilters(!showFilters)}
         >
           <Filter size={18} />
-          <span>فلاتر</span>
+          <span>{t('فلاتر')}</span>
         </button>
       </motion.div>
 
@@ -416,30 +417,30 @@ const BankTransferSubscriptions = () => {
             exit={{ opacity: 0, height: 0 }}
           >
             <div className="filter-group">
-              <label>الحالة:</label>
+              <label>{t('الحالة:')}</label>
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
               >
-                <option value="all">الكل</option>
-                <option value="pending">قيد الانتظار</option>
-                <option value="approved">مفعل</option>
-                <option value="rejected">مرفوض</option>
-                <option value="expired">منتهي</option>
+                <option value="all">{t('الكل')}</option>
+                <option value="pending">{t('قيد الانتظار')}</option>
+                <option value="approved">{t('مفعل')}</option>
+                <option value="rejected">{t('مرفوض')}</option>
+                <option value="expired">{t('منتهي')}</option>
               </select>
             </div>
 
             <div className="filter-group">
-              <label>نوع الخطة:</label>
+              <label>{t('نوع الخطة:')}</label>
               <select
                 value={planFilter}
                 onChange={(e) => setPlanFilter(e.target.value)}
               >
-                <option value="all">الكل</option>
-                <option value="basic">الخطة الأساسية</option>
-                <option value="nutrition">خطة التغذية</option>
-                <option value="elite">الخطة المتميزة</option>
-                <option value="vip">الخطة VIP</option>
+                <option value="all">{t('الكل')}</option>
+                <option value="basic">{t('الخطة الأساسية')}</option>
+                <option value="nutrition">{t('خطة التغذية')}</option>
+                <option value="elite">{t('الخطة المتميزة')}</option>
+                <option value="vip">{t('الخطة VIP')}</option>
               </select>
             </div>
 
@@ -451,7 +452,7 @@ const BankTransferSubscriptions = () => {
                 setPlanFilter('all');
               }}
             >
-              إعادة تعيين
+              {t('إعادة تعيين')}
             </button>
           </motion.div>
         )}
@@ -503,8 +504,8 @@ const BankTransferSubscriptions = () => {
             animate={{ opacity: 1, scale: 1 }}
           >
             <Building2 size={64} />
-            <h3>لا توجد طلبات</h3>
-            <p>لم يتم العثور على طلبات مطابقة للفلاتر المحددة</p>
+            <h3>{t('لا توجد طلبات')}</h3>
+            <p>{t('لم يتم العثور على طلبات مطابقة للفلاتر المحددة')}</p>
           </motion.div>
         )}
       </div>

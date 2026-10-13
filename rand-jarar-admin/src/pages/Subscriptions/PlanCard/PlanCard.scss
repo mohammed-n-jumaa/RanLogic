@@ -3,12 +3,12 @@
 
 .plan-card {
     @include card;
-    border-left: 3px solid var(--card-accent, #{$primary-pink});
+    border-inline-end: 3px solid var(--card-accent, #{$primary-pink});
     transition: border-color $transition-fast, box-shadow $transition-fast;
     overflow: hidden;
 
     &--dirty {
-        border-left-color: $warning;
+        border-inline-end-color: $warning;
         box-shadow: 0 0 0 1px rgba($warning, 0.25);
     }
 

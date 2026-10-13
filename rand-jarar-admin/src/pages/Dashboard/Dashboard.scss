@@ -38,8 +38,8 @@
 .ds-glow {
   position: absolute; pointer-events: none; border-radius: 50%;
 
-  &--1 { top: -120px; left: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba($primary-pink, 0.08) 0%, transparent 70%); }
-  &--2 { bottom: -100px; right: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%); }
+  &--1 { top: -120px; inset-inline-end: -80px; width: 350px; height: 350px; background: radial-gradient(circle, rgba($primary-pink, 0.08) 0%, transparent 70%); }
+  &--2 { bottom: -100px; inset-inline-start: -60px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%); }
 }
 
 // ── Header ───────────────────────────────────────────────────────────────────
@@ -112,7 +112,7 @@
 
   &__amount {
     font-size: 36px; font-weight: 600; letter-spacing: -1px; color: var(--text-primary);
-    small { font-size: 14px; font-weight: 400; color: var(--text-muted); margin-right: 4px; }
+    small { font-size: 14px; font-weight: 400; color: var(--text-muted); margin-inline-start: 4px; }
     @include mobile { font-size: 28px; }
   }
 
@@ -186,7 +186,7 @@
   &__name { font-size: 12px; color: var(--text-secondary); min-width: 60px; }
   &__track { flex: 1; height: 6px; background: rgba(255, 255, 255, 0.06); border-radius: 3px; overflow: hidden; }
   &__fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
-  &__num { font-size: 12px; font-weight: 500; min-width: 32px; text-align: left; color: var(--text-primary); }
+  &__num { font-size: 12px; font-weight: 500; min-width: 32px; text-align: end; color: var(--text-primary); }
 }
 
 // ── Row 3: Feed + Notifications ──────────────────────────────────────────────

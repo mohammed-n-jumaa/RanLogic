@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import SidebarItem from './SidebarItem';
 import Badge from '../../common/Badge';
 import './SidebarSection.scss';
+import { t } from '../../../i18n';
 
 const SidebarSection = ({ section, isCollapsed, onLogout, isLoggingOut }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -39,7 +40,7 @@ const SidebarSection = ({ section, isCollapsed, onLogout, isLoggingOut }) => {
             {!isCollapsed && (
               <>
                 <span className="sidebar-section__title">
-                  {isLoggingOut ? 'جاري الخروج...' : section.title}
+                  {isLoggingOut ? t('جاري الخروج...') : section.title}
                 </span>
                 
                 {isLoggingOut && (

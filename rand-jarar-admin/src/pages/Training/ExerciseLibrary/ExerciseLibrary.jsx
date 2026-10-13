@@ -11,6 +11,7 @@ import ExerciseDetailModal from './ExerciseDetailModal';
 import ExerciseFormModal from './ExerciseFormModal';
 import FilterSheet from './FilterSheet';
 import './ExerciseLibrary.scss';
+import { t } from '../../../i18n';
 
 const API_STORAGE = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
 
@@ -34,7 +35,7 @@ const formatDate = (dateStr) => {
   return String(dateStr).split('T')[0];
 };
 
-const DAY_NAMES = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+const DAY_NAMES = [t('الأحد'), t('الإثنين'), t('الثلاثاء'), t('الأربعاء'), t('الخميس'), t('الجمعة'), t('السبت')];
 const getDayName = (dateStr) => {
   const d = formatDate(dateStr);
   if (!d) return '';
@@ -122,7 +123,7 @@ const ExerciseCard = ({ exercise, onView, onEdit, onDelete }) => {
           <button
             className="exercise-card__btn exercise-card__btn--watch"
             onClick={(e) => { e.stopPropagation(); onView(exercise); }}
-            title="مشاهدة"
+            title={t('مشاهدة')}
           >
             <Play size={12} />
           </button>
@@ -131,7 +132,7 @@ const ExerciseCard = ({ exercise, onView, onEdit, onDelete }) => {
           <button
             className={`exercise-card__btn ${copied ? 'exercise-card__btn--copied' : ''}`}
             onClick={handleCopy}
-            title="نسخ الرابط"
+            title={t('نسخ الرابط')}
           >
             {copied ? <CheckCircle size={12} /> : <Copy size={12} />}
           </button>
@@ -155,13 +156,13 @@ const ExerciseCard = ({ exercise, onView, onEdit, onDelete }) => {
                 transition={{ duration: 0.13 }}
               >
                 <button onClick={(e) => { e.stopPropagation(); setMenuOpen(false); onEdit(exercise); }}>
-                  <Edit2 size={13} /> تعديل
+                  <Edit2 size={13} /> {t('تعديل')}
                 </button>
                 <button
                   className="danger"
                   onClick={(e) => { e.stopPropagation(); setMenuOpen(false); onDelete(exercise); }}
                 >
-                  <Trash2 size={13} /> حذف
+                  <Trash2 size={13} /> {t('حذف')}
                 </button>
               </motion.div>
             )}
@@ -175,9 +176,9 @@ const ExerciseCard = ({ exercise, onView, onEdit, onDelete }) => {
 // ─── Stats Bar ────────────────────────────────────────────────────────────────
 const StatsBar = ({ stats }) => (
   <div className="ex-library__stats">
-    <div className="ex-library__stat"><TrendingUp size={13} /><span>{stats?.total ?? '—'} تمرين</span></div>
-    <div className="ex-library__stat"><BookOpen size={13} /><span>{stats?.unique_names ?? '—'} فريد</span></div>
-    <div className="ex-library__stat"><Film size={13} /><span>{stats?.with_video ?? '—'} مع فيديو</span></div>
+    <div className="ex-library__stat"><TrendingUp size={13} /><span>{stats?.total ?? '—'} {t('تمرين')}</span></div>
+    <div className="ex-library__stat"><BookOpen size={13} /><span>{stats?.unique_names ?? '—'} {t('فريد')}</span></div>
+    <div className="ex-library__stat"><Film size={13} /><span>{stats?.with_video ?? '—'} {t('مع فيديو')}</span></div>
   </div>
 );
 
@@ -280,10 +281,10 @@ const ExerciseLibrary = () => {
 
   const handleDelete = async (exercise) => {
     const result = await Swal.fire({
-      title: 'حذف التمرين؟',
-      html: `سيتم حذف <strong>${exercise.name}</strong> نهائياً`,
+      title: t('حذف التمرين؟'),
+      html: t('سيتم حذف <strong>{0}</strong> نهائياً', exercise.name),
       icon: 'warning', showCancelButton: true,
-      confirmButtonText: 'نعم، احذف', cancelButtonText: 'إلغاء',
+      confirmButtonText: t('نعم، احذف'), cancelButtonText: t('إلغاء'),
       confirmButtonColor: '#e91e63',
       background: 'var(--bg-card)', color: 'var(--text-primary)',
     });
@@ -292,9 +293,9 @@ const ExerciseLibrary = () => {
       await exerciseLibraryApi.delete(exercise.id);
       setExercises((prev) => prev.filter((e) => e.id !== exercise.id));
       fetchStats();
-      Swal.fire({ icon: 'success', title: 'تم الحذف', timer: 1500, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
+      Swal.fire({ icon: 'success', title: t('تم الحذف'), timer: 1500, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
     } catch {
-      Swal.fire({ icon: 'error', title: 'خطأ', text: 'فشل الحذف', confirmButtonText: 'حسناً' });
+      Swal.fire({ icon: 'error', title: t('خطأ'), text: t('فشل الحذف'), confirmButtonText: t('حسناً') });
     }
   };
 
@@ -306,16 +307,16 @@ const ExerciseLibrary = () => {
       if (res.data.success) {
         setIsFormOpen(false); setFormExercise(null);
         fetchExercises(1); fetchStats();
-        Swal.fire({ icon: 'success', title: editingId ? 'تم التحديث' : 'تمت الإضافة', timer: 1800, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
+        Swal.fire({ icon: 'success', title: editingId ? t('تم التحديث') : t('تمت الإضافة'), timer: 1800, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
       }
     } catch (err) {
       const errData = err.response?.data;
-      let msg = errData?.message || 'حدث خطأ';
+      let msg = errData?.message || t('حدث خطأ');
       if (errData?.errors) {
         const first = Object.values(errData.errors)[0];
         if (Array.isArray(first)) msg = first[0];
       }
-      Swal.fire({ icon: 'error', title: 'خطأ في الحفظ', text: msg, confirmButtonText: 'حسناً' });
+      Swal.fire({ icon: 'error', title: t('خطأ في الحفظ'), text: msg, confirmButtonText: t('حسناً') });
     }
   };
 
@@ -329,7 +330,7 @@ const ExerciseLibrary = () => {
         <div className="ex-library__header-top">
           <div className="ex-library__title-wrap">
             <Dumbbell size={20} className="ex-library__title-icon" />
-            <h1 className="ex-library__title">مكتبة التمارين</h1>
+            <h1 className="ex-library__title">{t('مكتبة التمارين')}</h1>
           </div>
           <div className="ex-library__header-actions">
             <button
@@ -350,7 +351,7 @@ const ExerciseLibrary = () => {
           <input
             className="ex-library__search"
             type="text"
-            placeholder="ابحث عن تمرين..."
+            placeholder={t('ابحث عن تمرين...')}
             value={searchTerm}
             onChange={handleSearchChange}
             autoComplete="off"
@@ -371,24 +372,24 @@ const ExerciseLibrary = () => {
         {isLoading ? (
           <div className="ex-library__loading">
             <Loader size={28} className="spin" />
-            <p>جاري تحميل التمارين...</p>
+            <p>{t('جاري تحميل التمارين...')}</p>
           </div>
         ) : exercises.length === 0 ? (
           <div className="ex-library__empty">
             <Dumbbell size={44} />
-            <h3>لا توجد تمارين</h3>
-            <p>{searchTerm || activeFiltersCount > 0 ? 'جرّب تغيير كلمة البحث أو الفلاتر' : 'ابدأ بإضافة تمارين جديدة'}</p>
+            <h3>{t('لا توجد تمارين')}</h3>
+            <p>{searchTerm || activeFiltersCount > 0 ? t('جرّب تغيير كلمة البحث أو الفلاتر') : t('ابدأ بإضافة تمارين جديدة')}</p>
             {(searchTerm || activeFiltersCount > 0) && (
               <button className="ex-library__btn-reset" onClick={handleResetFilters}>
-                <RotateCcw size={12} /> إعادة تعيين
+                <RotateCcw size={12} /> {t('إعادة تعيين')}
               </button>
             )}
           </div>
         ) : (
           <>
             <p className="ex-library__result-count">
-              {pagination?.total ?? exercises.length} نتيجة
-              {searchTerm && <span> لـ «{searchTerm}»</span>}
+              {pagination?.total ?? exercises.length} {t('نتيجة')}
+              {searchTerm && <span> {t('لـ «')}{searchTerm}»</span>}
             </p>
             <div className="ex-library__grid">
               <AnimatePresence mode="popLayout">
@@ -407,8 +408,8 @@ const ExerciseLibrary = () => {
               <div className="ex-library__load-more">
                 <button className="ex-library__btn-load-more" onClick={handleLoadMore} disabled={isLoadingMore}>
                   {isLoadingMore
-                    ? <><Loader size={12} className="spin" /> جاري التحميل...</>
-                    : <>تحميل المزيد ({pagination.total - exercises.length} متبقي)</>}
+                    ? <><Loader size={12} className="spin" /> {t('جاري التحميل...')}</>
+                    : <>{t('تحميل المزيد (')}{pagination.total - exercises.length} {t('متبقي)')}</>}
                 </button>
               </div>
             )}

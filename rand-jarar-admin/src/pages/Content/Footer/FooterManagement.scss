@@ -5,7 +5,7 @@
   min-height: 100vh;
   background: var(--bg-primary);
   padding-bottom: $spacing-xl * 2;
-  direction: rtl;
+  // direction follows <html dir>
 
   &__loading {
     display: flex; flex-direction: column; align-items: center;
@@ -142,7 +142,7 @@
 // زر الإضافة في هيدر الكارد — مخفي على الديسكتوب
 .sc-add-btn {
   display: none;
-  margin-right: auto;
+  margin-inline-start: auto;
   align-items: center; gap: 5px;
   padding: 5px 10px;
   background: rgba($primary-pink, 0.12);
@@ -185,7 +185,7 @@
     font-size: 0.88rem; font-weight: 600; color: var(--text-secondary);
     svg { color: $primary-pink; }
     .sc-count {
-      margin-right: auto;
+      margin-inline-start: auto;
       background: rgba($primary-pink, 0.15); color: $primary-pink;
       font-size: 0.72rem; padding: 2px 8px; border-radius: 20px; font-weight: 600;
     }
@@ -226,7 +226,7 @@
     text-align: center; line-height: 1.2;
     @include mobile { font-size: 0.6rem; }
   }
-  .pc-check { position: absolute; top: 5px; left: 5px; color: $success-light; }
+  .pc-check { position: absolute; top: 5px; inset-inline-end: 5px; color: $success-light; }
 
   @include mobile { padding: 10px 4px 8px; gap: 5px; border-radius: $radius-sm; }
 }

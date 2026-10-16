@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import WorkoutWeek from './WorkoutWeek';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
@@ -6,12 +6,17 @@ import profileApi from '../../api/profileApi';
 import Swal from 'sweetalert2';
 import { Loader2, Calendar, FileDown, Download } from 'lucide-react';
 
+// YYYY-MM-DD in the user's local timezone (same format as exercise_date)
+const getLocalDateString = (date) => date.toLocaleDateString('sv-SE');
+
 const WorkoutTab = () => {
   const { t } = useProfileLanguage();
   const [expandedDay, setExpandedDay] = useState(null);
   const [workoutPlan, setWorkoutPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPeriod, setCurrentPeriod] = useState(1);
+  // Jump to today only once per tab open — not after every refetch (e.g. ticking an exercise)
+  const didJumpToTodayRef = useRef(false);
 
   useEffect(() => {
     fetchWorkoutPlan();
@@ -156,7 +161,8 @@ const WorkoutTab = () => {
             : null,
           youtubeUrl: exercise.youtube_url,
           checked: exercise.completed
-        }))
+        })),
+        isToday: dateString === getLocalDateString(new Date())
       });
     }
 
@@ -164,6 +170,34 @@ const WorkoutTab = () => {
   };
 
   const periodWorkouts = getCurrentPeriodWorkouts();
+
+  // On first load: open the period that contains today, expand today if it has
+  // exercises (rest days are only marked), then scroll its card into view.
+  useEffect(() => {
+    if (didJumpToTodayRef.current || !workoutPlan?.exercises?.length) return;
+    didJumpToTodayRef.current = true;
+
+    const planMonth = workoutPlan.plan?.month_start_date
+      ? new Date(workoutPlan.plan.month_start_date)
+      : new Date();
+    const now = new Date();
+    if (planMonth.getFullYear() !== now.getFullYear() || planMonth.getMonth() !== now.getMonth()) return;
+
+    const today = now.getDate();
+    const period = today <= 10 ? 1 : today <= 20 ? 2 : 3;
+    const hasExercisesToday = workoutPlan.exercises.some(
+      exercise => exercise.exercise_date?.split('T')[0] === getLocalDateString(now)
+    );
+
+    setCurrentPeriod(period);
+    setExpandedDay(hasExercisesToday ? today - ((period - 1) * 10 + 1) : null);
+
+    // Wait for the period's cards to render before scrolling
+    setTimeout(() => {
+      document.querySelector('.workout-tab .day-card.is-today')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 350);
+  }, [workoutPlan]);
 
   if (loading) {
     return (

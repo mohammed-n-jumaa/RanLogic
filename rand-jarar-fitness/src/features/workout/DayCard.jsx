@@ -10,14 +10,17 @@ const DayCard = ({ day, dayIndex, isExpanded, onToggle, onToggleExercise }) => {
 
   return (
     <motion.div
-      className={`day-card ${isRestDay ? 'rest-day' : ''} ${isExpanded ? 'expanded' : ''}`}
+      className={`day-card ${isRestDay ? 'rest-day' : ''} ${isExpanded ? 'expanded' : ''} ${day.isToday ? 'is-today' : ''}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: dayIndex * 0.1 }}
     >
       <div className="day-header" onClick={onToggle}>
         <div className="day-info">
-          <h3>{day.day}</h3>
+          <h3>
+            {day.day}
+            {day.isToday && <span className="today-badge">{t('اليوم', 'Today')}</span>}
+          </h3>
           <p>{day.title}</p>
         </div>
 

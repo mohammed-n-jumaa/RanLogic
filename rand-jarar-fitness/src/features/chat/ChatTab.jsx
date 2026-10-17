@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import Swal from 'sweetalert2';
 import ChatContainer from './ChatContainer';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import chatApi from '../../api/chatApi';
 import { getEcho } from '../../lib/echo';
 import { throttle } from '@/utils/debounce';
 import { Loader2 } from 'lucide-react';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
 
 const ChatTab = () => {
   const { t } = useProfileLanguage();
+  const { toast } = useProfileFeedback();
 
   const [messages, setMessages] = useState([]);
   const [chatMessage, setChatMessage] = useState('');
@@ -220,13 +221,7 @@ const handleSendMessage = throttle(async (messageText, imageFile = null) => {
     } catch (error) {
       console.error('Error sending message:', error);
 
-      Swal.fire({
-        title: t('خطأ', 'Error'),
-        text: t('فشل في إرسال الرسالة', 'Failed to send message'),
-        icon: 'error',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)',
-      });
+      toast(t('فشل في إرسال الرسالة', 'Failed to send message'), 'error');
    } finally {
       setSending(false);
     }
@@ -234,18 +229,15 @@ const handleSendMessage = throttle(async (messageText, imageFile = null) => {
 
   if (loading) {
     return (
-      <div className="chat-tab loading">
-        <div className="loading-container">
-          <Loader2 className="spinner" />
-          <p>{t('جاري تحميل المحادثة...', 'Loading conversation...')}</p>
-        </div>
+      <div className="pf-card pf-state">
+        <span className="pf-state__icon"><Loader2 className="pf-spin" /></span>
+        <p className="pf-card__sub">{t('جاري تحميل المحادثة...', 'Loading conversation...')}</p>
       </div>
     );
   }
 
   return (
-    <div className="chat-tab">
-      <ChatContainer
+    <ChatContainer
         messages={sortedMessages}
         chatMessage={chatMessage}
         setChatMessage={handleTypingChange}
@@ -255,7 +247,6 @@ const handleSendMessage = throttle(async (messageText, imageFile = null) => {
         trainerOnline={trainerOnline}
         trainerTyping={trainerTyping}
       />
-    </div>
   );
 };
 

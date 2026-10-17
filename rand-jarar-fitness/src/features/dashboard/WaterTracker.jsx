@@ -1,76 +1,62 @@
 import { memo, useState } from 'react';
+import { Droplets, GlassWater, Plus } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import dashboardApi from '../../api/dashboardApi';
-import { Droplets, Check } from 'lucide-react';
 
 const WaterTracker = ({ water }) => {
   const { t } = useProfileLanguage();
-  const [cups, setCups] = useState(water.cups);
+  const { toast, celebrate } = useProfileFeedback();
+  const [cups, setCups] = useState(water?.cups ?? 0);
   const [saving, setSaving] = useState(false);
-  const [tooltip, setTooltip] = useState(null);
+  const goal = water?.goal || 8;
+  const pct = Math.min(100, Math.round((cups / goal) * 100));
 
-  const goal = water.goal;
-  const pct = goal > 0 ? Math.round((cups / goal) * 100) : 0;
-  const isDone = cups >= goal;
-
-  const handleTap = async (cupIndex) => {
+  // Tapping the last filled cup empties it; any other cup fills up to it
+  const handleTap = async (index) => {
     if (saving) return;
-    const newCups = cupIndex + 1 === cups ? cupIndex : cupIndex + 1;
-    setCups(newCups);
+    const previous = cups;
+    const next = index + 1 === cups ? index : index + 1;
+    setCups(next);
     setSaving(true);
     try {
-      await dashboardApi.logWater(newCups);
+      await dashboardApi.logWater(next);
+      if (next >= goal && previous < goal) celebrate(t('وصلت هدف المي اليوم! 💧', 'Daily water goal reached! 💧'));
     } catch (err) {
-      setCups(cups); // rollback
       console.error(err);
+      setCups(previous);
+      toast(t('ما قدرنا نحفظ المي، جرّب كمان مرة', "Couldn't save water — please try again"), 'error');
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="dash-card">
-      <div className="dash-card-title">
-        <Droplets fill="currentColor" />
-        <span>{t('متتبع المي', 'Water tracker')}</span>
+    <section className="pf-card">
+      <div className="pf-card__head">
+        <h3 className="pf-card__title"><span className="pf-card__icon"><Droplets /></span>{t('متتبع المي', 'Water tracker')}</h3>
+        <span className={`pf-pill ${cups >= goal ? 'pf-pill--ok' : 'pf-pill--muted'} pf-num`}>{cups} / {goal}</span>
       </div>
-
-      <div className="water-row">
-        <div className="water-cups">
-          {Array.from({ length: goal }).map((_, i) => (
-            <div
-              key={i}
-              className={`water-cup ${i < cups ? 'filled' : ''}`}
-              onClick={() => handleTap(i)}
-              onMouseEnter={() => setTooltip(i)}
-              onMouseLeave={() => setTooltip(null)}
-              style={{ position: 'relative' }}
-            >
-              <Droplets fill="currentColor" />
-              {tooltip === i && (
-                <span className="dash-tooltip">
-                  {t(`كوب ${i + 1}`, `Cup ${i + 1}`)}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="water-stat">
-          <span className="water-num">{cups}/{goal}</span>
-          <span className="water-label">{t('أكواب', 'cups')}</span>
-          <div className="water-pct-bar">
-            <div className="water-pct-fill" style={{ width: `${Math.min(pct, 100)}%` }} />
-          </div>
-          <span className="water-pct-text">{pct}%</span>
-        </div>
+      <div className="db-water">
+        {Array.from({ length: goal }, (_, i) => (
+          <button
+            key={i}
+            type="button"
+            className={`db-cup ${i < cups ? 'is-full' : ''}`}
+            onClick={() => handleTap(i)}
+            disabled={saving}
+            aria-label={t(`كوب ${i + 1}`, `Cup ${i + 1}`)}
+            aria-pressed={i < cups}
+          >
+            {i < cups ? <GlassWater /> : <Plus />}
+          </button>
+        ))}
       </div>
-
-      {isDone && (
-        <div className="water-done">
-          <Check /> {t('أكملت هدف اليوم!', 'Daily goal reached!')}
-        </div>
-      )}
-    </div>
+      <div className="pf-bar db-water__bar"><span style={{ width: `${pct}%` }} /></div>
+      <p className="pf-card__sub db-water__hint">
+        {cups >= goal ? t('ممتاز! أكملت هدف اليوم ✓', 'Great — goal reached ✓') : t('اضغط على الكوب لتسجيل شربة مي', 'Tap a cup to log a glass')}
+      </p>
+    </section>
   );
 };
 

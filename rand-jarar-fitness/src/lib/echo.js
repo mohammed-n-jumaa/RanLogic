@@ -29,7 +29,8 @@ export const getEcho = () => {
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'eu',
     forceTLS: true,
     enabledTransports: ['ws', 'wss'],
-    authEndpoint: `${import.meta.env.VITE_BACKEND_URL}broadcasting/auth`,
+    // Works whether VITE_BACKEND_URL ends with "/" or not
+    authEndpoint: `${String(import.meta.env.VITE_BACKEND_URL || '').replace(/\/+$/, '')}/broadcasting/auth`,
     auth: {
       headers: {
         Accept: 'application/json',

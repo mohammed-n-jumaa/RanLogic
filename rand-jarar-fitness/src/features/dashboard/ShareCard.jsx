@@ -3,6 +3,7 @@ import html2canvas from 'html2canvas';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import localLogo from '../../assets/logo.webp';
 import { Share2, X, Flame, Scale, Droplets, Dumbbell, Trophy } from 'lucide-react';
+import './ShareCard.scss';
 
 const ShareCard = ({ data, onClose }) => {
   const { t, currentLang } = useProfileLanguage();

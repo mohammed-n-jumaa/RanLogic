@@ -1,0 +1,227 @@
+@use '../../styles/variables.scss' as *;
+
+.ov-reminder {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  grid-template-areas: 'icon text action close';
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(var(--pf-primary-rgb), .35);
+  border-radius: var(--pf-radius);
+  background: var(--pf-primary-soft);
+
+  &__icon {
+    grid-area: icon;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--pf-surface);
+    color: var(--pf-primary-text);
+    svg { width: 18px; height: 18px; }
+  }
+
+  p { grid-area: text; min-width: 0; font-size: .92rem; line-height: 1.6; }
+
+  &__action {
+    grid-area: action;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--pf-primary);
+    color: var(--pf-ink);
+    font-size: .85rem;
+    font-weight: 800;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: box-shadow .2s, transform .15s;
+
+    svg { width: 16px; height: 16px; }
+    &:hover { box-shadow: 0 4px 14px rgba(var(--pf-primary-rgb), .35); }
+    &:active { transform: scale(.97); }
+  }
+
+  &__close {
+    grid-area: close;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 8px;
+    background: none;
+    color: var(--pf-text-3);
+    cursor: pointer;
+    svg { width: 18px; height: 18px; }
+    &:hover { background: var(--pf-surface); color: var(--pf-text); }
+  }
+
+  // Phones: icon · text · ✕ on top, the button under the text
+  @media (max-width: $breakpoint-tablet) {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'icon text close'
+      '.    action .';
+    align-items: start;
+    row-gap: 10px;
+    padding: 14px;
+
+    &__action { justify-self: start; }
+    &__close { margin-top: -4px; margin-inline-end: -6px; }
+  }
+}
+
+// ─── Hero ─────────────────────────────────────────
+.ov-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 28px;
+  border-radius: var(--pf-radius-lg);
+  background: var(--pf-ink);
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: -80px;
+    top: -80px;
+    z-index: -1;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--pf-primary-rgb), .35), transparent 70%);
+  }
+
+  &__eyebrow { color: var(--pf-primary); font-size: .9rem; font-weight: 700; }
+  &__title { margin: 6px 0 8px; font-size: 1.7rem; font-weight: 900; line-height: 1.3; }
+  &__text { max-width: 520px; color: rgba(255, 255, 255, .72); }
+  &__actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+  .pf-btn--ghost { color: #fff; border-color: rgba(255, 255, 255, .22); }
+  .pf-ring__track { stroke: rgba(255, 255, 255, .1); }
+  .pf-ring__label small { color: rgba(255, 255, 255, .6); }
+
+  @media (max-width: $breakpoint-mobile) {
+    grid-template-columns: 1fr;
+    padding: 22px;
+    .pf-ring { justify-self: start; }
+    &__title { font-size: 1.35rem; }
+  }
+}
+
+// ─── KPI tiles ────────────────────────────────────
+.ov-kpi {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  font: inherit;
+  text-align: start;
+
+  &.is-clickable { cursor: pointer; transition: border-color .2s; &:hover { border-color: rgba(var(--pf-primary-rgb), .5); } }
+
+  &__body { min-width: 0; }
+  &__label { color: var(--pf-text-3); font-size: .85rem; font-weight: 500; }
+  &__value { font-size: 1.5rem; font-weight: 900; small { color: var(--pf-text-3); font-size: .85rem; font-weight: 500; } }
+  &__trend { color: var(--pf-bad); font-size: .8rem; font-weight: 700; direction: ltr; text-align: start; &.is-good { color: var(--pf-ok); } }
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--pf-primary-soft);
+    color: var(--pf-primary-text);
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    &__value { font-size: 1.25rem; }
+  }
+}
+
+.ov-side { align-content: start; }
+
+// ─── Today lists ──────────────────────────────────
+.ov-rest {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--pf-radius);
+  background: var(--pf-ok-soft);
+
+  &__icon { font-size: 2rem; line-height: 1; }
+  strong { display: block; color: var(--pf-ok); font-size: 1.05rem; }
+  p { color: var(--pf-text-2); }
+}
+
+// ─── Facts ────────────────────────────────────────
+.ov-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+
+  @media (max-width: $breakpoint-mobile) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.ov-fact {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 14px;
+  background: var(--pf-surface-2);
+
+  &__label { display: flex; align-items: center; gap: 6px; color: var(--pf-text-3); font-size: .8rem; svg { width: 15px; height: 15px; } }
+  &__value { margin-top: 4px; font-weight: 800; overflow-wrap: anywhere; }
+  &--wide { grid-column: 1 / -1; }
+}
+
+// ─── Nutrition summary + PDF card ─────────────────
+.ov-nutri {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  &__next { flex: 1; min-width: 0; strong { display: block; } }
+  &__done { color: var(--pf-ok); }
+  &__btn { margin-top: 14px; }
+}
+
+.ov-pdf {
+  &__file { display: flex; align-items: center; gap: 14px; strong { display: block; font-weight: 800; } }
+
+  &__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--pf-bad-soft);
+    color: var(--pf-bad);
+
+    svg { margin-top: -10px; }
+    small { position: absolute; bottom: 5px; font-size: .62rem; font-weight: 900; }
+  }
+
+  &__actions { display: flex; gap: 8px; margin-top: 16px; .pf-btn { flex: 1; } }
+}
+
+.ov-progress { margin: -6px 0 6px; height: 6px; }
+.ov-today { align-self: start; }

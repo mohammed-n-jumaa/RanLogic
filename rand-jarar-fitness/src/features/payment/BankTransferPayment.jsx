@@ -1,311 +1,171 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { Landmark, Upload, CheckCircle2, X, Copy, Smartphone, Loader2, Send, PartyPopper } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import subscriptionApi from '../../api/subscriptionApi';
-import Swal from 'sweetalert2';
-import { throttle } from '@/utils/debounce';
-import { Landmark, Upload, CheckCircle, X, Image } from 'lucide-react';
+
+const BANK_DETAILS = {
+  bankName: 'Bank al Etihad',
+  accountName: 'Randa Nimer',
+  iban: 'JO73UBSI6700000670166682715101',
+  cliqAlias: 'RANDAR101',
+};
+const MAX_MB = 5;
 
 const BankTransferPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
   const { t } = useProfileLanguage();
+  const { toast, celebrate } = useProfileFeedback();
   const [transferNumber, setTransferNumber] = useState('');
-  const [receiptImage, setReceiptImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [receipt, setReceipt] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const bankDetails = {
-    bankName: 'Bank al Etihad',
-    accountName: 'Randa Nimer',
-    iban: 'JO73UBSI6700000670166682715101',
-    clickAlias: 'RANDAR101'
-  };
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (!file.type.startsWith('image/')) {
-        Swal.fire({
-          title: t('خطأ', 'Error'),
-          text: t('يرجى رفع صورة فقط', 'Please upload images only'),
-          icon: 'error',
-          confirmButtonText: t('حسناً', 'OK'),
-          confirmButtonColor: 'var(--site-primary)'
-        });
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        Swal.fire({
-          title: t('خطأ', 'Error'),
-          text: t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'Image size must be less than 5 MB'),
-          icon: 'error',
-          confirmButtonText: t('حسناً', 'OK'),
-          confirmButtonColor: 'var(--site-primary)'
-        });
-        return;
-      }
-
-      setReceiptImage(file);
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
+  const copy = async (text) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(t('تم النسخ ✓', 'Copied ✓'), 'info');
+    } catch {
+      toast(t('ما قدرنا ننسخ — انسخه يدوياً', "Couldn't copy — please copy it manually"), 'error');
     }
   };
 
-  const handleRemoveImage = () => {
-    setReceiptImage(null);
-    setImagePreview(null);
+  const handleImage = (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { setErrors(p => ({ ...p, receipt: t('يرجى رفع صورة فقط', 'Please upload an image') })); return; }
+    if (file.size > MAX_MB * 1024 * 1024) { setErrors(p => ({ ...p, receipt: t(`الحجم لازم يكون أقل من ${MAX_MB} ميجا`, `Must be under ${MAX_MB}MB`) })); return; }
+    setReceipt(file);
+    setPreview(URL.createObjectURL(file));
+    setErrors(p => ({ ...p, receipt: '' }));
   };
 
-  const handleSubmit = throttle(async () => {
-    if (!transferNumber.trim()) {
-      Swal.fire({
-        title: t('تحذير', 'Warning'),
-        text: t('يرجى إدخال رقم التحويل', 'Please enter the transfer number'),
-        icon: 'warning',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
-      });
-      return;
-    }
+  const removeImage = () => { setReceipt(null); setPreview(null); };
 
-    if (!receiptImage) {
-      Swal.fire({
-        title: t('تحذير', 'Warning'),
-        text: t('يرجى رفع صورة الإيصال', 'Please upload receipt image'),
-        icon: 'warning',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
-      });
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (isSubmitting) return;
+
+    const nextErrors = {};
+    if (!transferNumber.trim()) nextErrors.transferNumber = t('يرجى إدخال رقم التحويل', 'Please enter the transfer number');
+    if (!receipt) nextErrors.receipt = t('يرجى رفع صورة الإيصال', 'Please upload the receipt');
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
 
     setIsSubmitting(true);
-
     try {
-      const subscriptionData = {
+      const subscription = await subscriptionApi.createBankTransferSubscription({
         plan_type: planType,
-        duration: duration,
+        duration,
         amount: parseFloat(amount),
         original_amount: parseFloat(originalAmount),
         discount_percentage: discountPercentage,
         payment_method: 'bank_transfer',
-        bank_transfer_number: transferNumber
-      };
-
-      const subscriptionResponse = await subscriptionApi.createBankTransferSubscription(subscriptionData);
-
-      if (subscriptionResponse.success) {
-        const uploadResponse = await subscriptionApi.uploadBankReceipt(
-          subscriptionResponse.data.subscription_id,
-          {
-            transferNumber: transferNumber,
-            receipt: receiptImage
-          }
-        );
-
-        if (uploadResponse.success) {
-          Swal.fire({
-            title: t('تم الإرسال بنجاح! 🎉', 'Submitted Successfully! 🎉'),
-            html: t(
-              `<p>تم استلام طلب التجديد الخاص بك</p>
-               <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
-                 سيتم مراجعة التحويل وتفعيل اشتراكك خلال 48 ساعة
-               </p>`,
-              `<p>Your renewal request has been received</p>
-               <p style="color: #666; font-size: 0.9rem; margin-top: 1rem;">
-                 The transfer will be reviewed and your subscription activated within 48 hours
-               </p>`
-            ),
-            icon: 'success',
-            confirmButtonText: t('ممتاز', 'Great'),
-            confirmButtonColor: 'var(--site-primary)'
-          }).then(() => {
-            onSuccess();
-          });
-        } else {
-          throw new Error('Failed to upload receipt');
-        }
-      } else {
-        throw new Error('Failed to create subscription');
-      }
-    } catch (error) {
-      setIsSubmitting(false);
-      console.error('Bank transfer error:', error);
-
-      const errorMessage = error.response?.data?.message || t('حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى', 'An error occurred while sending data. Please try again');
-
-      Swal.fire({
-        title: t('فشل الإرسال', 'Submission Failed'),
-        text: errorMessage,
-        icon: 'error',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
+        bank_transfer_number: transferNumber,
       });
-    }
-  }, 3000);
+      if (!subscription.success) throw new Error('Failed to create subscription');
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    Swal.fire({
-      title: t('تم النسخ!', 'Copied!'),
-      text: t('تم نسخ النص إلى الحافظة', 'Text copied to clipboard'),
-      icon: 'success',
-      timer: 1500,
-      showConfirmButton: false,
-      iconColor: 'var(--site-primary)'
-    });
+      const upload = await subscriptionApi.uploadBankReceipt(subscription.data.subscription_id, {
+        transferNumber,
+        receipt,
+      });
+      if (!upload.success) throw new Error('Failed to upload receipt');
+
+      setSubmitted(true);
+      celebrate(t('وصلنا طلبك! 🎉', 'Request received! 🎉'));
+    } catch (error) {
+      console.error('Bank transfer error:', error);
+      toast(error.response?.data?.message
+        || t('حدث خطأ أثناء إرسال البيانات. يرجى المحاولة مرة أخرى', 'Something went wrong. Please try again'), 'error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
+  if (submitted) {
+    return (
+      <div className="pay-step pay-step--done">
+        <span className="pf-state__icon pay-step__done-icon"><PartyPopper /></span>
+        <h3>{t('تم استلام طلب التجديد', 'Renewal request received')}</h3>
+        <p className="pf-card__sub">{t('رح نراجع التحويل ونفعّل اشتراكك خلال 48 ساعة.', "We'll review the transfer and activate your plan within 48 hours.")}</p>
+        <button type="button" className="pf-btn pf-btn--primary" onClick={onSuccess}>{t('تمام', 'Done')}</button>
+      </div>
+    );
+  }
+
+
   return (
-    <div className="bank-transfer-payment">
-      <div className="bank-details-card">
-        <div className="card-header">
-          <Landmark className="bank-icon" />
-          <h3>{t('معلومات الحساب البنكي', 'Bank Account Details')}</h3>
-        </div>
-
-        <div className="bank-info">
-          <div className="info-row">
-            <span className="label">{t('اسم البنك:', 'Bank Name:')}</span>
-            <span className="value">{bankDetails.bankName}</span>
-          </div>
-
-          <div className="info-row">
-            <span className="label">{t('اسم الحساب:', 'Account Name:')}</span>
-            <span className="value">{bankDetails.accountName}</span>
-          </div>
-
-          <div className="info-row clickable" onClick={() => copyToClipboard(bankDetails.iban)}>
-            <span className="label">{t('رقم الآيبان:', 'IBAN Number:')}</span>
-            <span className="value copy-value">
-              {bankDetails.iban}
-              <span className="copy-hint">{t('انقر للنسخ', 'Click to copy')}</span>
-            </span>
-          </div>
-
-          <div className="click-payment-section click-highlight">
-            <h4>{t('الدفع عبر كليك', 'Payment via CliQ')}</h4>
-
-            <div className="info-row">
-              <span className="label">
-                {t('يمكنك الدفع عن طريق خدمة كليك في الأردن:', 'You can pay using CliQ in Jordan:')}
-              </span>
-            </div>
-
-            <div
-              className="info-row clickable"
-              onClick={() => copyToClipboard(bankDetails.clickAlias)}
-            >
-              <span className="label">{t('الاسم المستعار لكليك:', 'CliQ Alias:')}</span>
-              <span className="value copy-value">
-                {bankDetails.clickAlias}
-                <span className="copy-hint">{t('انقر للنسخ', 'Click to copy')}</span>
-              </span>
-            </div>
-          </div>
-
-          <div className="amount-row">
-            <span className="label">{t('المبلغ المطلوب:', 'Amount Due:')}</span>
-            <span className="amount">${amount}</span>
-          </div>
-        </div>
-
-        <div className="transfer-note">
-          <CheckCircle />
-          <p>{t('بعد إتمام التحويل، يرجى رفع صورة الإيصال وإدخال رقم التحويل', 'After completing the transfer, please upload receipt image and enter transfer number')}</p>
-        </div>
+    <form className="pay-step" onSubmit={handleSubmit} noValidate>
+      <div className="pay-step__amount">
+        <span>{t('المبلغ المطلوب', 'Amount due')}</span>
+        <strong className="pf-num">${amount}</strong>
       </div>
 
-      <div className="upload-section">
-        <h4>{t('إثبات التحويل', 'Transfer Proof')}</h4>
+      <div className="pay-bank">
+        <div className="pay-bank__title"><Landmark /> {t('حوّل للحساب البنكي', 'Transfer to this bank account')}</div>
+        <div className="pay-bank__row"><span>{t('البنك', 'Bank')}</span><strong>{BANK_DETAILS.bankName}</strong></div>
+        <div className="pay-bank__row"><span>{t('اسم الحساب', 'Account name')}</span><strong>{BANK_DETAILS.accountName}</strong></div>
+        <CopyRow label="IBAN" value={BANK_DETAILS.iban} onCopy={copy} copyLabel={t('نسخ', 'Copy')} />
 
-        <div className="form-group">
-          <label>{t('رقم التحويل *', 'Transfer Number *')}</label>
-          <input
-            type="text"
-            value={transferNumber}
-            onChange={(e) => setTransferNumber(e.target.value)}
-            placeholder={t('أدخل رقم التحويل البنكي', 'Enter bank transfer number')}
-            className="transfer-input"
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>{t('صورة الإيصال *', 'Receipt Image *')}</label>
-
-          {!imagePreview ? (
-            <label className="upload-area">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                disabled={isSubmitting}
-                hidden
-              />
-              <Upload className="upload-icon" />
-              <span className="upload-text">{t('انقر لرفع صورة الإيصال', 'Click to upload receipt image')}</span>
-              <span className="upload-hint">{t('PNG, JPG, JPEG (حتى 5 ميجابايت)', 'PNG, JPG, JPEG (up to 5MB)')}</span>
-            </label>
-          ) : (
-            <div className="image-preview-container">
-              <div className="image-preview">
-                <img src={imagePreview} alt="Receipt preview" />
-                <button
-                  className="remove-image"
-                  onClick={handleRemoveImage}
-                  disabled={isSubmitting}
-                  type="button"
-                >
-                  <X />
-                </button>
-              </div>
-              <div className="image-info">
-                <Image />
-                <span>{receiptImage?.name}</span>
-              </div>
-            </div>
-          )}
-        </div>
+        <div className="pay-bank__title pay-bank__title--cliq"><Smartphone /> {t('أو عبر كليك (الأردن)', 'Or via CliQ (Jordan)')}</div>
+        <CopyRow label={t('الاسم المستعار', 'Alias')} value={BANK_DETAILS.cliqAlias} onCopy={copy} copyLabel={t('نسخ', 'Copy')} />
       </div>
 
-      <div className="action-buttons">
-        <motion.button
-          className="cancel-button"
-          onClick={onCancel}
+      <p className="pay-step__note"><CheckCircle2 /> {t('بعد التحويل، اكتب رقم الحوالة وارفع صورة الإيصال.', 'After transferring, enter the reference number and upload the receipt.')}</p>
+
+      <label className={`ep-field ${errors.transferNumber ? 'has-error' : ''}`}>
+        <span className="ep-field__label">{t('رقم التحويل *', 'Transfer number *')}</span>
+        <input
+          type="text"
+          value={transferNumber}
+          onChange={e => { setTransferNumber(e.target.value); if (errors.transferNumber) setErrors(p => ({ ...p, transferNumber: '' })); }}
+          placeholder={t('رقم الحوالة البنكية', 'Bank transfer reference')}
           disabled={isSubmitting}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          {t('رجوع', 'Back')}
-        </motion.button>
+          dir="ltr"
+        />
+        {errors.transferNumber && <small className="ep-field__error">{errors.transferNumber}</small>}
+      </label>
 
-        <motion.button
-          className="submit-button"
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-          whileHover={!isSubmitting ? { scale: 1.02 } : {}}
-          whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-        >
-          {isSubmitting ? (
-            <>
-              <div className="spinner"></div>
-              <span>{t('جاري الإرسال...', 'Submitting...')}</span>
-            </>
-          ) : (
-            <>
-              <CheckCircle />
-              <span>{t('إرسال الطلب', 'Submit Request')}</span>
-            </>
-          )}
-        </motion.button>
+      <div className="ep-field">
+        <span className="ep-field__label">{t('صورة الإيصال *', 'Receipt image *')}</span>
+        {preview ? (
+          <div className="pay-receipt">
+            <img src={preview} alt="" />
+            <span className="pay-receipt__name">{receipt?.name}</span>
+            <button type="button" className="pf-icon-btn" onClick={removeImage} disabled={isSubmitting} aria-label={t('إزالة', 'Remove')}><X /></button>
+          </div>
+        ) : (
+          <label className={`pay-upload ${errors.receipt ? 'has-error' : ''}`}>
+            <input type="file" accept="image/*" hidden onChange={handleImage} disabled={isSubmitting} />
+            <Upload />
+            <strong>{t('اضغط لرفع صورة الإيصال', 'Tap to upload the receipt')}</strong>
+            <small>{t(`PNG أو JPG — حتى ${MAX_MB} ميجا`, `PNG or JPG — up to ${MAX_MB}MB`)}</small>
+          </label>
+        )}
+        {errors.receipt && <small className="ep-field__error">{errors.receipt}</small>}
       </div>
-    </div>
+
+      <div className="pay-step__actions">
+        <button type="button" className="pf-btn pf-btn--ghost" onClick={onCancel} disabled={isSubmitting}>{t('رجوع', 'Back')}</button>
+        <button type="submit" className="pf-btn pf-btn--primary" disabled={isSubmitting}>
+          {isSubmitting ? <Loader2 className="pf-spin" /> : <Send />}
+          {isSubmitting ? t('جاري الإرسال…', 'Submitting…') : t('إرسال الطلب', 'Submit request')}
+        </button>
+      </div>
+    </form>
   );
 };
+
+const CopyRow = ({ label, value, onCopy, copyLabel }) => (
+  <button type="button" className="pay-bank__row is-copy" onClick={() => onCopy(value)} aria-label={`${copyLabel} ${label}`}>
+    <span>{label}</span>
+    <strong className="pf-num">{value}</strong>
+    <Copy />
+  </button>
+);
 
 export default BankTransferPayment;

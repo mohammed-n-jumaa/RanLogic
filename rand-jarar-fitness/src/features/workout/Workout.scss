@@ -1,0 +1,181 @@
+@use '../../styles/variables.scss' as *;
+
+.wk-days { display: flex; flex-direction: column; gap: 10px; }
+
+.wk-day {
+  border: 1px solid var(--pf-border);
+  border-radius: var(--pf-radius);
+  background: var(--pf-surface);
+  overflow: hidden;
+  scroll-margin-top: 110px;          // stay clear of the sticky topbar
+
+  &.is-today { border-color: var(--pf-primary); box-shadow: 0 0 0 1px var(--pf-primary), var(--pf-shadow); }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 16px;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+
+    &.is-static { cursor: default; }
+  }
+
+  &__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: var(--pf-surface-2);
+    line-height: 1.1;
+
+    strong { font-size: 1.2rem; font-weight: 900; }
+    small { color: var(--pf-text-3); font-size: .7rem; }
+  }
+
+  &.is-today &__date { background: var(--pf-primary); color: var(--pf-ink); small { color: inherit; opacity: .7; } }
+
+  &__body { flex: 1; min-width: 0; }
+  &__title { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-weight: 800; }
+  &__sub { color: var(--pf-text-3); font-size: .85rem; }
+
+  &__progress {
+    width: 120px;
+    small { display: block; margin-bottom: 4px; color: var(--pf-text-3); font-size: .75rem; text-align: end; }
+
+    @media (max-width: $breakpoint-mobile) { display: none; }
+  }
+
+  &.is-open &__chev { transform: rotate(180deg); }
+
+  &.is-rest:not(.is-today) &__date { background: var(--pf-ok-soft); color: var(--pf-ok); }
+
+  &.is-empty {
+    border-style: dashed;
+    background: transparent;
+    &:not(.is-today) .wk-day__date { color: var(--pf-text-3); }
+    .wk-day__sub { font-style: italic; }
+  }
+}
+
+.wk-exercises { padding: 0 16px 16px; }
+
+// ═══════════ Exercise checklist (Overview + Workout) ═══════════
+.ex-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ex-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--pf-border);
+
+  &:last-child { border-bottom: 0; padding-bottom: 4px; }
+
+  // Checkbox: empty rounded square; the tick only appears once it is done
+  &__check {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border: 2px solid color-mix(in srgb, var(--pf-text-3) 55%, transparent);
+    border-radius: 9px;
+    background: var(--pf-surface);
+    color: transparent;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, color .2s, transform .15s;
+
+    svg { width: 18px; height: 18px; stroke-width: 3; }
+    &:hover:not(:disabled) { border-color: var(--pf-ok); background: var(--pf-ok-soft); }
+    &:active { transform: scale(.88); }
+    &:disabled { cursor: wait; opacity: .6; }
+    &:focus-visible { outline: 2px solid var(--pf-primary); outline-offset: 2px; }
+  }
+
+
+  &__body { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; }
+
+  &__name { font-size: 1.02rem; font-weight: 800; line-height: 1.35; transition: color .2s; }
+
+  // Sets × reps block: big numbers, small labels underneath
+  &__stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background: var(--pf-surface-2);
+
+    > div { display: flex; flex-direction: column-reverse; align-items: center; min-width: 34px; }
+    dd { margin: 0; font-size: 1.2rem; font-weight: 900; line-height: 1.1; }
+    dt { color: var(--pf-text-3); font-size: .68rem; font-weight: 700; }
+  }
+
+  &__x { color: var(--pf-text-3); font-weight: 700; padding-bottom: 12px; }
+
+  &__notes { margin-top: 4px; color: var(--pf-text-3); font-size: .85rem; }
+
+  &.is-done {
+    .ex-row__check { border-color: var(--pf-ok); background: var(--pf-ok); color: #fff; }
+    .ex-row__name { color: var(--pf-text-3); text-decoration: line-through; }
+    .ex-row__stats { opacity: .5; }
+  }
+}
+
+// Video links: quiet text links, only the logo carries the brand colour
+.ex-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ex-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 34px;
+  padding-block: 0;
+  padding-inline: 10px 14px;
+  border: 1px solid var(--pf-border);
+  border-radius: 10px;
+  background: var(--pf-surface);
+  color: var(--pf-text-2);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: border-color .2s, background .2s, color .2s;
+
+  svg { width: 18px; height: 18px; flex-shrink: 0; }
+  &:focus-visible { outline: 2px solid var(--pf-primary); outline-offset: 2px; }
+
+  &--youtube {
+    svg { color: #FF0000; }
+    &:hover { border-color: rgba(255, 0, 0, .4); background: rgba(255, 0, 0, .05); color: #CC0000; }
+  }
+
+  &--video {
+    svg { color: var(--pf-primary-text); }
+    &:hover { border-color: rgba(var(--pf-primary-rgb), .5); background: var(--pf-primary-soft); color: var(--pf-text); }
+  }
+}
+
+.pf[data-theme='dark'] .ex-link--youtube:hover { color: #FF6B6B; }

@@ -1,78 +1,45 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
+import { CalendarDays } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
-import { LayoutGrid } from 'lucide-react';
+import { toDateKey } from '../profile/shell/profileShared';
 
-const HeatmapCard = ({ heatmap }) => {
-  const { t } = useProfileLanguage();
-  const [tooltip, setTooltip] = useState(null);
+const DAYS = 91;   // 13 full weeks
 
+const HeatmapCard = ({ heatmap = {} }) => {
+  const { t, currentLang } = useProfileLanguage();
   const maxCount = Math.max(...Object.values(heatmap), 1);
+  const level = count => (!count ? 0 : Math.min(4, Math.ceil((count / maxCount) * 4)));
+  const locale = currentLang === 'ar' ? 'ar-EG-u-nu-latn' : 'en-US';
 
-  const getLevel = (count) => {
-    if (!count) return 0;
-    const ratio = count / maxCount;
-    if (ratio <= 0.25) return 1;
-    if (ratio <= 0.5) return 2;
-    if (ratio <= 0.75) return 3;
-    return 4;
-  };
-
-  const levelLabels = {
-    ar: ['لا شيء', 'قليل', 'متوسط', 'جيد', 'ممتاز'],
-    en: ['None', 'Low', 'Medium', 'Good', 'Excellent'],
-  };
+  // Columns are weeks (Sun → Sat), so pad the start to a Sunday
+  const today = new Date();
+  const start = new Date(today);
+  start.setDate(start.getDate() - (DAYS - 1));
+  start.setDate(start.getDate() - start.getDay());
 
   const cells = [];
-  for (let i = 89; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(d.getDate() - i);
-    const key = d.toISOString().split('T')[0];
+  for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+    const key = toDateKey(d);
     const count = heatmap[key] || 0;
-    cells.push({ date: key, count, level: getLevel(count) });
+    cells.push({ key, count, level: level(count), label: d.toLocaleDateString(locale, { month: 'short', day: 'numeric' }) });
   }
 
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString('ar-EG', {
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
   return (
-    <div className="dash-card">
-      <div className="dash-card-title">
-        <LayoutGrid />
-        <span>{t('خريطة الالتزام — آخر 3 أشهر', 'Consistency — last 3 months')}</span>
+    <section className="pf-card">
+      <div className="pf-card__head">
+        <h3 className="pf-card__title"><span className="pf-card__icon"><CalendarDays /></span>{t('خريطة الالتزام — آخر 3 أشهر', 'Consistency — last 3 months')}</h3>
       </div>
-
-      <div className="heatmap-grid">
-        {cells.map((c, i) => (
-          <div
-            key={i}
-            className={`heatmap-cell level-${c.level}`}
-            onMouseEnter={() => setTooltip(i)}
-            onMouseLeave={() => setTooltip(null)}
-            style={{ position: 'relative' }}
-          >
-            {tooltip === i && (
-              <span className="dash-tooltip">
-                {formatDate(c.date)} — {c.count} {t('تمرين', 'exercises')}
-                <br />
-                {t(levelLabels.ar[c.level], levelLabels.en[c.level])}
-              </span>
-            )}
-          </div>
+      <div className="db-heat">
+        {cells.map(c => (
+          <span key={c.key} data-l={c.level} title={`${c.label} — ${c.count} ${t('تمرين', 'exercises')}`} />
         ))}
       </div>
-
-      <div className="heatmap-legend">
-        <span>{t('أقل', 'Less')}</span>
-        {[0, 1, 2, 3, 4].map(l => (
-          <div key={l} className={`heatmap-cell level-${l} legend`} />
-        ))}
-        <span>{t('أكثر', 'More')}</span>
+      <div className="db-heat__legend">
+        {t('أقل', 'Less')}
+        {[0, 1, 2, 3, 4].map(l => <span key={l} data-l={l} />)}
+        {t('أكثر', 'More')}
       </div>
-    </div>
+    </section>
   );
 };
 

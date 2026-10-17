@@ -1,110 +1,84 @@
 import { memo, useState } from 'react';
+import { Trophy, Plus, Check, Loader2 } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import dashboardApi from '../../api/dashboardApi';
-import { Target, Plus, Check } from 'lucide-react';
 
-const ChallengesCard = ({ challenges: initialChallenges }) => {
+const ChallengesCard = ({ challenges: initial = [] }) => {
   const { t, currentLang } = useProfileLanguage();
-  const [challenges, setChallenges] = useState(initialChallenges);
+  const { toast, celebrate } = useProfileFeedback();
+  const [challenges, setChallenges] = useState(initial);
   const [loadingId, setLoadingId] = useState(null);
+  const nameOf = ch => (currentLang === 'ar' ? ch.name_ar : ch.name_en);
 
-  const handleJoin = async (id) => {
-    setLoadingId(id);
+  const handleJoin = async (ch) => {
+    setLoadingId(ch.id);
     try {
-      await dashboardApi.joinChallenge(id);
-      setChallenges(prev =>
-        prev.map(ch => ch.id === id ? { ...ch, is_joined: true, completed_days: 0 } : ch)
-      );
+      await dashboardApi.joinChallenge(ch.id);
+      setChallenges(prev => prev.map(c => (c.id === ch.id ? { ...c, is_joined: true, completed_days: 0 } : c)));
+      toast(t(`انضممت لتحدي: ${nameOf(ch)}`, `Joined: ${nameOf(ch)}`));
     } catch (err) {
       console.error(err);
+      toast(t('ما قدرنا ننضم للتحدي، جرّب كمان مرة', "Couldn't join — please try again"), 'error');
     } finally {
       setLoadingId(null);
     }
   };
 
-  const handleIncrement = async (id) => {
-    setLoadingId(id);
+  const handleIncrement = async (ch) => {
+    setLoadingId(ch.id);
     try {
-      await dashboardApi.incrementChallenge(id);
-      setChallenges(prev =>
-        prev.map(ch => ch.id === id ? { ...ch, completed_days: ch.completed_days + 1 } : ch)
-      );
+      await dashboardApi.incrementChallenge(ch.id);
+      const days = ch.completed_days + 1;
+      setChallenges(prev => prev.map(c => (c.id === ch.id ? { ...c, completed_days: days } : c)));
+      if (days >= ch.duration_days) celebrate(t(`خلّصت تحدي ${nameOf(ch)}! 🏆`, `Challenge complete: ${nameOf(ch)}! 🏆`));
+      else toast(t('تم تسجيل اليوم ✓', 'Day logged ✓'));
     } catch (err) {
       console.error(err);
+      toast(t('ما قدرنا نسجّل اليوم، جرّب كمان مرة', "Couldn't log today — please try again"), 'error');
     } finally {
       setLoadingId(null);
     }
   };
 
   return (
-    <div className="dash-card">
-      <div className="dash-card-title">
-        <Target />
-        <span>{t('تحديات الشهر', 'Monthly challenges')}</span>
+    <section className="pf-card">
+      <div className="pf-card__head">
+        <h3 className="pf-card__title"><span className="pf-card__icon"><Trophy /></span>{t('تحديات الشهر', 'Monthly challenges')}</h3>
       </div>
 
-      <div className="challenges-list">
+      {!challenges.length && <p className="pf-card__sub">{t('ما في تحديات هالشهر', 'No challenges this month')}</p>}
+
+      <div className="db-challenges">
         {challenges.map(ch => {
-          const pct = ch.duration_days > 0
-            ? Math.round((ch.completed_days / ch.duration_days) * 100)
-            : 0;
-          const isDone = ch.completed_days >= ch.duration_days;
-          const isLoading = loadingId === ch.id;
-
+          const pct = ch.duration_days > 0 ? Math.min(100, Math.round((ch.completed_days / ch.duration_days) * 100)) : 0;
+          const done = ch.completed_days >= ch.duration_days;
+          const busy = loadingId === ch.id;
           return (
-            <div key={ch.id} className="challenge-row">
-              <div
-                className="challenge-icon"
-                style={{ background: ch.color + '22', color: ch.color }}
-              >
-                {isDone ? <Check /> : <Target />}
+            <div key={ch.id} className="db-challenge">
+              <div className="db-challenge__head">
+                <strong>{nameOf(ch)}</strong>
+                <small className="pf-num">{ch.completed_days}/{ch.duration_days}</small>
               </div>
-
-              <div className="challenge-info">
-                <span className="challenge-name">
-                  {currentLang === 'ar' ? ch.name_ar : ch.name_en}
-                </span>
-                <span className="challenge-progress">
-                  {t(`يوم ${ch.completed_days} من ${ch.duration_days}`, `Day ${ch.completed_days} of ${ch.duration_days}`)}
-                  {' '}({pct}%)
-                </span>
-                <div className="challenge-bar">
-                  <div
-                    className="challenge-bar-fill"
-                    style={{ width: `${pct}%`, background: ch.color }}
-                  />
-                </div>
-              </div>
-
-              <div className="challenge-action">
+              <div className="pf-bar"><span style={{ width: `${pct}%`, ...(ch.color ? { background: ch.color } : {}) }} /></div>
+              <div className="db-challenge__action">
                 {!ch.is_joined ? (
-                  <button
-                    className="challenge-btn join"
-                    onClick={() => handleJoin(ch.id)}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? '...' : <><Plus /> {t('انضم', 'Join')}</>}
+                  <button type="button" className="pf-btn pf-btn--ghost pf-btn--sm" onClick={() => handleJoin(ch)} disabled={busy}>
+                    {busy ? <Loader2 className="pf-spin" /> : <Plus />} {t('انضم', 'Join')}
                   </button>
-                ) : !isDone ? (
-                  <button
-                    className="challenge-btn increment"
-                    onClick={() => handleIncrement(ch.id)}
-                    disabled={isLoading}
-                    style={{ borderColor: ch.color, color: ch.color }}
-                  >
-                    {isLoading ? '...' : <><Check /> {t('أنجزت اليوم', 'Done today')}</>}
-                  </button>
+                ) : done ? (
+                  <span className="pf-pill pf-pill--ok">{t('مكتمل ✓', 'Complete ✓')}</span>
                 ) : (
-                  <span className="challenge-complete">
-                    {t('مكتمل ✓', 'Complete ✓')}
-                  </span>
+                  <button type="button" className="pf-btn pf-btn--ghost pf-btn--sm" onClick={() => handleIncrement(ch)} disabled={busy}>
+                    {busy ? <Loader2 className="pf-spin" /> : <Check />} {t('أنجزت اليوم', 'Done today')}
+                  </button>
                 )}
               </div>
             </div>
           );
         })}
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,39 +1,41 @@
-import { memo } from "react";
+import { memo } from 'react';
 import { Flame, Check, X } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 
-const dayNames = {
+const DAY_NAMES = {
   ar: ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'],
   en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 };
 
 const StreakCard = ({ streak }) => {
   const { t, currentLang } = useProfileLanguage();
-  const names = dayNames[currentLang] || dayNames.ar;
+  const names = DAY_NAMES[currentLang] || DAY_NAMES.ar;
+  const days = streak?.days || [];
 
   return (
-    <div className="dash-card">
-      <div className="dash-card-header">
-        <div className="dash-card-title">
-          <Flame fill="currentColor" />
-          <span>{t('الالتزام الأسبوعي', 'Weekly streak')}</span>
-        </div>
-        <span className="streak-count">{streak.count} {t('يوم', 'days')}</span>
+    <section className="pf-card">
+      <div className="pf-card__head">
+        <h3 className="pf-card__title"><span className="pf-card__icon"><Flame /></span>{t('الالتزام المتتالي', 'Streak')}</h3>
       </div>
-
-      <div className="streak-grid">
-        {streak.days.map((day, i) => (
-          <div key={i} className={`streak-day ${day.status}`}>
-            {day.status === 'done' && <Check />}
-            {day.status === 'missed' && <X />}
-            {day.status === 'today' && t('اليوم', 'Today')}
+      <div className="db-streak">
+        <div className="db-streak__flame"><Flame /></div>
+        <div>
+          <div className="db-streak__num pf-num">{streak?.count ?? 0}</div>
+          <div className="pf-card__sub">{t('أيام ورا بعض 🔥', 'days in a row 🔥')}</div>
+        </div>
+      </div>
+      <div className="db-week">
+        {days.map((day, i) => (
+          <div key={i} className={`db-week__day is-${day.status}`}>
+            <span>
+              {day.status === 'done' && <Check />}
+              {day.status === 'missed' && <X />}
+            </span>
+            {names[i]}
           </div>
         ))}
       </div>
-      <div className="streak-labels">
-        {names.map((n, i) => <span key={i}>{n}</span>)}
-      </div>
-    </div>
+    </section>
   );
 };
 

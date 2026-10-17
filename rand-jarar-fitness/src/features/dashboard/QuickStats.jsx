@@ -1,77 +1,48 @@
-import { memo } from "react";
-import { Scale, Flame, Droplets, Dumbbell, Trophy, ArrowDown, ArrowUp } from 'lucide-react';
+import { memo } from 'react';
+import { Scale, Flame, Dumbbell, Trophy } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 
 const QuickStats = ({ data }) => {
   const { t } = useProfileLanguage();
 
-  const weights = data.weight_chart;
-  const firstW = weights[0]?.weight;
-  const lastW = weights[weights.length - 1]?.weight;
-  const change = firstW && lastW ? (parseFloat(lastW) - parseFloat(firstW)).toFixed(1) : null;
-  const earnedBadges = data.badges.filter(b => b.earned).length;
-  const totalBadges = data.badges.length;
+  const weights = data.weight_chart || [];
+  const firstW = parseFloat(weights[0]?.weight);
+  const lastW = parseFloat(weights[weights.length - 1]?.weight);
+  const change = firstW && lastW ? +(lastW - firstW).toFixed(1) : null;
+  const earned = (data.badges || []).filter(b => b.earned).length;
 
-  const stats = [
+  const tiles = [
     {
-      icon: <Scale />,
-      value: lastW ? `${lastW}` : '--',
-      unit: t('كغ', 'kg'),
+      Icon: Scale,
       label: t('الوزن الحالي', 'Current weight'),
-      sub: change ? `${change > 0 ? '+' : ''}${change}` : null,
-      subIcon: change < 0 ? <ArrowDown /> : change > 0 ? <ArrowUp /> : null,
-      subColor: change < 0 ? '#639922' : change > 0 ? '#e24b4a' : '#888',
-      color: '#993556',
-      bg: '#FBEAF0',
+      value: lastW ? <>{lastW}<small> {t('كغ', 'kg')}</small></> : '--',
+      sub: change ? `${change > 0 ? '+' : ''}${change} ${t('كغ منذ البداية', 'kg since start')}` : null,
+      tone: change < 0 ? 'good' : change > 0 ? 'bad' : null,
     },
     {
-      icon: <Flame fill="currentColor" />,
-      value: `${data.streak.count}`,
-      unit: t('يوم', 'days'),
+      Icon: Flame,
       label: t('التزام متتالي', 'Streak'),
-      color: '#f59e0b',
-      bg: 'var(--site-accent)',
+      value: <>{data.streak?.count ?? 0}<small> {t('يوم', 'days')}</small></>,
     },
     {
-      icon: <Dumbbell fill="currentColor" />,
-      value: `${data.weekly_report.exercise_rate}%`,
+      Icon: Dumbbell,
       label: t('التزام الأسبوع', 'Weekly rate'),
-      color: '#534AB7',
-      bg: '#EEEDFE',
+      value: `${data.weekly_report?.exercise_rate ?? 0}%`,
     },
     {
-      icon: <Droplets fill="currentColor" />,
-      value: `${data.water.cups}/${data.water.goal}`,
-      label: t('المي اليوم', 'Water today'),
-      color: '#185FA5',
-      bg: '#E6F1FB',
-    },
-    {
-      icon: <Trophy fill="currentColor" />,
-      value: `${earnedBadges}/${totalBadges}`,
+      Icon: Trophy,
       label: t('الشارات', 'Badges'),
-      color: '#854F0B',
-      bg: 'var(--site-accent)',
+      value: <>{earned}<small> / {(data.badges || []).length}</small></>,
     },
   ];
 
   return (
-    <div className="quick-stats">
-      {stats.map((s, i) => (
-        <div key={i} className="qs-item">
-          <div className="qs-icon" style={{ background: s.bg, color: s.color }}>
-            {s.icon}
-          </div>
-          <div className="qs-value">
-            {s.value}
-            {s.unit && <span className="qs-unit">{s.unit}</span>}
-          </div>
-          {s.sub && (
-            <div className="qs-sub" style={{ color: s.subColor }}>
-              {s.subIcon} {s.sub}
-            </div>
-          )}
-          <div className="qs-label">{s.label}</div>
+    <div className="pf-grid pf-grid--4">
+      {tiles.map(({ Icon, label, value, sub, tone }) => (
+        <div key={label} className="pf-card db-stat">
+          <div className="db-stat__label"><span className="pf-card__icon"><Icon /></span>{label}</div>
+          <div className="db-stat__value pf-num">{value}</div>
+          {sub && <div className={`db-stat__sub ${tone ? `is-${tone}` : ''}`}>{sub}</div>}
         </div>
       ))}
     </div>

@@ -1,9 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { BellRing, Dumbbell } from 'lucide-react';
 import MessagesList from './MessagesList';
 import MessageInput from './MessageInput';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import api from '../../api/index';
 import authApi from '../../api/authApi';
+import './Chat.scss';
 
 const ChatContainer = ({
   messages,
@@ -16,38 +19,20 @@ const ChatContainer = ({
   trainerTyping,
 }) => {
   const { t } = useProfileLanguage();
+  const { toast } = useProfileFeedback();
   const [notifStatus, setNotifStatus] = useState(
     typeof Notification !== 'undefined' ? Notification.permission : 'denied'
   );
 
-  // useEffect(() => {
-  //   // تسجيل OneSignal ID تلقائياً إذا كان مسموحاً
-  //   if (notifStatus === 'granted' && authApi.isAuthenticated()) {
-  //     const saved = localStorage.getItem('onesignal_id');
-  //     if (!saved) {
-  //       import('react-onesignal').then(({ default: OneSignal }) => {
-  //         setTimeout(() => {
-  //           const playerId = OneSignal.User?.PushSubscription?.id;
-  //           if (playerId) {
-  //             api.post('/fcm-token', { onesignal_id: playerId })
-  //               .then(() => localStorage.setItem('onesignal_id', playerId))
-  //               .catch(console.error);
-  //           }
-  //         }, 2000);
-  //       });
-  //     }
-  //   }
-  // }, [notifStatus]);
-
   const handleEnableNotifications = async () => {
     try {
       const { default: OneSignal } = await import('react-onesignal');
-
       const permission = await Notification.requestPermission();
       setNotifStatus(permission);
       if (permission !== 'granted') return;
 
       await OneSignal.User.PushSubscription.optIn();
+      toast(t('تم تفعيل الإشعارات 🔔', 'Notifications enabled 🔔'));
 
       setTimeout(async () => {
         const playerId = OneSignal.User?.PushSubscription?.id;
@@ -58,55 +43,34 @@ const ChatContainer = ({
       }, 2000);
     } catch (err) {
       console.error('OneSignal error:', err);
+      toast(t('ما قدرنا نفعّل الإشعارات', "Couldn't enable notifications"), 'error');
     }
   };
 
-  return (
-    <div className="chat-container">
-      <div className="chat-header">
-        <div className="header-content">
-          {trainerAvatar && (
-            <div className="trainer-header-avatar">
-              <img src={trainerAvatar} alt="RanLogic Team" />
-            </div>
-          )}
+  const status = trainerTyping
+    ? t('يكتب الآن...', 'Typing...')
+    : trainerOnline ? t('متصل الآن', 'Online now') : t('غير متصل', 'Offline');
 
-          <div className="header-text">
-            <h3>{t('المحادثة مع فريق RanLogic', 'Chat with RanLogic Team')}</h3>
-            <p>
-              {trainerTyping
-                ? t('يكتب الآن...', 'Typing...')
-                : trainerOnline
-                ? t('متصل الآن', 'Online now')
-                : t('غير متصل', 'Offline')}
-            </p>
-          </div>
+  return (
+    <section className="pf-card ch">
+      <header className="ch__head">
+        <span className="ch__avatar">
+          {trainerAvatar ? <img src={trainerAvatar} alt="" /> : <Dumbbell />}
+          {trainerOnline && <i className="ch__online" aria-hidden="true" />}
+        </span>
+        <div className="ch__who">
+          <strong>{t('فريق RanLogic', 'RanLogic Team')}</strong>
+          <small className={trainerOnline || trainerTyping ? 'is-online' : ''}>{status}</small>
         </div>
 
-        {notifStatus !== 'granted' && (
-          <button
-            onClick={handleEnableNotifications}
-            style={{
-              background: 'var(--site-primary)',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-            }}
-          >
-            🔔 {t('تفعيل الإشعارات', 'Enable Notifications')}
+        {notifStatus !== 'granted' && notifStatus !== 'denied' && (
+          <button type="button" className="pf-btn pf-btn--ghost pf-btn--sm" onClick={handleEnableNotifications}>
+            <BellRing /> <span className="ch__notif-label">{t('تفعيل الإشعارات', 'Enable notifications')}</span>
           </button>
         )}
-      </div>
+      </header>
 
-      <MessagesList messages={messages} />
+      <MessagesList messages={messages} trainerTyping={trainerTyping} />
 
       <MessageInput
         chatMessage={chatMessage}
@@ -114,7 +78,7 @@ const ChatContainer = ({
         onSendMessage={onSendMessage}
         sending={sending}
       />
-    </div>
+    </section>
   );
 };
 

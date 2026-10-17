@@ -1,305 +1,219 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import WorkoutWeek from './WorkoutWeek';
+import { useState, useEffect, useMemo } from 'react';
+import { Loader2, Calendar, FileDown, ChevronDown, Check } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import profileApi from '../../api/profileApi';
-import Swal from 'sweetalert2';
-import { Loader2, Calendar, FileDown, Download } from 'lucide-react';
+import { toDateKey, normalizeDate, periodOf, isRestDay, STORAGE_URL } from '../profile/shell/profileShared';
+import useExerciseToggle from './useExerciseToggle';
+import ExerciseCheckRow from './ExerciseCheckRow';
+import './Workout.scss';
 
-// YYYY-MM-DD in the user's local timezone (same format as exercise_date)
-const getLocalDateString = (date) => date.toLocaleDateString('sv-SE');
+const DAY_NAMES = {
+  ar: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+  en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+};
+const DAY_SHORT = {
+  ar: ['أحد', 'اثنين', 'ثلاثاء', 'أربعاء', 'خميس', 'جمعة', 'سبت'],
+  en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+};
 
 const WorkoutTab = () => {
-  const { t } = useProfileLanguage();
-  const [expandedDay, setExpandedDay] = useState(null);
+  const { t, currentLang } = useProfileLanguage();
   const [workoutPlan, setWorkoutPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPeriod, setCurrentPeriod] = useState(1);
-  // Jump to today only once per tab open — not after every refetch (e.g. ticking an exercise)
-  const didJumpToTodayRef = useRef(false);
+  const [openDay, setOpenDay] = useState(null);       // day of month
+  const { toggleExercise, busyId } = useExerciseToggle(setWorkoutPlan);
+
+  // Once, when the plan loads: open today's period, expand today if it's a workout day, scroll to it
+  const jumpToToday = (plan) => {
+    const now = new Date();
+    const base = plan.plan?.month_start_date ? new Date(plan.plan.month_start_date) : now;
+    if (base.getFullYear() !== now.getFullYear() || base.getMonth() !== now.getMonth()) return;
+
+    const todayRows = plan.exercises.filter(e => normalizeDate(e.exercise_date) === toDateKey(now));
+    setCurrentPeriod(periodOf(now.getDate()));
+    setOpenDay(todayRows.length && !isRestDay(todayRows) ? now.getDate() : null);
+    setTimeout(() => {
+      document.querySelector('.wk-day.is-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 300);
+  };
 
   useEffect(() => {
-    fetchWorkoutPlan();
+    const now = new Date();
+    profileApi.getMyWorkoutPlan(now.getFullYear(), now.getMonth() + 1)
+      .then(res => {
+        const plan = res?.success && res.data ? res.data : null;
+        setWorkoutPlan(plan);
+        if (plan?.exercises?.length) jumpToToday(plan);
+      })
+      .catch(err => { console.error('Error fetching workout plan:', err); setWorkoutPlan(null); })
+      .finally(() => setLoading(false));
   }, []);
 
-  const fetchWorkoutPlan = async () => {
-    try {
-      setLoading(true);
-      const now = new Date();
-      const response = await profileApi.getMyWorkoutPlan(now.getFullYear(), now.getMonth() + 1);
-
-      console.log('📊 Workout response in component:', response);
-
-      if (response.success && response.data) {
-        setWorkoutPlan(response.data);
-      } else {
-        setWorkoutPlan(null);
-      }
-    } catch (error) {
-      console.error('Error fetching workout plan:', error);
-      setWorkoutPlan(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggleExercise = async (exerciseId) => {
-    try {
-      const response = await profileApi.toggleExercise(exerciseId);
-
-      if (response.success) {
-        await fetchWorkoutPlan();
-      }
-    } catch (error) {
-      console.error('Error toggling exercise:', error);
-      Swal.fire({
-        title: t('خطأ', 'Error'),
-        text: t('فشل في تحديث حالة التمرين', 'Failed to update exercise status'),
-        icon: 'error',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
-      });
-    }
-  };
-
-  // ✅ دالة عرض PDF
-  const handleViewPdf = () => {
-    if (workoutPlan?.plan?.pdf_file) {
-      const pdfUrl = `${import.meta.env.VITE_API_URL || 'https://api.ranlogic.com'}/storage/${workoutPlan.plan.pdf_file}`;
-      window.open(pdfUrl, '_blank');
-    } else {
-      Swal.fire({
-        title: t('لا يوجد PDF', 'No PDF'),
-        text: t('لا يوجد ملف PDF مرفق لهذا الشهر', 'No PDF file attached for this month'),
-        icon: 'info',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
-      });
-    }
-  };
-
-  const getCurrentPeriodWorkouts = () => {
-    if (!workoutPlan?.exercises || workoutPlan.exercises.length === 0) return [];
-
-    let monthStartDate;
-    if (workoutPlan.plan?.month_start_date) {
-      const temp = new Date(workoutPlan.plan.month_start_date);
-      monthStartDate = new Date(temp.getFullYear(), temp.getMonth(), 1);
-    } else {
-      const now = new Date();
-      monthStartDate = new Date(now.getFullYear(), now.getMonth(), 1);
-    }
-
-    const daysInMonth = new Date(
-      monthStartDate.getFullYear(),
-      monthStartDate.getMonth() + 1,
-      0
-    ).getDate();
-
-    const startDay = (currentPeriod - 1) * 10 + 1;
-    let endDay;
-
-    if (currentPeriod === 3) {
-      endDay = daysInMonth;
-    } else {
-      endDay = currentPeriod * 10;
-    }
-
-    const normalizeDate = (dateString) => {
-      if (!dateString) return null;
-      return dateString.split('T')[0];
-    };
-
-    const exercisesByDate = {};
-    workoutPlan.exercises.forEach(exercise => {
-      const normalizedDate = normalizeDate(exercise.exercise_date);
-      if (!exercisesByDate[normalizedDate]) {
-        exercisesByDate[normalizedDate] = [];
-      }
-      exercisesByDate[normalizedDate].push(exercise);
-    });
-
-    const daysOfWeek = [
-      { nameAr: 'الأحد', nameEn: 'Sunday' },
-      { nameAr: 'الاثنين', nameEn: 'Monday' },
-      { nameAr: 'الثلاثاء', nameEn: 'Tuesday' },
-      { nameAr: 'الأربعاء', nameEn: 'Wednesday' },
-      { nameAr: 'الخميس', nameEn: 'Thursday' },
-      { nameAr: 'الجمعة', nameEn: 'Friday' },
-      { nameAr: 'السبت', nameEn: 'Saturday' }
-    ];
-
-    const days = [];
-
-    for (let day = startDay; day <= endDay; day++) {
-      const date = new Date(monthStartDate);
-      date.setDate(day);
-
-      if (isNaN(date.getTime())) continue;
-
-      const dateString = normalizeDate(
-        new Date(date.getFullYear(), date.getMonth(), date.getDate())
-          .toLocaleDateString('sv-SE')
-      );
-
-      const dayOfWeek = date.getDay();
-      const dayExercises = exercisesByDate[dateString] || [];
-
-      days.push({
-        day: t(daysOfWeek[dayOfWeek].nameAr, daysOfWeek[dayOfWeek].nameEn),
-        title: dayExercises.length > 0
-          ? t(`${dayExercises.length} تمارين`, `${dayExercises.length} Exercises`)
-          : t('يوم راحة', 'Rest Day'),
-        exercises: dayExercises.map(exercise => ({
-          id: exercise.id,
-          name: exercise.name,
-          sets: exercise.sets,
-          reps: exercise.reps,
-          notes: exercise.notes,
-          videoUrl: exercise.video_file
-            ? `${import.meta.env.VITE_API_URL || 'https://api.ranlogic.com'}/storage/${exercise.video_file}`
-            : null,
-          youtubeUrl: exercise.youtube_url,
-          checked: exercise.completed
-        })),
-        isToday: dateString === getLocalDateString(new Date())
-      });
-    }
-
-    return days;
-  };
-
-  const periodWorkouts = getCurrentPeriodWorkouts();
-
-  // On first load: open the period that contains today, expand today if it has
-  // exercises (rest days are only marked), then scroll its card into view.
-  useEffect(() => {
-    if (didJumpToTodayRef.current || !workoutPlan?.exercises?.length) return;
-    didJumpToTodayRef.current = true;
-
-    const planMonth = workoutPlan.plan?.month_start_date
-      ? new Date(workoutPlan.plan.month_start_date)
-      : new Date();
-    const now = new Date();
-    if (planMonth.getFullYear() !== now.getFullYear() || planMonth.getMonth() !== now.getMonth()) return;
-
-    const today = now.getDate();
-    const period = today <= 10 ? 1 : today <= 20 ? 2 : 3;
-    const hasExercisesToday = workoutPlan.exercises.some(
-      exercise => exercise.exercise_date?.split('T')[0] === getLocalDateString(now)
-    );
-
-    setCurrentPeriod(period);
-    setExpandedDay(hasExercisesToday ? today - ((period - 1) * 10 + 1) : null);
-
-    // Wait for the period's cards to render before scrolling
-    setTimeout(() => {
-      document.querySelector('.workout-tab .day-card.is-today')
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 350);
+  const monthStart = useMemo(() => {
+    const base = workoutPlan?.plan?.month_start_date ? new Date(workoutPlan.plan.month_start_date) : new Date();
+    return new Date(base.getFullYear(), base.getMonth(), 1);
   }, [workoutPlan]);
+
+  const rowsByDate = useMemo(() => {
+    const map = {};
+    (workoutPlan?.exercises || []).forEach(ex => {
+      const key = normalizeDate(ex.exercise_date);
+      (map[key] = map[key] || []).push(ex);
+    });
+    return map;
+  }, [workoutPlan]);
+
+  const pdfUrl = workoutPlan?.plan?.pdf_file ? `${STORAGE_URL}/${workoutPlan.plan.pdf_file}` : null;
+  const hasExercises = !!workoutPlan?.exercises?.length;
 
   if (loading) {
     return (
-      <div className="workout-tab loading">
-        <div className="loading-container">
-          <Loader2 className="spinner" />
-          <p>{t('جاري تحميل خطة التمارين...', 'Loading workout plan...')}</p>
-        </div>
+      <div className="pf-card pf-state">
+        <span className="pf-state__icon"><Loader2 className="pf-spin" /></span>
+        <p className="pf-card__sub">{t('جاري تحميل خطة التمارين...', 'Loading workout plan...')}</p>
       </div>
     );
   }
 
-  if (workoutPlan?.plan?.pdf_file && (!workoutPlan.exercises || workoutPlan.exercises.length === 0)) {
+  if (!hasExercises) {
     return (
-      <div className="workout-tab empty">
-        <div className="empty-state">
-          <FileDown className="workout-empty-icon" />
-          <h3>{t('خطة التمارين متوفرة بصيغة PDF', 'Workout Plan Available as PDF')}</h3>
-          <p>
-            {t(
-              'لا توجد تمارين مضافة داخل النظام حالياً، يمكنك عرض أو تحميل ملف الخطة الشهرية.',
-              'There are no exercises added in the system currently, but you can view or download the monthly plan PDF.'
-            )}
-          </p>
-
-          <button
-            className="workout-pdf-btn"
-            onClick={handleViewPdf}
-            style={{ marginTop: '1rem' }}
-          >
-            <FileDown />
-            <span>{t('عرض PDF', 'View PDF')}</span>
-            <Download />
-          </button>
-        </div>
+      <div className="pf-card pf-state">
+        <span className="pf-state__icon">{pdfUrl ? <FileDown /> : <Calendar />}</span>
+        <h3>{pdfUrl ? t('خطة التمارين متوفرة بصيغة PDF', 'Workout plan available as PDF') : t('لا توجد خطة تمارين', 'No workout plan')}</h3>
+        <p className="pf-card__sub">
+          {pdfUrl
+            ? t('ما في تمارين مضافة بالنظام حالياً، بتقدر تعرض أو تحمّل ملف الخطة الشهرية.', 'No exercises in the system yet — you can view or download the monthly plan PDF.')
+            : t('لم يتم إنشاء خطة تمارين لهذا الشهر بعد', 'No workout plan has been created for this month yet')}
+        </p>
+        {pdfUrl && <a className="pf-btn pf-btn--primary" href={pdfUrl} target="_blank" rel="noopener noreferrer"><FileDown /> {t('عرض PDF', 'View PDF')}</a>}
       </div>
     );
   }
 
-  if (!workoutPlan || !workoutPlan.exercises || workoutPlan.exercises.length === 0) {
-  return (
-    <div className="workout-tab empty">
-      <div className="empty-state">
-        <Calendar className="workout-empty-icon" />
-          <h3>{t('لا توجد خطة تمارين', 'No Workout Plan')}</h3>
-          <p>{t('لم يتم إنشاء خطة تمارين لهذا الشهر بعد', 'No workout plan has been created for this month yet')}</p>
-        </div>
-      </div>
-    );
-  }
+  const daysInMonth = new Date(monthStart.getFullYear(), monthStart.getMonth() + 1, 0).getDate();
+  const start = (currentPeriod - 1) * 10 + 1;
+  const end = currentPeriod === 3 ? daysInMonth : currentPeriod * 10;
+  const todayKey = toDateKey(new Date());
 
   return (
-    <div className="workout-tab">
-      <div className="workout-controls">
-        <div className="period-selector">
-          <button
-            className={`period-btn ${currentPeriod === 1 ? 'active' : ''}`}
-            onClick={() => {
-              setCurrentPeriod(1);
-              setExpandedDay(null);
-            }}
-          >
-            {t('أيام 1-10', 'Days 1-10')}
-          </button>
-          <button
-            className={`period-btn ${currentPeriod === 2 ? 'active' : ''}`}
-            onClick={() => {
-              setCurrentPeriod(2);
-              setExpandedDay(null);
-            }}
-          >
-            {t('أيام 11-20', 'Days 11-20')}
-          </button>
-          <button
-            className={`period-btn ${currentPeriod === 3 ? 'active' : ''}`}
-            onClick={() => {
-              setCurrentPeriod(3);
-              setExpandedDay(null);
-            }}
-          >
-            {t('أيام 21-31', 'Days 21-31')}
-          </button>
+    <div>
+      <div className="pf-toolbar">
+        <div className="pf-segmented">
+          {[1, 2, 3].map(p => (
+            <button
+              key={p}
+              type="button"
+              className={p === currentPeriod ? 'is-active' : ''}
+              onClick={() => { setCurrentPeriod(p); setOpenDay(null); }}
+            >
+              {t('أيام', 'Days')} <span className="pf-num">{(p - 1) * 10 + 1}-{p === 3 ? daysInMonth : p * 10}</span>
+            </button>
+          ))}
         </div>
-
-        {/* ✅ زر عرض PDF */}
-        <button 
-          className="workout-pdf-btn"
-          onClick={handleViewPdf}
-        >
-          <FileDown />
-          <span>{t('عرض PDF', 'View PDF')}</span>
-          <Download />
-        </button>
+        {pdfUrl && (
+          <a className="pf-btn pf-btn--ghost" href={pdfUrl} target="_blank" rel="noopener noreferrer"><FileDown /> {t('عرض PDF', 'View PDF')}</a>
+        )}
       </div>
 
-      <WorkoutWeek
-        workoutPlan={periodWorkouts}
-        expandedDay={expandedDay}
-        setExpandedDay={setExpandedDay}
-        onToggleExercise={handleToggleExercise}
-      />
+      <div className="wk-days">
+        {Array.from({ length: end - start + 1 }, (_, i) => {
+          const day = start + i;
+          const date = new Date(monthStart.getFullYear(), monthStart.getMonth(), day);
+          const key = toDateKey(date);
+          return (
+            <DayCard
+              key={key}
+              date={date}
+              rows={rowsByDate[key] || []}
+              isToday={key === todayKey}
+              isPast={key < todayKey}
+              isOpen={openDay === day}
+              onToggleOpen={() => setOpenDay(openDay === day ? null : day)}
+              onToggleExercise={ex => toggleExercise(ex, rowsByDate[key] || [])}
+              busyId={busyId}
+              names={{ long: DAY_NAMES[currentLang] || DAY_NAMES.ar, short: DAY_SHORT[currentLang] || DAY_SHORT.ar }}
+            />
+          );
+        })}
+      </div>
     </div>
+  );
+};
+
+const DayCard = ({ date, rows, isToday, isPast, isOpen, onToggleOpen, onToggleExercise, busyId, names }) => {
+  const { t } = useProfileLanguage();
+  const dateBox = (
+    <div className="wk-day__date">
+      <strong className="pf-num">{date.getDate()}</strong>
+      <small>{names.short[date.getDay()]}</small>
+    </div>
+  );
+  const todayPill = isToday && <span className="pf-pill pf-pill--primary">{t('اليوم', 'Today')}</span>;
+
+  // Nothing uploaded for this date — different from a rest day
+  if (!rows.length) {
+    return (
+      <article className={`wk-day is-empty ${isToday ? 'is-today' : ''}`}>
+        <div className="wk-day__head is-static">
+          {dateBox}
+          <div className="wk-day__body">
+            <div className="wk-day__title">{names.long[date.getDay()]} {todayPill}</div>
+            <div className="wk-day__sub">{t('لسا ما انضاف تمرين لهذا اليوم', 'No workout added for this day yet')}</div>
+          </div>
+        </div>
+      </article>
+    );
+  }
+
+  // Rest day = a row named "راحة" (from the Excel import), shown with the coach's notes
+  if (isRestDay(rows)) {
+    const notes = rows.map(r => r.notes).filter(Boolean).join(' · ');
+    return (
+      <article className={`wk-day is-rest ${isToday ? 'is-today' : ''}`}>
+        <div className="wk-day__head is-static">
+          {dateBox}
+          <div className="wk-day__body">
+            <div className="wk-day__title">{names.long[date.getDay()]} {todayPill}</div>
+            <div className="wk-day__sub">{notes || t('يوم راحة 🌿 — نوم كويس ومي كفاية', 'Rest day 🌿 — sleep well and hydrate')}</div>
+          </div>
+          <span className="pf-pill pf-pill--ok">🌿 {t('راحة', 'Rest')}</span>
+        </div>
+      </article>
+    );
+  }
+
+  const done = rows.filter(r => r.completed).length;
+  const pct = Math.round((done / rows.length) * 100);
+  const status = done === rows.length
+    ? <span className="pf-pill pf-pill--ok">{t('مكتمل ✓', 'Done ✓')}</span>
+    : isPast && done === 0 ? <span className="pf-pill pf-pill--bad">{t('فاتك', 'Missed')}</span> : null;
+
+  return (
+    <article className={`wk-day ${isToday ? 'is-today' : ''} ${isOpen ? 'is-open' : ''}`}>
+      <button type="button" className="wk-day__head" onClick={onToggleOpen} aria-expanded={isOpen}>
+        {dateBox}
+        <div className="wk-day__body">
+          <div className="wk-day__title">{names.long[date.getDay()]} {todayPill} {status}</div>
+          <div className="wk-day__sub"><span className="pf-num">{rows.length}</span> {t('تمارين', 'exercises')}</div>
+        </div>
+        <div className="wk-day__progress">
+          <small className="pf-num">{done}/{rows.length}</small>
+          <div className="pf-bar"><span style={{ width: `${pct}%` }} /></div>
+        </div>
+        <ChevronDown className="pf-chev wk-day__chev" />
+      </button>
+
+      <div className={`pf-collapse ${isOpen ? 'is-open' : ''}`}>
+        <div>
+          <ol className="ex-list wk-exercises">
+            {rows.map(ex => (
+              <ExerciseCheckRow key={ex.id} exercise={ex} onToggle={() => onToggleExercise(ex)} busy={busyId === ex.id} />
+            ))}
+          </ol>
+        </div>
+      </div>
+    </article>
   );
 };
 

@@ -1,115 +1,77 @@
-import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { Send, ImagePlus, X, Loader2 } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
-import { Send, Image, X } from 'lucide-react';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
+
+const MAX_IMAGE_MB = 5;
 
 const MessageInput = ({ chatMessage, setChatMessage, onSendMessage, sending }) => {
   const { t } = useProfileLanguage();
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const fileInputRef = useRef(null);
+  const { toast } = useProfileFeedback();
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const fileRef = useRef(null);
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
+
+  const clearImage = () => {
+    setImage(null);
+    setPreview(null);
+    if (fileRef.current) fileRef.current.value = '';
   };
 
   const handleImageSelect = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     if (!file.type.startsWith('image/')) {
-      alert(t('يرجى اختيار صورة فقط', 'Please select an image only'));
+      toast(t('يرجى اختيار صورة فقط', 'Please select an image only'), 'error');
       return;
     }
-
-    if (file.size > 5 * 1024 * 1024) {
-      alert(t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت', 'Image size must be less than 5MB'));
+    if (file.size > MAX_IMAGE_MB * 1024 * 1024) {
+      toast(t(`حجم الصورة لازم يكون أقل من ${MAX_IMAGE_MB} ميجا`, `Image must be under ${MAX_IMAGE_MB}MB`), 'error');
       return;
     }
-
-    setSelectedImage(file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
   };
 
   const handleSend = () => {
-    if (selectedImage) {
-      onSendMessage(chatMessage, selectedImage);
-      setSelectedImage(null);
-      setImagePreview(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+    if (sending) return;
+    if (image) {
+      onSendMessage(chatMessage, image);
+      clearImage();
       return;
     }
-
-    if (chatMessage.trim()) {
-      onSendMessage(chatMessage, null);
-    }
+    if (chatMessage.trim()) onSendMessage(chatMessage, null);
   };
 
+  const canSend = !sending && (chatMessage.trim() || image);
+
   return (
-    <div className="chat-input-wrapper">
-      {imagePreview && (
-        <div className="image-preview-container">
-          <img src={imagePreview} alt="Preview" className="image-preview" />
-          <button className="remove-image-btn" onClick={handleRemoveImage}>
-            <X />
-          </button>
+    <div className="ch__compose">
+      {preview && (
+        <div className="ch__preview">
+          <img src={preview} alt="" />
+          <button type="button" onClick={clearImage} aria-label={t('إزالة الصورة', 'Remove image')}><X /></button>
         </div>
       )}
-
-      <div className="chat-input">
-        <input
-          type="file"
-          ref={fileInputRef}
-          accept="image/*"
-          onChange={handleImageSelect}
-          style={{ display: 'none' }}
-        />
-
-        <motion.button
-          className="image-btn"
-          onClick={() => fileInputRef.current?.click()}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          disabled={sending}
-        >
-          <Image />
-        </motion.button>
-
+      <form className="ch__input" onSubmit={e => { e.preventDefault(); handleSend(); }}>
+        <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleImageSelect} />
+        <button type="button" className="pf-icon-btn" onClick={() => fileRef.current?.click()} disabled={sending} aria-label={t('إرفاق صورة', 'Attach image')}>
+          <ImagePlus />
+        </button>
         <input
           type="text"
-          placeholder={t('اكتب رسالتك...', 'Type your message...')}
           value={chatMessage}
-          onChange={(e) => setChatMessage(e.target.value)}
-          onKeyDown={handleKeyPress}
+          onChange={e => setChatMessage(e.target.value)}
+          placeholder={t('اكتب رسالتك للكوتش…', 'Write to your coach…')}
           disabled={sending}
+          autoComplete="off"
         />
-
-        <motion.button
-          className="send-btn"
-          onClick={handleSend}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          disabled={sending || (!chatMessage.trim() && !selectedImage)}
-        >
-          <Send />
-        </motion.button>
-      </div>
+        <button type="submit" className="pf-btn pf-btn--primary" disabled={!canSend} aria-label={t('إرسال', 'Send')}>
+          {sending ? <Loader2 className="pf-spin" /> : <Send />}
+        </button>
+      </form>
     </div>
   );
 };

@@ -1,91 +1,57 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
-import subscriptionApi from '../../api/subscriptionApi';
-import Swal from 'sweetalert2';
-import { CheckCircle, AlertTriangle, Lock } from 'lucide-react';
+import { Lock, ExternalLink, Loader2 } from 'lucide-react';
 import { FaPaypal } from '@/components/common/SocialIcons';
+import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
+import { useProfileFeedback } from '../profile/shell/feedbackContext';
+import subscriptionApi from '../../api/subscriptionApi';
 
-const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
+const PayPalPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onCancel }) => {
   const { t } = useProfileLanguage();
+  const { toast } = useProfileFeedback();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayPalPayment = async () => {
     setIsProcessing(true);
-
     try {
-      const subscriptionData = {
+      const response = await subscriptionApi.createPayPalPayment({
         plan_type: planType,
-        duration: duration,
+        duration,
         amount: parseFloat(amount),
         original_amount: parseFloat(originalAmount),
         discount_percentage: discountPercentage,
-        payment_method: 'paypal'
-      };
+        payment_method: 'paypal',
+      });
 
-      const response = await subscriptionApi.createPayPalPayment(subscriptionData);
-      
       if (response.success && response.data.approval_url) {
-        window.location.href = response.data.approval_url;
+        window.location.href = response.data.approval_url;       // PayPal brings the user back afterwards
       } else {
         throw new Error('Failed to create PayPal payment');
       }
     } catch (error) {
-      setIsProcessing(false);
       console.error('PayPal payment error:', error);
-      
-      Swal.fire({
-        title: t('فشل الدفع', 'Payment Failed'),
-        text: error.response?.data?.message || t('حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى', 'An error occurred while processing payment. Please try again'),
-        icon: 'error',
-        confirmButtonText: t('حسناً', 'OK'),
-        confirmButtonColor: 'var(--site-primary)'
-      });
+      setIsProcessing(false);
+      toast(error.response?.data?.message
+        || t('حدث خطأ أثناء معالجة الدفع. يرجى المحاولة مرة أخرى', 'Something went wrong with the payment. Please try again'), 'error');
     }
   };
 
   return (
-    <div className="paypal-payment">
-      <div className="payment-info">
-        <div className="amount-display">
-          <span className="amount-label">{t('المبلغ المطلوب:', 'Amount Due:')}</span>
-          <span className="amount-value">${amount}</span>
-        </div>
-
-        <div className="payment-note">
-          <AlertTriangle />
-          <p>
-            {t('سيتم توجيهك إلى صفحة PayPal الآمنة', "You will be redirected to PayPal's secure page")}
-          </p>
-        </div>
+    <div className="pay-step">
+      <div className="pay-step__amount">
+        <span>{t('المبلغ المطلوب', 'Amount due')}</span>
+        <strong className="pf-num">${amount}</strong>
       </div>
 
-      <motion.button
-        className={`paypal-button ${isProcessing ? 'processing' : ''}`}
-        onClick={handlePayPalPayment}
-        disabled={isProcessing}
-        whileHover={!isProcessing ? { scale: 1.02 } : {}}
-        whileTap={!isProcessing ? { scale: 0.98 } : {}}
-      >
-        {isProcessing ? (
-          <>
-            <div className="spinner"></div>
-            {t('جاري المعالجة...', 'Processing...')}
-          </>
-        ) : (
-          <>
-            <FaPaypal className="paypal-icon" />
-            {t('ادفع عبر PayPal', 'Pay with PayPal')}
-          </>
-        )}
-      </motion.button>
+      <p className="pay-step__note"><ExternalLink /> {t('رح ننقلك لصفحة PayPal الآمنة لإتمام الدفع، وبترجع هون بعدها.', "You'll be taken to PayPal's secure page, then brought back here.")}</p>
 
-      <div className="payment-security">
-        <Lock />
-        <span>{t('دفع آمن محمي بواسطة PayPal', 'Secure payment protected by PayPal')}</span>
-      </div>
+      <button type="button" className="pay-paypal-btn" onClick={handlePayPalPayment} disabled={isProcessing}>
+        {isProcessing ? <Loader2 className="pf-spin" /> : <FaPaypal />}
+        {isProcessing ? t('جاري التحويل…', 'Redirecting…') : t('ادفع عبر PayPal', 'Pay with PayPal')}
+      </button>
 
-      <button className="back-btn" onClick={onCancel} disabled={isProcessing}>
+      <p className="pay-step__secure"><Lock /> {t('دفع آمن محمي بواسطة PayPal', 'Secure payment protected by PayPal')}</p>
+
+      <button type="button" className="pf-btn pf-btn--ghost pf-btn--block" onClick={onCancel} disabled={isProcessing}>
         {t('رجوع', 'Back')}
       </button>
     </div>

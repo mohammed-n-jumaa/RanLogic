@@ -31,6 +31,11 @@ const AdminPlans = lazy(() => import('./pages/Subscriptions/AdminPlans'));
 const Coupons = lazy(() => import('./pages/Subscriptions/Coupons/Coupons'));
 const SiteColors = lazy(() => import('./pages/Content/SiteColors/SiteColors'));
 
+// OneSignal only accepts the site domain its app is registered for; elsewhere
+// (e.g. admin.ranlogic.com or localhost) it throws, so don't start it there.
+const ONESIGNAL_HOST = (import.meta.env.VITE_ONESIGNAL_HOST || 'ranlogic.com').trim();
+const pushSupported = window.location.hostname === ONESIGNAL_HOST;
+
 /**
  * Registers the device for OneSignal push once the admin is signed in
  * (also right after a fresh login, not only on page reload).
@@ -40,7 +45,7 @@ const PushRegistration = () => {
   const oneSignalRef = useRef(null);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !pushSupported) return;
 
     if (!oneSignalRef.current) {
       oneSignalRef.current = import('react-onesignal').then(({ default: OneSignal }) =>
@@ -58,7 +63,7 @@ const PushRegistration = () => {
           OneSignal.User.PushSubscription.optIn();
           const playerId = OneSignal.User.PushSubscription.id;
           if (playerId) {
-            apiClient.post('/fcm-token', { onesignal_id: playerId });
+            apiClient.post('/fcm-token', { onesignal_id: playerId }, { silent: true });
           }
         })
       )

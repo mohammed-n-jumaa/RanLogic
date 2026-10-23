@@ -28,6 +28,7 @@ import {
 import { getEcho } from '../../../lib/echo';
 import './ChatList.scss';
 import { t } from '../../../i18n';
+import { confirmDelete } from '../../../lib/notify';
 
 const ChatList = () => {
   const navigate = useNavigate();
@@ -259,7 +260,7 @@ const ChatList = () => {
     e.stopPropagation();
     setOpenItemMenu(null);
 
-    if (!window.confirm(t('هل أنت متأكد من حذف هذه المحادثة؟'))) return;
+    if (!(await confirmDelete({ title: t('حذف المحادثة'), text: t('هل أنت متأكد من حذف هذه المحادثة؟') }))) return;
 
     try {
       const response = await deleteConversation(conversationId);

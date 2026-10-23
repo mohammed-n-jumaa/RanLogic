@@ -5,7 +5,7 @@ import {
   MoreVertical, Edit2, Trash2, Video, Loader,
   RotateCcw, BookOpen, TrendingUp, Film, CheckCircle, Calendar
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import exerciseLibraryApi from '../../../api/exerciseLibraryApi';
 import ExerciseDetailModal from './ExerciseDetailModal';
 import ExerciseFormModal from './ExerciseFormModal';
@@ -281,7 +281,7 @@ const ExerciseLibrary = () => {
   };
 
   const handleDelete = async (exercise) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('حذف التمرين؟'),
       html: t('سيتم حذف <strong>{0}</strong> نهائياً', exercise.name),
       icon: 'warning', showCancelButton: true,
@@ -294,9 +294,9 @@ const ExerciseLibrary = () => {
       await exerciseLibraryApi.delete(exercise.id);
       setExercises((prev) => prev.filter((e) => e.id !== exercise.id));
       fetchStats();
-      Swal.fire({ icon: 'success', title: t('تم الحذف'), timer: 1500, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
+      notify.fire({ icon: 'success', title: t('تم الحذف'), timer: 1500, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
     } catch {
-      Swal.fire({ icon: 'error', title: t('خطأ'), text: t('فشل الحذف'), confirmButtonText: t('حسناً') });
+      notify.fire({ icon: 'error', title: t('خطأ'), text: t('فشل الحذف'), confirmButtonText: t('حسناً') });
     }
   };
 
@@ -308,7 +308,7 @@ const ExerciseLibrary = () => {
       if (res.data.success) {
         setIsFormOpen(false); setFormExercise(null);
         fetchExercises(1); fetchStats();
-        Swal.fire({ icon: 'success', title: editingId ? t('تم التحديث') : t('تمت الإضافة'), timer: 1800, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
+        notify.fire({ icon: 'success', title: editingId ? t('تم التحديث') : t('تمت الإضافة'), timer: 1800, showConfirmButton: false, background: 'var(--bg-card)', color: 'var(--text-primary)' });
       }
     } catch (err) {
       const errData = err.response?.data;
@@ -317,7 +317,7 @@ const ExerciseLibrary = () => {
         const first = Object.values(errData.errors)[0];
         if (Array.isArray(first)) msg = first[0];
       }
-      Swal.fire({ icon: 'error', title: t('خطأ في الحفظ'), text: msg, confirmButtonText: t('حسناً') });
+      notify.fire({ icon: 'error', title: t('خطأ في الحفظ'), text: msg, confirmButtonText: t('حسناً') });
     }
   };
 

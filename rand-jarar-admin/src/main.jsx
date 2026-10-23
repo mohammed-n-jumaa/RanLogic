@@ -4,6 +4,13 @@ import App from './App';
 import './i18n';
 import './assets/styles/global.scss';
 
+// Debug logging is for development only; keep warnings and errors in production
+if (import.meta.env.PROD) {
+  console.log = () => {};
+  console.debug = () => {};
+  console.info = () => {};
+}
+
 // After a new deploy the old hashed page chunks no longer exist on the server,
 // so an open tab fails to load the next page. Reload once to pick up the new build.
 window.addEventListener('vite:preloadError', (event) => {

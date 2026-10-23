@@ -16,10 +16,11 @@ const authApi = {
    */
   login: async (email, password) => {
     try {
+      // silent: the login form shows its own error message
       const response = await apiClient.post('/auth/login', {
         email,
         password,
-      });
+      }, { silent: true });
 
       if (response.data.success && response.data.data.token) {
         // Store token in localStorage
@@ -54,7 +55,7 @@ const authApi = {
    */
   me: async () => {
     try {
-      const response = await apiClient.get('/auth/me');
+      const response = await apiClient.get('/auth/me', { silent: true });
 
       return {
         success: true,
@@ -77,7 +78,7 @@ const authApi = {
    */
   logout: async () => {
     try {
-      const response = await apiClient.post('/auth/logout');
+      const response = await apiClient.post('/auth/logout', null, { silent: true });
 
       // Clear all stored data
       authApi.clearAuthData();
@@ -104,7 +105,7 @@ const authApi = {
    */
   logoutAll: async () => {
     try {
-      const response = await apiClient.post('/auth/logout-all');
+      const response = await apiClient.post('/auth/logout-all', null, { silent: true });
 
       // Clear all stored data
       authApi.clearAuthData();
@@ -131,7 +132,7 @@ const authApi = {
    */
   refresh: async () => {
     try {
-      const response = await apiClient.post('/auth/refresh');
+      const response = await apiClient.post('/auth/refresh', null, { silent: true });
 
       if (response.data.success && response.data.data.token) {
         // Update token in localStorage

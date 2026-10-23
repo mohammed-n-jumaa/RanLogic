@@ -8,7 +8,7 @@ import {
   CreditCard, Activity, FileText, Hash,
 } from 'lucide-react';
 import apiClient from '../../../api/apiClient';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import './AllUsersList.scss';
 import { t, loc } from '../../../i18n';
 
@@ -356,7 +356,7 @@ const AllUsersList = () => {
       }
     } catch (err) {
       console.error(err);
-      Swal.fire({ icon: 'error', title: t('خطأ'), text: t('حدث خطأ أثناء جلب البيانات'), confirmButtonText: t('حسناً') });
+      notify.fire({ icon: 'error', title: t('خطأ'), text: t('حدث خطأ أثناء جلب البيانات'), confirmButtonText: t('حسناً') });
     } finally {
       setIsLoading(false);
     }

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import './ProfilePhotoUpload.scss';
 import { t } from '../../../i18n';
+import notify from '../../../lib/notify';
 
 const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
   const [photo, setPhoto] = useState(null);
@@ -47,12 +48,12 @@ const ProfilePhotoUpload = ({ currentPhoto, onUpload, isLoading }) => {
 
   const handleFileSelect = (file) => {
     if (!file.type.match('image.*')) {
-      alert(t('الرجاء اختيار صورة فقط'));
+      notify.warning(t('الرجاء اختيار صورة فقط'));
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert(t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت'));
+      notify.warning(t('حجم الصورة يجب أن يكون أقل من 5 ميجابايت'));
       return;
     }
 

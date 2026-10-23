@@ -18,7 +18,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import trainingApi from '../../../api/trainingApi';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import './WorkoutPlan.scss';
 import { t, loc } from '../../../i18n';
 import { BACKEND_URL } from '../../../config';
@@ -453,7 +453,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
     if (!file) return;
 
     if (file.size > 20 * 1024 * 1024) {
-      Swal.fire({
+      notify.fire({
         icon: 'warning',
         title: t('ملف كبير'),
         html: t('<p>حجم الفيديو يجب ألا يتجاوز 20MB</p>'),
@@ -463,7 +463,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
     }
 
     if (!file.type.startsWith('video/')) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('يجب اختيار ملف فيديو'),
@@ -475,7 +475,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
   };
 
   const handleDeleteExercise = async (exerciseId) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('هل أنت متأكد؟'),
       text: t('سيتم حذف هذا التمرين'),
       icon: 'warning',
@@ -491,7 +491,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
     if (!String(exerciseId).startsWith('temp-')) {
       try {
         await trainingApi.deleteExercise(exerciseId);
-        Swal.fire({
+        notify.fire({
           icon: 'success',
           title: t('تم الحذف'),
           timer: 2000,
@@ -499,7 +499,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
         });
       } catch (error) {
         console.error('Error deleting:', error);
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('خطأ'),
           text: t('حدث خطأ أثناء الحذف'),
@@ -515,7 +515,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
 
   const handleToggleCompletion = async (exerciseId) => {
     if (String(exerciseId).startsWith('temp-')) {
-      Swal.fire({
+      notify.fire({
         icon: 'info',
         title: t('تنبيه'),
         text: t('يجب حفظ التمرين أولاً'),
@@ -542,7 +542,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
     await performAutoSave();
     setIsSaving(false);
 
-    Swal.fire({
+    notify.fire({
       icon: 'success',
       title: t('تم الحفظ'),
       text: t('تم حفظ البرنامج التدريبي بنجاح'),
@@ -599,20 +599,20 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
 
     if (file.type !== 'application/pdf') {
       console.log('Invalid file type:', file.type);
-      Swal.fire({ icon: 'error', title: t('خطأ'), text: t('يجب اختيار ملف PDF فقط') });
+      notify.fire({ icon: 'error', title: t('خطأ'), text: t('يجب اختيار ملف PDF فقط') });
       return;
     }
 
     if (file.size > 10 * 1024 * 1024) {
       console.log('File too large:', file.size);
-      Swal.fire({ icon: 'warning', title: t('ملف كبير'), text: t('حجم PDF يجب ألا يتجاوز 10MB') });
+      notify.fire({ icon: 'warning', title: t('ملف كبير'), text: t('حجم PDF يجب ألا يتجاوز 10MB') });
       return;
     }
 
     console.log('✅ Setting pdfFile state:', file.name);
     setPdfFile(file);
 
-    Swal.fire({
+    notify.fire({
       icon: 'info',
       title: t('تم اختيار الملف'),
       text: t('تم اختيار ملف {0}، سيتم حفظه تلقائياً', file.name),
@@ -631,7 +631,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
 
   const handleExcelUpload = async () => {
   if (!excelFile) {
-    Swal.fire({ icon: 'warning', title: t('تنبيه'), text: t('الرجاء اختيار ملف Excel أولاً') });
+    notify.fire({ icon: 'warning', title: t('تنبيه'), text: t('الرجاء اختيار ملف Excel أولاً') });
     return;
   }
 
@@ -660,7 +660,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
         }
       }
       
-      Swal.fire({
+      notify.fire({
         icon: 'success',
         title: t('تم الاستيراد'),
         html: message.replace(/\n/g, '<br>'),
@@ -674,7 +674,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
       
       
     } else {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ في الاستيراد'),
         text: response.data?.message || t('حدث خطأ أثناء استيراد الملف'),
@@ -682,7 +682,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
     }
   } catch (error) {
     console.error('Error importing Excel:', error);
-    Swal.fire({
+    notify.fire({
       icon: 'error',
       title: t('خطأ في الاستيراد'),
       text: error.response?.data?.message || error.message || t('حدث خطأ أثناء استيراد الملف'),
@@ -701,7 +701,7 @@ const handleExcelFileSelect = (file) => {
   const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
   
   if (!validExtensions.includes(fileExtension)) {
-    Swal.fire({
+    notify.fire({
       icon: 'error',
       title: t('خطأ'),
       text: t('الرجاء اختيار ملف Excel بصيغة xlsx, xls, أو csv'),
@@ -713,7 +713,7 @@ const handleExcelFileSelect = (file) => {
   }
   
   if (file.size > 10 * 1024 * 1024) {
-    Swal.fire({
+    notify.fire({
       icon: 'warning',
       title: t('ملف كبير'),
       text: t('حجم الملف يجب ألا يتجاوز 10MB'),
@@ -983,7 +983,7 @@ const downloadExcelTemplate = () => {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 
-  Swal.fire({
+  notify.fire({
     icon: 'success',
     title: t('تم التحميل'),
     text: t('تم تحميل ملف القالب بنجاح'),

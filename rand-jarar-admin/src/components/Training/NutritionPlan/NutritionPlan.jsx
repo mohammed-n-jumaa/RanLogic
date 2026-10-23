@@ -19,7 +19,7 @@ import {
   FileText
 } from 'lucide-react';
 import trainingApi from '../../../api/trainingApi';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import './NutritionPlan.scss';
 import { t, loc } from '../../../i18n';
 import { BACKEND_URL } from '../../../config';
@@ -159,7 +159,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   
   const handleMealImageUpload = (mealId, file) => {
     if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('حجم الصورة يجب ألا يتجاوز 5MB'),
@@ -168,7 +168,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     }
     
     if (!file.type.startsWith('image/')) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('يجب اختيار ملف صورة'),
@@ -180,7 +180,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   };
   
   const handleDeleteMeal = async (mealId) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('هل أنت متأكد؟'),
       text: t('سيتم حذف هذه الوجبة وجميع عناصرها'),
       icon: 'warning',
@@ -196,7 +196,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (!String(mealId).startsWith('temp-')) {
       try {
         await trainingApi.deleteMeal(mealId);
-        Swal.fire({
+        notify.fire({
           icon: 'success',
           title: t('تم الحذف'),
           timer: 2000,
@@ -204,7 +204,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
         });
       } catch (error) {
         console.error('Error deleting:', error);
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('خطأ'),
           text: t('حدث خطأ أثناء الحذف'),
@@ -265,7 +265,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
   
   const handleToggleItemCompletion = async (itemId) => {
     if (String(itemId).startsWith('temp-')) {
-      Swal.fire({
+      notify.fire({
         icon: 'info',
         title: t('تنبيه'),
         text: t('يجب حفظ العنصر أولاً'),
@@ -293,7 +293,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     if (!file) return;
     
     if (file.size > 10 * 1024 * 1024) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('حجم الملف يجب ألا يتجاوز 10MB'),
@@ -303,7 +303,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
     }
     
     if (file.type !== 'application/pdf') {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('يجب أن يكون الملف PDF'),
@@ -371,7 +371,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
           pdfInputRef.current.value = null;
         }
         
-        await Swal.fire({
+        await notify.fire({
           icon: 'success',
           title: t('تم الحفظ'),
           text: t('تم حفظ النظام الغذائي بنجاح'),
@@ -385,7 +385,7 @@ const NutritionPlan = ({ clientId, nutritionPlan, onRefresh }) => {
       }
     } catch (error) {
       console.error('Error saving:', error);
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: error.response?.data?.message || t('حدث خطأ أثناء الحفظ'),

@@ -17,13 +17,13 @@ import {
   Home,
   Heart
 } from 'lucide-react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import WorkoutPlan from '../../../components/Training/WorkoutPlan';
 import NutritionPlan from '../../../components/Training/NutritionPlan';
 import ProgressTracker from '../../../components/Training/ProgressTracker';
 import trainingApi from '../../../api/trainingApi';
 import TraineeProgress from '../../../components/Training/TraineeProgress/TraineeProgress';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import './ClientDetails.scss';
 import { t, loc } from '../../../i18n';
 import { BACKEND_URL } from '../../../config';
@@ -32,7 +32,11 @@ const ClientDetails = () => {
   const { clientId } = useParams();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState('workout');
+  const [searchParams] = useSearchParams();
+  // ?tab=nutrition / ?tab=progress opens that tab directly (e.g. from the dashboard calendar)
+  const [activeTab, setActiveTab] = useState(() =>
+    ['workout', 'nutrition', 'progress'].includes(searchParams.get('tab')) ? searchParams.get('tab') : 'workout'
+  );
   const [client, setClient] = useState(null);
   const [nutritionPlan, setNutritionPlan] = useState(null);
   const [workoutPlan, setWorkoutPlan] = useState(null);
@@ -134,7 +138,7 @@ const ClientDetails = () => {
       console.error('=== Error ===');
       console.error('Error:', error);
       console.error('Response:', error.response);
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('حدث خطأ أثناء جلب البيانات'),

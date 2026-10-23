@@ -4,7 +4,7 @@ import {
   MessageSquare, Upload, Save, Check, AlertCircle, Plus,
   Edit2, Trash2, Star, X, Languages, Globe, Image as ImageIcon
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import testimonialsApi from '../../../api/testimonialsApi';
 import './Testimonials.scss';
 import { t } from '../../../i18n';
@@ -40,7 +40,7 @@ const Testimonials = () => {
       }
     } catch (error) {
       console.error('Error fetching testimonials:', error);
-      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل البيانات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل تحميل البيانات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsLoading(false);
     }
@@ -51,10 +51,10 @@ const Testimonials = () => {
     setDesignType(type);
     try {
       await testimonialsApi.updateDesignType(type);
-      Swal.fire({ title: t('نجح'), text: t('تم تحديث التصميم'), icon: 'success', timer: 1500, showConfirmButton: false });
+      notify.fire({ title: t('نجح'), text: t('تم تحديث التصميم'), icon: 'success', timer: 1500, showConfirmButton: false });
     } catch (error) {
       setDesignType(prev);
-      Swal.fire({ title: t('خطأ'), text: t('فشل تحديث التصميم'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل تحديث التصميم'), icon: 'error', confirmButtonColor: '#e91e63' });
     }
   };
 
@@ -70,17 +70,17 @@ const Testimonials = () => {
   };
 
   const handleDeleteTestimonial = async (index) => {
-    const result = await Swal.fire({ title: t('تأكيد الحذف'), text: t('هل أنت متأكد من حذف هذا الرأي؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم، احذف'), cancelButtonText: t('إلغاء') });
+    const result = await notify.fire({ title: t('تأكيد الحذف'), text: t('هل أنت متأكد من حذف هذا الرأي؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم، احذف'), cancelButtonText: t('إلغاء') });
     if (!result.isConfirmed) return;
     setTestimonials(testimonials.filter((_, i) => i !== index));
-    Swal.fire({ title: t('تم الحذف'), text: t('تم حذف الرأي بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+    notify.fire({ title: t('تم الحذف'), text: t('تم حذف الرأي بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
   };
 
   const handleImageSelect = async (index, e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (!file.type.startsWith('image/')) { Swal.fire({ title: t('خطأ'), text: t('يرجى اختيار ملف صورة صالح'), icon: 'error', confirmButtonColor: '#e91e63' }); return; }
-    if (file.size > 5 * 1024 * 1024) { Swal.fire({ title: t('خطأ'), text: t('حجم الصورة يجب أن لا يتجاوز 5MB'), icon: 'error', confirmButtonColor: '#e91e63' }); return; }
+    if (!file.type.startsWith('image/')) { notify.fire({ title: t('خطأ'), text: t('يرجى اختيار ملف صورة صالح'), icon: 'error', confirmButtonColor: '#e91e63' }); return; }
+    if (file.size > 5 * 1024 * 1024) { notify.fire({ title: t('خطأ'), text: t('حجم الصورة يجب أن لا يتجاوز 5MB'), icon: 'error', confirmButtonColor: '#e91e63' }); return; }
 
     const reader = new FileReader();
     reader.onloadend = () => { handleUpdateTestimonial(index, 'image', reader.result); };
@@ -92,10 +92,10 @@ const Testimonials = () => {
         const response = await testimonialsApi.uploadImage(testimonial.id, file);
         if (response.success) {
           handleUpdateTestimonial(index, 'image', response.data.image_url);
-          Swal.fire({ title: t('نجح'), text: t('تم رفع الصورة بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+          notify.fire({ title: t('نجح'), text: t('تم رفع الصورة بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
         }
       } catch (error) {
-        Swal.fire({ title: t('خطأ'), text: t('فشل رفع الصورة'), icon: 'error', confirmButtonColor: '#e91e63' });
+        notify.fire({ title: t('خطأ'), text: t('فشل رفع الصورة'), icon: 'error', confirmButtonColor: '#e91e63' });
       }
     }
   };
@@ -107,9 +107,9 @@ const Testimonials = () => {
   };
 
   const handleSaveChanges = async () => {
-    if (!sectionEn.title || !sectionAr.title) { Swal.fire({ title: t('تنبيه'), text: t('يرجى ملء عنوان القسم بالعربية والإنجليزية'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
+    if (!sectionEn.title || !sectionAr.title) { notify.fire({ title: t('تنبيه'), text: t('يرجى ملء عنوان القسم بالعربية والإنجليزية'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
     const invalidTestimonial = testimonials.find(tItem => !tItem.name_en || !tItem.name_ar || !tItem.title_en || !tItem.title_ar || !tItem.text_en || !tItem.text_ar);
-    if (invalidTestimonial) { Swal.fire({ title: t('تنبيه'), text: t('يرجى ملء جميع حقول الآراء (عربي وإنجليزي)'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
+    if (invalidTestimonial) { notify.fire({ title: t('تنبيه'), text: t('يرجى ملء جميع حقول الآراء (عربي وإنجليزي)'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
 
     setIsSaving(true);
     try {
@@ -121,14 +121,14 @@ const Testimonials = () => {
       if (response.success) {
         setUploadStatus('success');
         setTimeout(() => setUploadStatus(null), 3000);
-        Swal.fire({ title: t('نجح'), text: t('تم حفظ جميع التغييرات بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+        notify.fire({ title: t('نجح'), text: t('تم حفظ جميع التغييرات بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
         await fetchTestimonials();
         setEditingTestimonial(null);
       }
     } catch (error) {
       setUploadStatus('error');
       setTimeout(() => setUploadStatus(null), 3000);
-      Swal.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ التغييرات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ التغييرات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsSaving(false);
     }

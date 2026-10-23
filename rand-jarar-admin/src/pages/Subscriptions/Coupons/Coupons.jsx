@@ -4,7 +4,7 @@ import {
     Ticket, Plus, RefreshCw, Pencil, Trash2, ToggleLeft, ToggleRight,
     Percent, DollarSign, AlertCircle, Clock, Users,
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import couponsApi from '../../../api/couponsApi';
 import CouponModal from './CouponModal';
 import './Coupons.scss';
@@ -26,7 +26,7 @@ const Coupons = () => {
             const res = await couponsApi.getAll();
             if (res.success) setCoupons(res.data);
         } catch {
-            Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الكوبونات'), icon: 'error', confirmButtonColor: '#e91e63' });
+            notify.fire({ title: t('خطأ'), text: t('فشل تحميل الكوبونات'), icon: 'error', confirmButtonColor: '#e91e63' });
         } finally {
             setIsLoading(false);
         }
@@ -49,11 +49,11 @@ const Coupons = () => {
                 }
                 setModalOpen(false);
                 setEditCoupon(null);
-                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: res.message, showConfirmButton: false, timer: 2000, timerProgressBar: true });
+                notify.fire({ toast: true, position: 'top-end', icon: 'success', title: res.message, showConfirmButton: false, timer: 2000, timerProgressBar: true });
             }
         } catch (err) {
             const msg = err.response?.data?.message || err.response?.data?.errors?.code?.[0] || t('حدث خطأ');
-            Swal.fire({ title: t('خطأ'), text: msg, icon: 'error', confirmButtonColor: '#e91e63' });
+            notify.fire({ title: t('خطأ'), text: msg, icon: 'error', confirmButtonColor: '#e91e63' });
         } finally {
             setIsSaving(false);
         }
@@ -66,12 +66,12 @@ const Coupons = () => {
                 setCoupons(prev => prev.map(c => (c.id === coupon.id ? res.data : c)));
             }
         } catch {
-            Swal.fire({ title: t('خطأ'), text: t('فشل تغيير الحالة'), icon: 'error', confirmButtonColor: '#e91e63' });
+            notify.fire({ title: t('خطأ'), text: t('فشل تغيير الحالة'), icon: 'error', confirmButtonColor: '#e91e63' });
         }
     };
 
     const handleDelete = async (coupon) => {
-        const result = await Swal.fire({
+        const result = await notify.fire({
             title: t('حذف الكوبون'),
             text: t('هل أنت متأكد من حذف "{0}"؟', coupon.code),
             icon: 'warning',
@@ -87,10 +87,10 @@ const Coupons = () => {
             const res = await couponsApi.remove(coupon.id);
             if (res.success) {
                 setCoupons(prev => prev.filter(c => c.id !== coupon.id));
-                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: t('تم الحذف'), showConfirmButton: false, timer: 2000 });
+                notify.fire({ toast: true, position: 'top-end', icon: 'success', title: t('تم الحذف'), showConfirmButton: false, timer: 2000 });
             }
         } catch {
-            Swal.fire({ title: t('خطأ'), text: t('فشل حذف الكوبون'), icon: 'error', confirmButtonColor: '#e91e63' });
+            notify.fire({ title: t('خطأ'), text: t('فشل حذف الكوبون'), icon: 'error', confirmButtonColor: '#e91e63' });
         }
     };
 

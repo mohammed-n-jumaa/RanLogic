@@ -15,7 +15,7 @@ import {
   Columns,
   Layout,
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import aboutCoachApi from '../../../api/aboutCoachApi';
 import './AboutCoach.scss';
 import { t } from '../../../i18n';
@@ -82,7 +82,7 @@ const AboutCoach = () => {
       }
     } catch (error) {
       console.error('Error fetching about coach:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل تحميل البيانات'),
         icon: 'error',
@@ -137,7 +137,7 @@ const AboutCoach = () => {
   };
 
   const handleDeleteFeature = async (index) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('تأكيد الحذف'),
       text: t('هل أنت متأكد من حذف هذه الميزة؟'),
       icon: 'warning',
@@ -155,7 +155,7 @@ const AboutCoach = () => {
       features: d.features.filter((_, i) => i !== index),
     }));
 
-    Swal.fire({
+    notify.fire({
       title: t('تم الحذف'),
       text: t('تم حذف الميزة بنجاح'),
       icon: 'success',
@@ -172,7 +172,7 @@ const AboutCoach = () => {
 
   const processImage = async (file) => {
     if (!file.type.startsWith('image/')) {
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('يرجى اختيار ملف صورة صالح'),
         icon: 'error',
@@ -182,7 +182,7 @@ const AboutCoach = () => {
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('حجم الصورة يجب أن لا يتجاوز 5MB'),
         icon: 'error',
@@ -205,7 +205,7 @@ const AboutCoach = () => {
 
       if (response.success) {
         setImagePreview(response.data.image_url);
-        Swal.fire({
+        notify.fire({
           title: t('نجح'),
           text: t('تم رفع الصورة بنجاح'),
           icon: 'success',
@@ -215,7 +215,7 @@ const AboutCoach = () => {
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: error.response?.data?.message || t('فشل رفع الصورة'),
         icon: 'error',
@@ -227,7 +227,7 @@ const AboutCoach = () => {
   };
 
   const handleDeleteImage = async () => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('تأكيد الحذف'),
       text: t('هل أنت متأكد من حذف الصورة؟'),
       icon: 'warning',
@@ -244,7 +244,7 @@ const AboutCoach = () => {
       const response = await aboutCoachApi.deleteImage();
       if (response.success) {
         setImagePreview(null);
-        Swal.fire({
+        notify.fire({
           title: t('تم الحذف'),
           text: t('تم حذف الصورة بنجاح'),
           icon: 'success',
@@ -254,7 +254,7 @@ const AboutCoach = () => {
       }
     } catch (error) {
       console.error('Error deleting image:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل حذف الصورة'),
         icon: 'error',
@@ -288,7 +288,7 @@ const AboutCoach = () => {
       const response = await aboutCoachApi.updateAboutCoach(payload);
 
       if (response.success) {
-        Swal.fire({
+        notify.fire({
           title: t('نجح'),
           text: t('تم حفظ جميع التغييرات بنجاح'),
           icon: 'success',
@@ -301,7 +301,7 @@ const AboutCoach = () => {
       }
     } catch (error) {
       console.error('Error saving changes:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: error.response?.data?.message || t('فشل حفظ التغييرات'),
         icon: 'error',

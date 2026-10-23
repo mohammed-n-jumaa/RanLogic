@@ -5,7 +5,7 @@ import {
   ExternalLink, Info, Pipette, Sparkles, Eye, Star, Globe,
   ChevronLeft, MessageSquare, ArrowUp, Play,
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import siteColorsApi from '../../../api/siteColorsApi';
 import './SiteColors.scss';
 import { t } from '../../../i18n';
@@ -229,7 +229,7 @@ const SiteColors = () => {
       const res = await siteColorsApi.getAll();
       if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); }
     } catch {
-      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الألوان'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل تحميل الألوان'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setIsLoading(false); }
   }, []);
 
@@ -249,23 +249,23 @@ const SiteColors = () => {
       const res = await siteColorsApi.update(colors);
       if (res.success) {
         setOriginal(res.data); setHasChanges(false);
-        Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: res.message, showConfirmButton: false, timer: 2500, timerProgressBar: true });
+        notify.fire({ toast: true, position: 'top-end', icon: 'success', title: res.message, showConfirmButton: false, timer: 2500, timerProgressBar: true });
       }
     } catch (err) {
-      Swal.fire({ title: t('خطأ'), icon: 'error', confirmButtonColor: '#e91e63', text: err.response?.data?.message || t('فشل حفظ الألوان') });
+      notify.fire({ title: t('خطأ'), icon: 'error', confirmButtonColor: '#e91e63', text: err.response?.data?.message || t('فشل حفظ الألوان') });
     } finally { setIsSaving(false); }
   };
 
   const handleReset = async () => {
-    const r = await Swal.fire({ title: t('إعادة الألوان الافتراضية'), text: t('سيتم إرجاع جميع الألوان للقيم الافتراضية'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم'), cancelButtonText: t('إلغاء'), reverseButtons: true });
+    const r = await notify.fire({ title: t('إعادة الألوان الافتراضية'), text: t('سيتم إرجاع جميع الألوان للقيم الافتراضية'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم'), cancelButtonText: t('إلغاء'), reverseButtons: true });
     if (!r.isConfirmed) return;
     try {
       const res = await siteColorsApi.reset();
-      if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: t('تم إعادة الألوان'), showConfirmButton: false, timer: 2000 }); }
-    } catch { Swal.fire({ title: t('خطأ'), text: t('فشل'), icon: 'error', confirmButtonColor: '#e91e63' }); }
+      if (res.success) { setColors(res.data); setOriginal(res.data); setHasChanges(false); notify.fire({ toast: true, position: 'top-end', icon: 'success', title: t('تم إعادة الألوان'), showConfirmButton: false, timer: 2000 }); }
+    } catch { notify.fire({ title: t('خطأ'), text: t('فشل'), icon: 'error', confirmButtonColor: '#e91e63' }); }
   };
 
-  const handleCopy = (val) => Swal.fire({ toast: true, position: 'top-end', icon: 'info', title: t('تم نسخ {0}', val), showConfirmButton: false, timer: 1200 });
+  const handleCopy = (val) => notify.fire({ toast: true, position: 'top-end', icon: 'info', title: t('تم نسخ {0}', val), showConfirmButton: false, timer: 1200 });
   const handleDiscard = () => { setColors(original); setHasChanges(false); };
 
   if (isLoading) return <div className="sc sc--loading"><RefreshCw size={28} className="sc-spin" /><p>{t('جاري تحميل الألوان...')}</p></div>;

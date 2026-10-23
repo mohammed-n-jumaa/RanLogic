@@ -17,7 +17,7 @@ import {
 import ClientCard from '../../../components/Training/ClientCard';
 import AddClientModal from '../../../components/Training/AddClientModal';
 import trainingApi from '../../../api/trainingApi';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import './ClientsList.scss';
 import { t } from '../../../i18n';
 
@@ -45,7 +45,7 @@ const ClientsList = () => {
       }
     } catch (error) {
       console.error('Error fetching clients:', error);
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('خطأ'),
         text: t('حدث خطأ أثناء جلب البيانات'),
@@ -80,7 +80,7 @@ const ClientsList = () => {
           setEditingClient(null);
           
           // Then show success message
-          Swal.fire({
+          notify.fire({
             icon: 'success',
             title: t('تم التحديث'),
             text: t('تم تحديث بيانات المتدرب بنجاح'),
@@ -104,7 +104,7 @@ const ClientsList = () => {
           setIsModalOpen(false);
           
           // Then show success message
-          Swal.fire({
+          notify.fire({
             icon: 'success',
             title: t('تمت الإضافة'),
             text: t('تم إضافة المتدرب بنجاح'),
@@ -135,7 +135,7 @@ const ClientsList = () => {
       
       // Show error after modal interaction
       setTimeout(() => {
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('خطأ'),
           text: errorMessage,
@@ -151,7 +151,7 @@ const ClientsList = () => {
   };
   
   const handleDeleteClient = async (id) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('هل أنت متأكد؟'),
       text: t('سيتم حذف جميع البيانات المرتبطة بهذا المتدرب'),
       icon: 'warning',
@@ -169,7 +169,7 @@ const ClientsList = () => {
         if (response.data.success) {
           setClients(clients.filter(c => c.id !== id));
           
-          Swal.fire({
+          notify.fire({
             icon: 'success',
             title: t('تم الحذف'),
             text: t('تم حذف المتدرب بنجاح'),
@@ -179,7 +179,7 @@ const ClientsList = () => {
         }
       } catch (error) {
         console.error('Error deleting client:', error);
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('خطأ'),
           text: error.response?.data?.message || t('حدث خطأ أثناء الحذف'),
@@ -213,7 +213,7 @@ const ClientsList = () => {
   const handleBulkDelete = () => {
     if (selectedClients.length === 0) return;
     
-    Swal.fire({
+    notify.fire({
       title: t('حذف متعدد'),
       text: t('هل تريد حذف {0} متدرب؟', selectedClients.length),
       icon: 'warning',
@@ -229,7 +229,7 @@ const ClientsList = () => {
   };
   
   const handleExportData = () => {
-    Swal.fire({
+    notify.fire({
       icon: 'success',
       title: t('تم التصدير'),
       text: t('سيتم تحميل الملف خلال ثوانٍ'),

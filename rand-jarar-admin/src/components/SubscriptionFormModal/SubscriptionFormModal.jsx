@@ -10,7 +10,7 @@ import {
   Search,
   Loader
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../lib/notify';
 import subscriptionsApi from '../../api/subscriptionsApi';
 import './SubscriptionFormModal.scss';
 import { t, lang } from '../../i18n';
@@ -171,7 +171,7 @@ const SubscriptionFormModal = ({
     e.preventDefault();
 
     if (!formData.user_id) {
-      Swal.fire({
+      notify.fire({
         title: t('تنبيه'),
         text: t('يرجى اختيار المستخدم'),
         icon: 'warning',
@@ -181,7 +181,7 @@ const SubscriptionFormModal = ({
     }
 
     if (!formData.starts_at || !formData.ends_at) {
-      Swal.fire({
+      notify.fire({
         title: t('تنبيه'),
         text: t('يرجى تحديد تاريخ البداية والانتهاء'),
         icon: 'warning',
@@ -206,7 +206,7 @@ const SubscriptionFormModal = ({
       }
 
       if (response.success) {
-        Swal.fire({
+        notify.fire({
           title: t('نجح'),
           text: subscription ? t('تم تحديث الاشتراك بنجاح') : t('تم إضافة الاشتراك بنجاح'),
           icon: 'success',
@@ -219,7 +219,7 @@ const SubscriptionFormModal = ({
       }
     } catch (error) {
       console.error('Error saving subscription:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: error.response?.data?.message || t('فشل حفظ الاشتراك'),
         icon: 'error',

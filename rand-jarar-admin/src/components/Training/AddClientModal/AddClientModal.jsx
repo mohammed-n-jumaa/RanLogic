@@ -4,6 +4,7 @@ import { X, Upload, Save, Loader } from 'lucide-react';
 import './AddClientModal.scss';
 import { t } from '../../../i18n';
 import { BACKEND_URL } from '../../../config';
+import notify from '../../../lib/notify';
 
 const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
   const [formData, setFormData] = useState({
@@ -92,14 +93,14 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
     if (file) {
       // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert(t('حجم الصورة يجب ألا يتجاوز 5MB'));
+        notify.warning(t('حجم الصورة يجب ألا يتجاوز 5MB'));
         e.target.value = null;
         return;
       }
       
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        alert(t('يجب اختيار ملف صورة'));
+        notify.warning(t('يجب اختيار ملف صورة'));
         e.target.value = null;
         return;
       }

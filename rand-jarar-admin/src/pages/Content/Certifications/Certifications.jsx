@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Medal, Plus, Edit2, Trash2, Save, Check, Eye, GripVertical, Languages, Globe
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import certificationsApi from '../../../api/certificationsApi';
 import './Certifications.scss';
 import { t } from '../../../i18n';
@@ -30,7 +30,7 @@ const Certifications = () => {
       }
     } catch (error) {
       console.error('Error fetching certifications:', error);
-      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الشهادات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل تحميل الشهادات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +40,7 @@ const Certifications = () => {
     setDesignType(type);
     try {
       await certificationsApi.updateDesignType(type);
-      Swal.fire({ title: t('تم'), text: t('تم تحديث التصميم'), icon: 'success', timer: 1500, showConfirmButton: false });
+      notify.fire({ title: t('تم'), text: t('تم تحديث التصميم'), icon: 'success', timer: 1500, showConfirmButton: false });
     } catch (err) {
       console.error(err);
     }
@@ -60,30 +60,30 @@ const Certifications = () => {
   };
 
   const handleDeleteCert = async (index) => {
-    const result = await Swal.fire({ title: t('تأكيد الحذف'), text: t('هل أنت متأكد من حذف هذه الشهادة؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم، احذف'), cancelButtonText: t('إلغاء') });
+    const result = await notify.fire({ title: t('تأكيد الحذف'), text: t('هل أنت متأكد من حذف هذه الشهادة؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', cancelButtonColor: '#607d8b', confirmButtonText: t('نعم، احذف'), cancelButtonText: t('إلغاء') });
     if (!result.isConfirmed) return;
     setCertifications(certifications.filter((_, i) => i !== index));
-    Swal.fire({ title: t('تم الحذف'), text: t('تم حذف الشهادة بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+    notify.fire({ title: t('تم الحذف'), text: t('تم حذف الشهادة بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
   };
 
   const handleSaveCert = () => setEditingCert(null);
 
   const handleSaveChanges = async () => {
     const isValid = certifications.every(c => c.icon && c.title_en && c.title_ar && c.organization_en && c.organization_ar);
-    if (!isValid) { Swal.fire({ title: t('تنبيه'), text: t('يرجى ملء جميع الحقول (عربي وإنجليزي) لكل شهادة'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
+    if (!isValid) { notify.fire({ title: t('تنبيه'), text: t('يرجى ملء جميع الحقول (عربي وإنجليزي) لكل شهادة'), icon: 'warning', confirmButtonColor: '#e91e63' }); return; }
     setIsSaving(true);
     try {
       const data = certifications.map((cert, index) => ({ id: cert.id, icon: cert.icon, title_en: cert.title_en, title_ar: cert.title_ar, organization_en: cert.organization_en, organization_ar: cert.organization_ar, is_verified: cert.is_verified, order: index, is_active: true }));
       const response = await certificationsApi.bulkUpdateCertifications(data);
       if (response.success) {
         setUploadStatus('success'); setTimeout(() => setUploadStatus(null), 3000);
-        Swal.fire({ title: t('نجح'), text: t('تم حفظ جميع الشهادات بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+        notify.fire({ title: t('نجح'), text: t('تم حفظ جميع الشهادات بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
         await fetchCertifications(); setEditingCert(null);
       }
     } catch (error) {
       console.error('Error saving certifications:', error);
       setUploadStatus('error'); setTimeout(() => setUploadStatus(null), 3000);
-      Swal.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ الشهادات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ الشهادات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setIsSaving(false); }
   };
 

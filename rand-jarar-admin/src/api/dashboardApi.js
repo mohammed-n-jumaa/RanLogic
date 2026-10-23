@@ -1,5 +1,15 @@
 import apiClient from './apiClient';
-import { t } from '../i18n';
+
+// Run request factories a few at a time so loading the dashboard
+// doesn't trip the API rate limit (429) with 9 simultaneous requests
+const BATCH_SIZE = 3;
+const inBatches = async (tasks) => {
+  const results = [];
+  for (let i = 0; i < tasks.length; i += BATCH_SIZE) {
+    results.push(...(await Promise.allSettled(tasks.slice(i, i + BATCH_SIZE).map((task) => task()))));
+  }
+  return results;
+};
 
 const dashboardAPI = {
   getMetrics: async () => {
@@ -16,18 +26,8 @@ const dashboardAPI = {
       }
     } catch (error) {
       console.error('❌ Error fetching metrics:', error.message);
-      return {
-        totalSubscriptions: 7,
-        newRegistrations: 3,
-        totalRevenue: 1170.99,
-        avgSubscriptionDuration: 4.1,
-        completionRate: 71,
-        previousPeriodChange: {
-          subscriptions: 0,
-          revenue: 0,
-          registrations: 0
-        }
-      };
+      // Never show made-up numbers: an empty object renders as "no data"
+      return {};
     }
   },
 
@@ -99,14 +99,6 @@ const dashboardAPI = {
     }
   },
 
-  getCompletionData: async () => {
-    console.log('⚠️ Using default completion data');
-    return [
-      { program: t('تنشيف'), completion: 75 },
-      { program: t('نحت'), completion: 68 },
-      { program: t('زيادة عضل'), completion: 82 }
-    ];
-  },
 
   getEngagementData: async () => {
     try {
@@ -163,16 +155,15 @@ const dashboardAPI = {
     console.log('🚀 Fetching all dashboard data for period:', period);
     
     try {
-      const results = await Promise.allSettled([
-        dashboardAPI.getMetrics(),
-        dashboardAPI.getGrowthData(period),
-        dashboardAPI.getRevenueData(period),
-        dashboardAPI.getPaymentStatusData(),
-        dashboardAPI.getProgramTypeData(),
-        dashboardAPI.getCompletionData(),
-        dashboardAPI.getEngagementData(),
-        dashboardAPI.getFunnelData(),
-        dashboardAPI.getAlerts()
+      const results = await inBatches([
+        () => dashboardAPI.getMetrics(),
+        () => dashboardAPI.getGrowthData(period),
+        () => dashboardAPI.getRevenueData(period),
+        () => dashboardAPI.getPaymentStatusData(),
+        () => dashboardAPI.getProgramTypeData(),
+        () => dashboardAPI.getEngagementData(),
+        () => dashboardAPI.getFunnelData(),
+        () => dashboardAPI.getAlerts(),
       ]);
 
       console.log('✅ All API calls completed');
@@ -183,10 +174,9 @@ const dashboardAPI = {
         revenue: results[2].status === 'fulfilled' ? results[2].value : [],
         paymentStatus: results[3].status === 'fulfilled' ? results[3].value : [],
         programTypes: results[4].status === 'fulfilled' ? results[4].value : [],
-        completion: results[5].status === 'fulfilled' ? results[5].value : [],
-        engagement: results[6].status === 'fulfilled' ? results[6].value : [],
-        funnel: results[7].status === 'fulfilled' ? results[7].value : [],
-        alerts: results[8].status === 'fulfilled' ? results[8].value : []
+        engagement: results[5].status === 'fulfilled' ? results[5].value : [],
+        funnel: results[6].status === 'fulfilled' ? results[6].value : [],
+        alerts: results[7].status === 'fulfilled' ? results[7].value : []
       };
 
       console.log('📦 Compiled data:', {
@@ -204,27 +194,11 @@ const dashboardAPI = {
       console.error('❌ Error in getAllDashboardData:', error);
       
       return {
-        metrics: {
-          totalSubscriptions: 7,
-          newRegistrations: 3,
-          totalRevenue: 1170.99,
-          avgSubscriptionDuration: 4.1,
-          completionRate: 71,
-          previousPeriodChange: {
-            subscriptions: 0,
-            revenue: 0,
-            registrations: 0
-          }
-        },
+        metrics: {},
         growth: [],
         revenue: [],
         paymentStatus: [],
         programTypes: [],
-        completion: [
-          { program: t('تنشيف'), completion: 75 },
-          { program: t('نحت'), completion: 68 },
-          { program: t('زيادة عضل'), completion: 82 }
-        ],
         engagement: [],
         funnel: [],
         alerts: []

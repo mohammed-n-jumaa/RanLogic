@@ -7,6 +7,7 @@ import {
 import trainingApi from '../../../api/trainingApi';
 import './TraineeProgress.scss';
 import { t, loc } from '../../../i18n';
+import { confirmDelete } from '../../../lib/notify';
 
 const Tip = ({ text, children, block }) => {
   const [show, setShow] = useState(false);
@@ -79,7 +80,7 @@ const TraineeProgress = ({ clientId }) => {
   };
 
   const handleDeleteChallenge = async (id) => {
-    if (!window.confirm(t('حذف التحدي؟'))) return;
+    if (!(await confirmDelete({ title: t('حذف التحدي؟') }))) return;
     try { await trainingApi.deleteChallenge(id); fetchData(); } catch (err) { console.error(err); }
   };
 

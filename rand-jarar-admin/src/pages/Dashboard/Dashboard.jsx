@@ -1,57 +1,117 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import {
-  LayoutDashboard, Users, UserPlus, Wallet, Ticket, RefreshCw,
-  Minus, AlertTriangle, Bell, BarChart3, ArrowUpRight, ArrowDownRight,
-  CreditCard
+  Users, UserPlus, Wallet, Ticket, RefreshCw, Minus, AlertTriangle,
+  BarChart3, ArrowUpRight, ArrowDownRight, PieChart, Zap, CalendarDays, TrendingUp, Activity,
 } from 'lucide-react';
 import dashboardAPI from '../../api/dashboardApi';
+import trainingApi from '../../api/trainingApi';
+import subscriptionsApi from '../../api/subscriptionsApi';
+import { getConversations } from '../../api/chatApi';
 import { useAuth } from '../../contexts/AuthContext';
+import TodayHero, { QuickActions } from './Hero/TodayHero';
+import ActionCenter from './Widgets/ActionCenter';
+import SubscriptionCalendar from './SubscriptionCalendar/SubscriptionCalendar';
+import { enrichClients, isRunning, SOON_DAYS } from './SubscriptionCalendar/calendarUtils';
 import './Dashboard.scss';
-import { t, loc } from '../../i18n';
+import { t } from '../../i18n';
 
 const fmt = {
   currency: (v) => `$${Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`,
   number:   (v) => Number(v || 0).toLocaleString('en-US'),
 };
 
-const MiniStat = ({ icon: Icon, label, value, change, color }) => (
-  <motion.div className="ds-mini" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-    <div className={`ds-mini__icon ds-mini__icon--${color}`}><Icon size={18} /></div>
-    <div className="ds-mini__body">
-      <span className="ds-mini__label">{label}</span>
-      <span className="ds-mini__value">{value}</span>
+const Change = ({ value }) => {
+  const v = Math.round(value || 0);
+  const dir = v > 0 ? 'up' : v < 0 ? 'dn' : 'flat';
+  return (
+    <span className={`ds-change ds-change--${dir}`}>
+      {v > 0 ? <ArrowUpRight size={12} /> : v < 0 ? <ArrowDownRight size={12} /> : <Minus size={12} />}
+      {Math.abs(v)}%
+    </span>
+  );
+};
+
+const KpiCard = ({ icon: Icon, label, value, change, note, color, children, delay = 0 }) => (
+  <motion.div
+    className={`ds-kpi ds-kpi--${color}`}
+    initial={{ opacity: 0, y: 12 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay }}
+  >
+    <Icon className="ds-kpi__mark" size={92} aria-hidden="true" />
+    <div className="ds-kpi__top">
+      <span className="ds-kpi__icon"><Icon size={18} /></span>
+      {change !== undefined && <Change value={change} />}
     </div>
-    <div className={`ds-mini__pct ${change > 0 ? 'up' : change < 0 ? 'dn' : 'flat'}`}>
-      {change > 0 ? <ArrowUpRight size={13} /> : change < 0 ? <ArrowDownRight size={13} /> : <Minus size={13} />}
-      {Math.abs(change || 0)}%
-    </div>
+    <div className="ds-kpi__label">{label}</div>
+    <div className="ds-kpi__value">{value}</div>
+    {children}
+    {note && <div className="ds-kpi__note">{note}</div>}
   </motion.div>
 );
 
-const Notif = ({ color, text, time }) => (
-  <div className="ds-notif">
-    <div className={`ds-notif__dot ds-notif__dot--${color}`} />
-    <div>
-      <div className="ds-notif__text">{text}</div>
-      {time && <div className="ds-notif__time">{time}</div>}
+const Section = React.forwardRef(({ icon: Icon, title, subtitle, aside, children }, ref) => (
+  <section className="ds-section" ref={ref}>
+    <div className="ds-section__head">
+      <div className="ds-section__title">
+        <span className="ds-section__badge"><Icon size={17} /></span>
+        <div>
+          <h2>{title}</h2>
+          {subtitle && <p>{subtitle}</p>}
+        </div>
+      </div>
+      {aside}
     </div>
-  </div>
-);
+    {children}
+  </section>
+));
+Section.displayName = 'Section';
 
-const PlanBar = ({ name, pct, color }) => (
-  <div className="ds-plan__row">
-    <div className="ds-plan__dot" style={{ background: color }} />
-    <div className="ds-plan__name">{name}</div>
-    <div className="ds-plan__track">
-      <div className="ds-plan__fill" style={{ width: `${pct}%`, background: color }} />
+// Program split as a donut with a legend
+const ProgramDonut = ({ items, total }) => {
+  const r = 52;
+  const c = 2 * Math.PI * r;
+  // each segment starts where the previous one ended
+  const segments = items.reduce((acc, p) => {
+    const start = acc.length ? acc[acc.length - 1].start + acc[acc.length - 1].len : 0;
+    return [...acc, { name: p.name, color: p.color, len: (p.pct / 100) * c, start }];
+  }, []);
+  return (
+    <div className="ds-donut">
+      <div className="ds-donut__chart">
+        <svg viewBox="0 0 140 140" aria-hidden="true">
+          <circle className="ds-donut__track" cx="70" cy="70" r={r} />
+          {segments.map((s) => (
+            <circle
+              key={s.name}
+              cx="70" cy="70" r={r}
+              stroke={s.color}
+              strokeDasharray={`${Math.max(s.len - 3, 0)} ${c}`}
+              strokeDashoffset={-s.start}
+            />
+          ))}
+        </svg>
+        <div className="ds-donut__center">
+          <b>{total}</b>
+          <small>{t('متدرب')}</small>
+        </div>
+      </div>
+      <ul className="ds-donut__legend">
+        {items.map((p) => (
+          <li key={p.name}>
+            <i style={{ background: p.color }} />
+            <span>{p.name}</span>
+            <b>{p.pct}%</b>
+          </li>
+        ))}
+      </ul>
     </div>
-    <div className="ds-plan__num">{pct}%</div>
-  </div>
-);
+  );
+};
 
 const CTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -81,12 +141,66 @@ const NoData = ({ icon: Icon, text, onRefresh }) => (
 );
 
 const PERIODS = [
-  { value: 'this_week', label: t('هذا الأسبوع') },
-  { value: 'this_month', label: t('الشهر') },
+  { value: 'this_week', label: t('أسبوع') },
+  { value: 'this_month', label: t('شهر') },
   { value: 'last_3_months', label: t('3 أشهر') },
 ];
 
-const COMPLETION_COLORS = ['#e91e63', '#6366f1', '#34d399', '#fb923c'];
+// Subscriptions-per-period chart is hidden until its data is checked; set to true to bring it back
+const SHOW_GROWTH_CHART = false;
+
+const ALERT_COLOR = { warning: 'amber', danger: 'red', success: 'green' };
+const EMPTY_LIST = { items: [], loading: true, failed: false };
+
+/* Lists shared by the hero, action center and calendar.
+   Loaded one after another (after the stats) to stay under the API rate limit. */
+const useCoachLists = () => {
+  const [trainees, setTrainees] = useState(EMPTY_LIST);
+  const [transfers, setTransfers] = useState(EMPTY_LIST);
+  const [chats, setChats] = useState(EMPTY_LIST);
+
+  const loadTrainees = useCallback(async () => {
+    setTrainees((s) => ({ ...s, loading: true, failed: false }));
+    try {
+      const response = await trainingApi.getAllTrainees();
+      setTrainees({ items: enrichClients(response.data?.success ? response.data.data : []), loading: false, failed: false });
+    } catch {
+      setTrainees({ items: [], loading: false, failed: true });
+    }
+  }, []);
+
+  const loadTransfers = useCallback(async () => {
+    setTransfers((s) => ({ ...s, loading: true, failed: false }));
+    try {
+      const response = await subscriptionsApi.getBankTransferSubscriptions();
+      const items = (response?.success ? response.data || [] : [])
+        .filter((s) => s.status === 'pending')
+        .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+      setTransfers({ items, loading: false, failed: false });
+    } catch {
+      setTransfers({ items: [], loading: false, failed: true });
+    }
+  }, []);
+
+  const loadChats = useCallback(async () => {
+    setChats((s) => ({ ...s, loading: true, failed: false }));
+    try {
+      const response = await getConversations();
+      const items = (response?.success ? response.data || [] : []).filter((c) => Number(c.unread_count) > 0);
+      setChats({ items, loading: false, failed: false });
+    } catch {
+      setChats({ items: [], loading: false, failed: true });
+    }
+  }, []);
+
+  const loadAll = useCallback(async () => {
+    await loadTransfers();
+    await loadChats();
+    await loadTrainees();
+  }, [loadTransfers, loadChats, loadTrainees]);
+
+  return { trainees, transfers, chats, loadAll, loadTrainees, loadTransfers, loadChats };
+};
 
 const Dashboard = () => {
   const [period, setPeriod] = useState('this_week');
@@ -95,9 +209,14 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const { user } = useAuth();
   const [data, setData] = useState(null);
-  const [lastRefresh, setLastRefresh] = useState(null);
+  const [actionTab, setActionTab] = useState(null);
   const controllerRef = useRef(null);
   const mountedRef = useRef(true);
+  const actionsRef = useRef(null);
+  const calendarRef = useRef(null);
+
+  const lists = useCoachLists();
+  const { loadAll } = lists;
 
   const loadData = useCallback(async (p, refresh = false) => {
     if (controllerRef.current) controllerRef.current.abort();
@@ -111,7 +230,6 @@ const Dashboard = () => {
       if (!mountedRef.current) return;
 
       setData(result);
-      setLastRefresh(new Date());
     } catch (err) {
       if (err.name === 'AbortError') return;
       setError(err.message || t('فشل تحميل البيانات'));
@@ -132,7 +250,19 @@ const Dashboard = () => {
     };
   }, [period, loadData]);
 
-  const handleRefresh = () => loadData(period, true);
+  // lists don't depend on the period: load once after the first stats arrive
+  const listsStarted = useRef(false);
+  useEffect(() => {
+    if (data && !listsStarted.current) {
+      listsStarted.current = true;
+      loadAll();
+    }
+  }, [data, loadAll]);
+
+  const handleRefresh = async () => {
+    await loadData(period, true);
+    loadAll();
+  };
 
   const m = data?.metrics || {};
   const pChange = m.previousPeriodChange || {};
@@ -155,16 +285,38 @@ const Dashboard = () => {
     count: g.subscriptions || g.count || 0,
   }));
 
-  const completionData = (data?.completion || []).filter(c => (c.completion || c.rate || 0) > 0);
-
-  const notifications = (data?.alerts || [])
+  const alerts = (data?.alerts || [])
     .filter(a => (a.count || 0) > 0)
-    .map((a, i) => ({
-      id: a.id || i,
-      text: `${a.title} (${a.count})`,
-      time: '',
-      color: a.type === 'warning' ? 'y' : a.type === 'danger' ? 'r' : a.type === 'success' ? 'g' : 'b',
-    }));
+    .map((a, i) => ({ id: a.id || i, title: a.title, count: a.count, color: ALERT_COLOR[a.type] || 'blue' }));
+
+  const clients = lists.trainees.items;
+  // calendar + list only show trainees whose subscription is still running
+  const activeClients = useMemo(() => clients.filter(isRunning), [clients]);
+  const counts = useMemo(() => ({
+    transfers: lists.transfers.items.length,
+    chats: lists.chats.items.length,
+    endingToday: clients.filter((c) => c.daysLeft === 0).length,
+  }), [lists.transfers.items, lists.chats.items, clients]);
+
+  const health = useMemo(() => {
+    const running = clients.filter(isRunning);
+    if (!running.length) return null;
+    return Math.round((running.filter((c) => c.daysLeft > SOON_DAYS).length / running.length) * 100);
+  }, [clients]);
+
+  const listsReady = !lists.transfers.loading && !lists.chats.loading && !lists.trainees.loading;
+
+  // open the tab that actually needs attention (until the coach picks one)
+  const tab = actionTab || (counts.transfers ? 'transfers' : counts.chats ? 'chats' : alerts.length ? 'alerts' : 'transfers');
+
+  const jump = (target) => {
+    if (target === 'calendar') {
+      calendarRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    setActionTab(target);
+    actionsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   if (isLoading && !data) {
     return (
@@ -190,182 +342,173 @@ const Dashboard = () => {
     );
   }
 
+  const axisTick = { fill: 'var(--text-muted)', fontSize: 10 };
+
   return (
     <div className="ds">
-      <div className="ds-glow ds-glow--1" />
-      <div className="ds-glow ds-glow--2" />
+      <TodayHero
+        name={user?.name || 'Admin'}
+        counts={counts}
+        health={health}
+        ready={listsReady}
+        onJump={jump}
+        onRefresh={handleRefresh}
+        refreshing={isRefreshing}
+      />
 
-      {/* Header */}
-      <div className="ds-header">
-        <div className="ds-header__right">
-          <div className="ds-header__greeting">
-            {t('مرحباً،')} <strong>{user?.name || 'Admin'}</strong>
-          </div>
-          <h1 className="ds-header__title">
-            <LayoutDashboard size={20} /> {t('لوحة التحكم')}
-          </h1>
-        </div>
-        <div className="ds-header__actions">
-          <div className="ds-pills">
-            {PERIODS.map(p => (
-              <button
-                key={p.value}
-                className={`ds-pill ${period === p.value ? 'ds-pill--active' : ''}`}
-                onClick={() => setPeriod(p.value)}
-              >
-                {p.label}
-              </button>
-            ))}
-          </div>
-          <button className="ds-pill ds-pill--icon" onClick={handleRefresh} disabled={isRefreshing}>
-            <RefreshCw size={14} className={isRefreshing ? 'ds-spin' : ''} />
-          </button>
-          {lastRefresh && (
-            <span className="ds-header__time">
-              {lastRefresh.toLocaleTimeString(loc('ar-EG'), { hour: '2-digit', minute: '2-digit' })}
-            </span>
-          )}
-        </div>
-      </div>
+      <QuickActions />
 
-      {/* Refresh overlay */}
       <AnimatePresence>
         {isRefreshing && (
-          <motion.div className="ds-refreshing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <RefreshCw size={20} className="ds-spin" /> {t('جاري التحديث...')}
+          <motion.div className="ds-refreshing" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }}>
+            <RefreshCw size={14} className="ds-spin" /> {t('جاري التحديث...')}
           </motion.div>
         )}
       </AnimatePresence>
 
       {data && (
         <>
-          {/* Row 1: Hero + Side stats */}
-          <div className="ds-row1">
-            <motion.div className="ds-hero" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div className="ds-hero__top">
-                <div className="ds-hero__label"><Wallet size={15} /> {t('إجمالي الدخل هذا الشهر')}</div>
-                <div className="ds-hero__amount">{fmt.currency(m.totalRevenue)}<small>USD</small></div>
-              </div>
+          {/* Needs attention */}
+          <Section ref={actionsRef} icon={Zap} title={t('يحتاج انتباهك')} subtitle={t('خلّصي هدول وارتاحي')}>
+            <ActionCenter
+              tab={tab}
+              onTabChange={setActionTab}
+              transfers={lists.transfers}
+              chats={lists.chats}
+              alerts={alerts}
+              onRetryTransfers={lists.loadTransfers}
+              onRetryChats={lists.loadChats}
+            />
+          </Section>
 
-              <div className="ds-hero__chart">
-                {revenueChart.length > 1 ? (
-                  <ResponsiveContainer width="100%" height={70}>
-                    <AreaChart data={revenueChart} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#e91e63" stopOpacity={0.3} />
-                          <stop offset="100%" stopColor="#e91e63" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
-                      <Area type="monotone" dataKey="revenue" stroke="#e91e63" strokeWidth={2} fill="url(#revGrad)" dot={false} />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <div className="ds-hero__no-chart">
-                    <BarChart3 size={20} />
-                    <span>{t('بيانات غير كافية للرسم البياني')}</span>
+          {/* Numbers */}
+          <Section
+            icon={Activity}
+            title={t('الأرقام')}
+            subtitle={t('أداؤك بالأرقام')}
+            aside={(
+              <div className="ds-segment" role="tablist" aria-label={t('الفترة')}>
+                {PERIODS.map(p => (
+                  <button
+                    key={p.value}
+                    type="button"
+                    role="tab"
+                    aria-selected={period === p.value}
+                    className={period === p.value ? 'is-active' : ''}
+                    onClick={() => setPeriod(p.value)}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          >
+            <div className="ds-kpis">
+              <KpiCard
+                icon={Wallet}
+                color="pink"
+                label={t('إجمالي الدخل هذا الشهر')}
+                value={fmt.currency(m.totalRevenue)}
+                change={pChange.revenue}
+                note={m.weeklyRevenue != null ? `${t('هذا الأسبوع')}: ${fmt.currency(m.weeklyRevenue)}` : null}
+              >
+                {revenueChart.length > 1 && (
+                  <div className="ds-kpi__spark">
+                    <ResponsiveContainer width="100%" height={36}>
+                      <AreaChart data={revenueChart} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="kpiRev" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#e91e63" stopOpacity={0.35} />
+                            <stop offset="100%" stopColor="#e91e63" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <Area type="monotone" dataKey="revenue" stroke="#e91e63" strokeWidth={2} fill="url(#kpiRev)" dot={false} isAnimationActive={false} />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 )}
-              </div>
-
-              <div className="ds-hero__stats">
-                <div className="ds-hero__stat">
-                  <span>{t('هذا الأسبوع')}</span>
-                  <span className={pChange.revenue > 0 ? 'up' : ''}>{fmt.currency(m.weeklyRevenue || m.totalRevenue)}</span>
-                </div>
-                <div className="ds-hero__stat">
-                  <span>{t('النمو')}</span>
-                  <span className={pChange.revenue > 0 ? 'up' : pChange.revenue < 0 ? 'dn' : ''}>
-                    {pChange.revenue > 0 ? '+' : ''}{Math.round(pChange.revenue || 0)}%
-                  </span>
-                </div>
-                <div className="ds-hero__stat">
-                  <span>{t('متوسط المدة')}</span>
-                  <span>{Number(m.avgSubscriptionDuration || 0).toFixed(1)} {t('شهر')}</span>
-                </div>
-              </div>
-            </motion.div>
-
-            <div className="ds-side">
-              <MiniStat icon={Users} label={t('اشتراكات نشطة')} value={fmt.number(m.totalSubscriptions)} change={pChange.subscriptions} color="indigo" />
-              <MiniStat icon={UserPlus} label={t('مستخدمين جدد')} value={fmt.number(m.newRegistrations)} change={pChange.registrations} color="emerald" />
-              <MiniStat icon={Ticket} label={t('كوبونات مستخدمة')} value={fmt.number(m.couponsUsed || 0)} change={0} color="amber" />
+              </KpiCard>
+              <KpiCard
+                icon={Users}
+                color="indigo"
+                label={t('اشتراكات نشطة')}
+                value={fmt.number(m.totalSubscriptions)}
+                change={pChange.subscriptions}
+                note={m.avgSubscriptionDuration ? `${t('متوسط المدة')}: ${Number(m.avgSubscriptionDuration).toFixed(1)} ${t('شهر')}` : null}
+                delay={0.05}
+              />
+              <KpiCard
+                icon={UserPlus}
+                color="emerald"
+                label={t('مستخدمين جدد')}
+                value={fmt.number(m.newRegistrations)}
+                change={pChange.registrations}
+                delay={0.1}
+              />
+              <KpiCard
+                icon={Ticket}
+                color="amber"
+                label={t('كوبونات مستخدمة')}
+                value={fmt.number(m.couponsUsed || 0)}
+                delay={0.15}
+              />
             </div>
-          </div>
+          </Section>
 
-          {/* Row 2: Charts */}
-          <div className="ds-row2">
-            <motion.div className="ds-glass" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
-              <div className="ds-glass__head">
-                <div className="ds-glass__title"><BarChart3 size={16} /> {t('الاشتراكات حسب الفترة')}</div>
-                <span className="ds-glass__tag">{t('آخر 6 فترات')}</span>
-              </div>
-              <div className="ds-glass__chart">
-                {growthChart.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={180}>
-                    <BarChart data={growthChart} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                      <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
-                      <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} allowDecimals={false} />
-                      <Tooltip content={<CTooltip />} />
-                      <Bar dataKey="count" name={t('الاشتراكات')} fill="#e91e63" radius={[6, 6, 0, 0]} maxBarSize={32} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                ) : (
-                  <NoData icon={BarChart3} onRefresh={handleRefresh} />
-                )}
-              </div>
-            </motion.div>
+          {/* Subscriptions calendar */}
+          <Section ref={calendarRef} icon={CalendarDays} title={t('تقويم الاشتراكات')} subtitle={t('المشتركين حالياً ومواعيد انتهاء اشتراكاتهم')}>
+            <SubscriptionCalendar
+              clients={activeClients}
+              loading={lists.trainees.loading}
+              failed={lists.trainees.failed}
+              onRetry={lists.loadTrainees}
+            />
+          </Section>
 
-            <motion.div className="ds-glass" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.15 }}>
-              <div className="ds-glass__head">
-                <div className="ds-glass__title"><CreditCard size={16} /> {t('توزيع البرامج')}</div>
+          {/* Analytics */}
+          <Section icon={TrendingUp} title={t('التحليلات')} subtitle={SHOW_GROWTH_CHART ? t('نمو الاشتراكات وتوزيع البرامج') : t('توزيع المتدربين على البرامج')}>
+            <div className={`ds-grid-analytics ${SHOW_GROWTH_CHART ? '' : 'ds-grid-analytics--single'}`}>
+              {SHOW_GROWTH_CHART && (
+              <div className="ds-glass">
+                <div className="ds-glass__head">
+                  <div className="ds-glass__title"><BarChart3 size={16} /> {t('الاشتراكات حسب الفترة')}</div>
+                </div>
+                <div className="ds-glass__chart">
+                  {growthChart.length > 0 ? (
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={growthChart} margin={{ top: 5, right: 4, left: -20, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="growthGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#f472b6" />
+                            <stop offset="100%" stopColor="#9c27b0" />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="var(--ds-grid)" vertical={false} />
+                        <XAxis dataKey="name" tick={axisTick} axisLine={false} tickLine={false} />
+                        <YAxis tick={axisTick} axisLine={false} tickLine={false} allowDecimals={false} />
+                        <Tooltip content={<CTooltip />} cursor={{ fill: 'var(--ds-grid)' }} />
+                        <Bar dataKey="count" name={t('الاشتراكات')} fill="url(#growthGrad)" radius={[10, 10, 4, 4]} maxBarSize={30} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <NoData icon={BarChart3} onRefresh={handleRefresh} />
+                  )}
+                </div>
               </div>
-              <div className="ds-plan">
+              )}
+
+              <div className="ds-glass">
+                <div className="ds-glass__head">
+                  <div className="ds-glass__title"><PieChart size={16} /> {t('توزيع البرامج')}</div>
+                </div>
                 {planData.length > 0 ? (
-                  planData.map((p, i) => <PlanBar key={i} name={p.name} pct={p.pct} color={p.color} />)
+                  <ProgramDonut items={planData} total={planTotal} />
                 ) : (
-                  <NoData icon={BarChart3} onRefresh={handleRefresh} />
+                  <NoData icon={PieChart} onRefresh={handleRefresh} />
                 )}
               </div>
-            </motion.div>
-          </div>
-
-          {/* Row 3: Alerts + Completion */}
-          <div className="ds-row3">
-            <motion.div className="ds-glass" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              <div className="ds-glass__head">
-                <div className="ds-glass__title"><Bell size={16} /> {t('التنبيهات والأحداث')}</div>
-              </div>
-              <div className="ds-notifs">
-                {notifications.length > 0 ? (
-                  notifications.map(n => <Notif key={n.id} {...n} />)
-                ) : (
-                  <NoData icon={Bell} text={t('لا توجد تنبيهات')} onRefresh={handleRefresh} />
-                )}
-              </div>
-            </motion.div>
-
-            <motion.div className="ds-glass" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-              <div className="ds-glass__head">
-                <div className="ds-glass__title"><BarChart3 size={16} /> {t('إنجاز البرامج')}</div>
-              </div>
-              <div className="ds-plan">
-                {completionData.length > 0 ? (
-                  completionData.map((c, i) => (
-                    <PlanBar
-                      key={i}
-                      name={c.program || c.name || '?'}
-                      pct={Math.round(c.completion || c.rate || 0)}
-                      color={COMPLETION_COLORS[i % COMPLETION_COLORS.length]}
-                    />
-                  ))
-                ) : (
-                  <NoData icon={BarChart3} onRefresh={handleRefresh} />
-                )}
-              </div>
-            </motion.div>
-          </div>
+            </div>
+          </Section>
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import {
   ArrowRight,
   Send,
@@ -40,15 +40,15 @@ import { getEcho } from '../../../lib/echo';
 import './ChatRoom.scss';
 import { t, loc } from '../../../i18n';
 
-const Toast = Swal.mixin({
+const Toast = notify.mixin({
   toast: true,
   position: 'top-end',
   showConfirmButton: false,
   timer: 3000,
   timerProgressBar: true,
   didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer);
-    toast.addEventListener('mouseleave', Swal.resumeTimer);
+    toast.addEventListener('mouseenter', notify.stopTimer);
+    toast.addEventListener('mouseleave', notify.resumeTimer);
   },
 });
 
@@ -353,7 +353,7 @@ const ChatRoom = () => {
     if (!file) return;
 
     if (!isFileTypeSupported(file)) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('نوع الملف غير مدعوم'),
         text: t('الأنواع المدعومة: صور، فيديو، PDF، مستندات Word'),
@@ -368,7 +368,7 @@ const ChatRoom = () => {
     const isVideo = file.type.startsWith('video/') || videoExtensions.includes(extension);
 
     if (!isVideo && !isFileSizeValid(file)) {
-      Swal.fire({
+      notify.fire({
         icon: 'error',
         title: t('حجم الملف كبير جداً'),
         text: t('الحد الأقصى {0}', formatFileSize(MAX_FILE_SIZE)),
@@ -444,7 +444,7 @@ const ChatRoom = () => {
       console.error('Error sending file:', err);
 
       if (err.response?.status === 413) {
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('فشل رفع الملف'),
           text: t('حجم الملف كبير جداً. يرجى رفع ملف أصغر.'),
@@ -452,7 +452,7 @@ const ChatRoom = () => {
           confirmButtonColor: '#e91e63',
         });
       } else if (err.response?.status === 422) {
-        Swal.fire({
+        notify.fire({
           icon: 'error',
           title: t('فشل رفع الملف'),
           text: t('نوع الملف غير مدعوم.'),
@@ -472,7 +472,7 @@ const ChatRoom = () => {
   };
 
   const handleDeleteMessage = async (messageId) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('حذف الرسالة'),
       text: t('هل أنت متأكد من حذف هذه الرسالة؟'),
       icon: 'warning',

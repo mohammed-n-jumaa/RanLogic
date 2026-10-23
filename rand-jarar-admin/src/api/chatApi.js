@@ -90,7 +90,7 @@ export const getNotifications = async (limit = 20) => {
 };
 
 export const getUnreadNotificationsCount = async () => {
-  const response = await apiClient.get(`${BASE_URL}/notifications/unread-count`);
+  const response = await apiClient.get(`${BASE_URL}/notifications/unread-count`, { silent: true });
   return response.data;
 };
 

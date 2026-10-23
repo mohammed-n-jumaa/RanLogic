@@ -5,7 +5,7 @@ import {
   Languages, Globe, Layout, MousePointerClick, ExternalLink, Image,
   Monitor, Sparkles, Columns, ChevronDown, X
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import heroApi from '../../../api/heroApi';
 import './HeroSection.scss';
 import { t } from '../../../i18n';
@@ -112,13 +112,13 @@ const [designs, setDesigns] = useState({
       };
       const res = await heroApi.updateHeroSection(payload);
       if (res.success) {
-        Swal.fire({ title: t('نجح'), text: t('تم الحفظ بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
+        notify.fire({ title: t('نجح'), text: t('تم الحفظ بنجاح'), icon: 'success', timer: 2000, showConfirmButton: false });
         await fetchData();
         setEditingStat(null);
         setEditingCta(null);
       }
     } catch (e) {
-      Swal.fire({ title: t('خطأ'), text: e.response?.data?.message || t('فشل الحفظ'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: e.response?.data?.message || t('فشل الحفظ'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setIsSaving(false); }
   };
 
@@ -131,21 +131,21 @@ const [designs, setDesigns] = useState({
       const res = await heroApi.uploadVideo(file, (p) => setUploadProgress(p));
       if (res.success) {
         setVideoPreview(res.data.video_url);
-        Swal.fire({ title: t('نجح'), text: t('تم رفع الفيديو'), icon: 'success', timer: 2000, showConfirmButton: false });
+        notify.fire({ title: t('نجح'), text: t('تم رفع الفيديو'), icon: 'success', timer: 2000, showConfirmButton: false });
       }
     } catch (e) {
-      Swal.fire({ title: t('خطأ'), text: t('فشل رفع الفيديو'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل رفع الفيديو'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally { setUploadProgress(0); }
   };
 
   const handleDeleteVideo = async () => {
-    const r = await Swal.fire({ title: t('تأكيد'), text: t('حذف الفيديو؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
+    const r = await notify.fire({ title: t('تأكيد'), text: t('حذف الفيديو؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
     if (!r.isConfirmed) return;
     try {
       await heroApi.deleteVideo();
       setVideoPreview(null);
-      Swal.fire({ title: t('تم'), icon: 'success', timer: 1500, showConfirmButton: false });
-    } catch (e) { Swal.fire({ title: t('خطأ'), icon: 'error' }); }
+      notify.fire({ title: t('تم'), icon: 'success', timer: 1500, showConfirmButton: false });
+    } catch (e) { notify.fire({ title: t('خطأ'), icon: 'error' }); }
   };
 
   // ── Slides ──
@@ -156,16 +156,16 @@ const [designs, setDesigns] = useState({
       const res = await heroApi.uploadSlide(activeDesignTab, file);
       if (res.success) {
         await fetchData();
-        Swal.fire({ title: t('نجح'), text: t('تم رفع الصورة'), icon: 'success', timer: 1500, showConfirmButton: false });
+        notify.fire({ title: t('نجح'), text: t('تم رفع الصورة'), icon: 'success', timer: 1500, showConfirmButton: false });
       }
     } catch (e) {
-      Swal.fire({ title: t('خطأ'), text: t('فشل رفع الصورة'), icon: 'error' });
+      notify.fire({ title: t('خطأ'), text: t('فشل رفع الصورة'), icon: 'error' });
     }
     if (slideInputRef.current) slideInputRef.current.value = '';
   };
 
   const handleDeleteSlide = async (id) => {
-    const r = await Swal.fire({ title: t('تأكيد'), text: t('حذف السلايد؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
+    const r = await notify.fire({ title: t('تأكيد'), text: t('حذف السلايد؟'), icon: 'warning', showCancelButton: true, confirmButtonColor: '#e91e63', confirmButtonText: t('احذف'), cancelButtonText: t('إلغاء') });
     if (!r.isConfirmed) return;
     try {
       await heroApi.deleteSlide(id);
@@ -183,7 +183,7 @@ const [designs, setDesigns] = useState({
         description_en: slide.description_en, description_ar: slide.description_ar,
       });
       setEditingSlide(null);
-      Swal.fire({ title: t('نجح'), icon: 'success', timer: 1500, showConfirmButton: false });
+      notify.fire({ title: t('نجح'), icon: 'success', timer: 1500, showConfirmButton: false });
     } catch (e) { console.error(e); }
   };
 

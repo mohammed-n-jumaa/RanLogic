@@ -4,6 +4,7 @@ import { useAuth } from './AuthContext';
 import { t } from '../i18n';
 
 const POLL_INTERVAL = 30000;
+const MIN_REFETCH_GAP = 15000;
 
 const NotificationContext = createContext();
 
@@ -86,11 +87,18 @@ export const NotificationProvider = ({ children }) => {
     }
 
     let interval = null;
+    let lastFetch = 0;
+
+    const poll = () => {
+      lastFetch = Date.now();
+      fetchUnreadCount();
+    };
 
     const start = () => {
       if (interval) return;
-      fetchUnreadCount();
-      interval = setInterval(fetchUnreadCount, POLL_INTERVAL);
+      // لا نعيد الجلب عند التنقل السريع بين التبويبات (يقلل خطأ 429)
+      if (Date.now() - lastFetch > MIN_REFETCH_GAP) poll();
+      interval = setInterval(poll, POLL_INTERVAL);
     };
 
     const stop = () => {

@@ -29,6 +29,7 @@ export const getEcho = () => {
           }, {
             headers: { 'X-Requested-With': 'XMLHttpRequest' },
             withCredentials: false,
+            silent: true,
           })
           .then((response) => callback(null, response.data))
           .catch((error) => callback(error));

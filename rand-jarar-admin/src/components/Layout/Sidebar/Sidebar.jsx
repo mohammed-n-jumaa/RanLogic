@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, LogOut, LayoutPanelLeft, X } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import { sidebarSections } from '../../../data/sidebarData';
 import aboutCoachApi from '../../../api/aboutCoachApi';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -112,26 +112,23 @@ const Sidebar = () => {
 
   // Logout
   const handleLogout = async () => {
-    const result = await Swal.fire({
+    const confirmed = await notify.confirm({
+      variant: 'warning',
+      icon: 'logout',
       title: t('تسجيل الخروج'),
       text: t('هل أنت متأكد من تسجيل الخروج؟'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#f44336',
-      cancelButtonColor: '#607d8b',
-      confirmButtonText: t('نعم، تسجيل الخروج'),
-      cancelButtonText: t('إلغاء'),
-      reverseButtons: true,
+      confirmText: t('نعم، تسجيل الخروج'),
+      cancelText: t('إلغاء'),
+      onConfirm: async () => {
+        setIsLoggingOut(true);
+        try {
+          await logout();
+        } finally {
+          setIsLoggingOut(false);
+        }
+      },
     });
-    if (!result.isConfirmed) return;
-
-    setIsLoggingOut(true);
-    try {
-      await logout();
-    } finally {
-      setIsLoggingOut(false);
-      navigate('/login');
-    }
+    if (confirmed) navigate('/login');
   };
 
   // Coach initials fallback

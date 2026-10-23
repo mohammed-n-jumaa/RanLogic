@@ -14,7 +14,6 @@ export default defineConfig({
             { name: 'charts', test: /node_modules[\\/](recharts|d3-[^\\/]+|victory-vendor)[\\/]/ },
             { name: 'motion', test: /node_modules[\\/](framer-motion|motion-dom|motion-utils)[\\/]/ },
             { name: 'realtime', test: /node_modules[\\/](pusher-js|laravel-echo)[\\/]/ },
-            { name: 'sweetalert', test: /node_modules[\\/]sweetalert2[\\/]/ },
           ],
         },
       },

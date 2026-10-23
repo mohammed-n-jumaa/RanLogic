@@ -12,7 +12,7 @@ import {
   AlertCircle,
   Image as ImageIcon
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../lib/notify';
 import subscriptionsApi from '../../api/subscriptionsApi';
 import SubscriptionCard from '../../components/SubscriptionCard/SubscriptionCard';
 import SubscriptionFormModal from '../../components/SubscriptionFormModal/SubscriptionFormModal';
@@ -61,7 +61,7 @@ const BankTransferSubscriptions = () => {
       }
     } catch (error) {
       console.error('Error fetching subscriptions:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل تحميل البيانات'),
         icon: 'error',
@@ -146,7 +146,7 @@ const BankTransferSubscriptions = () => {
       }
 
       if (response.success) {
-        Swal.fire({
+        notify.fire({
           title: t('نجح'),
           text: approvalAction === 'approve' ? t('تم تفعيل الاشتراك بنجاح') : t('تم رفض الاشتراك'),
           icon: 'success',
@@ -159,7 +159,7 @@ const BankTransferSubscriptions = () => {
       }
     } catch (error) {
       console.error('Error processing subscription:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: error.response?.data?.message || t('فشل معالجة الطلب'),
         icon: 'error',
@@ -174,7 +174,7 @@ const BankTransferSubscriptions = () => {
   };
 
   const handleDelete = async (subscription) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('تأكيد الحذف'),
       text: t('هل أنت متأكد من حذف هذا الاشتراك؟'),
       icon: 'warning',
@@ -191,7 +191,7 @@ const BankTransferSubscriptions = () => {
       const response = await subscriptionsApi.deleteSubscription(subscription.id);
 
       if (response.success) {
-        Swal.fire({
+        notify.fire({
           title: t('تم الحذف'),
           text: t('تم حذف الاشتراك بنجاح'),
           icon: 'success',
@@ -203,7 +203,7 @@ const BankTransferSubscriptions = () => {
       }
     } catch (error) {
       console.error('Error deleting subscription:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل حذف الاشتراك'),
         icon: 'error',
@@ -222,7 +222,7 @@ const BankTransferSubscriptions = () => {
   };
 
   const exportData = () => {
-    Swal.fire({
+    notify.fire({
       title: t('قريباً'),
       text: t('ميزة التصدير قيد التطوير'),
       icon: 'info',

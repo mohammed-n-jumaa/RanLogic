@@ -17,7 +17,7 @@ import {
   X,
   ChevronDown
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../lib/notify';
 import subscriptionsApi from '../../api/subscriptionsApi';
 import SubscriptionCard from '../../components/SubscriptionCard/SubscriptionCard';
 import SubscriptionFormModal from '../../components/SubscriptionFormModal/SubscriptionFormModal';
@@ -60,7 +60,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
       }
     } catch (error) {
       console.error('Error fetching subscriptions:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل تحميل البيانات'),
         icon: 'error',
@@ -127,7 +127,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
   };
 
   const handleDelete = async (subscription) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('تأكيد الحذف'),
       text: t('هل أنت متأكد من حذف هذا الاشتراك؟'),
       icon: 'warning',
@@ -145,7 +145,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
         subscription.id
       );
       if (response.success) {
-        Swal.fire({
+        notify.fire({
           title: t('تم الحذف'),
           text: t('تم حذف الاشتراك بنجاح'),
           icon: 'success',
@@ -156,7 +156,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
       }
     } catch (error) {
       console.error('Error deleting subscription:', error);
-      Swal.fire({
+      notify.fire({
         title: t('خطأ'),
         text: t('فشل حذف الاشتراك'),
         icon: 'error',
@@ -180,7 +180,7 @@ const [statusFilter, setStatusFilter] = useState('approved');
   };
 
   const exportData = () => {
-    Swal.fire({
+    notify.fire({
       title: t('قريباً'),
       text: t('ميزة التصدير قيد التطوير'),
       icon: 'info',

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { RefreshCw, LayoutGrid } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../lib/notify';
 import plansApi from '../../api/plansApi';
 import PlanCard from '../../components/PlanCard/PlanCard';
 import './AdminPlans.scss';
@@ -20,7 +20,7 @@ const AdminPlans = () => {
             const res = await plansApi.getAll();
             if (res.success) setPlans(res.data);
         } catch {
-            Swal.fire({ title: t('خطأ'), text: t('فشل تحميل الخطط'), icon: 'error', confirmButtonColor: '#e91e63' });
+            notify.fire({ title: t('خطأ'), text: t('فشل تحميل الخطط'), icon: 'error', confirmButtonColor: '#e91e63' });
         } finally {
             setIsLoading(false);
         }
@@ -38,7 +38,7 @@ const AdminPlans = () => {
                 // Replace the updated plan in local state
                 setPlans(prev => prev.map(p => (p.id === id ? res.data : p)));
                 onDone();
-                Swal.fire({
+                notify.fire({
                     toast: true,
                     position: 'top-end',
                     icon: 'success',
@@ -51,7 +51,7 @@ const AdminPlans = () => {
                 throw new Error(res.message || t('خطأ غير معروف'));
             }
         } catch (err) {
-            Swal.fire({
+            notify.fire({
                 title: t('خطأ في الحفظ'),
                 text: err?.response?.data?.message || err.message || t('حدث خطأ'),
                 icon: 'error',

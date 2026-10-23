@@ -19,7 +19,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
-import Swal from 'sweetalert2';
+import notify from '../../../lib/notify';
 import faqApi from '../../../api/faqApi';
 import './FAQ.scss';
 import { t } from '../../../i18n';
@@ -71,7 +71,7 @@ const FAQ = () => {
       }
     } catch (error) {
       console.error('Error fetching FAQ data:', error);
-      Swal.fire({ title: t('خطأ'), text: t('فشل تحميل البيانات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل تحميل البيانات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsLoading(false);
     }
@@ -89,7 +89,7 @@ const FAQ = () => {
   };
 
   const handleDeleteArabicQuestion = async (index) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('هل أنت متأكد؟'),
       text: t('سيتم حذف السؤال نهائياً'),
       icon: 'warning',
@@ -116,7 +116,7 @@ const FAQ = () => {
   };
 
   const handleDeleteEnglishQuestion = async (index) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: 'Are you sure?',
       text: 'The question will be permanently deleted',
       icon: 'warning',
@@ -152,7 +152,7 @@ const FAQ = () => {
   };
 
   const handleDeleteUserQuestion = async (id) => {
-    const result = await Swal.fire({
+    const result = await notify.fire({
       title: t('هل أنت متأكد؟'),
       text: t('سيتم حذف السؤال نهائياً'),
       icon: 'warning',
@@ -166,16 +166,16 @@ const FAQ = () => {
     try {
       await faqApi.deleteUserQuestion(id);
       setUserQuestions(userQuestions.filter((q) => q.id !== id));
-      Swal.fire({ icon: 'success', title: t('تم الحذف'), text: t('تم حذف السؤال بنجاح'), timer: 1500, showConfirmButton: false });
+      notify.fire({ icon: 'success', title: t('تم الحذف'), text: t('تم حذف السؤال بنجاح'), timer: 1500, showConfirmButton: false });
     } catch (error) {
       console.error('Error deleting question:', error);
-      Swal.fire({ title: t('خطأ'), text: t('فشل حذف السؤال'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: t('فشل حذف السؤال'), icon: 'error', confirmButtonColor: '#e91e63' });
     }
   };
 
   const handleSaveChanges = async () => {
     if (!sectionSettings.titleAr || !sectionSettings.titleEn) {
-      Swal.fire({ title: t('تنبيه'), text: t('يرجى ملء عنوان القسم بالعربية والإنجليزية'), icon: 'warning', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('تنبيه'), text: t('يرجى ملء عنوان القسم بالعربية والإنجليزية'), icon: 'warning', confirmButtonColor: '#e91e63' });
       return;
     }
     setIsSaving(true);
@@ -194,7 +194,7 @@ const FAQ = () => {
       if (response.success) {
         setUploadStatus('success');
         setTimeout(() => setUploadStatus(null), 3000);
-        Swal.fire({ icon: 'success', title: t('تم الحفظ بنجاح!'), text: t('تم حفظ جميع التغييرات'), timer: 2000, confirmButtonColor: '#E91E63' });
+        notify.fire({ icon: 'success', title: t('تم الحفظ بنجاح!'), text: t('تم حفظ جميع التغييرات'), timer: 2000, confirmButtonColor: '#E91E63' });
         await fetchFaqData();
         setEditingArabic(null);
         setEditingEnglish(null);
@@ -203,7 +203,7 @@ const FAQ = () => {
       console.error('Error saving changes:', error);
       setUploadStatus('error');
       setTimeout(() => setUploadStatus(null), 3000);
-      Swal.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ التغييرات'), icon: 'error', confirmButtonColor: '#e91e63' });
+      notify.fire({ title: t('خطأ'), text: error.response?.data?.message || t('فشل حفظ التغييرات'), icon: 'error', confirmButtonColor: '#e91e63' });
     } finally {
       setIsSaving(false);
     }

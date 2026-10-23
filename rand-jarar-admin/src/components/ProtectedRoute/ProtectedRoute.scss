@@ -1,0 +1,56 @@
+@import '../../assets/styles/variables';
+
+.unauthorized-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: var(--bg-primary);
+}
+
+.unauthorized-content {
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  color: var(--text-primary);
+
+  h1 {
+    margin: 0.5rem 0;
+    font-size: 1.6rem;
+  }
+
+  p {
+    margin: 0.25rem 0;
+    color: var(--text-secondary);
+  }
+}
+
+.unauthorized-icon {
+  font-size: 3rem;
+}
+
+.unauthorized-hint {
+  font-size: 0.875rem;
+  color: var(--text-muted) !important;
+}
+
+.back-btn {
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.75rem;
+  border: none;
+  border-radius: 10px;
+  background: $primary-pink;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: $primary-pink-dark;
+  }
+}

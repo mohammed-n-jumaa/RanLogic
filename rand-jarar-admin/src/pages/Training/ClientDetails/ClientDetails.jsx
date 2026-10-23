@@ -26,6 +26,7 @@ import TraineeProgress from '../../../components/Training/TraineeProgress/Traine
 import Swal from 'sweetalert2';
 import './ClientDetails.scss';
 import { t, loc } from '../../../i18n';
+import { BACKEND_URL } from '../../../config';
 
 const ClientDetails = () => {
   const { clientId } = useParams();
@@ -41,7 +42,7 @@ const ClientDetails = () => {
   const [currentMonth] = useState(new Date().getMonth() + 1);
   const [imageError, setImageError] = useState({});
 
-  const API_URL = import.meta.env.VITE_API_URL || ' https://api.ranlogic.com';
+  const API_URL = BACKEND_URL;
   
   const STORAGE_URL = import.meta.env.VITE_STORAGE_URL || `${API_URL}/storage`;
 

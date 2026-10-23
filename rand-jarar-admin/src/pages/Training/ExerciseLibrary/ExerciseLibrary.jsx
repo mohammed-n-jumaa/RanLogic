@@ -12,8 +12,9 @@ import ExerciseFormModal from './ExerciseFormModal';
 import FilterSheet from './FilterSheet';
 import './ExerciseLibrary.scss';
 import { t } from '../../../i18n';
+import { BACKEND_URL } from '../../../config';
 
-const API_STORAGE = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:8000';
+const API_STORAGE = BACKEND_URL;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const getYoutubeId = (url) => {

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Save, Loader } from 'lucide-react';
 import './AddClientModal.scss';
 import { t } from '../../../i18n';
+import { BACKEND_URL } from '../../../config';
 
 const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,7 @@ const AddClientModal = ({ isOpen, onClose, onSave, editClient }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef(null);
   
-  const API_URL = import.meta.env.VITE_API_URL || ' https://api.ranlogic.com';
+  const API_URL = BACKEND_URL;
   
   useEffect(() => {
     if (editClient) {

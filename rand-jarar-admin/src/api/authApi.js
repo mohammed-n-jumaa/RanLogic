@@ -64,6 +64,7 @@ const authApi = {
       return {
         success: false,
         data: null,
+        status: error.response?.status ?? null,
         message: error.response?.data?.message || t('فشل جلب معلومات المستخدم'),
       };
     }

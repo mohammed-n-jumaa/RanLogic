@@ -9,7 +9,7 @@ import {
   CreditCard
 } from 'lucide-react';
 import dashboardAPI from '../../api/dashboardApi';
-import authApi from '../../api/authApi';
+import { useAuth } from '../../contexts/AuthContext';
 import './Dashboard.scss';
 import { t, loc } from '../../i18n';
 
@@ -93,7 +93,7 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
   const [data, setData] = useState(null);
   const [lastRefresh, setLastRefresh] = useState(null);
   const controllerRef = useRef(null);
@@ -106,13 +106,6 @@ const Dashboard = () => {
     try {
       if (refresh) setIsRefreshing(true); else setIsLoading(true);
       setError(null);
-
-      const storedUser = authApi.getUser();
-      if (storedUser) setUser(storedUser);
-      try {
-        const r = await authApi.me();
-        if (r.success) setUser(r.data);
-      } catch {}
 
       const result = await dashboardAPI.getAllDashboardData(p);
       if (!mountedRef.current) return;

@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getUnreadNotificationsCount, getNotifications, markNotificationsAsRead } from '../api/chatApi';
+import { useAuth } from './AuthContext';
 import { t } from '../i18n';
+
+const POLL_INTERVAL = 30000;
 
 const NotificationContext = createContext();
 
@@ -13,6 +16,7 @@ export const useNotifications = () => {
 };
 
 export const NotificationProvider = ({ children }) => {
+  const { isAuthenticated } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -73,18 +77,41 @@ export const NotificationProvider = ({ children }) => {
     setNotifications(prev => prev.filter(n => n.id !== notificationId));
   }, []);
 
-  // تحديث الإشعارات دورياً (كل 30 ثانية)
+  // تحديث الإشعارات دورياً (كل 30 ثانية) — فقط عند تسجيل الدخول والتبويب ظاهر
   useEffect(() => {
-    // جلب أولي
-    fetchUnreadCount();
+    if (!isAuthenticated) {
+      setUnreadCount(0);
+      setNotifications([]);
+      return;
+    }
 
-    // تحديث دوري
-    const interval = setInterval(() => {
+    let interval = null;
+
+    const start = () => {
+      if (interval) return;
       fetchUnreadCount();
-    }, 30000);
+      interval = setInterval(fetchUnreadCount, POLL_INTERVAL);
+    };
 
-    return () => clearInterval(interval);
-  }, [fetchUnreadCount]);
+    const stop = () => {
+      clearInterval(interval);
+      interval = null;
+    };
+
+    // إيقاف التحديث عند إخفاء التبويب، واستئنافه (مع جلب فوري) عند الرجوع
+    const handleVisibility = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    if (!document.hidden) start();
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      stop();
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [isAuthenticated, fetchUnreadCount]);
 
   const value = {
     notifications,

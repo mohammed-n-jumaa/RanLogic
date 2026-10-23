@@ -5,7 +5,7 @@ import { ChevronDown, LogOut, LayoutPanelLeft, X } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { sidebarSections } from '../../../data/sidebarData';
 import aboutCoachApi from '../../../api/aboutCoachApi';
-import authApi from '../../../api/authApi';
+import { useAuth } from '../../../contexts/AuthContext';
 import LanguageSwitcher from '../../LanguageSwitcher/LanguageSwitcher';
 import './Sidebar.scss';
 import { t } from '../../../i18n';
@@ -58,6 +58,7 @@ const SidebarSection = ({ section, isOpen, onToggle, onNavigate }) => {
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -78,7 +79,6 @@ const Sidebar = () => {
         }
       } catch {
         // Fallback to auth user
-        const user = authApi.getUser();
         if (user) setCoach({ name: user.name || 'Admin', role: '', image: '' });
       }
     };
@@ -127,12 +127,9 @@ const Sidebar = () => {
 
     setIsLoggingOut(true);
     try {
-      await authApi.logout();
-    } catch {
-      authApi.clearAuthData();
+      await logout();
     } finally {
       setIsLoggingOut(false);
-      authApi.clearAuthData();
       navigate('/login');
     }
   };

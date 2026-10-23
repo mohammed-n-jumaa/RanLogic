@@ -21,6 +21,7 @@ import trainingApi from '../../../api/trainingApi';
 import Swal from 'sweetalert2';
 import './WorkoutPlan.scss';
 import { t, loc } from '../../../i18n';
+import { BACKEND_URL } from '../../../config';
 
 const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
   const [expandedDays, setExpandedDays] = useState([]);
@@ -40,7 +41,7 @@ const WorkoutPlan = ({ clientId, workoutPlan, onRefresh }) => {
   const [replaceExisting, setReplaceExisting] = useState(false);
   const [showImportModal, setShowImportModal] = useState(false);
   const excelInputRef = useRef(null);
-  const API_URL = import.meta.env.VITE_API_URL || ' https://api.ranlogic.com';
+  const API_URL = BACKEND_URL;
 
   const currentDate = new Date();
   let displayYear = currentDate.getFullYear();

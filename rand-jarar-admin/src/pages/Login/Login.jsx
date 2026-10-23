@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Mail,
   Lock,
@@ -13,7 +13,7 @@ import {
   AlertCircle,
   ArrowLeft
 } from 'lucide-react';
-import authApi from '../../api/authApi';
+import { useAuth } from '../../contexts/AuthContext';
 import LanguageSwitcher from '../../components/LanguageSwitcher/LanguageSwitcher';
 import './Login.scss';
 import { t } from '../../i18n';
@@ -45,6 +45,8 @@ const FEATURES = [
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { status, user, login, clearSession } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -55,21 +57,20 @@ const Login = () => {
 
   const pulsePath = useMemo(buildPulsePath, []);
 
-  // Check if already authenticated AND is admin
+  // Once authenticated (already signed in, or right after login) send admins
+  // back to where they came from
   useEffect(() => {
-    if (authApi.isAuthenticated()) {
-      const user = authApi.getUser();
-      if (user && user.role === 'admin') {
-        navigate('/dashboard');
-      } else {
-        // If authenticated but not admin, clear auth data and show message
-        authApi.clearAuthData();
-        setErrors({
-          submit: t('ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية')
-        });
-      }
+    if (status !== 'authenticated') return;
+    if (user?.role === 'admin') {
+      navigate(location.state?.from?.pathname || '/dashboard', { replace: true });
+    } else {
+      // If authenticated but not admin, clear auth data and show message
+      clearSession();
+      setErrors({
+        submit: t('ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية')
+      });
     }
-  }, [navigate]);
+  }, [status, user, navigate, location.state, clearSession]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -127,14 +128,14 @@ const Login = () => {
 
     try {
       // Call login API
-      const response = await authApi.login(formData.email, formData.password);
+      const response = await login(formData.email, formData.password);
 
       if (response.success) {
         // Check if user is admin
-        const user = response.data.user;
-        if (user.role !== 'admin') {
+        const loggedInUser = response.data.user;
+        if (loggedInUser?.role !== 'admin') {
           // User is not admin, clear auth data and show error
-          authApi.clearAuthData();
+          clearSession();
           setErrors({
             submit: t('ليس لديك صلاحية الدخول إلى لوحة التحكم الإدارية. هذا الحساب مخصص للمدربة فقط.')
           });
@@ -142,13 +143,7 @@ const Login = () => {
           return;
         }
 
-        // Success - admin user, redirect to dashboard
-        console.log('Admin login successful:', response.data);
-
-        // Small delay for better UX
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 500);
+        // Success - admin user; the auth effect above redirects to the dashboard
       } else {
         // Login failed - show error
         setErrors({

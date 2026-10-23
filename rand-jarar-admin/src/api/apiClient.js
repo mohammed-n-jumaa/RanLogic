@@ -2,11 +2,9 @@ import axios from 'axios';
 
 /**
  * API Configuration
- * Base URL should be set in .env file as VITE_API_URL
- * 
- * Note: Vite uses VITE_ prefix instead of REACT_APP_
+ * Base URL is read from VITE_API_BASE_URL (see src/config.js)
  */
-const API_BASE_URL = import.meta.env.VITE_API_URL || ' https://api.ranlogic.com/api';
+import { API_BASE_URL } from '../config';
 
 /**
  * Create axios instance with default configuration

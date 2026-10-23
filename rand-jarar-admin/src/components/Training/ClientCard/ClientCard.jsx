@@ -21,11 +21,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 import './ClientCard.scss';
 import { t } from '../../../i18n';
+import { BACKEND_URL } from '../../../config';
 
 const ClientCard = ({ client, onEdit, onDelete }) => {
   const navigate = useNavigate();
   
-  const API_URL = import.meta.env.VITE_API_URL || ' https://api.ranlogic.com';
+  const API_URL = BACKEND_URL;
   
   const getImageUrl = (path) => {
     if (!path) return null;

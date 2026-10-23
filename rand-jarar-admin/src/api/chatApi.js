@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { getSocketId } from '../lib/echo';
+import { getSocketId } from '../lib/socket';
 
 const BASE_URL = '/admin/chat';
 

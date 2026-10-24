@@ -4,6 +4,9 @@ import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import subscriptionApi from '../../api/subscriptionApi';
 
+// CliQ is hidden for now — set to true to show the alias again
+const SHOW_CLIQ = false;
+
 const BANK_DETAILS = {
   bankName: 'Bank al Etihad',
   accountName: 'Randa Nimer',
@@ -111,8 +114,12 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         <div className="pay-bank__row"><span>{t('اسم الحساب', 'Account name')}</span><strong>{BANK_DETAILS.accountName}</strong></div>
         <CopyRow label="IBAN" value={BANK_DETAILS.iban} onCopy={copy} copyLabel={t('نسخ', 'Copy')} />
 
-        <div className="pay-bank__title pay-bank__title--cliq"><Smartphone /> {t('أو عبر كليك (الأردن)', 'Or via CliQ (Jordan)')}</div>
-        <CopyRow label={t('الاسم المستعار', 'Alias')} value={BANK_DETAILS.cliqAlias} onCopy={copy} copyLabel={t('نسخ', 'Copy')} />
+        {SHOW_CLIQ && (
+          <>
+            <div className="pay-bank__title pay-bank__title--cliq"><Smartphone /> {t('أو عبر كليك (الأردن)', 'Or via CliQ (Jordan)')}</div>
+            <CopyRow label={t('الاسم المستعار', 'Alias')} value={BANK_DETAILS.cliqAlias} onCopy={copy} copyLabel={t('نسخ', 'Copy')} />
+          </>
+        )}
       </div>
 
       <p className="pay-step__note"><CheckCircle2 /> {t('بعد التحويل، اكتب رقم الحوالة وارفع صورة الإيصال.', 'After transferring, enter the reference number and upload the receipt.')}</p>

@@ -1,176 +1,104 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Crown, Calendar, Tag, Flame } from 'lucide-react';
-const PlanCard = ({ plan, onSelect, delay, currency }) => {
-  const { id, name, subtitle, pricing, popular, badge, features, color, icon } = plan;
-  const [selectedDuration, setSelectedDuration] = useState('1month');
+import { motion } from 'framer-motion';
+import { Check, Crown, ArrowLeft, ArrowRight, ChevronDown } from 'lucide-react';
 
-  const selectedPricing = pricing[selectedDuration];
-  const hasDiscount = selectedPricing.discount > 0;
+const MONTHS = { '1month': 1, '3months': 3, '6months': 6 };
+const VISIBLE_FEATURES = 6;   // the rest sit behind "show all"
+
+const formatMoney = (value) => {
+  const n = Number(value) || 0;
+  return Number.isInteger(n) ? n.toLocaleString('en-US') : n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
+/** One subscription plan. The duration is chosen once for the whole page (see Plans.jsx). */
+const PlanCard = ({ plan, duration, onSelect, currency, isArabic, delay = 0 }) => {
+  const { name, subtitle, pricing, popular, badge, features = [], icon } = plan;
+  const [showAll, setShowAll] = useState(false);
+  const t = (ar, en) => (isArabic ? ar : en);
+
+  const p = pricing?.[duration] || pricing?.['1month'] || {};
+  const months = MONTHS[duration] || 1;
+  const hasDiscount = p.discount > 0 && p.originalPrice > p.price;
   const sym = currency?.symbol || '$';
-  const code = currency?.code || 'USD';
+  const perMonth = months > 1 ? p.price / months : null;
+  const visible = showAll ? features : features.slice(0, VISIBLE_FEATURES);
+  const Arrow = isArabic ? ArrowLeft : ArrowRight;
 
   return (
-    <motion.div
-      className={`plan-card ${popular ? 'popular' : ''} ${color}`}
-      initial={{ opacity: 0, y: 30 }}
+    <motion.article
+      className={`pl-card ${popular ? 'is-popular' : ''}`}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
+      transition={{ delay, duration: 0.45 }}
     >
-      {popular && badge && (
-        <motion.div
-          className="popular-badge"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: delay + 0.3, type: 'spring', stiffness: 200 }}
-        >
-          <Crown fill="currentColor" /> {badge}
-        </motion.div>
+      {popular && (
+        <span className="pl-card__badge">
+          <Crown /> {badge || t('الأكثر طلباً', 'Most popular')}
+        </span>
       )}
 
-      {hasDiscount && (
-        <motion.div
-          className="discount-badge"
-          initial={{ scale: 0, rotate: 12 }}
-          animate={{ scale: 1, rotate: -12 }}
-          transition={{ delay: delay + 0.5, type: 'spring', stiffness: 150 }}
-        >
-          <Flame fill="currentColor" />
-          <span>{selectedPricing.discount}% OFF</span>
-        </motion.div>
-      )}
+      <header className="pl-card__head">
+        {icon && <span className="pl-card__icon" aria-hidden="true">{icon}</span>}
+        <div>
+          <h3 className="pl-card__name">{name}</h3>
+          {subtitle && <p className="pl-card__subtitle">{subtitle}</p>}
+        </div>
+      </header>
 
-      <div className="plan-header">
-        <motion.div
-          className="plan-icon"
-          whileHover={{ scale: 1.1, rotate: 5 }}
-          transition={{ type: 'spring', stiffness: 300 }}
-        >
-          {icon}
-        </motion.div>
-        <h3 className="plan-name">{name}</h3>
-        <p className="plan-subtitle">{subtitle}</p>
-      </div>
-
-      {/* Duration Selector */}
-      <div className="duration-selector">
-        <motion.button
-          className={`duration-btn ${selectedDuration === '1month' ? 'active' : ''}`}
-          onClick={() => setSelectedDuration('1month')}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Calendar />
-          <span>1 Month</span>
-        </motion.button>
-
-        <motion.button
-          className={`duration-btn ${selectedDuration === '3months' ? 'active' : ''}`}
-          onClick={() => setSelectedDuration('3months')}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Calendar />
-          <span>3 Months</span>
-          {pricing['3months'].discount > 0 && (
-            <span className="mini-badge">-{pricing['3months'].discount}%</span>
-          )}
-        </motion.button>
-
-        <motion.button
-          className={`duration-btn ${selectedDuration === '6months' ? 'active' : ''}`}
-          onClick={() => setSelectedDuration('6months')}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Calendar />
-          <span>6 Months</span>
-          {pricing['6months'].discount > 0 && (
-            <span className="mini-badge hot">-{pricing['6months'].discount}%</span>
-          )}
-        </motion.button>
-      </div>
-
-      {/* Pricing Display with Animation */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={selectedDuration}
-          className="plan-pricing"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          {hasDiscount && (
-            <motion.div
-              className="original-price-wrapper"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: 'spring', stiffness: 200 }}
-            >
-              <Tag fill="currentColor" className="tag-icon" />
-              <span className="original-price">{sym}{selectedPricing.originalPrice}</span>
-            </motion.div>
-          )}
-
-          <div className="price-wrapper">
-            <span className="currency">{sym}</span>
-            <span className="price">{selectedPricing.price}</span>
-            <span className="currency-code" style={{ fontSize: '0.75rem', opacity: 0.7, marginLeft: '4px' }}>{code}</span>
-          </div>
-
-          <span className="duration">
-            {selectedDuration === '1month' ? '/ Month' :
-              selectedDuration === '3months' ? '/ 3 Months' :
-                '/ 6 Months'}
+      <div className="pl-card__price">
+        <div className="pl-card__amount">
+          <span className="pl-card__currency">{sym}</span>
+          <span className="pl-card__value">{formatMoney(p.price)}</span>
+          <span className="pl-card__period">
+            / {months === 1 ? t('شهر', 'month') : t(`${months} أشهر`, `${months} months`)}
           </span>
+        </div>
 
-          {hasDiscount && (
-            <motion.div
-              className="savings-badge"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              Save {sym}{selectedPricing.originalPrice - selectedPricing.price}
-
-            </motion.div>
+        {/* Always two lines under the price, so every card lines up */}
+        <p className="pl-card__billing">
+          {perMonth
+            ? <>{t('يعني', 'That’s')} <strong className="pl-num">{sym}{formatMoney(perMonth)}</strong> {t('بالشهر', 'per month')}</>
+            : t('دفعة شهرية', 'Billed monthly')}
+        </p>
+        <div className="pl-card__price-meta">
+          {hasDiscount ? (
+            <>
+              <s className="pl-num">{sym}{formatMoney(p.originalPrice)}</s>
+              <span className="pl-card__save">
+                {t('وفّر', 'Save')} <span className="pl-num">{sym}{formatMoney(p.originalPrice - p.price)}</span>
+              </span>
+            </>
+          ) : (
+            <span className="pl-card__nodeal">
+              {months === 1 ? t('ابدأ بشهر وجرّب', 'Start with a month') : t('بدون خصم على هذه المدة', 'No discount on this length')}
+            </span>
           )}
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="plan-features">
-        <ul>
-          {features.map((feature, index) => (
-            <motion.li
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: delay + (index * 0.05) }}
-            >
-              <Check className="check-icon" />
-              <span>{feature}</span>
-            </motion.li>
-          ))}
-        </ul>
+        </div>
       </div>
 
-      <motion.button
-        className="plan-button"
-        onClick={() => onSelect(plan, selectedDuration)}
-        whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(0,0,0,0.2)' }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <span>Choose Plan</span>
-        <motion.span
-          className="arrow"
-          initial={{ x: 0 }}
-          whileHover={{ x: 5 }}
-        >
-          →
-        </motion.span>
-      </motion.button>
-    </motion.div>
+      <button type="button" className="pl-card__cta" onClick={() => onSelect(plan, duration)}>
+        {t('اختر هذه الباقة', 'Choose this plan')} <Arrow />
+      </button>
+
+      {features.length > 0 && (
+        <div className="pl-card__features">
+          <p className="pl-card__features-title">{t('شو بتاخد:', 'What you get:')}</p>
+          <ul>
+            {visible.map((feature, i) => (
+              <li key={i}><span className="pl-card__tick"><Check /></span>{feature}</li>
+            ))}
+          </ul>
+          {features.length > VISIBLE_FEATURES && (
+            <button type="button" className="pl-card__more" onClick={() => setShowAll(v => !v)} aria-expanded={showAll}>
+              {showAll
+                ? t('عرض أقل', 'Show less')
+                : t(`عرض كل المميزات (${features.length})`, `Show all features (${features.length})`)}
+              <ChevronDown className={showAll ? 'is-up' : ''} />
+            </button>
+          )}
+        </div>
+      )}
+    </motion.article>
   );
 };
 

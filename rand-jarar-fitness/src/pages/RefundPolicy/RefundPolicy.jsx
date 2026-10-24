@@ -16,7 +16,7 @@ const RefundPolicy = () => {
       seoTitle: 'سياسة  الاسترجاع | RanLogic',
       seoDescription:
         'اطلع على سياسة  الاسترجاع الخاصة باشتراكات وخدمات RanLogic التدريبية الرقمية.',
-      badge: 'سياسة  الاسترجاع',
+      badge: 'معلومات قانونية',
       title: 'سياسة  الاسترجاع',
       subtitle:
         'نظرًا لأن خدمات RanLogic تعتمد على اشتراكات رقمية وخطط تدريب وتغذية يتم تجهيزها وإتاحتها مباشرة بعد تفعيل الاشتراك، فإن جميع الاشتراكات غير قابلة للاسترجاع.',
@@ -62,7 +62,7 @@ const RefundPolicy = () => {
       seoTitle: ' Refund Policy | RanLogic',
       seoDescription:
         'Read the  Refund Policy that applies to RanLogic digital subscriptions and coaching services.',
-      badge: ' Refund Policy',
+      badge: 'Legal',
       title: ' Refund Policy',
       subtitle:
         'Because RanLogic provides digital subscription-based services, including workout and nutrition access that become available upon activation, all subscription payments are non-refundable.',

@@ -10,10 +10,10 @@ export const siteConfig = {
   email: 'info@ranlogic.com',
 
   social: {
-    instagram: 'https://www.instagram.com/ran.logicc/',
-    twitter: 'https://x.com/ranLogic',
-    youtube: 'https://www.youtube.com/@Ran_Logic',
-    tiktok: 'https://tiktok.com/@ranlogic'
+    instagram: 'https://www.instagram.com/ranlogic',
+    twitter: 'https://x.com/ranlogic',
+    youtube: 'https://www.youtube.com/@ranlogic',
+    alfan: 'https://alfan.link/ran.logic'
   },
 
   logo: '/icons/icon-512x512.png',

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import useHeroPrimaryCta from './useHeroPrimaryCta';
 import DOMPurify from 'dompurify';
 import './HeroDesign2.scss';
 
@@ -12,6 +13,7 @@ const itemV = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, tran
 const HeroDesign2 = ({ heroData }) => {
   const { isArabic } = useLanguage();
   const navigate = useNavigate();
+  const userCta = useHeroPrimaryCta(isArabic);   // signed-in visitors: profile / plans
   const [cur, setCur] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -77,7 +79,7 @@ const HeroDesign2 = ({ heroData }) => {
             </motion.h1>
             {desc && <motion.p className="hero-d2__desc" variants={itemV} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(desc) }} />}
             <motion.div className="hero-d2__btns" variants={itemV}>
-              {primaryBtn && <button className="hero-d2__btn hero-d2__btn--primary" onClick={() => handleCta(primaryBtn)}><span>{primaryBtn.label}</span>{isArabic ? '←' : '→'}</button>}
+              {primaryBtn && <button className="hero-d2__btn hero-d2__btn--primary" onClick={() => (userCta ? userCta.onClick() : handleCta(primaryBtn))}><span>{userCta?.label || primaryBtn.label}</span>{isArabic ? '←' : '→'}</button>}
               {secondaryBtn && <button className="hero-d2__btn hero-d2__btn--secondary" onClick={() => handleCta(secondaryBtn)}>▶ <span>{secondaryBtn.label}</span></button>}
             </motion.div>
           </motion.div>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Swal from 'sweetalert2';
 import BankTransferPayment from './BankTransferPayment';
@@ -6,6 +7,7 @@ import subscriptionApi from '../../api/subscriptionApi';
 import { throttle } from '@/utils/debounce';
 import { X, Landmark, CheckCircle, AlertTriangle, ArrowLeft, Calendar, Tag, Ticket, Loader2 } from 'lucide-react';
 import { FaPaypal } from '@/components/common/SocialIcons';
+import './PaymentModal.scss';
 
 const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currency }) => {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -20,7 +22,6 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
   const selectedPricing = plan.pricing[duration];
   const hasDiscount = selectedPricing.discount > 0;
   const sym = currency?.symbol || '$';
-  const code = currency?.code || 'USD';
 
   const usdPrice    = selectedPricing.usd_price ?? selectedPricing.price;
   const usdOriginal = selectedPricing.usd_original ?? selectedPricing.originalPrice;
@@ -195,7 +196,16 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
   );
 
   // ── Render ────────────────────────────────────────────────────────────
-  return (
+  // Lock the page behind the modal while it is open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, []);
+
+  // Rendered straight into <body>: an animated/transformed ancestor would otherwise
+  // turn position:fixed into "fixed to the page" and push the modal down the page.
+  return createPortal(
     <AnimatePresence>
       <motion.div
         className="payment-modal-overlay"
@@ -206,6 +216,7 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
       >
         <motion.div
           className="payment-modal"
+          dir={currentLang === 'ar' ? 'rtl' : 'ltr'}
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -273,7 +284,6 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
                       <span>{currentLang === 'ar' ? 'المجموع:' : 'Total:'}</span>
                       <span className="final-price">
                         {sym}{displayPrice}
-                        <small style={{ opacity: 0.6, marginLeft: 4 }}>{code}</small>
                       </span>
                     </div>
 
@@ -370,7 +380,6 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
                       <span>{currentLang === 'ar' ? 'المجموع:' : 'Total:'}</span>
                       <span className="final-price">
                         {sym}{displayPrice}
-                        <small style={{ opacity: 0.6, marginLeft: 4 }}>{code}</small>
                       </span>
                     </div>
                   </div>
@@ -470,7 +479,8 @@ const PaymentModal = ({ plan, duration, onClose, onSuccess, currentLang, currenc
 
         </motion.div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

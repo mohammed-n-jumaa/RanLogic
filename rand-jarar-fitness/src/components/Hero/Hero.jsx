@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import useHeroPrimaryCta from './useHeroPrimaryCta';
 import heroApi from '../../api/heroApi';
 import './Hero.scss';
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
@@ -42,6 +43,7 @@ const itemVariants = {
 const Hero = () => {
   const { currentLang, isArabic } = useLanguage();
   const navigate = useNavigate();
+  const userCta = useHeroPrimaryCta(isArabic);   // signed-in visitors: profile / plans
   const videoRef = useRef(null);
 
   const [heroData,    setHeroData]    = useState(() => getStaticHero(true));
@@ -137,16 +139,16 @@ const Hero = () => {
               <button
                 key={i}
                 className={`btn ${btn.style === 'primary' ? 'btn-primary' : 'btn-white'}`}
-                onClick={() => handleCtaClick(btn)}
+                onClick={() => (btn.style === 'primary' && userCta ? userCta.onClick() : handleCtaClick(btn))}
               >
                 {btn.style === 'secondary' && <Play />}
-                <span>{btn.label}</span>
+                <span>{btn.style === 'primary' && userCta?.label ? userCta.label : btn.label}</span>
                 {btn.style === 'primary' && (isArabic ? <ArrowLeft /> : <ArrowRight />)}
               </button>
             )) : (
               <>
-                <button className="btn btn-primary" onClick={() => navigate('/auth')}>
-                  {isArabic ? <><span>ابدأ الآن</span><ArrowLeft /></> : <><span>Start Now</span><ArrowRight /></>}
+                <button className="btn btn-primary" onClick={() => (userCta ? userCta.onClick() : navigate('/auth'))}>
+                  <span>{userCta?.label || (isArabic ? 'ابدأ الآن' : 'Start Now')}</span>{isArabic ? <ArrowLeft /> : <ArrowRight />}
                 </button>
                 <button className="btn btn-white" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
                   <Play />{isArabic ? 'استكشف البرامج' : 'Explore Programs'}

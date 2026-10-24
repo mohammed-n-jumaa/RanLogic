@@ -1,4 +1,5 @@
 @use '../../styles/variables.scss' as *;
+@use '../../styles/page-hero' as hero;
 
 // ===================================
 // Container
@@ -132,7 +133,7 @@
 
 .calculator-card,
 .result-card {
-  background: rgba(255, 255, 255, 0.98);
+  background: #fff;   // solid: overlaps the dark hero band
   backdrop-filter: blur(16px);
   border-radius: $radius-xl;
   border: 2px solid rgba(var(--site-primary-rgb), 0.15);
@@ -435,4 +436,14 @@
   .calculator-subtitle {
     text-align: right;
   }
+}
+
+// ═══ Dark hero band (shared look: styles/_page-hero.scss) ═══
+.calorie-calculator-container {
+  @include hero.page-hero-container(4.2rem, 4rem, 6rem);
+
+  .calculator-hero { @include hero.page-hero-band; }
+  .hero-icon { @include hero.page-hero-icon; }
+  .calculator-title { @include hero.page-hero-title; }
+  .calculator-subtitle { @include hero.page-hero-subtitle; }
 }

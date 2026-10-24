@@ -1,0 +1,113 @@
+// ═══════════════════════════════════════════════════════════
+// Shared page hero: a full-width dark band in the site colours
+// (same family as Testimonials / Plans / Contact). The block right
+// after the hero overlaps its rounded bottom edge.
+//
+// Usage — on the page container:   @include page-hero-container(4.2rem, 4rem, 6rem);
+//         on the hero element:      @include page-hero-band;
+//         on its title / subtitle:  @include page-hero-title / page-hero-subtitle;
+// ═══════════════════════════════════════════════════════════
+@use 'variables' as *;
+
+// The container's top padding (space for the fixed site header) is exposed as
+// --page-top so the hero can pull itself up underneath the header.
+@mixin page-hero-container($top, $top-tablet: $top, $top-mobile: $top) {
+  --page-top: #{$top};
+  padding-top: var(--page-top);
+  overflow: hidden;
+
+  &::before { content: none; display: none; }   // the old fading background
+
+  @media (max-width: $breakpoint-tablet) { --page-top: #{$top-tablet}; }
+  @media (max-width: $breakpoint-mobile) { --page-top: #{$top-mobile}; }
+}
+
+@mixin page-hero-band($bottom-space: 110px) {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  margin: calc(-1 * var(--page-top)) calc(50% - 50vw) 0;
+  padding: calc(var(--page-top) + 64px) 1.5rem $bottom-space;
+  border-radius: 0 0 40px 40px;
+  background: linear-gradient(135deg, #111111 0%, var(--site-secondary) 55%, #111111 100%);
+  text-align: center;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::before {
+    width: 520px;
+    height: 520px;
+    top: -200px;
+    inset-inline-start: -160px;
+    background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.22) 0%, transparent 70%);
+  }
+
+  &::after {
+    width: 460px;
+    height: 460px;
+    bottom: -240px;
+    inset-inline-end: -140px;
+    background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.14) 0%, transparent 70%);
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    padding: calc(var(--page-top) + 40px) 1.25rem ($bottom-space - 14px);
+    border-radius: 0 0 28px 28px;
+  }
+
+  // the first block after the hero rides over its bottom edge
+  & + * {
+    position: relative;
+    z-index: 1;
+    margin-top: -56px;
+  }
+}
+
+// Icon in a soft gold tile (instead of a huge floating glyph)
+@mixin page-hero-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1.1rem;
+  border: 1px solid rgba(var(--site-primary-rgb), 0.4);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(var(--site-primary-rgb), 0.28), rgba(var(--site-primary-rgb), 0.06));
+  color: var(--site-primary);
+  font-size: 1.8rem;
+  filter: none;
+
+  svg { width: 30px; height: 30px; }
+
+  @media (max-width: $breakpoint-mobile) { width: 56px; height: 56px; margin-bottom: 0.9rem; svg { width: 26px; height: 26px; } }
+}
+
+@mixin page-hero-title {
+  margin: 0 0 0.85rem;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: #fff;
+  font-family: 'Tajawal', 'Poppins', sans-serif;
+  font-size: clamp(1.9rem, 4.4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+@mixin page-hero-subtitle {
+  max-width: 680px;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: 'Tajawal', 'Poppins', sans-serif;
+  font-size: 1.06rem;
+  font-weight: 400;
+  line-height: 1.8;
+}

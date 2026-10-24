@@ -7,6 +7,8 @@ import Footer from '../../components/layout/Footer/Footer';
 import ScrollToTop from '../../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../../components/common/SEO/SEO';
 import { breadcrumbs } from '../../utils/seoConfig';
+import { Star } from 'lucide-react';
+import { FaInstagram, FaYoutube, FaXTwitter } from '../../components/common/SocialIcons';
 import '../Legal/LegalPages.scss';
 import { Mail } from "lucide-react";
 
@@ -17,7 +19,7 @@ const ContactPage = () => {
 
   const content = {
     ar: {
-      badge:       'تواصل معنا',
+      badge:       'نحن هنا لمساعدتك',
       title:       'تواصل معنا',
       subtitle:    'إذا كان لديك استفسار عن الاشتراك أو الخطط أو استخدام المنصة، يمكنك التواصل مع فريق RanLogic عبر البريد الإلكتروني أو منصات التواصل التالية.',
       boxTitle:    'فريقنا هنا لمساعدتك',
@@ -28,7 +30,7 @@ const ContactPage = () => {
       socialText:  'روابط مباشرة إلى حسابات فريق RanLogic الرسمية.'
     },
     en: {
-      badge:       'Contact Us',
+      badge:       'We’re here to help',
       title:       'Contact Us',
       subtitle:    'If you have questions about subscriptions, plans, renewals, or using the platform, you can reach the RanLogic team by email or through the following social channels.',
       boxTitle:    'Our team is here to help',
@@ -43,30 +45,10 @@ const ContactPage = () => {
   const t = isArabic ? content.ar : content.en;
 
   const socials = [
-    {
-      title:    'Instagram',
-      subtitle: '@ranlogicc',
-      href:     'https://www.instagram.com/ran.logicc/',
-      icon:     '📸'
-    },
-    {
-      title:    'YouTube',
-      subtitle: 'RanLogic Channel',
-      href:     'https://www.youtube.com/@Ran_Logic',
-      icon:     '▶️'
-    },
-    {
-      title:    'X',
-      subtitle: '@ranLogic',
-      href:     'https://x.com/ranLogic',
-      icon:     '𝕏'
-    },
-    {
-      title:    'TikTok',
-      subtitle: '@ranlogicc',
-      href:     'https://tiktok.com/@ranlogic',
-      icon:     '🎵'
-    }
+    { key: 'instagram', title: 'Instagram', subtitle: '@ranlogic',  href: 'https://www.instagram.com/ranlogic?exln=bGZla204cDN5bTY1', Icon: FaInstagram },
+    { key: 'youtube',   title: 'YouTube',   subtitle: '@ranlogic',  href: 'https://www.youtube.com/@ranlogic',                        Icon: FaYoutube },
+    { key: 'x',         title: 'X',         subtitle: '@ranlogic',  href: 'https://x.com/ranlogic?s=21',                              Icon: FaXTwitter },
+    { key: 'alfan',     title: 'Alfan',     subtitle: 'ran.logic',  href: 'https://alfan.link/ran.logic',                             Icon: Star },
   ];
 
   return (
@@ -138,10 +120,10 @@ const ContactPage = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <span className="social-icon">{item.icon}</span>
+                      <span className={`social-icon social-icon--${item.key}`}><item.Icon size={20} {...(item.key === 'alfan' ? { fill: 'currentColor' } : {})} /></span>
                       <span className="social-text">
                         <strong>{item.title}</strong>
-                        <span>{item.subtitle}</span>
+                        <span dir="ltr">{item.subtitle}</span>
                       </span>
                     </a>
                   ))}

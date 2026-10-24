@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { AlertCircle, RefreshCw, ShieldCheck, MessageCircle, Salad, Zap, Sparkles } from 'lucide-react';
 import Header from '../components/layout/Header/Header';
 import PlansSkeleton from '../components/common/PlansSkeleton/PlansSkeleton';
 import PlanCard from "../features/Plans/PlanCard";
 import PaymentModal from "../features/Plans/PaymentModal";
 import FeaturesComparison from "../features/Plans/FeaturesComparison";
+import PlansFaq from "../features/Plans/PlansFaq";
 import SEO from '../components/common/SEO/SEO';
 import { useLanguage } from '../contexts/LanguageContext';
 import { breadcrumbs, siteConfig } from '../utils/seoConfig';
@@ -28,6 +30,7 @@ const Plans = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [plansStructuredData, setPlansStructuredData] = useState(null);
   const [currency, setCurrency] = useState({ code: 'USD', symbol: '$' });
+  const [duration, setDuration] = useState('1month');   // one switch for all plan cards
 
   useEffect(() => {
     fetchPlans();
@@ -134,21 +137,30 @@ const Plans = () => {
     );
   }
 
+  // Best discount per duration across all plans (for the "save up to X%" tags on the switch)
+  const maxDiscount = (key) => Math.max(0, ...plans.map(p => Number(p.pricing?.[key]?.discount) || 0));
+  const durations = [
+    { key: '1month', label: isArabic ? 'شهر' : '1 month' },
+    { key: '3months', label: isArabic ? '3 أشهر' : '3 months', save: maxDiscount('3months') },
+    { key: '6months', label: isArabic ? '6 أشهر' : '6 months', save: maxDiscount('6months') },
+  ];
+  const bestSave = maxDiscount('6months');
+
   // ── Error state ───────────────────────────────────────────
   if (error) {
     return (
       <>
-        <SEO
-          page="plans"
-          breadcrumbItems={breadcrumbs.plans(currentLang)}
-        />
-        <div className="plans-page">
+        <SEO page="plans" breadcrumbItems={breadcrumbs.plans(currentLang)} />
+        <div className="plans-page" dir={isArabic ? 'rtl' : 'ltr'}>
           <Header />
-          <div className="plans-error">
-            <p>{isArabic ? 'عذراً، حدث خطأ في تحميل الخطط' : 'Sorry, error loading plans'}</p>
-            <button className="retry-btn" onClick={fetchPlans}>
-              {isArabic ? 'إعادة المحاولة' : 'Try Again'}
-            </button>
+          <div className="pl-top pl-top--error">
+            <div className="pl-error">
+              <AlertCircle />
+              <p>{isArabic ? 'عذراً، صار خطأ بتحميل الباقات' : 'Sorry, we couldn’t load the plans'}</p>
+              <button type="button" className="pl-btn" onClick={fetchPlans}>
+                <RefreshCw /> {isArabic ? 'إعادة المحاولة' : 'Try again'}
+              </button>
+            </div>
           </div>
         </div>
       </>
@@ -164,119 +176,84 @@ const Plans = () => {
         breadcrumbItems={breadcrumbs.plans(currentLang)}
       />
 
-      <div className="plans-page">
+      <div className="plans-page" dir={isArabic ? 'rtl' : 'ltr'}>
         <Header />
 
-        {/* Hero Section */}
-        <section className="plans-hero">
-          <div className="hero-background">
-            <div className="gradient-orb orb-1"></div>
-            <div className="gradient-orb orb-2"></div>
-            <div className="gradient-orb orb-3"></div>
-          </div>
+        {/* Hero + plans share one background (site colours, admin-configurable) */}
+        <div className="pl-top">
+          <div className="pl-glow pl-glow--1" aria-hidden="true" />
+          <div className="pl-glow pl-glow--2" aria-hidden="true" />
 
-          <div className="container">
+          <section className="pl-hero">
             <motion.div
-              className="hero-content"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <motion.span
-                className="hero-label"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              >
-                {isArabic ? 'خطط التدريب والاشتراك' : 'Training & Subscription Plans'}
-              </motion.span>
-
-              <h1 className="hero-title">
-                {isArabic ? 'طريقك لجسم صحي' : 'Your Path to a Healthy Body'}
-                <span className="gradient-text">
-                  {isArabic ? ' يبدأ من هنا' : ' Starts Here'}
-                </span>
-              </h1>
-
-              <p className="hero-description">
-                {isArabic
-                  ? 'برامج تدريبية وخطط تغذية مصممة خصيصاً لك، مع دردشة خاصة مباشرة مع المدرب لمتابعة تقدمك خطوة بخطوة'
-                  : 'Training programs and nutrition plans designed specifically for you, with direct private chat with the coach to track your progress step by step'}
-              </p>
-
-              <motion.div
-                className="special-offer-banner"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <div className="offer-icon">🎉</div>
-                <div className="offer-text">
-                  <strong>{isArabic ? 'عرض محدود!' : 'Limited Time Offer!'}</strong>
-                  <span>
-                    {isArabic
-                      ? 'احصل على خصم يصل إلى 10% على اشتراكات 6 أشهر'
-                      : 'Get up to 10% OFF on 6-month subscriptions'}
-                  </span>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Plans Section */}
-        <section className="plans-section">
-          <div className="container">
-            <div className="plans-grid">
-              {plans.map((plan, index) => (
-                <PlanCard
-                  key={plan.id}
-                  plan={plan}
-                  onSelect={handleSelectPlan}
-                  delay={index * 0.15}
-                  currentLang={currentLang}
-                  currency={currency}
-                />
-              ))}
-            </div>
-
-            {/* Trust Badges */}
-            <motion.div
-              className="trust-section"
+              className="pl-container pl-hero__inner"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
+              transition={{ duration: 0.5 }}
             >
-              <div className="trust-badge">
-                <span className="badge-icon">🥗</span>
-                <span>
-                  {isArabic
-                    ? 'برنامج تغذية مخصص لكل متدرب'
-                    : 'Custom nutrition plan for each trainee'}
-                </span>
-              </div>
-              <div className="trust-badge">
-                <span className="badge-icon">💬</span>
-                <span>
-                  {isArabic
-                    ? 'دردشة خاصة مباشرة مع المدرب'
-                    : 'Direct private chat with coach'}
-                </span>
-              </div>
-              <div className="trust-badge">
-                <span className="badge-icon">⚡</span>
-                <span>
-                  {isArabic
-                    ? 'بدء فوري بعد الاشتراك'
-                    : 'Instant start after subscription'}
-                </span>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+              <span className="pl-eyebrow">{isArabic ? 'باقات الاشتراك' : 'Subscription plans'}</span>
+              <h1 className="pl-hero__title">
+                {isArabic ? <>اختر الباقة اللي <span>بتناسب هدفك</span></> : <>Pick the plan that <span>fits your goal</span></>}
+              </h1>
+              <p className="pl-hero__text">
+                {isArabic
+                  ? 'برنامج تدريب وتغذية مصمم إلك، ودردشة مباشرة مع الكوتش لمتابعة تقدّمك خطوة بخطوة.'
+                  : 'A training and nutrition program built for you, with direct chat with your coach to follow your progress step by step.'}
+              </p>
 
-        {/* Features Comparison */}
-        <FeaturesComparison plans={plans} currentLang={currentLang} />
+              {/* One duration switch for all cards */}
+              <div className="pl-switch" role="radiogroup" aria-label={isArabic ? 'مدة الاشتراك' : 'Subscription length'}>
+                {durations.map(d => (
+                  <button
+                    key={d.key}
+                    type="button"
+                    role="radio"
+                    aria-checked={duration === d.key}
+                    className={`pl-switch__opt ${duration === d.key ? 'is-active' : ''}`}
+                    onClick={() => setDuration(d.key)}
+                  >
+                    {d.label}
+                    {d.save > 0 && <span className="pl-switch__save">-{d.save}%</span>}
+                  </button>
+                ))}
+              </div>
+              {bestSave > 0 && (
+                <p className="pl-hero__hint">
+                  <Sparkles />
+                  {isArabic ? `وفّر لحد ${bestSave}% لما تشترك 6 أشهر` : `Save up to ${bestSave}% with 6 months`}
+                </p>
+              )}
+            </motion.div>
+          </section>
+
+          <section className="pl-plans" aria-label={isArabic ? 'الباقات' : 'Plans'}>
+            <div className="pl-container">
+              <div className="pl-grid">
+                {plans.map((plan, index) => (
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    duration={duration}
+                    onSelect={handleSelectPlan}
+                    delay={index * 0.08}
+                    currency={currency}
+                    isArabic={isArabic}
+                  />
+                ))}
+              </div>
+
+              <ul className="pl-trust">
+                <li><ShieldCheck /><span>{isArabic ? 'دفع آمن عبر PayPal أو تحويل بنكي' : 'Secure payment via PayPal or bank transfer'}</span></li>
+                <li><MessageCircle /><span>{isArabic ? 'دردشة خاصة مباشرة مع الكوتش' : 'Private chat with your coach'}</span></li>
+                <li><Salad /><span>{isArabic ? 'نظام غذائي مخصص إلك' : 'A nutrition plan made for you'}</span></li>
+                <li><Zap /><span>{isArabic ? 'برنامجك جاهز خلال 24–48 ساعة' : 'Your program within 24–48 hours'}</span></li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <FeaturesComparison plans={plans} isArabic={isArabic} />
+        <PlansFaq isArabic={isArabic} />
 
         {/* Payment Modal */}
         {showPaymentModal && (

@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
 
   const content = {
     ar: {
-      badge:          'سياسة الخصوصية',
+      badge:          'معلومات قانونية',
       title:          'سياسة الخصوصية',
       subtitle:       'نوضح هنا كيف يتم جمع بياناتك واستخدامها وحمايتها أثناء استخدامك لموقع RanLogic وخدمات الاشتراك والتدريب المقدمة من فريق RanLogic.',
       updated:        'آخر تحديث',
@@ -69,7 +69,7 @@ const PrivacyPolicy = () => {
       note: 'باستخدامك للموقع، فإنك توافق على هذه السياسة وعلى معالجة بياناتك بالقدر اللازم لتقديم خدمات فريق RanLogic.'
     },
     en: {
-      badge:          'Privacy Policy',
+      badge:          'Legal',
       title:          'Privacy Policy',
       subtitle:       'This page explains how your information is collected, used, and protected while using RanLogic and the coaching services provided by the RanLogic team.',
       updated:        'Last Updated',

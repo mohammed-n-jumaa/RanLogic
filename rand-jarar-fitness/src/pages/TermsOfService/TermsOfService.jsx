@@ -13,7 +13,7 @@ const TermsOfService = () => {
 
   const content = {
     ar: {
-      badge:          'شروط الاستخدام',
+      badge:          'معلومات قانونية',
       title:          'شروط الاستخدام',
       subtitle:       'تنظم هذه الشروط استخدامك لموقع RanLogic والخدمات التدريبية الرقمية المقدمة من فريق RanLogic، بما في ذلك التسجيل والاشتراك والوصول للمحتوى التدريبي والتغذوي.',
       updated:        'آخر تحديث',
@@ -69,7 +69,7 @@ const TermsOfService = () => {
       note: 'يخضع استخدام الموقع أيضًا لسياسة الخصوصية وسياسة الاسترجاع المعروضة في الصفحات القانونية.'
     },
     en: {
-      badge:          'Terms of Service',
+      badge:          'Legal',
       title:          'Terms of Service',
       subtitle:       'These terms govern your use of RanLogic and the digital coaching services provided by the RanLogic team, including registration, subscriptions, and access to workout and nutrition content.',
       updated:        'Last Updated',

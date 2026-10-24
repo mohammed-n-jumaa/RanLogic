@@ -6,7 +6,7 @@
 .home-skeleton.plans-skeleton {
   --sk-bone:  rgba(255, 255, 255, 0.07);
   --sk-shine: rgba(255, 255, 255, 0.14);
-  background: linear-gradient(135deg, #3a1f3d 0%, #2d1b2e 50%, #1f1520 100%);
+  background: linear-gradient(180deg, #111111 0%, var(--site-secondary) 45%, #111111 100%);
 }
 
 // ─── Hero ───────────────────────────────────────────

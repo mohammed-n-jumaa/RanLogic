@@ -74,7 +74,7 @@ const SEO = ({
 
     // ── Twitter Card ─────────────────────────────────────────────
     setMeta('twitter:card',        'summary_large_image');
-    setMeta('twitter:site',        '@RanLogic');
+    setMeta('twitter:site',        '@ranlogic');
     setMeta('twitter:title',       resolvedTitle);
     setMeta('twitter:description', resolvedDescription);
     setMeta('twitter:image',       resolvedImage);

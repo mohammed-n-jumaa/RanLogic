@@ -23,7 +23,7 @@ const getPlatform = (value) =>
 // ── روابط سريعة ثابتة ────────────────────────────────────────────────────────
 const quickLinks = {
   ar: [
-    { name: 'الرئيسية',        href: '#home',                type: 'anchor' },
+    { name: 'الرئيسية',        href: '/',                    type: 'route'  },
     { name: 'حاسبة السعرات',   href: '/calorie-calculator',  type: 'route'  },
     { name: 'حاسبة الوجبة',    href: '/meal-calculator',     type: 'route'  },
     { name: 'سياسة الخصوصية', href: '/privacy-policy',      type: 'route'  },
@@ -32,7 +32,7 @@ const quickLinks = {
     { name: 'تواصل معنا',      href: '/contact',             type: 'route'  },
   ],
   en: [
-    { name: 'Home',               href: '#home',               type: 'anchor' },
+    { name: 'Home',               href: '/',                   type: 'route'  },
     { name: 'Calorie Calculator', href: '/calorie-calculator', type: 'route'  },
     { name: 'Meal Calculator',    href: '/meal-calculator',    type: 'route'  },
     { name: 'Privacy Policy',     href: '/privacy-policy',     type: 'route'  },
@@ -59,10 +59,10 @@ const getDefaultData = (lang = 'ar') => {
     address_ar: '',
     address_en: '',
     social_links: [
-      { platform: 'instagram', url: 'https://instagram.com/ranlogicc' },
-      { platform: 'tiktok',    url: 'https://tiktok.com/@ranlogicc'   },
-      { platform: 'youtube',   url: 'https://youtube.com/@ranlogic'   },
-      { platform: 'twitter',   url: 'https://twitter.com/ranLogic'    },
+      { platform: 'instagram', url: 'https://www.instagram.com/ranlogic' },
+      { platform: 'youtube',   url: 'https://www.youtube.com/@ranlogic' },
+      { platform: 'twitter',   url: 'https://x.com/ranlogic' },
+      { platform: 'alfan',     url: 'https://alfan.link/ran.logic' },
     ],
   };
 };

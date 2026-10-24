@@ -154,7 +154,7 @@ const Footer = () => {
               {links.map((link, i) => (
                 <li key={i}>
                   {link.type === 'route'
-                    ? <Link to={link.href}>{link.name}</Link>
+                    ? <Link to={link.href} onClick={() => window.scrollTo({ top: 0 })}>{link.name}</Link>
                     : <a href={link.href}>{link.name}</a>}
                 </li>
               ))}

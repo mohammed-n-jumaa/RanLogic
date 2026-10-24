@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import useHeroPrimaryCta from './useHeroPrimaryCta';
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react';
 import DOMPurify from 'dompurify';
 import './HeroDesign4.scss';
@@ -12,6 +13,7 @@ const COLS = 4, ROWS = 5;
 const HeroDesign4 = ({ heroData }) => {
   const { isArabic } = useLanguage();
   const navigate = useNavigate();
+  const userCta = useHeroPrimaryCta(isArabic);   // signed-in visitors: profile / plans
   const [cur, setCur] = useState(0);
   const [scattered, setScattered] = useState(false);
 
@@ -82,8 +84,8 @@ const HeroDesign4 = ({ heroData }) => {
           </motion.div>
         </AnimatePresence>
         <div className="hd4-btns">
-          {primaryBtn ? <button className="hd4-btn hd4-btn--primary" onClick={() => handleCta(primaryBtn)}><span>{primaryBtn.label}</span>{isArabic ? <ArrowLeft size={16}/> : <ArrowRight size={16}/>}</button>
-           : <button className="hd4-btn hd4-btn--primary" onClick={() => navigate('/auth')}><span>{isArabic ? 'ابدأ الآن' : 'Start Now'}</span>{isArabic ? <ArrowLeft size={16}/> : <ArrowRight size={16}/>}</button>}
+          {primaryBtn ? <button className="hd4-btn hd4-btn--primary" onClick={() => (userCta ? userCta.onClick() : handleCta(primaryBtn))}><span>{userCta?.label || primaryBtn.label}</span>{isArabic ? <ArrowLeft size={16}/> : <ArrowRight size={16}/>}</button>
+           : <button className="hd4-btn hd4-btn--primary" onClick={() => (userCta ? userCta.onClick() : navigate('/auth'))}><span>{userCta?.label || (isArabic ? 'ابدأ الآن' : 'Start Now')}</span>{isArabic ? <ArrowLeft size={16}/> : <ArrowRight size={16}/>}</button>}
           {secondaryBtn ? <button className="hd4-btn hd4-btn--secondary" onClick={() => handleCta(secondaryBtn)}><Play size={14}/><span>{secondaryBtn.label}</span></button>
            : <button className="hd4-btn hd4-btn--secondary" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}><Play size={14}/><span>{isArabic ? 'استكشف البرامج' : 'Explore Programs'}</span></button>}
         </div>

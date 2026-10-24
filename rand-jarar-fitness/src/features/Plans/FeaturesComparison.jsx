@@ -1,160 +1,74 @@
-import { Check, X } from 'lucide-react';
 import { motion } from 'framer-motion';
-const FeaturesComparison = ({ plans }) => {
-  const allFeatures = [
-    {
-      name: 'Customized workout plan (Gym or Home)',
-      basic: true,
-      elite: true,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Calculated nutrition plan (Macros/Calories)',
-      basic: true,
-      elite: true,
-      vip: true,
-      nutrition: true
-    },
-    {
-      name: 'Monthly plan updates',
-      basic: true,
-      elite: true, // Elite includes everything in Basic
-      vip: true, // VIP includes everything in Elite
-      nutrition: false
-    },
-    {
-      name: 'Monthly nutrition updates',
-      basic: false,
-      elite: true,
-      vip: true,
-      nutrition: true
-    },
-    {
-      name: 'Food exchange list (to prevent boredom)',
-      basic: false,
-      elite: true,
-      vip: true,
-      nutrition: true
-    },
-    {
-      name: 'Clear roadmap / structured plan',
-      basic: true,
-      elite: true,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Guaranteed results (with commitment & follow-up)',
-      basic: false,
-      elite: true,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Regular adjustments for optimal progress',
-      basic: false,
-      elite: true,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Progress follow-up frequency',
-      basic: 'No follow-up (Self-managed)',
-      elite: 'Weekly follow-up',
-      vip: 'Daily support',
-      nutrition: 'No follow-up (Self-managed)'
-    },
-    {
-      name: 'Chat support for questions',
-      basic: true,
-      elite: true,
-      vip: true,
-      nutrition: true
-    },
-    {
-      name: 'Supplements guidance',
-      basic: false,
-      elite: true,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Priority communication',
-      basic: false,
-      elite: false,
-      vip: true,
-      nutrition: false
-    },
-    {
-      name: 'Monthly 1-on-1 consulting session',
-      basic: false,
-      elite: false,
-      vip: true,
-      nutrition: false
-    }
-  ];
+import { Check, Minus } from 'lucide-react';
 
-  const renderCell = (value) => {
-    if (value === true) return <Check className="check-icon" />;
-    if (value === false) return <X className="times-icon" />;
-    return <span className="feature-value">{value}</span>;
+// What each plan includes — keyed by the plan id (plan_key) coming from the API
+const FEATURES = [
+  { ar: 'برنامج تمارين مخصص (جيم أو بيت)', en: 'Customized workout plan (gym or home)', basic: true, nutrition: false, elite: true, vip: true },
+  { ar: 'نظام غذائي محسوب (سعرات وماكروز)', en: 'Calculated nutrition plan (calories & macros)', basic: true, nutrition: true, elite: true, vip: true },
+  { ar: 'تحديث شهري لبرنامج التمارين', en: 'Monthly workout updates', basic: true, nutrition: false, elite: true, vip: true },
+  { ar: 'تحديث شهري للنظام الغذائي', en: 'Monthly nutrition updates', basic: false, nutrition: true, elite: true, vip: true },
+  { ar: 'قائمة بدائل أكل (عشان ما تملّ)', en: 'Food swap list (so you never get bored)', basic: false, nutrition: true, elite: true, vip: true },
+  { ar: 'خطة واضحة خطوة بخطوة', en: 'Clear step-by-step roadmap', basic: true, nutrition: false, elite: true, vip: true },
+  { ar: 'نتائج مضمونة (مع الالتزام والمتابعة)', en: 'Guaranteed results (with commitment & follow-up)', basic: false, nutrition: false, elite: true, vip: true },
+  { ar: 'تعديلات دورية لأفضل تقدّم', en: 'Regular adjustments for the best progress', basic: false, nutrition: false, elite: true, vip: true },
+  {
+    ar: 'متابعة التقدّم', en: 'Progress follow-up',
+    basic: { ar: 'ذاتية', en: 'Self-managed' },
+    nutrition: { ar: 'ذاتية', en: 'Self-managed' },
+    elite: { ar: 'أسبوعية', en: 'Weekly' },
+    vip: { ar: 'يومية', en: 'Daily' },
+  },
+  { ar: 'دردشة للأسئلة مع الكوتش', en: 'Chat with the coach for questions', basic: true, nutrition: true, elite: true, vip: true },
+  { ar: 'توجيه بالمكمّلات', en: 'Supplements guidance', basic: false, nutrition: false, elite: true, vip: true },
+  { ar: 'أولوية بالتواصل', en: 'Priority communication', basic: false, nutrition: false, elite: false, vip: true },
+  { ar: 'جلسة استشارة فردية شهرية', en: 'Monthly 1-on-1 consultation', basic: false, nutrition: false, elite: false, vip: true },
+];
+
+const FeaturesComparison = ({ plans = [], isArabic }) => {
+  const t = (ar, en) => (isArabic ? ar : en);
+  // only plans this table knows about, in the same order as the cards
+  const columns = plans.filter(p => FEATURES[0][p.id] !== undefined);
+  if (!columns.length) return null;
+
+  const cell = (value) => {
+    if (value === true) return <span className="pl-cmp__yes" aria-label={t('متوفر', 'Included')}><Check /></span>;
+    if (value === false) return <span className="pl-cmp__no" aria-label={t('غير متوفر', 'Not included')}><Minus /></span>;
+    return <span className="pl-cmp__text">{t(value.ar, value.en)}</span>;
   };
 
   return (
-    <section className="comparison-section">
-      <div className="container">
-        <motion.div
-          className="section-header"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2>Compare Training Plans</h2>
-          <p>Each plan is designed to suit a different level of commitment and goal</p>
+    <section className="pl-section pl-cmp">
+      <div className="pl-container">
+        <motion.div className="pl-section__head" initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <h2>{t('قارن بين الباقات', 'Compare the plans')}</h2>
+          <p>{t('كل باقة مصممة لمستوى التزام وهدف مختلف — شوف الفرق بنظرة وحدة', 'Each plan fits a different level of commitment — see the difference at a glance')}</p>
         </motion.div>
 
-        <motion.div
-          className="comparison-table"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-        >
-          <div className="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th className="feature-column">Feature</th>
-
-                  <th className="plan-column basic">Basic Plan</th>
-                  <th className="plan-column nutrition">Nutrition Plan</th>
-                  <th className="plan-column elite">Elite Plan</th>
-                  <th className="plan-column vip">VIP Plan</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {allFeatures.map((feature, index) => (
-                  <motion.tr
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.05 }}
-                  >
-                    <td className="feature-name">{feature.name}</td>
-
-                    <td className="basic">{renderCell(feature.basic)}</td>
-                    <td className="nutrition">{renderCell(feature.nutrition)}</td>
-                    <td className="elite">{renderCell(feature.elite)}</td>
-                    <td className="vip">{renderCell(feature.vip)}</td>
-                  </motion.tr>
+        <div className="pl-cmp__scroll">
+          <table className="pl-cmp__table">
+            <thead>
+              <tr>
+                <th scope="col" className="pl-cmp__feature">{t('الميزة', 'Feature')}</th>
+                {columns.map(plan => (
+                  <th scope="col" key={plan.id} className={plan.popular ? 'is-popular' : ''}>
+                    {plan.icon && <span className="pl-cmp__icon" aria-hidden="true">{plan.icon}</span>}
+                    <span>{plan.name}</span>
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </motion.div>
+              </tr>
+            </thead>
+            <tbody>
+              {FEATURES.map((f, i) => (
+                <tr key={i}>
+                  <th scope="row" className="pl-cmp__feature">{t(f.ar, f.en)}</th>
+                  {columns.map(plan => (
+                    <td key={plan.id} className={plan.popular ? 'is-popular' : ''}>{cell(f[plan.id])}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
   );

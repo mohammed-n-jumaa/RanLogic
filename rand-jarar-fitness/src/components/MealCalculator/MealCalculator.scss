@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use '../../styles/variables.scss' as *;
+@use '../../styles/page-hero' as hero;
 
 // ─────────────────────────────────────────────────────────────
 // Page wrapper
@@ -86,7 +87,7 @@
 // Card
 // ─────────────────────────────────────────────────────────────
 .mc__card {
-  background: rgba(255,255,255,.98);
+  background: #fff;   // solid: the first card overlaps the dark hero band
   border-radius: $radius-xl;
   border: 2px solid rgba(253,184,19,.14);
   box-shadow: 0 6px 24px rgba(253,184,19,.1);
@@ -675,4 +676,14 @@
   .fs-group__label     { flex-direction: row-reverse; }
   .fs-option           { flex-direction: row-reverse; }
   .fs-option__text     { text-align: right; }
+}
+
+// ═══ Dark hero band (shared look: styles/_page-hero.scss) ═══
+.mc {
+  @include hero.page-hero-container(4rem, 4rem, 5.5rem);
+
+  .mc__hero { @include hero.page-hero-band; }
+  .mc__hero-icon { @include hero.page-hero-icon; }
+  .mc__title { @include hero.page-hero-title; }
+  .mc__subtitle { @include hero.page-hero-subtitle; }
 }

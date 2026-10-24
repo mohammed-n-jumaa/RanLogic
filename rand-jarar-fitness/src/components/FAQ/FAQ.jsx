@@ -5,7 +5,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import faqApi from '../../api/faqApi';
 import SEO from "../common/SEO/SEO";
 import './FAQ.scss';
-import { ChevronDown, HelpCircle, Send, CheckCircle, Search } from 'lucide-react';
+import { ChevronDown, HelpCircle, Send, Search } from 'lucide-react';
 
 const FAQ = () => {
   const [faqData, setFaqData] = useState(null);
@@ -14,6 +14,7 @@ const FAQ = () => {
   const [activeQuestion, setActiveQuestion] = useState(null);
   const [formData, setFormData] = useState({ question: '', name: '', email: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { currentLang, isArabic } = useLanguage();
 
@@ -174,7 +175,10 @@ const FAQ = () => {
             q.category.toLowerCase().includes(searchQuery.toLowerCase())
         );
 
-  const categories = [...new Set(filteredQuestions.map((q) => q.category))];
+  const allCategories = [...new Set(questions.map((q) => q.category))];
+  const shownQuestions = activeCategory === 'all'
+    ? filteredQuestions
+    : filteredQuestions.filter((q) => q.category === activeCategory);
 
   return (
     <div className="faq-container">
@@ -278,67 +282,75 @@ const FAQ = () => {
           </motion.div>
         )}
 
+        {/* Category tabs */}
+        {allCategories.length > 1 && (
+          <div className="faq-tabs" dir={isArabic ? 'rtl' : 'ltr'} role="tablist" aria-label={isArabic ? 'التصنيفات' : 'Categories'}>
+            {[{ key: 'all', label: isArabic ? 'الكل' : 'All', count: questions.length },
+              ...allCategories.map(c => ({ key: c, label: c, count: questions.filter(q => q.category === c).length }))]
+              .map(tab => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeCategory === tab.key}
+                  className={`faq-tab ${activeCategory === tab.key ? 'is-active' : ''}`}
+                  onClick={() => { setActiveCategory(tab.key); setActiveQuestion(null); }}
+                >
+                  {tab.label}
+                  <span className="faq-tab__count">{tab.count}</span>
+                </button>
+              ))}
+          </div>
+        )}
+
         <motion.div
           className="faq-list"
+          dir={isArabic ? 'rtl' : 'ltr'}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.3 }}
         >
-          {categories.map((category) => (
-            <div key={category} className="category-section">
-              <h3 className="category-title">{category}</h3>
-              <div className="category-questions">
-                {filteredQuestions
-                  .filter((q) => q.category === category)
-                  .map((faq, index) => (
-                    <motion.div
-                      key={faq.id}
-                      className={`faq-item ${activeQuestion === faq.id ? 'active' : ''}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.05 }}
-                      dir={isArabic ? 'rtl' : 'ltr'}
+          {/* One flat list — the tabs above do the grouping */}
+          <div className="faq-group__items">
+            {shownQuestions.map((faq, index) => {
+              const isOpen = activeQuestion === faq.id;
+              return (
+                  <motion.div
+                    key={faq.id}
+                    className={`faq-q ${isOpen ? 'is-open' : ''}`}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04 }}
+                    dir={isArabic ? 'rtl' : 'ltr'}
+                  >
+                    <button
+                      type="button"
+                      className="faq-q__head"
+                      onClick={() => handleQuestionClick(faq.id)}
+                      aria-expanded={isOpen}
                     >
-                      <div
-                        className="faq-question"
-                        onClick={() => handleQuestionClick(faq.id)}
-                      >
-                        <div className="question-left">
-                          <span className="question-icon">{faq.icon}</span>
-                          <div className="question-content">
-                            <h3>{faq.question}</h3>
-                          </div>
-                        </div>
-                        <motion.div
-                          className="question-toggle"
-                          animate={{ rotate: activeQuestion === faq.id ? 180 : 0 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <ChevronDown />
-                        </motion.div>
-                      </div>
+                      {faq.icon && <span className="faq-q__icon" aria-hidden="true">{faq.icon}</span>}
+                      <span className="faq-q__text">{faq.question}</span>
+                      <span className="faq-q__toggle" aria-hidden="true"><ChevronDown /></span>
+                    </button>
 
-                      <AnimatePresence>
-                        {activeQuestion === faq.id && (
-                          <motion.div
-                            className="faq-answer"
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <div className="answer-content">
-                              <CheckCircle className="check-icon" />
-                              <p>{faq.answer}</p>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  ))}
-              </div>
-            </div>
-          ))}
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          className="faq-q__answer"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                        >
+                          <p>{faq.answer}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+              );
+            })}
+          </div>
         </motion.div>
 
         {/* Custom Question Form */}

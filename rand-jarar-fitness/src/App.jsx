@@ -11,7 +11,7 @@ const AuthPage = lazy(() => import('./pages/AuthPage.jsx'));
 const Profile = lazy(() => import('./pages/ProfilePage.jsx'));
 const Plans = lazy(() => import('./pages/Plans.jsx'));
 const SubscriptionSuccess = lazy(() => import('./pages/SubscriptionSuccess'));
-import ProtectedRoute from './features/auth/ProtectedRoute';
+import ProtectedRoute from './features/Auth/ProtectedRoute';
 import PlansSkeleton from './components/common/PlansSkeleton/PlansSkeleton';
 import ProfileSkeleton from './components/common/ProfileSkeleton/ProfileSkeleton';
 const SubscriptionCancel = lazy(() => import('./pages/SubscriptionCancel'));

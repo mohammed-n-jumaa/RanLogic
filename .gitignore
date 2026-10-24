@@ -1,0 +1,31 @@
+# ═══ Dependencies (installed with npm / composer, never committed) ═══
+node_modules/
+/rand_fitness_laravel/vendor/
+
+# ═══ Secrets & local config ═══
+.env
+.env.*
+!.env.example
+
+# ═══ Laravel runtime ═══
+/rand_fitness_laravel/public/storage
+/rand_fitness_laravel/public/hot
+/rand_fitness_laravel/storage/*.key
+/rand_fitness_laravel/storage/logs/*.log
+/rand_fitness_laravel/storage/framework/cache/data/*
+/rand_fitness_laravel/storage/framework/sessions/*
+/rand_fitness_laravel/storage/framework/views/*
+/rand_fitness_laravel/bootstrap/cache/*.php
+.phpunit.result.cache
+
+# ═══ Build leftovers & archives ═══
+*.log
+*.zip
+.vite/
+coverage/
+
+# ═══ Editors / OS ═══
+.DS_Store
+Thumbs.db
+.idea/
+*.swp

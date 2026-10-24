@@ -3,7 +3,8 @@
 // ===================================
 // Variables
 // ===================================
-$footer-bg: #2b2b2b;
+// Same dynamic background as the success-stories (Testimonials) section
+$footer-bg: linear-gradient(135deg, #111111 0%, var(--site-secondary) 50%, #111111 100%);
 $footer-bg-alt: #333333;
 $gold: var(--site-primary);
 $gold-dim: rgba(var(--site-primary-rgb), 0.15);
@@ -18,7 +19,7 @@ $white-04: rgba(255, 255, 255, 0.04);
 // Base
 // ===================================
 .footer {
-  background: #2b2b2b;
+  background: $footer-bg;
   color: #fff;
   position: relative;
   overflow: hidden;
@@ -26,6 +27,39 @@ $white-04: rgba(255, 255, 255, 0.04);
   border-top: 3px solid $gold;
   width: 100%;
   box-sizing: border-box;
+
+  // Soft glows in the site colour (as in Testimonials)
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  &::before {
+    width: 480px;
+    height: 480px;
+    top: -160px;
+    right: -160px;
+    background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.16) 0%, transparent 70%);
+  }
+
+  &::after {
+    width: 560px;
+    height: 560px;
+    bottom: -220px;
+    left: -200px;
+    background: radial-gradient(circle, rgba(var(--site-primary-rgb), 0.1) 0%, transparent 70%);
+  }
+
+  > * { position: relative; z-index: 1; }
+
+  @media (max-width: $breakpoint-tablet) {
+    &::before { width: 320px; height: 320px; top: -110px; right: -110px; }
+    &::after { width: 360px; height: 360px; bottom: -150px; left: -150px; }
+  }
 }
 
 // ===================================
@@ -491,4 +525,13 @@ $white-04: rgba(255, 255, 255, 0.04);
   font-size: 0.82rem;
   color: $white-30;
   font-style: italic;
+}
+
+// Thin white outline around the logo so its dark parts stay readable on the dark footer
+.footer .logo-image {
+  filter:
+    drop-shadow(1px 0 0 rgba(255, 255, 255, 0.9))
+    drop-shadow(-1px 0 0 rgba(255, 255, 255, 0.9))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.9))
+    drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.9));
 }

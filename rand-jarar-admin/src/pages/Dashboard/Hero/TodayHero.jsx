@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -43,7 +43,7 @@ const PRAISE = [
   () => t('التزامك هو اللي بيصنع الفرق كل يوم 🎖️'),
   () => t('خليكِ فخورة بحالك، إنتِ تستاهلي 🥰'),
   () => t('إنتِ أقوى مما بتتخيلي 🦋'),
-  () => t('كل رسالة شكر من متدربة هي شهادة إلك 💌'),
+  () => t('كل رسالة شكر من متدربينك هي شهادة إلك 💌'),
   () => t('رؤيتك واضحة، كمّلي على طريقك 🧭'),
   () => t('إنتِ بتعطي بقلب، وهاد بيبيّن بالنتائج 🤍'),
   () => t('أصعب البدايات بتصير أجمل النهايات معكِ 🌅'),
@@ -52,16 +52,71 @@ const PRAISE = [
   () => t('شغلك اليوم هو فخر الكل بكرة 🏅'),
   () => t('ولا تحدي أكبر من عزيمتك 🔥'),
   () => t('خذي نفس، إنتِ عم تعملي شغل رائع 🌿'),
+  () => t('إنتِ مش بس بتدربي أجسام، إنتِ بتصنعي أبطال 🦸‍♀️'),
+  () => t('وراء كل متدرب واثق بحاله، مدربة عظيمة متلك 👑'),
+  () => t('إنتِ مش مجرد اسم، إنتِ علامة فارقة 💫'),
+  () => t('اللي بتعمليه مش شغل، هاد رسالة 🕊️'),
+  () => t('إنتِ مش بس بتغيّري أوزان، بتغيّري حياة 🌈'),
+  () => t('صوتك بيضل براس متدربينك حتى بعد التمرين 🎶'),
+  () => t('إنتِ الدافع اللي بيخليهم ما يستسلموا 🔋'),
+  () => t('كل قصة تحوّل وراها إنتِ 📖'),
+  () => t('إنتِ مش مدربة عادية، إنتِ حكاية نجاح 🌠'),
+  () => t('الثقة اللي بتزرعيها بتكبر كل يوم 🌻'),
+  () => t('إنتِ بتعلّمي الناس يحبوا حالهم من جديد 💗'),
+  () => t('عزيمتك هي أقوى تمرين بتعطيه 🏋️‍♀️'),
+  () => t('إنتِ النور اللي بيوصّلهم لأحسن نسخة منهم 🌞'),
+  () => t('مكانك مش بس بالجيم، مكانك بقلوبهم 💞'),
+  () => t('إنتِ تثبتي كل يوم إنه المستحيل مجرد كلمة 🚀'),
+  () => t('إنتِ مش بس بتعطي تمارين، بتعطي أمل 🌤️'),
+  () => t('كل حدا من متدربينك وصل لهدفه، وصل بفضلك 🎯'),
+  () => t('إنتِ مش مجرد مدربة، إنتِ صديقة الرحلة 🤝'),
+  () => t('اللي بتبنيه اليوم، بيضل أثره للعمر 🏛️'),
+  () => t('إنتِ مش بس بتحفّزي، إنتِ بتغيّري طريقة تفكيرهم 🧠'),
+  () => t('قوتك مش بس بعضلاتك، قوتك بروحك 💪✨'),
+  () => t('إنتِ مش رقم بالمجال، إنتِ الرقم واحد 🥇'),
+  () => t('كل ابتسامة رضا عند متدربينك هي توقيعك 😊'),
+  () => t('إنتِ مش بس بتعلّمي الالتزام، إنتِ بتعيشيه 🔥'),
+  () => t('العالم أحلى لأنه فيه مدربة متلك 🌍'),
 ];
 const PRAISE_MS = 3000;
 
+// Signature phrase: always shown first and kept on screen one second longer
+const SIGNATURE = PRAISE.length - 1;
+const SIGNATURE_MS = PRAISE_MS + 1000;
+const durationOf = (i) => (i === SIGNATURE ? SIGNATURE_MS : PRAISE_MS);
+
+// Every phrase except the signature, in a random order (Fisher–Yates)
+const shuffledRound = () => {
+  const order = PRAISE.map((_, i) => i).filter((i) => i !== SIGNATURE);
+  for (let i = order.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+};
+
 const Praise = () => {
-  const [index, setIndex] = useState(() => Math.floor(Math.random() * PRAISE.length));
-  const next = () => setIndex((i) => (i + 1) % PRAISE.length);
+  const [index, setIndex] = useState(SIGNATURE);
+  // Phrases still to show this round: none repeats until all have been seen,
+  // then the signature opens the next round
+  const queue = useRef([]);
+
+  const next = () => {
+    if (!queue.current.length) {
+      setIndex(SIGNATURE);
+      queue.current = shuffledRound();
+      return;
+    }
+    setIndex(queue.current.shift());
+  };
+
+  useEffect(() => {
+    queue.current = shuffledRound();
+  }, []);
 
   // restarts after every change, so a tap gives the new phrase its full time
   useEffect(() => {
-    const id = setTimeout(() => setIndex((i) => (i + 1) % PRAISE.length), PRAISE_MS);
+    const id = setTimeout(next, durationOf(index));
     return () => clearTimeout(id);
   }, [index]);
 
@@ -103,7 +158,7 @@ const Praise = () => {
 
       {/* light sweep + timer bar, replayed for every phrase */}
       <span key={`shine-${index}`} className="th-praise__shine" aria-hidden="true" />
-      <span key={`timer-${index}`} className="th-praise__timer" style={{ '--t': `${PRAISE_MS}ms` }} aria-hidden="true" />
+      <span key={`timer-${index}`} className="th-praise__timer" style={{ '--t': `${durationOf(index)}ms` }} aria-hidden="true" />
     </motion.button>
   );
 };

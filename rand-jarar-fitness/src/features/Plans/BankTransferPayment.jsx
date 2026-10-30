@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Swal from 'sweetalert2';
 import subscriptionApi from '../../api/subscriptionApi';
-import { Landmark, Upload, CheckCircle, X, Image } from 'lucide-react';
+import { Landmark, CheckCircle } from 'lucide-react';
 
 
 const BankTransferPayment = ({
@@ -16,8 +16,6 @@ const BankTransferPayment = ({
   onCancel,
   currentLang,
 }) => {
-  const [receiptImage, setReceiptImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const sym = displayCurrency?.symbol || '$';
@@ -26,45 +24,6 @@ const BankTransferPayment = ({
     bank_name: 'بنك الاتحاد',
     account_name: 'Randa Nimer',
     iban: 'JO73UBSI6700000670166682715101',
-  };
-
-  // ── Image handlers ────────────────────────────────────────────────────────
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      Swal.fire({
-        title: currentLang === 'ar' ? 'خطأ' : 'Error',
-        text: currentLang === 'ar' ? 'يرجى رفع صورة فقط' : 'Please upload an image only',
-        icon: 'error',
-        confirmButtonColor: 'var(--site-primary)',
-      });
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      Swal.fire({
-        title: currentLang === 'ar' ? 'خطأ' : 'Error',
-        text: currentLang === 'ar'
-          ? 'حجم الصورة يجب أن يكون أقل من 5 ميجابايت'
-          : 'Image size must be less than 5MB',
-        icon: 'error',
-        confirmButtonColor: 'var(--site-primary)',
-      });
-      return;
-    }
-
-    setReceiptImage(file);
-    const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveImage = () => {
-    setReceiptImage(null);
-    setImagePreview(null);
   };
 
   const copyToClipboard = (text) => {
@@ -82,23 +41,11 @@ const BankTransferPayment = ({
   // ── Submit ────────────────────────────────────────────────────────────────
 
   const handleSubmit = async () => {
-    if (!receiptImage) {
-      Swal.fire({
-        title: currentLang === 'ar' ? 'تحذير' : 'Warning',
-        text: currentLang === 'ar'
-          ? 'يرجى رفع صورة الإيصال'
-          : 'Please upload the receipt image',
-        icon: 'warning',
-        confirmButtonColor: 'var(--site-primary)',
-      });
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
 
-      await subscriptionApi.createBankTransferSubscription({
+      const subscriptionResponse = await subscriptionApi.createBankTransferSubscription({
         plan_type: planId,
         duration: duration,
         payment_method: 'bank_transfer',  
@@ -108,15 +55,6 @@ const BankTransferPayment = ({
 
       if (!subscriptionResponse.success) {
         throw new Error('Failed to create subscription');
-      }
-
-      const uploadResponse = await subscriptionApi.uploadBankReceipt(
-        subscriptionResponse.data.subscription_id,
-        { transferNumber: '', receipt: receiptImage },
-      );
-
-      if (!uploadResponse.success) {
-        throw new Error('Failed to upload receipt');
       }
 
       onSuccess();
@@ -179,52 +117,6 @@ const BankTransferPayment = ({
             <span className="label">{currentLang === 'ar' ? 'الخطة:' : 'Plan:'}</span>
             <span className="value">{planName}</span>
           </div>
-        </div>
-      </div>
-
-      {/* Upload section */}
-      <div className="upload-section">
-        <h4>{currentLang === 'ar' ? 'إثبات التحويل' : 'Transfer Proof'}</h4>
-
-        <div className="form-group">
-          <label>{currentLang === 'ar' ? 'صورة الإيصال *' : 'Receipt Image *'}</label>
-
-          {!imagePreview ? (
-            <label className="upload-area">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                disabled={isSubmitting}
-                hidden
-              />
-              <Upload className="upload-icon" />
-              <span className="upload-text">
-                {currentLang === 'ar' ? 'انقر لرفع صورة الإيصال' : 'Click to upload receipt image'}
-              </span>
-              <span className="upload-hint">
-                {currentLang === 'ar' ? 'PNG, JPG, JPEG (حتى 5 ميجابايت)' : 'PNG, JPG, JPEG (up to 5MB)'}
-              </span>
-            </label>
-          ) : (
-            <div className="image-preview-container">
-              <div className="image-preview">
-                <img src={imagePreview} alt="Receipt preview" />
-                <button
-                  className="remove-image"
-                  onClick={handleRemoveImage}
-                  disabled={isSubmitting}
-                  type="button"
-                >
-                  <X />
-                </button>
-              </div>
-              <div className="image-info">
-                <Image />
-                <span>{receiptImage?.name}</span>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

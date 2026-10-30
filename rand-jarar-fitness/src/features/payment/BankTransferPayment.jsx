@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Landmark, Upload, CheckCircle2, X, Copy, Smartphone, Loader2, Send, PartyPopper } from 'lucide-react';
+import { useState } from 'react';
+import { Landmark, CheckCircle2, Copy, Smartphone, Loader2, Send, PartyPopper } from 'lucide-react';
 import { useProfileLanguage } from '../../contexts/ProfileLanguageContext';
 import { useProfileFeedback } from '../profile/shell/feedbackContext';
 import subscriptionApi from '../../api/subscriptionApi';
@@ -13,19 +13,12 @@ const BANK_DETAILS = {
   iban: 'JO73UBSI6700000670166682715101',
   cliqAlias: 'RANDAR101',
 };
-const MAX_MB = 5;
 
 const BankTransferPayment = ({ planType, duration, amount, originalAmount, discountPercentage, onSuccess, onCancel }) => {
   const { t } = useProfileLanguage();
   const { toast, celebrate } = useProfileFeedback();
-  const [transferNumber, setTransferNumber] = useState('');
-  const [receipt, setReceipt] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
   const copy = async (text) => {
     try {
@@ -36,28 +29,9 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
     }
   };
 
-  const handleImage = (e) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { setErrors(p => ({ ...p, receipt: t('يرجى رفع صورة فقط', 'Please upload an image') })); return; }
-    if (file.size > MAX_MB * 1024 * 1024) { setErrors(p => ({ ...p, receipt: t(`الحجم لازم يكون أقل من ${MAX_MB} ميجا`, `Must be under ${MAX_MB}MB`) })); return; }
-    setReceipt(file);
-    setPreview(URL.createObjectURL(file));
-    setErrors(p => ({ ...p, receipt: '' }));
-  };
-
-  const removeImage = () => { setReceipt(null); setPreview(null); };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
-
-    const nextErrors = {};
-    if (!transferNumber.trim()) nextErrors.transferNumber = t('يرجى إدخال رقم التحويل', 'Please enter the transfer number');
-    if (!receipt) nextErrors.receipt = t('يرجى رفع صورة الإيصال', 'Please upload the receipt');
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) return;
 
     setIsSubmitting(true);
     try {
@@ -68,15 +42,8 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         original_amount: parseFloat(originalAmount),
         discount_percentage: discountPercentage,
         payment_method: 'bank_transfer',
-        bank_transfer_number: transferNumber,
       });
       if (!subscription.success) throw new Error('Failed to create subscription');
-
-      const upload = await subscriptionApi.uploadBankReceipt(subscription.data.subscription_id, {
-        transferNumber,
-        receipt,
-      });
-      if (!upload.success) throw new Error('Failed to upload receipt');
 
       setSubmitted(true);
       celebrate(t('وصلنا طلبك! 🎉', 'Request received! 🎉'));
@@ -122,39 +89,7 @@ const BankTransferPayment = ({ planType, duration, amount, originalAmount, disco
         )}
       </div>
 
-      <p className="pay-step__note"><CheckCircle2 /> {t('بعد التحويل، اكتب رقم الحوالة وارفع صورة الإيصال.', 'After transferring, enter the reference number and upload the receipt.')}</p>
-
-      <label className={`ep-field ${errors.transferNumber ? 'has-error' : ''}`}>
-        <span className="ep-field__label">{t('رقم التحويل *', 'Transfer number *')}</span>
-        <input
-          type="text"
-          value={transferNumber}
-          onChange={e => { setTransferNumber(e.target.value); if (errors.transferNumber) setErrors(p => ({ ...p, transferNumber: '' })); }}
-          placeholder={t('رقم الحوالة البنكية', 'Bank transfer reference')}
-          disabled={isSubmitting}
-          dir="ltr"
-        />
-        {errors.transferNumber && <small className="ep-field__error">{errors.transferNumber}</small>}
-      </label>
-
-      <div className="ep-field">
-        <span className="ep-field__label">{t('صورة الإيصال *', 'Receipt image *')}</span>
-        {preview ? (
-          <div className="pay-receipt">
-            <img src={preview} alt="" />
-            <span className="pay-receipt__name">{receipt?.name}</span>
-            <button type="button" className="pf-icon-btn" onClick={removeImage} disabled={isSubmitting} aria-label={t('إزالة', 'Remove')}><X /></button>
-          </div>
-        ) : (
-          <label className={`pay-upload ${errors.receipt ? 'has-error' : ''}`}>
-            <input type="file" accept="image/*" hidden onChange={handleImage} disabled={isSubmitting} />
-            <Upload />
-            <strong>{t('اضغط لرفع صورة الإيصال', 'Tap to upload the receipt')}</strong>
-            <small>{t(`PNG أو JPG — حتى ${MAX_MB} ميجا`, `PNG or JPG — up to ${MAX_MB}MB`)}</small>
-          </label>
-        )}
-        {errors.receipt && <small className="ep-field__error">{errors.receipt}</small>}
-      </div>
+      <p className="pay-step__note"><CheckCircle2 /> {t('بعد التحويل، اضغط إرسال الطلب ورح نراجعه ونفعّل اشتراكك.', 'After transferring, send the request and we will review it and activate your plan.')}</p>
 
       <div className="pay-step__actions">
         <button type="button" className="pf-btn pf-btn--ghost" onClick={onCancel} disabled={isSubmitting}>{t('رجوع', 'Back')}</button>

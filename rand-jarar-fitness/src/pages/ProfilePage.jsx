@@ -22,7 +22,6 @@ import profileApi from '../api/profileApi';
 import authApi from '../api/authApi';
 import chatApi from '../api/chatApi';
 import Swal from 'sweetalert2';
-import usePageTitle from '@/hooks/usePageTitle';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 import { throttle } from '@/utils/debounce';
 
@@ -43,7 +42,6 @@ const tabFromHash = () => {
 const ProfileContent = () => {
   const navigate = useNavigate();
   const { t, currentLang } = useProfileLanguage();
-  usePageTitle('الملف الشخصي', 'My Profile', currentLang);
 
   const [activeTab, setActiveTab] = useState(tabFromHash);
   const [userData, setUserData] = useState(null);

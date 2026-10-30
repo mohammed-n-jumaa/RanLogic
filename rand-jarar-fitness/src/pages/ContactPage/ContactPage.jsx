@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import usePageTitle from '@/hooks/usePageTitle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import Header from '../../components/layout/Header/Header';
 import Footer from '../../components/layout/Footer/Footer';
@@ -14,7 +13,6 @@ import { Mail } from "lucide-react";
 
 const ContactPage = () => {
   const { isArabic, currentLang } = useLanguage();
-  usePageTitle('تواصل معنا', 'Contact Us', currentLang);
   
 
   const content = {

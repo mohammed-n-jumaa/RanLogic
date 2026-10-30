@@ -10,13 +10,11 @@ import Footer from '../components/layout/Footer/Footer';
 import ScrollToTop from '../components/common/ScrollToTop/ScrollToTop';
 import SEO from '../components/common/SEO/SEO';
 import { breadcrumbs, structuredData, siteConfig } from '../utils/seoConfig';
-import usePageTitle from '@/hooks/usePageTitle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import './Home.scss';
 
 const Home = () => {
   const { currentLang } = useLanguage();
-  usePageTitle('الرئيسية', 'Home', currentLang);
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasCertifications, setHasCertifications] = useState(true);

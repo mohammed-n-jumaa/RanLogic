@@ -5,8 +5,8 @@ const exerciseLibraryApi = {
    * Get all exercises with optional search/filter/sort/pagination
    * @param {Object} params - { search, exercise_date, sets, reps, sort, per_page, page }
    */
-  getAll: (params = {}) => {
-    return apiClient.get('/admin/training/exercise-library', { params });
+  getAll: (params = {}, config = {}) => {
+    return apiClient.get('/admin/training/exercise-library', { ...config, params });
   },
 
   /**

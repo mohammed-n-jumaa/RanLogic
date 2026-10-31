@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
+    <title>RanLogic | لوحة التحكم</title>
     <script>
       // Apply saved panel language/direction before first paint
       (function () {
@@ -9,10 +10,18 @@
           var en = localStorage.getItem('admin_lang') === 'en';
           document.documentElement.lang = en ? 'en' : 'ar';
           document.documentElement.dir = en ? 'ltr' : 'rtl';
+          if (en) document.title = 'RanLogic | Admin Panel';
         } catch (e) {}
       })();
     </script>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- RanLogic icons: browser tab, phone home screen, installed app -->
+    <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/ranlogic-icon-32.png?v=2" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/ranlogic-apple-touch-icon.png?v=2" />
+    <link rel="manifest" href="/site.webmanifest?v=2" />
+    <meta name="theme-color" content="#0a0e27" />
+    <meta name="apple-mobile-web-app-title" content="RanLogic" />
+    <meta name="application-name" content="RanLogic" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Cairo Font from Google Fonts -->
@@ -20,8 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <title>Rand Jarar - Admin Panel</title>
-    <script type="module" crossorigin src="/assets/index-CA9SCu0M.js"></script>
+    <script type="module" crossorigin src="/assets/index-BlFRTEP-.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-Cn8xt2Gj.js">
     <link rel="modulepreload" crossorigin href="/assets/react-vendor-DC9RUJy3.js">
     <link rel="modulepreload" crossorigin href="/assets/motion-D2Hv43gn.js">

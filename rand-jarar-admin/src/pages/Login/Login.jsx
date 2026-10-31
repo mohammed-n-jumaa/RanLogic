@@ -206,7 +206,7 @@ const Login = () => {
               <Dumbbell size={30} />
             </div>
 
-            <h1 className="brand-name">Rand Jarar</h1>
+            <h1 className="brand-name">RanLogic</h1>
             <p className="brand-role">{t('مدربة شخصية معتمدة')}</p>
             <p className="brand-description">
               {t('لوحة التحكم الإدارية لإدارة العميلات والبرامج التدريبية')}

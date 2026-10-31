@@ -203,7 +203,7 @@ const Sidebar = () => {
               <LogOut size={17} />
               <span>{isLoggingOut ? t('جاري الخروج...') : t('تسجيل الخروج')}</span>
             </button>
-            <div className="sb-version">v1.0.0 — © 2025 Rand Jarar</div>
+            <div className="sb-version">v1.0.0 — © {new Date().getFullYear()} RanLogic</div>
           </div>
 
         </div>
